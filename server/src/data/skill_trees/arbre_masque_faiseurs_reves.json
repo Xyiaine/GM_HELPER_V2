@@ -1,0 +1,108 @@
+{
+  "arbre": {
+    "id": "masque_faiseurs_reves",
+    "nom": "Masque des Faiseurs de Rêves",
+    "type": "cache",
+    "cite_origine": "divertissement",
+    "condition_deblocage": "Idole de la Cité.",
+    "description": "Manipulation, propagande et moral.",
+    "branches": [
+      {
+        "id": "illusion",
+        "nom": "Illusion",
+        "noeuds": [
+          {
+            "id": "aura_de_star",
+            "nom": "Aura de Star",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Fascine les PNJ.",
+            "effet": {
+              "resume": "+20% Persuasion sur les foules"
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "distraction_fatale",
+            "nom": "Distraction Fatale",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "aura_de_star"
+            ],
+            "description": "Stun un ennemi par une ruse spectaculaire.",
+            "effet": {
+              "resume": "Étourdit 1 cible (1 tour)",
+              "cooldown_tours": 3
+            },
+            "position": {
+              "x": 50,
+              "y": 200
+            }
+          },
+          {
+            "id": "mensonge_apocalyptique",
+            "nom": "Mensonge Apocalyptique",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "distraction_fatale"
+            ],
+            "description": "Propage une rumeur qui modifie l'économie locale.",
+            "effet": {
+              "resume": "Baisse le prix d'une ressource d'une Cité"
+            },
+            "position": {
+              "x": 50,
+              "y": 300
+            }
+          },
+          {
+            "id": "fragilite_diva",
+            "nom": "Fragilité de la Diva",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "mensonge_apocalyptique"
+            ],
+            "description": "Incapable de porter des armures lourdes.",
+            "effet": {
+              "resume": "Esquive +20%, Armure Max limitée à Légère"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_grand_spectacle",
+            "nom": "Le Grand Spectacle",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "fragilite_diva"
+            ],
+            "description": "Stoppe temporairement un combat par une révélation ou une action époustouflante.",
+            "effet": {
+              "resume": "Fin immédiate des hostilités (1 scène)",
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

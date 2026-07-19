@@ -1,0 +1,172 @@
+{
+  "arbre": {
+    "id": "technologie",
+    "nom": "Technologie",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Construire, réparer, hacker et bidouiller les reliques mécaniques.",
+    "branches": [
+      {
+        "id": "mecanique_lourde",
+        "nom": "Mécanique Lourde",
+        "noeuds": [
+          {
+            "id": "oeil_du_mecano",
+            "nom": "Œil du Mécano",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Identifie instantanément une panne.",
+            "effet": {
+              "resume": "Diagnostic mécanique instantané"
+            },
+            "position": {
+              "x": -50,
+              "y": 100
+            }
+          },
+          {
+            "id": "reparation_urgence",
+            "nom": "Réparation d'Urgence",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "oeil_du_mecano"
+            ],
+            "description": "Répare partiellement un véhicule en plein combat.",
+            "effet": {
+              "resume": "Soin de véhicule",
+              "cout_ressource": {
+                "type": "piece_detachee",
+                "quantite": 5
+              },
+              "cooldown_tours": 3
+            },
+            "position": {
+              "x": -50,
+              "y": 200
+            }
+          },
+          {
+            "id": "overclocking",
+            "nom": "Overclocking",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "reparation_urgence"
+            ],
+            "description": "Les machines réparées gagnent un bonus de performance.",
+            "effet": {
+              "resume": "+5 Vitesse, +2 Dégâts pour la machine réparée pendant 3 tours"
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          },
+          {
+            "id": "souffle_dieu_moteur",
+            "nom": "Le Souffle du Dieu-Moteur",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "overclocking"
+            ],
+            "description": "Relance instantanément un moteur en panne totale.",
+            "effet": {
+              "resume": "Résurrection de véhicule",
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": -50,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "electronique",
+        "nom": "Électronique & IA",
+        "noeuds": [
+          {
+            "id": "recyclage_habile",
+            "nom": "Recyclage Habile",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Plus efficace pour démonter.",
+            "effet": {
+              "resume": "Avantage aux jets de récupération de pièces"
+            },
+            "position": {
+              "x": 50,
+              "y": 100
+            }
+          },
+          {
+            "id": "cablage_fortune",
+            "nom": "Câblage de Fortune",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "recyclage_habile"
+            ],
+            "description": "Répare très rapidement.",
+            "effet": {
+              "resume": "Avantage aux jets de réparation rapide"
+            },
+            "position": {
+              "x": 50,
+              "y": 200
+            }
+          },
+          {
+            "id": "decryptage_pre_guerre",
+            "nom": "Décryptage Pré-Guerre",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "cablage_fortune"
+            ],
+            "description": "Débloque un terminal électronique ancien.",
+            "effet": {
+              "resume": "Piratage informatique automatique",
+              "cooldown_tours": 10
+            },
+            "position": {
+              "x": 50,
+              "y": 300
+            }
+          },
+          {
+            "id": "sabotage_silencieux",
+            "nom": "Sabotage Silencieux",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "decryptage_pre_guerre"
+            ],
+            "description": "Désactive à distance un piège ou une tourelle.",
+            "effet": {
+              "resume": "Désactivation électronique (Portée: 20m)",
+              "cooldown_tours": 5
+            },
+            "position": {
+              "x": 50,
+              "y": 400
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

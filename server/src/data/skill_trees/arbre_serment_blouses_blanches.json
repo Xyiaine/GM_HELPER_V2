@@ -1,0 +1,116 @@
+{
+  "arbre": {
+    "id": "serment_blouses_blanches",
+    "nom": "Serment des Blouses Blanches",
+    "type": "cache",
+    "cite_origine": "cite_medicale",
+    "condition_deblocage": "Respect des Blouses Blanches.",
+    "description": "Chirurgie avancée et survie extrême.",
+    "branches": [
+      {
+        "id": "medecine_pointe",
+        "nom": "Médecine de Pointe",
+        "noeuds": [
+          {
+            "id": "vaccin_large_spectre",
+            "nom": "Vaccin à Large Spectre",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Immunité aux maladies courantes.",
+            "effet": {
+              "resume": "Immunité Maladies Basiques"
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "transfusion_rapide",
+            "nom": "Transfusion Rapide",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "vaccin_large_spectre"
+            ],
+            "description": "Donne ses propres PV à un allié.",
+            "effet": {
+              "resume": "Soin par transfert de PV",
+              "cooldown_tours": 2
+            },
+            "position": {
+              "x": -50,
+              "y": 200
+            }
+          },
+          {
+            "id": "purge_rad_lourde",
+            "nom": "Purge Radiologique",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "transfusion_rapide"
+            ],
+            "description": "Purge totalement les radiations au prix de la fatigue.",
+            "effet": {
+              "resume": "Soin Rads total, donne Fatigue",
+              "cout_ressource": {
+                "type": "dose_medicament",
+                "quantite": 2
+              }
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          },
+          {
+            "id": "prothese_combattante",
+            "nom": "Prothèse Combattante",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "purge_rad_lourde"
+            ],
+            "description": "Les alliés soignés ignorent la douleur.",
+            "effet": {
+              "resume": "Alliés soignés reçoivent +10% Dégâts"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "dieu_de_la_vie",
+            "nom": "Le Dieu de la Vie",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "prothese_combattante"
+            ],
+            "description": "Restaure totalement tous les alliés, nécessite de rares composés.",
+            "effet": {
+              "resume": "Soin Complet de zone",
+              "cout_ressource": {
+                "type": "medicament_rare",
+                "quantite": 1
+              },
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

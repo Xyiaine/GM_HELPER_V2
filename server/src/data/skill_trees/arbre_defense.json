@@ -1,0 +1,181 @@
+{
+  "arbre": {
+    "id": "defense",
+    "nom": "Défense",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Encaisser les dégâts, protéger le groupe, réduction de dégâts.",
+    "branches": [
+      {
+        "id": "resilience",
+        "nom": "Résilience",
+        "noeuds": [
+          {
+            "id": "cuir_tanne",
+            "nom": "Cuir Tanné",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Peau durcie.",
+            "effet": {
+              "resume": "+1 CA Naturelle",
+              "valeur": 1
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "endurance_survivant",
+            "nom": "Endurance de Survivant",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "cuir_tanne"
+            ],
+            "description": "+15 PV max.",
+            "effet": {
+              "resume": "+15 PV Max",
+              "valeur": 15
+            },
+            "position": {
+              "x": -50,
+              "y": 200
+            }
+          },
+          {
+            "id": "resistance_radiations",
+            "nom": "Résistance aux Radiations",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "endurance_survivant"
+            ],
+            "description": "Prend moins de dégâts radiologiques.",
+            "effet": {
+              "resume": "Résistance aux dégâts de radiation (dégâts divisés par 2)"
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          }
+        ]
+      },
+      {
+        "id": "protection_groupe",
+        "nom": "Protection du Groupe",
+        "noeuds": [
+          {
+            "id": "provocation",
+            "nom": "Provocation",
+            "tier": 1,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Force les ennemis proches à vous cibler pendant 1 tour.",
+            "effet": {
+              "resume": "Aggro de zone (5m)",
+              "cooldown_tours": 3
+            },
+            "position": {
+              "x": 100,
+              "y": 100
+            }
+          },
+          {
+            "id": "position_defensive",
+            "nom": "Position Défensive",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "provocation"
+            ],
+            "description": "Vous gagnez la Résistance à tous les dégâts pendant 1 tour, mais votre vitesse tombe à 0.",
+            "effet": {
+              "resume": "Résistance aux dégâts, Vitesse=0",
+              "cooldown_tours": 2
+            },
+            "position": {
+              "x": 100,
+              "y": 200
+            }
+          },
+          {
+            "id": "bouclier_humain",
+            "nom": "Bouclier Humain",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "position_defensive"
+            ],
+            "description": "Absorbe les dégâts destinés à un allié adjacent.",
+            "effet": {
+              "resume": "Interception de dégâts",
+              "cooldown_tours": 1
+            },
+            "position": {
+              "x": 100,
+              "y": 300
+            }
+          },
+          {
+            "id": "rempart_inebranlable",
+            "nom": "Rempart Inébranlable",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "bouclier_humain"
+            ],
+            "description": "Devient quasi-invulnérable et protège la formation.",
+            "effet": {
+              "resume": "Invulnérabilité de zone (1 tour)",
+              "cout_ressource": {
+                "type": "adrenaline",
+                "quantite": 2
+              },
+              "cooldown_tours": 10
+            },
+            "position": {
+              "x": 50,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "blindage",
+        "nom": "Blindage",
+        "noeuds": [
+          {
+            "id": "blindage_improvise",
+            "nom": "Blindage Improvisé",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "cuir_tanne"
+            ],
+            "description": "Réduction fixe des dégâts par coup.",
+            "effet": {
+              "resume": "-3 Dégâts sur toute attaque subie",
+              "valeur": 3
+            },
+            "position": {
+              "x": -100,
+              "y": 400
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

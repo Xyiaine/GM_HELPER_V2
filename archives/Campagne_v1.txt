@@ -1,0 +1,191 @@
+========================================================================
+DOCUMENT DE CAMPAGNE — SÉPARÉ DU LORE UNIVERSEL
+========================================================================
+[NOTE : ce document a été extrait de Universe_Lore_v5.txt pour devenir
+un fichier de campagne autonome. Il contient la quête d'ouverture, ses
+graines pour la suite, et les notes MJ qui s'y rattachent directement.
+
+Ce document suppose une connaissance complète du lore universel — en
+particulier des fiches de la Cité du Divertissement - "Les Faiseurs de
+Rêves" (crise de succession, Conseil des Actionnaires) et du secret du
+Réseau / Bunker Oméga. Gardez le fichier de lore à portée de main en
+parallèle de celui-ci : les renvois ("voir chapitre CAMPAGNE", "voir
+fiche : ...") n'ont volontairement pas été retirés du texte, pour que
+vous puissiez naviguer entre les deux documents sans perdre le fil.]
+
+========================================================================
+CHAPITRE CAMPAGNE : LA COURSE DU SEL (QUÊTE D'OUVERTURE)
+========================================================================
+
+CONTEXTE
+------------------------------------------------------------------------
+Tous les quatre ans, la Cité du Divertissement - "Les Faiseurs de Rêves"
+organise un recrutement pour sa Garde, seule voie d'entrée fiable dans
+la cité pour un étranger sans fortune ni parrain. La règle est d'une
+simplicité brutale : quatre convois s'élancent depuis le centre du
+désert de sel — l'ancienne Mer Méditerranée asséchée — en direction de
+la Cité du Divertissement. Le premier convoi arrivé au complet est
+recruté dans la Garde. Les trois autres repartent bredouilles, ou n'en
+reviennent pas.
+
+Cette année, les inscriptions se sont faites au hasard, sans considérer
+les origines des postulants. Les PJ, chacun issu d'une cité-état
+différente (tirée au sort en début de partie) et chacun investi d'une
+mission secrète pour le compte de sa cité d'origine — infiltrer la
+Garde de la Cité du Divertissement et y faire pencher la balance du
+pouvoir en sa faveur — se retrouvent, par ce même hasard, assignés au
+MÊME convoi : le Convoi n°2. Ils ne se connaissent pas. Ils ne savent
+rien les uns des autres. Et ils doivent, dès la première heure,
+apprendre à se faire confiance pour survivre — tout en sachant, au fond
+d'eux, qu'ils travaillent en réalité les uns contre les autres.
+
+[NOTE MJ : ne révélez jamais aux joueurs les objectifs secrets des
+autres PJ. Chaque joueur ne connaît que sa propre mission. C'est cette
+asymétrie d'information, et non un mensonge du MJ, qui doit générer la
+tension à la table.]
+
+STRUCTURE DE LA COURSE
+------------------------------------------------------------------------
+Quatre convois s'élancent en même temps depuis LE PUITS BLANC, un
+ancien puits de forage entouré d'un campement temporaire monté chaque
+saison pour l'occasion — tentes de juges, banderoles défraîchies, et
+une foule de parieurs venus assister au départ. C'est ici, sous l'œil
+de Marshal Craie (Juge de Départ, réputé incorruptible), que les PJ se
+rencontrent pour la toute première fois.
+
+  - CONVOI 1 (PNJ) : "Les Loups de Sel" — rapides, agressifs, prêts à
+    saboter les autres convois pour gagner. Menés par Ashen Roka,
+    ancien esclave de l'Arène devenu pillard, convaincu qu'entrer dans
+    la Garde par la force plutôt que par le mérite est la seule
+    justice qu'il reconnaisse encore. Il n'a rien contre les PJ
+    personnellement — il a juste appris, à l'Arène, que la pitié tue
+    plus sûrement que n'importe quelle arme.
+  - CONVOI 2 (PJ) : le convoi des joueurs, composé d'inconnus rassemblés
+    par le hasard des inscriptions.
+  - CONVOI 3 (PNJ) : "La Caravane du Sel Blanc" — un convoi de
+    marchands prudents, lourdement chargé, lent mais bien défendu.
+    Dirigé par Selia Sel-Blanc, matriarche d'une lignée qui traverse
+    ce désert depuis trois générations. Prudente à l'excès, elle
+    pourrait proposer aux PJ un accord temporaire — voyager groupés un
+    temps pour se protéger mutuellement des Loups de Sel — avant de
+    reprendre son propre rythme, plus lent mais increvable.
+  - CONVOI 4 (PNJ) : "Les Cendres Silencieuses" — un petit convoi
+    discret qui évite l'affrontement direct et privilégie des
+    raccourcis dangereux à travers les zones les plus irradiées.
+    Guidé par Vray Cendres, éclaireuse capable d'éviter méthodiquement
+    chaque poche de radiation grâce à des instruments bricolés et une
+    intuition presque surnaturelle du terrain — mais qui n'hésitera pas
+    à abandonner un PJ blessé si cela met en péril la survie de son
+    propre groupe.
+
+La course se déroule sur 3 à 5 jours de jeu (à ajuster selon le rythme
+souhaité), traversés en 3 grandes étapes, chacune ancrée dans un repère
+nommé et mémorable du désert de sel plutôt que dans un décor
+générique. Chaque étape doit combiner un défi environnemental, une
+occasion de coopération/trahison interne au Convoi 2, et un contact
+(direct ou indirect) avec un des convois rivaux.
+
+  ÉTAPE 1 — LA ROUTE DES CARCASSES
+    Le tracé le plus direct vers la Cité, jalonné des épaves rouillées
+    de convois qui n'ont jamais fini la course les éditions
+    précédentes. Chaleur écrasante, tempêtes de sel radioactif, panne
+    mécanique du véhicule du convoi qui force les PJ à coopérer ou à
+    se répartir des tâches sous pression. Premier contact visuel avec
+    Les Loups de Sel ou la Caravane du Sel Blanc au loin, puisque
+    c'est la voie la plus fréquentée — l'occasion de semer un début de
+    méfiance ("et s'ils voulaient nous doubler pendant la nuit ?").
+
+  ÉTAPE 2 — LES DUNES CHANTANTES OU LA PASSE DU SEL NOIR
+    Un phénomène naturel rare, où le vent s'engouffrant dans certaines
+    dunes de sel produit un chant grave et continu audible à des
+    kilomètres — ou, si les PJ ont choisi le raccourci le plus risqué,
+    une ancienne zone d'essais nucléaires vitrifiée où le sel a pris
+    une teinte charbonneuse toxique. Ashen Roka et ses Loups de Sel y
+    tentent un sabotage direct contre le Convoi 2 — attaque de motos
+    légères, tentative de vol de carburant, ou négociation brutale
+    ("laissez-nous passer et on vous laisse la vie sauve"). C'est ici
+    que les PJ doivent décider collectivement comment réagir : fuir,
+    négocier, combattre, ou retourner la situation en piégeant les
+    Loups de Sel à leur tour. Une bête mutante locale (meute de chiens
+    sauvages, ou un présage du Ver de Vitre si vous voulez lier cette
+    étape à Nuke City) peut aussi frapper les deux convois en même
+    temps, forçant une alliance temporaire. Si les PJ traversent les
+    Dunes Chantantes, ils peuvent croiser LES ENFANTS DU SEL, un clan
+    nomade qui vénère ce chant comme la voix de leurs ancêtres : ils
+    peuvent guider, mettre en garde, ou exiger un tribut des convois
+    qui traversent leur territoire, et constituer un allié récurrent
+    précieux pour la suite de la campagne s'ils sont traités avec
+    respect. [NOTE MJ : c'est un bon endroit pour semer discrètement le
+    premier indice des Enfants du Nord — un membre d'un convoi rival,
+    présenté comme originaire du Nord, ne sait nommer aucun lieu précis
+    de son "pays" si on le presse de questions, et les Enfants du Sel
+    remarquent quelque chose d'étrange chez lui sans savoir quoi,
+    "comme s'il n'avait pas d'ombre dans le chant des dunes".]
+
+  ÉTAPE 3 — LE CIMETIÈRE DES CONVOIS
+    À quelques heures des portes de la Cité, un vaste ossuaire de
+    métal à ciel ouvert où se joue traditionnellement le sprint final
+    de chaque édition de la course. La Caravane du Sel Blanc (Convoi
+    3), plus lente mais toujours en course, et les Cendres Silencieuses
+    (Convoi 4), réapparues après leur raccourci risqué par la Passe du
+    Sel Noir, convergent presque en même temps que le Convoi 2 parmi
+    les dizaines d'épaves de véhicules et d'ossements humains jamais
+    réclamés. Le final se joue sur un dernier obstacle commun (un pont
+    effondré, une tempête acide, un champ de mines de l'ancienne
+    guerre) où l'ordre d'arrivée peut basculer jusqu'à la dernière
+    minute. Laissez une vraie incertitude sur qui va gagner — y compris
+    la possibilité que le Convoi 2 n'arrive PAS premier (voir "Et si
+    les PJ perdent ?" ci-dessous).
+
+ARRIVÉE ET RECRUTEMENT
+------------------------------------------------------------------------
+Si le Convoi 2 arrive premier : tout le convoi est recruté en bloc dans
+la Garde de la Cité du Divertissement, sans qu'aucune question ne soit
+posée sur les origines de chacun — exactement comme le veut la
+tradition du recrutement quadriennal. C'est le moment où l'acte 1
+(survie collective) bascule vers l'acte 2 (infiltration et rivalité
+feutrée) : chaque PJ commence alors, discrètement, à chercher comment
+faire avancer les intérêts de sa cité d'origine au sein d'une
+institution qui vient tout juste de l'accueillir.
+
+ET SI LES PJ PERDENT ?
+------------------------------------------------------------------------
+Ne traitez jamais la course comme un simple test binaire. Si un convoi
+rival arrive avant eux, ne fermez pas la porte : les PJ peuvent par
+exemple se faire recruter en tant que renforts tardifs après une perte
+notable subie par le convoi vainqueur pendant la course, ou saisir une
+occasion de rejoindre la Garde par un autre biais (exploit individuel
+remarqué, faveur rendue à un officier). L'essentiel est que l'échec ait
+un coût réel et visible — sans pour autant clore l'intrigue principale.
+
+GRAINES POUR LA SUITE DE LA CAMPAGNE
+------------------------------------------------------------------------
+  - Rook Cendre, le Capitaine de la Garde qui supervise le recrutement,
+    est un agent du Réseau (voir sa fiche à la Cité du Divertissement) :
+    il observe les PJ dès leur arrivée pour évaluer lequel serait le
+    plus "malléable" en vue de la succession qui se prépare.
+  - Un des membres PNJ d'un convoi rival (survivant d'une embuscade,
+    ou recruté malgré tout comme le Convoi 2) peut devenir un allié ou
+    un rival récurrent une fois toutes les factions réunies dans la
+    même caserne de la Garde.
+  - Le premier indice du secret des "Enfants du Nord" peut être semé
+    dès l'Étape 2 (voir plus haut, aux Dunes Chantantes) : un membre de
+    l'un des convois rivaux, présenté comme originaire du Nord, est
+    incapable de nommer un seul lieu précis de son pays d'origine si un
+    PJ le presse de questions.
+  - La crise de succession de la Cité du Divertissement, et le Conseil
+    des Actionnaires qui la sous-tend (voir Tension Actuelle et
+    "LA CITÉ-ENTREPRISE" de la cité), offrent un fil rouge naturel pour
+    les PJ une fois recrutés : chacun peut chercher à approcher,
+    discréditer, ou soutenir un des prétendants au pouvoir, selon les
+    intérêts de sa cité d'origine — sachant que le vrai pouvoir, celui
+    qui recalcule en continu le poids de chaque faction, appartient au
+    Registre de la Bourse de la Douleur (voir section "LE REGISTRE"),
+    une institution que ni les PJ ni la plupart des habitants de la
+    Cité ne soupçonnent d'avoir un tel poids.
+  - Puisque la Garde elle-même est financée au prorata des parts des
+    actionnaires, l'affectation de chaque PJ à un quartier donné (les
+    Sculpteurs, les Plaisirs de la Chair, les Nostalgics, les Taudis...)
+    est un excellent levier de campagne à moyen terme : elle détermine
+    concrètement quels secrets, quelles corruptions locales et quelles
+    loyautés divisées chaque personnage va découvrir en premier.

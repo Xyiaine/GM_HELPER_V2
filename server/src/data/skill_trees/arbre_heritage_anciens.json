@@ -1,0 +1,112 @@
+{
+  "arbre": {
+    "id": "heritage_anciens",
+    "nom": "Héritage des Anciens",
+    "type": "cache",
+    "cite_origine": "ile_anciens",
+    "condition_deblocage": "Élu du Paradis Perdu.",
+    "description": "Savoir pur de l'avant-guerre.",
+    "branches": [
+      {
+        "id": "savoir_perdu",
+        "nom": "Savoir Perdu",
+        "noeuds": [
+          {
+            "id": "erudit_pre_guerre",
+            "nom": "Érudit Pré-Guerre",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Comprend les textes et reliques anciens.",
+            "effet": {
+              "resume": "Lecture des données corrompues"
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "drone_compagnon",
+            "nom": "Drone Compagnon",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "erudit_pre_guerre"
+            ],
+            "description": "Déploie un petit drone de reconnaissance.",
+            "effet": {
+              "resume": "Périmètre de vision partagé",
+              "cout_ressource": {
+                "type": "piece_rare",
+                "quantite": 1
+              }
+            },
+            "position": {
+              "x": -50,
+              "y": 200
+            }
+          },
+          {
+            "id": "bouclier_energetique",
+            "nom": "Bouclier Énergétique",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "drone_compagnon"
+            ],
+            "description": "Génère un champ de force personnel.",
+            "effet": {
+              "resume": "Absorbe 50 Dégâts",
+              "cooldown_tours": 5
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          },
+          {
+            "id": "dependance_technologique",
+            "nom": "Dépendance Technologique",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "bouclier_energetique"
+            ],
+            "description": "Plus de bonus, mais nécessite des pièces de l'Île.",
+            "effet": {
+              "resume": "+2 à toutes les stats, réparation nécessite Pièces Rares"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "frappe_orbitale",
+            "nom": "L'Œil des Dieux Anciens",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "dependance_technologique"
+            ],
+            "description": "Appelle un satellite pré-guerre pour un laser orbital.",
+            "effet": {
+              "resume": "Dégâts AoE Massifs en Extérieur",
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

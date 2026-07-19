@@ -1,0 +1,108 @@
+{
+  "arbre": {
+    "id": "rites_fossoyeurs",
+    "nom": "Rites des Fossoyeurs",
+    "type": "cache",
+    "cite_origine": "metaux",
+    "condition_deblocage": "Initié Fossoyeur.",
+    "description": "Récupération et résistance toxique.",
+    "branches": [
+      {
+        "id": "fouille",
+        "nom": "Fouille des Ruines",
+        "noeuds": [
+          {
+            "id": "nez_pour_la_ferraille",
+            "nom": "Nez pour la Ferraille",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Trouve toujours des pièces.",
+            "effet": {
+              "resume": "+30% de ferraille récupérée"
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "demantelement",
+            "nom": "Démantèlement",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "nez_pour_la_ferraille"
+            ],
+            "description": "Détruit une barricade ou armure ennemie.",
+            "effet": {
+              "resume": "Détruit l'armure d'un ennemi",
+              "cooldown_tours": 3
+            },
+            "position": {
+              "x": 50,
+              "y": 200
+            }
+          },
+          {
+            "id": "sacrifice_toxique",
+            "nom": "Sacrifice Toxique",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "demantelement"
+            ],
+            "description": "Récupère des composants rares dans des zones ultra-radiées.",
+            "effet": {
+              "resume": "Génère 3 Pièces Rares, inflige 20 Rads au personnage"
+            },
+            "position": {
+              "x": 50,
+              "y": 300
+            }
+          },
+          {
+            "id": "sang_de_plomb",
+            "nom": "Sang de Plomb",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "sacrifice_toxique"
+            ],
+            "description": "Les radiations augmentent l'endurance.",
+            "effet": {
+              "resume": "+1 PV Max par Rad accumulée (jusqu'à 20)"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "seigneur_ruines",
+            "nom": "Le Seigneur des Ruines",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "sang_de_plomb"
+            ],
+            "description": "Provoque un effondrement structurel massif.",
+            "effet": {
+              "resume": "AoE Massive (Dégâts physiques et étourdissement)",
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

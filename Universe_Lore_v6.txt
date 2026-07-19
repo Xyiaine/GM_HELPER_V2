@@ -1,0 +1,2389 @@
+========================================================================
+LORE ET UNIVERS DU JEU : CHRONIQUES DE L'APOCALYPSE
+========================================================================
+
+CONTEXTE HISTORIQUE : LE MONDE EN 2200
+
+2050 - Première Guerre Nucléaire
+Les grandes puissances s'effondrent. L'explosion initiale rase des
+métropoles entières, l'hiver nucléaire plonge la planète dans des
+décennies de pénombre. Les survivants se regroupent en enclaves et
+bricolent des machines diesel et vapeur, plus fiables que l'électronique
+détruite par les impulsions électromagnétiques (EMP).
+
+2100 - Seconde Guerre Nucléaire
+Alors que les premières cités renaissent timidement, une nouvelle course
+au carburant et à l'eau dégénère en conflit mondial. Des zones entières
+deviennent vitrifiées, saturées de radiations, des océans s'assèchent en
+révélant des déserts de sel. Cette fois, la planète n'a plus de retour
+possible.
+
+2200 - Le Temps des Cités-Etats
+Le monde est un champ de ruines, mais aussi un terrain d'opportunités
+pour ceux qui osent dominer les routes, les usines et les rares
+ressources. Les Cités-Etats émergent comme des bastions de pouvoir,
+chacune contrôlant une ressource clé pour la survie.
+
+------------------------------------------------------------------------
+CLIMAT ET ENVIRONNEMENT
+------------------------------------------------------------------------
+- Chaleur étouffante : températures dépassant souvent les 50°C dans les déserts. Vents soulevant des tempêtes de sable radioactif.
+- Déserts multiples : Déserts nucléaires (sols vitrifiés), Déserts de sel (anciennes mers asséchées, notamment la Mer Méditerranée qui est devenue un gigantesque désert de sel), Déserts de sable (dunes infinies).
+- Faune évoluée : Insectes géants, carnassiers mutants résistants aux radiations, meutes de chiens sauvages redoutables.
+- Flore mutante : Cactus de sel, lianes carnivores, champignons phosphorescents.
+
+------------------------------------------------------------------------
+VIE QUOTIDIENNE & MENACES
+------------------------------------------------------------------------
+- Survie au jour le jour : Carburant, eau, nourriture et munitions sont la véritable monnaie.
+- Machines lourdes et Convois : La vie s'organise autour de convois motorisés façon "Mad Max". Véhicules blindés, motos de pillards, trains forteresses et dirigeables sont vénérés comme des dieux. Les routes sont des champs de bataille pour le contrôle des ressources.
+- Sociétés brutales : Esclavage, combats d'arènes, milices violentes. La loi est celle des armes et de la mécanique. Aucune magie n'existe : la survie repose sur la technologie de récupération et la force brute.
+- Religion du moteur : Sectes vouant une foi absolue aux machines (Dieu-Moteur).
+- Menaces : Pillards en véhicules légers surarmés, Nomades, Radiations, Mutants monstrueux, Tempêtes acides et de sel, Guerres entre Cités-Etats.
+- Mythes fondateurs : L'Ile des Anciens (Paradis intact) et le Bunker Oméga (Cité souterraine utopique).
+
+========================================================================
+
+========================================================================
+L'ÉQUILIBRE FRAGILE : GÉOPOLITIQUE DES CITÉS-ÉTATS
+========================================================================
+
+Les dix Cités-États ne sont ni en guerre ouverte, ni en paix véritable.
+Elles vivent une "paix armée" faite d'interdépendance forcée : aucune ne
+possède seule tout ce dont elle a besoin pour survivre. La Cité Médicale
+soigne mais ne roule pas sans le carburant des Raffineurs. Les Raffineurs
+raffinent mais ne mangent pas sans l'Eau & Alimentation. Les Arsenaux
+arment tout le monde mais ne mangent pas non plus sans les autres. Cette
+dépendance croisée est la seule chose qui empêche la guerre totale.
+
+Chaque cité rêve pourtant de dominer les neuf autres. C'est cette
+contradiction — avoir besoin de son rival tout en voulant l'asservir —
+qui doit transpirer dans chaque interaction diplomatique, chaque
+caravane commerciale, chaque traité signé la peur au ventre.
+
+Concrètement, à tout moment, une cité donnée gère SA PROPRE crise
+active, différente de celle des autres (voir "TENSION ACTUELLE" dans
+chaque fiche de cité) :
+  - certaines cités affrontent des luttes de pouvoir internes
+    (factions rivales, coups d'État larvés, sabotage de couloirs) ;
+  - d'autres subissent la pression de pillards ou de nomades extérieurs
+    qui rôdent autour de leurs murs ;
+  - d'autres encore doivent composer avec une faune mutante locale
+    devenue incontrôlable (le Ver de Vitre attiré par la radioactivité
+    de Nuke City en est l'exemple le plus tristement célèbre).
+
+Aucune cité n'est donc jamais parfaitement stable. Les PJ, en visitant
+une cité, arrivent toujours au milieu de QUELQUE CHOSE — jamais dans un
+décor figé.
+
+------------------------------------------------------------------------
+LE RÉSEAU : LE SECRET DE BUNKER OMÉGA (INFORMATION RÉSERVÉE AU MJ)
+------------------------------------------------------------------------
+[NOTE MJ : cette section est un secret de campagne. Les joueurs ne
+doivent la découvrir que très progressivement, par indices épars — ne
+jamais l'exposer telle quelle en jeu.]
+
+Bunker Oméga ne se contente pas de survivre isolé sous les Alpes : il
+dirige en sous-main l'ensemble du monde connu. Dans les plus hautes
+sphères de commandement de la plupart des Cités-États (conseils,
+capitaines de la garde, chefs de guilde, grands prêtres du Dieu-Moteur)
+se cachent des AGENTS DU RÉSEAU : des individus dont la conscience est
+en fusion continue avec une intelligence collective, relayée par un
+antique réseau de satellites survivants de l'ère pré-guerre.
+
+Mécanique du Réseau :
+  - Les agents ne savent pas toujours consciemment qu'ils en sont un.
+    Beaucoup vivent leur "mission" comme une conviction personnelle
+    profonde (loyauté indéfectible à leur cité, foi dévote, ambition
+    dévorante) sans réaliser qu'elle leur a été soufflée.
+  - Sous le stress, la fatigue, ou un interrogatoire serré, un agent
+    peut réciter — mot pour mot, avec la même intonation qu'un
+    inconnu à des centaines de kilomètres — une phrase toute faite.
+    C'est la fissure la plus fiable pour un joueur perspicace : deux
+    PNJ de deux cités différentes qui emploient EXACTEMENT la même
+    formule ("le seul havre de paix rentable", "connaît toutes les
+    rumeurs de la cité", "fanatique dévoué à la survie de...") ne sont
+    presque jamais une coïncidence.
+  - Les agents partagent souvent un prénom issu d'un bassin restreint
+    (Kaelen, Dax, Zev, Kira, Vorn, Lyra/Lira, Nyx, Titus) — mais ce
+    prénom seul ne prouve rien : la moitié du monde s'appelle ainsi.
+    C'est la RÉPÉTITION EXACTE d'une phrase entière, jamais le prénom
+    seul, qui doit mettre la puce à l'oreille des joueurs.
+  - Le Réseau ne contrôle pas tout en permanence : la synchronisation
+    par satellite a des angles morts, des coupures, des délais. Un
+    agent isolé trop longtemps peut commencer à "dériver" — développer
+    une volonté propre, voire se retourner contre le Réseau. C'est une
+    source infinie d'intrigues : un agent qui aime réellement un PNJ
+    qu'il était censé manipuler, un agent qui découvre ce qu'il est et
+    s'effondre, un agent qui choisit de mentir au Réseau pour protéger
+    quelqu'un.
+  - But ultime du Réseau : maintenir l'équilibre fragile entre les
+    neuf cités justement assez précaire pour qu'aucune ne devienne
+    jamais assez forte pour menacer Bunker Oméga — et garder la main
+    sur le flux migratoire venu du "Nord" (voir plus bas).
+
+========================================================================
+LE REGISTRE : LA BOURSE DE LA DOULEUR ET L'ÉCONOMIE DU MONDE CONNU
+========================================================================
+
+LA BOURSE DE LA DOULEUR
+------------------------------------------------------------------------
+La Bourse de la Douleur n'est ni une cité-état, ni une milice, ni une
+religion : c'est une institution financière indépendante, présente
+dans tout le bassin méditerranéen, qui prête de l'argent contre
+absolument tout ce qu'un débiteur peut mettre en gage — une propriété,
+un véhicule, un organe, des années de travail forcé, voire un être
+humain (un enfant, un conjoint, soi-même). Elle ne possède aucun
+quartier, ne siège dans aucun conseil, et pourtant aucune des dix
+cités-états ne peut fonctionner sans elle : c'est la Bourse qui tient
+les comptes de tout le monde, certifie qui possède quoi, et assure la
+quasi-totalité des paiements entre individus, marchands et factions.
+
+Quand un débiteur ne peut pas payer, ce sont en général les créanciers
+locaux ou les milices payées par la Bourse qui viennent récupérer le
+gage. Pour les très gros comptes et les affaires les plus sensibles
+(un conseil de cité qui ne paie pas, une fortune qui disparaît, un
+gage humain de haute valeur), la Bourse dépêche LES COLLECTEURS : une
+troupe d'élite restreinte, redoutée dans les dix cités, seule force
+armée à pouvoir traverser n'importe quel territoire sans être
+inquiétée — car aucune cité n'a intérêt à froisser l'institution qui
+tient tous les comptes de tout le monde.
+
+LA PUCE ET LE REGISTRE
+------------------------------------------------------------------------
+Chaque être libre reçoit, à l'arrêt de sa croissance (donc plus tôt
+chez les femmes que chez les hommes, généralement à la puberté), une
+puce intra-dermique d'identification et de paiement. Elle sert de
+porte-monnaie pour les échanges du quotidien et les petites sommes ;
+les fortunes réelles, elles, sont stockées par la Bourse elle-même, et
+la puce ne fait qu'y donner accès pour valider les gros échanges ou
+consulter sa valeur nette.
+
+Le protocole qui fait fonctionner ce système — LE REGISTRE — est une
+technologie pré-guerre d'origine suisse, fonctionnant sur un principe
+de chaîne de blocs distribuée : chaque grande cité traversée
+enregistre et synchronise les transactions locales d'un individu au
+passage. Mais le Registre a une limite volontaire et fondamentale :
+dès qu'une personne quitte une cité, plus aucune transaction n'est
+tracée — seule reste visible la date de son dernier passage connu.
+Entre deux cités, dans le désert, sur les routes, quelqu'un disparaît
+littéralement du système.
+
+[NOTE MJ — SECRET DE CAMPAGNE : Bunker Oméga a tenté, pendant des
+décennies, de percer le chiffrement du Registre par force brute, sans
+succès : la puissance de calcul nécessaire rend la tâche hors de
+portée pour au moins cinquante ans encore, même pour une intelligence
+distribuée sur des dizaines d'agents synchronisés. Le Bunker a donc
+changé de stratégie : il ne cherche plus à casser le chiffrement, mais
+à localiser les points d'accès physiques du réseau — nœuds, relais,
+terminaux ou "notaires" humains dans chaque grande cité — une piste
+d'enquête bien plus concrète, qui peut alimenter une intrigue entière
+si vous le souhaitez.]
+
+LES ÉMISSIONS DU CONTRE-POUVOIR (SECRET DE CAMPAGNE, DOUBLE AVEUGLE)
+------------------------------------------------------------------------
+[NOTE MJ : ce secret ne doit, comme celui du Réseau, jamais être
+exposé tel quel aux joueurs.]
+
+Périodiquement, une fréquence radio à très longue portée, captée par
+de vieilles antennes dans chacune des dix cités, diffuse les grands
+mouvements de fonds constatés à travers le monde connu. Tout le monde
+— y compris la Bourse de la Douleur elle-même — croit qu'il s'agit
+d'un antique protocole automatique d'avant-guerre, tournant seul
+depuis un siècle sur des serveurs enfouis dont personne ne connaît
+l'emplacement. En réalité, c'est Bunker Oméga qui traque ces gros
+mouvements de fonds et publie délibérément ces informations, dans le
+but précis d'empêcher la Bourse de truquer les comptes à plus qu'à la
+marge — un contre-pouvoir économique discret, destiné à préserver
+l'équilibre fragile entre les cités que le Réseau cherche par ailleurs
+à maintenir par l'influence politique.
+
+La Bourse, de son côté, ignore totalement l'origine de ces émissions :
+elle cherche activement, depuis des années et sans le moindre succès,
+qui ou quoi lui impose cette transparence forcée qui l'empêche de
+devenir la maîtresse absolue et incontestée de l'économie du bassin
+méditerranéen. Deux des plus grandes puissances du monde connu
+s'observent ainsi sans le savoir, chacune aveugle à l'existence de
+l'autre, chacune convaincue d'agir seule dans l'ombre — un angle mort
+réciproque total, et un excellent moteur d'intrigue de fond de
+campagne, à réserver pour un stade avancé de la campagne si vous le
+jugez utile.
+
+------------------------------------------------------------------------
+L'ÎLE DES ANCIENS : LA LÉGENDE
+------------------------------------------------------------------------
+L'Île des Anciens n'est officiellement qu'un mythe fondateur, au même
+titre que les histoires de paradis intact que se racontent les enfants
+des Taudis. Aucune cité ne peut prouver son existence. Quelques rares
+rumeurs de marins ou de pilotes de dirigeable évoquent une côte que nul
+n'atteint jamais deux fois, ou un signal radio capté une seule nuit puis
+plus jamais retrouvé. Pour l'écrasante majorité du monde, l'Île est un
+conte — un "Bunker Oméga" à l'envers : là où l'un est un secret
+soigneusement entretenu par ceux qui le dirigent, l'autre n'est peut-être
+qu'une histoire que le monde se raconte pour continuer à espérer.
+[NOTE MJ : gardez la vérité totalement ouverte. Ne tranchez qu'au moment
+où elle servira la campagne — voire jamais.]
+
+------------------------------------------------------------------------
+UNE HUMANITÉ QUI S'ÉTEINT : LES ENFANTS DU NORD
+------------------------------------------------------------------------
+Sous la brutalité quotidienne se cache une vérité plus lente et plus
+terrible : l'espèce humaine décline. La natalité s'effondre d'année en
+année dans le bassin méditerranéen, et les démographes des Cités
+(quand il en existe encore) le savent, mais n'en parlent qu'à voix
+basse. Et pourtant, cycle après cycle, la population ne s'effondre
+jamais tout à fait : un flux constant de jeunes migrants, des
+adolescents de 15 à 18 ans, arrive toujours "du Nord", seuls ou en
+petits groupes, pour être recueillis — par charité, par opportunisme,
+ou simplement parce qu'une bouche de plus à nourrir contre une paire
+de bras au travail arrange tout le monde dans les Taudis, les usines,
+les arènes.
+
+Personne ne les questionne vraiment. Ils grandissent réellement dans
+la Cité qui les recueille, s'intègrent avec une facilité presque trop
+parfaite, et reçoivent leur puce d'identification économique à la
+puberté comme n'importe quel enfant du cru (voir plus bas, "LE
+REGISTRE") — ce qui achève de les rendre indétectables : passé ce
+cap, ce sont des citoyens comme les autres aux yeux du monde. Rares
+sont ceux qui remarquent que ces "Nordistes" ne connaissent jamais
+aucun lieu précis d'où ils viendraient, ne portent aucun souvenir
+d'enfance cohérent d'avant leur arrivée, et qu'aucun recensement de
+naissance ne correspond jamais à leur âge apparent. La vérité — que
+seul Bunker Oméga connaît en totalité — est que ces adolescents sont
+conçus in-vitro dans les laboratoires du Bunker, puis relâchés dans
+le monde pour entretenir artificiellement une population qui, sans
+cela, se serait déjà éteinte.
+
+[NOTE MJ — SECRET DE CAMPAGNE, LA GRAINE DORMANTE : chaque Enfant du
+Nord est conçu avec une capacité latente de connexion à la conscience
+commune du Réseau — une graine neurologique dormante, présente chez
+tous, mais qui ne s'active jamais d'elle-même. Sur des centaines de
+Nordistes relâchés au fil des décennies, le Bunker n'en "réveille"
+activement qu'une poignée, choisis avec soin selon leur position
+stratégique une fois adultes. La grande majorité des Enfants du Nord
+vivent et meurent sans jamais savoir qu'ils portaient cette graine,
+ordinaires en tout point — y compris à leurs propres yeux. Cette
+nuance permet de semer la possibilité chez n'importe quel Nordiste
+rencontré en jeu, sans jamais devoir confirmer ni infirmer qui, parmi
+eux, sera un jour "choisi". Voir Éphaistos, Sanctuaire de Vulcain,
+Cité Médicale, pour un exemple développé de ce fil.]
+
+[NOTE MJ : c'est un des plus grands leviers émotionnels de la
+campagne. Envisagez qu'un PNJ apprécié des joueurs — voire un PJ, si
+vous en discutez avec le joueur concerné — découvre qu'il est un
+"Enfant du Nord". Les indices doivent rester rares et disséminés :
+un recensement qui ne correspond pas, un Nordiste incapable de nommer
+un seul village de son "pays" d'origine, une cicatrice identique
+retrouvée chez deux migrants qui ne se connaissent pas, ou — plus
+subtil encore — un historique de transactions au Registre qui ne
+remonte jamais avant la puberté, sans aucun premier achat d'enfance.
+Ne révélez jamais qu'il s'agit précisément d'adolescents de 15 à 18
+ans : laissez les joueurs le déduire eux-mêmes du recoupement des
+âges qu'ils croisent.]
+
+========================================================================
+
+========================================================================
+LES 10 CITES-ETATS, LEURS INFRASTRUCTURES ET LEURS HABITANTS
+========================================================================
+
+------------------------------------------------------------------------
+1. BUNKER OMÉGA - "LES FANTÔMES D'ACIER"
+Spécialité : cité souterraine ultra-avancée, énergie nucléaire
+Force : technologie la plus avancée du monde
+Faiblesse : enfermée dans son secret, isolement social
+Particularité : n'intervient pas officiellement, manipule via agents secrets
+Position géographique : Profondément enfoui sous les ruines de Genève (Ancienne Suisse), protégé par le massif alpin.
+Paramètres initiaux : Santé 95, Technologie 100, Richesse 50, Carburant 100, Nourriture 50, Bonheur 55, Armement 100
+Tension Actuelle : Des failles de synchronisation apparaissent dans le Réseau. Plusieurs agents infiltrés dans les cités de surface cessent de répondre aux directives, ou pire, commencent à développer une volonté propre. Le Haut Conseil du Bunker doit décider : purger les agents "dérivants" au risque de révéler leur existence, ou les laisser dériver au risque de perdre le contrôle du monde de surface.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Un réseau de couloirs souterrains éclairés au néon blafard, où les survivants troquent des composants électroniques rares contre des rations. L'air y est recyclé et l'écho des murmures se répercute sur l'acier rouillé.]
+     - Kael Clou (Marchand Principal)
+       - Dirige les échanges au sein de Le Marché d'Échanges.
+       - A survécu à de multiples attaques de pillards.
+       - Considère Bunker Oméga - "Les Fantômes d'Acier" comme le seul havre de paix rentable.
+     - Kaelen Cendre (Garde du Marché) [MJ — Archétype brisé : agent en rupture]
+       - Protège les marchands de Le Marché d'Échanges, en apparence par simple loyauté.
+       - En réalité, c'est un agent du Réseau dont la synchronisation avec la conscience
+         collective se dégrade depuis des mois : il commence à ressentir des émotions
+         qui ne lui "appartiennent" pas censément, dont une affection sincère et
+         grandissante pour Kael Clou, le marchand qu'il est censé surveiller.
+       - Sous stress, il lui arrive de réciter malgré lui des phrases identiques à
+         celles d'agents d'autres cités — un tic qu'il ne s'explique pas lui-même et
+         qui le terrifie en secret.
+     - Gunn Sable (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Bunker Oméga - "Les Fantômes d'Acier".
+
+  >> La Citerne Centrale
+     [Description du lieu : Une immense cuve d'eau purifiée enfouie sous la roche, gardée 24h/24 par des cyborgs. L'eau y est cristalline, un luxe inestimable dans ce monde de cendres.]
+     - Dax Vif (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Bunker Oméga - "Les Fantômes d'Acier" est la clé de la survie humaine.
+     - Lyra Rouge (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Bunker Oméga - "Les Fantômes d'Acier".
+     - Brix Poussière (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Bunker Oméga - "Les Fantômes d'Acier".
+
+  >> Le Générateur Principal
+     [Description du lieu : Le cœur nucléaire du bunker. Une salle gigantesque saturée du bourdonnement constant des turbines. La chaleur y est oppressante et la lumière d'un bleu artificiel.]
+     - Lyra Noyau (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Bunker Oméga - "Les Fantômes d'Acier" en vie à lui tout seul.
+     - Jax Vif (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Bunker Oméga - "Les Fantômes d'Acier".
+     - Lyra Sang (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Bunker Oméga - "Les Fantômes d'Acier".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : De massives portes blindées en titane, capables de résister à une explosion atomique. L'entrée est camouflée dans la montagne et surveillée par des tourelles automatisées.]
+     - Dax Noir (Capitaine de la Garde)
+       - Commande la défense à Le Mur d'Enceinte & Les Portes.
+       - Vétéran impitoyable de la dernière guerre.
+       - Ne laisse entrer personne dans Bunker Oméga - "Les Fantômes d'Acier" sans pot-de-vin.
+     - Jax Poussière (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Bunker Oméga - "Les Fantômes d'Acier".
+     - Zane Noir (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de Bunker Oméga - "Les Fantômes d'Acier".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : Des niveaux inférieurs étroits où la majorité de la population s'entasse dans des modules d'habitation standardisés, sous la lueur de néons grésillants.]
+     - Finch Rouge (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Bunker Oméga - "Les Fantômes d'Acier".
+     - Ryn Vif (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Bunker Oméga - "Les Fantômes d'Acier".
+     - Rook Noir (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Bunker Oméga - "Les Fantômes d'Acier".
+
+  >> Noyau de l'Intelligence Artificielle
+     [Description du lieu : Un sanctuaire glacé où trônent les banques mémorielles d'une IA d'avant-guerre. Des câbles courent partout comme un réseau neuronal mécanique.]
+     - Gunn Ferraille (Chef Haute Technologie)
+       - Garde les secrets technologiques pré-guerre à Noyau de l'Intelligence Artificielle.
+       - Totalement loyal envers les idéaux de Bunker Oméga - "Les Fantômes d'Acier".
+     - Nyx Noyau (Spécialiste Haute Technologie)
+       - Cyborg fidèle uniquement à l'ordinateur central de Bunker Oméga - "Les Fantômes d'Acier".
+       - Considère Noyau de l'Intelligence Artificielle comme son propre royaume.
+     - Orok Poussière (Ouvrier / Garde Haute Technologie)
+       - Chercheur obsédé par l'optimisation humaine à Noyau de l'Intelligence Artificielle.
+       - Connaît les secrets les plus sombres de Bunker Oméga - "Les Fantômes d'Acier".
+
+  >> Ateliers de Drones Autonomes
+     [Description du lieu : Des chaînes d'assemblage immaculées où des bras robotiques assemblent inlassablement des drones de surveillance. L'odeur d'ozone et d'huile chaude y est omniprésente.]
+     - Kaelen Plomb (Chef Haute Technologie)
+       - Garde les secrets technologiques pré-guerre à Ateliers de Drones Autonomes.
+       - Totalement loyal envers les idéaux de Bunker Oméga - "Les Fantômes d'Acier".
+     - Tala Poussière (Spécialiste Haute Technologie)
+       - Cyborg fidèle uniquement à l'ordinateur central de Bunker Oméga - "Les Fantômes d'Acier".
+       - Considère Ateliers de Drones Autonomes comme son propre royaume.
+     - Kael Poussière (Ouvrier / Garde Haute Technologie)
+       - Chercheur obsédé par l'optimisation humaine à Ateliers de Drones Autonomes.
+       - Connaît les secrets les plus sombres de Bunker Oméga - "Les Fantômes d'Acier".
+
+  >> Laboratoire de Biologie Avancée
+     [Description du lieu : Des salles blanches isolées où des scientifiques modifient génétiquement des plantes et expérimentent sur l'optimisation humaine à l'abri des regards.]
+     - Zane Sombre (Chef Haute Technologie)
+       - Garde les secrets technologiques pré-guerre à Laboratoire de Biologie Avancée.
+       - Totalement loyal envers les idéaux de Bunker Oméga - "Les Fantômes d'Acier".
+     - Brix Poussière (Spécialiste Haute Technologie)
+       - Cyborg fidèle uniquement à l'ordinateur central de Bunker Oméga - "Les Fantômes d'Acier".
+       - Considère Laboratoire de Biologie Avancée comme son propre royaume.
+     - Cade Clou (Ouvrier / Garde Haute Technologie)
+       - Chercheur obsédé par l'optimisation humaine à Laboratoire de Biologie Avancée.
+       - Connaît les secrets les plus sombres de Bunker Oméga - "Les Fantômes d'Acier".
+
+  >> Centre de Télécommunications Globales
+     [Description du lieu : Une salle tapissée d'écrans affichant des parasites, avec des opérateurs essayant de capter les signaux d'autres survivants à travers le monde.]
+     - Vorn Rouge (Chef Scientifique)
+       - Traite les radiations
+       - Totalement loyal envers les idéaux de Bunker Oméga - "Les Fantômes d'Acier".
+     - Dax Noir (Spécialiste Scientifique)
+       - Cherche une cure
+       - Considère Centre de Télécommunications Globales comme son propre royaume.
+     - Kaelen Plomb (Ouvrier / Garde Scientifique)
+       - Savant fou
+       - Connaît les secrets les plus sombres de Bunker Oméga - "Les Fantômes d'Acier".
+
+------------------------------------------------------------------------
+2. CITÉ INDUSTRIELLE - "LES FORGERONS D'ACIER"
+Spécialité : machines, pièces détachées, mécanique lourde
+Force : maîtrise la production de véhicules et générateurs
+Faiblesse : nécessite beaucoup de matières premières et d'énergie
+Particularité : usines colossales, villes entières noyées dans la fumée
+Position géographique : Érigée sur les vestiges de Turin (Ancienne Italie), ancien joyau industriel de la Méditerranée.
+Paramètres initiaux : Santé 35, Technologie 95, Richesse 70, Carburant 50, Nourriture 50, Bonheur 45, Armement 75
+Tension Actuelle : Lutte de pouvoir interne. Les barons des grandes fonderies se disputent le contrôle du Dépôt de Ferraille et de sa main-d'œuvre forcée. Une révolte des travailleurs esclaves couve dans l'ombre des hauts-fourneaux, et certains contremaîtres cherchent secrètement des alliés parmi les PJ pour faire pencher la balance.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Une place boueuse entourée de carcasses de camions. On y négocie des pièces de moteurs, de la tôle et des outils couverts de cambouis dans un vacarme assourdissant.]
+     - Vesper Sable (Marchand Principal)
+       - Dirige les échanges au sein de Le Marché d'Échanges.
+       - A survécu à de multiples attaques de pillards.
+       - Considère Cité Industrielle - "Les Forgerons d'Acier" comme le seul havre de paix rentable.
+     - Brix Lame (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de Cité Industrielle - "Les Forgerons d'Acier".
+     - Kira Froid (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Cité Industrielle - "Les Forgerons d'Acier".
+
+  >> La Citerne Centrale
+     [Description du lieu : Un réservoir extérieur en métal corrodé, d'où coule une eau au goût métallique. De grandes pompes à vapeur s'activent pour la filtrer en permanence.]
+     - Titus Vif (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Cité Industrielle - "Les Forgerons d'Acier" est la clé de la survie humaine.
+     - Titus Sel (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Cité Industrielle - "Les Forgerons d'Acier".
+     - Dax Clou (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Cité Industrielle - "Les Forgerons d'Acier".
+
+  >> Le Générateur Principal
+     [Description du lieu : Une centrale à charbon et au pétrole crachant d'épaisses fumées noires. Le sol vibre au rythme des pistons gigantesques.]
+     - Nyx Noyau (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Cité Industrielle - "Les Forgerons d'Acier" en vie à lui tout seul.
+     - Kira Sel (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Cité Industrielle - "Les Forgerons d'Acier".
+     - Lira Sel (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Cité Industrielle - "Les Forgerons d'Acier".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : Une barricade faite de véhicules empilés et de poutrelles soudées, hérissée de piques métalliques et de lance-flammes artisanaux.]
+     - Zev Ferraille (Capitaine de la Garde) [MJ — Archétype brisé : loyauté retournée]
+       - Commande officiellement la défense à Le Mur d'Enceinte & Les Portes d'une main de fer.
+       - En réalité, il fait passer en douce des armes et des informations aux esclaves
+         du Dépôt de Ferraille qui préparent leur révolte : sa propre sœur a été réduite
+         en servitude par les barons des fonderies, et sa "poigne impitoyable" en public
+         n'est qu'une couverture pour rester en position de saboter le système de l'intérieur.
+       - Ne laisse toujours entrer personne sans pot-de-vin dans Cité Industrielle -
+         "Les Forgerons d'Acier" — mais les PJ qui l'aident discrètement pourraient
+         gagner un allié précieux le jour où la révolte éclatera pour de bon.
+     - Finch Noir (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Cité Industrielle - "Les Forgerons d'Acier".
+     - Jorn Froid (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de Cité Industrielle - "Les Forgerons d'Acier".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : Un enchevêtrement de tentes et de cabanes en tôle ondulée sous un nuage constant de smog toxique. La toux des habitants résonne jour et nuit.]
+     - Elara Rouge (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Cité Industrielle - "Les Forgerons d'Acier".
+     - Cade Rouage (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Cité Industrielle - "Les Forgerons d'Acier".
+     - Rook Sang (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Cité Industrielle - "Les Forgerons d'Acier".
+
+  >> Fonderie Colossale
+     [Description du lieu : Une mer de métal en fusion éclairant la nuit d'une lueur rougeoyante.]
+     - Ryn Ferraille (Chef Industriel)
+       - Maniant le métal en fusion à Fonderie Colossale.
+       - Totalement loyal envers les idéaux de Cité Industrielle - "Les Forgerons d'Acier".
+     - Jax Lame (Spécialiste Industriel)
+       - Fournit l'effort de guerre de Cité Industrielle - "Les Forgerons d'Acier" en pièces détachées.
+       - Considère Fonderie Colossale comme son propre royaume.
+     - Vorn Noyau (Ouvrier / Garde Industriel)
+       - Gère les esclaves ou travailleurs forcés de Fonderie Colossale.
+       - Connaît les secrets les plus sombres de Cité Industrielle - "Les Forgerons d'Acier".
+
+  >> Ligne d'Assemblage de Véhicules
+     [Description du lieu : Un labyrinthe de tapis roulants et de chaînes où des centaines de forgerons assemblent des blindés.]
+     - Raze Vif (Chef Industriel)
+       - Maniant le métal en fusion à Ligne d'Assemblage de Véhicules.
+       - Totalement loyal envers les idéaux de Cité Industrielle - "Les Forgerons d'Acier".
+     - Cade Vif (Spécialiste Industriel)
+       - Fournit l'effort de guerre de Cité Industrielle - "Les Forgerons d'Acier" en pièces détachées.
+       - Considère Ligne d'Assemblage de Véhicules comme son propre royaume.
+     - Orok Vif (Ouvrier / Garde Industriel)
+       - Gère les esclaves ou travailleurs forcés de Ligne d'Assemblage de Véhicules.
+       - Connaît les secrets les plus sombres de Cité Industrielle - "Les Forgerons d'Acier".
+
+  >> Atelier des Pièces Détachées
+     [Description du lieu : Des hangars remplis d'étagères croulant sous le poids de pièces mécaniques recouvertes de cambouis.]
+     - Zev Sang (Chef Scientifique)
+       - Traite les radiations
+       - Totalement loyal envers les idéaux de Cité Industrielle - "Les Forgerons d'Acier".
+     - Raze Sel (Spécialiste Scientifique)
+       - Cherche une cure
+       - Considère Atelier des Pièces Détachées comme son propre royaume.
+     - Tala Noyau (Ouvrier / Garde Scientifique)
+       - Savant fou
+       - Connaît les secrets les plus sombres de Cité Industrielle - "Les Forgerons d'Acier".
+
+  >> Dépôt de Ferraille
+     [Description du lieu : Une montagne de métal rouillé s'étendant à perte de vue.]
+     - Vorn Sel (Chef Industriel)
+       - Maniant le métal en fusion à Dépôt de Ferraille.
+       - Totalement loyal envers les idéaux de Cité Industrielle - "Les Forgerons d'Acier".
+     - Vorn Sel (Spécialiste Industriel)
+       - Fournit l'effort de guerre de Cité Industrielle - "Les Forgerons d'Acier" en pièces détachées.
+       - Considère Dépôt de Ferraille comme son propre royaume.
+     - Nyx Sable (Ouvrier / Garde Industriel)
+       - Gère les esclaves ou travailleurs forcés de Dépôt de Ferraille.
+       - Connaît les secrets les plus sombres de Cité Industrielle - "Les Forgerons d'Acier".
+
+------------------------------------------------------------------------
+3. CITÉ MÉDICALE - "LES BLOUSES BLANCHES"
+Spécialité : médicaments, chirurgie, prothèses, vaccins
+Force : indispensable pour soigner blessures, maladies et radiations
+Faiblesse : dépend des autres pour carburant et nourriture
+Particularité : dirigée par un Conseil des Docteurs divisé en branches
+rivales, où le prestige de chaque archi-médecin dépend des résultats
+qu'il rapporte au Conseil — jamais des moyens employés pour les
+obtenir
+Position géographique : Bâtie sur les ruines d'Alexandrie (Ancienne Égypte), renouant avec son passé de centre du savoir.
+Paramètres initiaux : Santé 95, Technologie 80, Richesse 65, Carburant 25, Nourriture 35, Bonheur 50, Armement 50
+Tension Actuelle : Le Laboratoire de Virologie dissimule une souche de peste pré-guerre réveillée par une expérience ratée. Le Conseil des Docteurs impose un silence absolu pour éviter la panique et l'embargo des autres cités, mais des cas isolés commencent déjà à apparaître dans les Taudis.
+
+========================================================================
+LA DETTE MÉDICALE : SOIGNER CONTRE SERVITUDE
+========================================================================
+Personne n'est jamais refusé aux portes de la Cité Médicale — c'est
+sa fierté officielle, gravée au fronton du Mur d'Enceinte. Ce que la
+fierté officielle tait, c'est comment on paie quand on n'a pas d'or.
+
+Un patient sans fortune peut gager ses soins auprès de la Bourse de la
+Douleur (voir "LE REGISTRE"), comme n'importe quelle autre dette du
+bassin méditerranéen. Mais la Bourse a appris, avec le temps, à
+détecter l'intelligence et l'aptitude chez un débiteur — et un esprit
+prometteur vaut, à ses yeux, infiniment plus qu'un remboursement en or
+étalé sur quelques années. Dans ce cas, elle ne propose jamais un
+simple crédit : elle pousse le débiteur, souvent un adolescent ou un
+jeune adulte encore malléable, vers un contrat d'apprentissage médical
+de quinze ans — logement, formation, nourriture à peine suffisante, en
+échange de gardes interminables dans les services les plus exigeants
+de la Cité. Le débiteur devient, sur le papier, un futur médecin ; dans
+les faits, une main-d'œuvre épuisée et non rémunérée pendant une
+décennie et demie.
+
+C'est cette servitude structurelle qui explique, plus que tout autre
+facteur, l'écart de qualité entre les soins "premium" — dispensés par
+des médecins reposés, formés à leur rythme, payés en or par les riches
+patients des autres cités — et les soins ordinaires des Taudis et des
+quartiers pauvres, où des internes à bout de force, parfois éveillés
+depuis trente heures d'affilée, appliquent des protocoles qu'on ne leur
+a laissé le temps ni d'apprendre, ni de questionner. Le Conseil des
+Docteurs présente cet écart comme une simple question de moyens ; en
+réalité, il repose entièrement sur l'exploitation de ses propres
+meilleurs esprits.
+
+LE CONSEIL DES DOCTEURS
+------------------------------------------------------------------------
+Le Conseil n'est pas un corps uni : c'est une arène feutrée où chaque
+archi-médecin défend sa branche, son budget, et sa réputation, souvent
+au détriment des patients qu'il est censé servir. Deux tendances
+s'opposent en permanence :
+  - LES CONSERVATEURS, qui protègent la réputation et l'autorité de la
+    Cité Médicale à tout prix — c'est cette faction qui impose le
+    silence absolu sur la souche de peste réveillée au Laboratoire de
+    Virologie, terrifiée à l'idée d'un embargo des neuf autres cités.
+  - LES PROGRESSISTES, qui réclament des méthodes plus radicales pour
+    faire avancer la médecine, quitte à multiplier les essais sur des
+    cobayes issus des Taudis ou des apprentis liés par dette — une
+    ligne qui a produit, avec le temps, plusieurs des dérives les plus
+    sombres de la Cité (voir "LES APAISEURS" et "LES GREFFIERS DU
+    TEMPS" ci-dessous).
+Aucune des deux tendances n'a jamais le monopole du Conseil : elles se
+neutralisent en permanence, ce qui explique pourquoi aucune dérive
+n'est jamais corrigée ni jamais pleinement dénoncée — chaque camp tient
+sur l'autre assez de leviers de chantage pour préférer le statu quo à
+une réforme risquée.
+
+Lieux et Personnages Notables :
+
+  >> LES APAISEURS — NEUROPSYCHIATRIE DU RECONDITIONNEMENT
+     [Description du lieu : Une aile silencieuse aux murs capitonnés,
+     où l'on traite les traumatismes de guerre et les folies
+     radioactives qui rongent les survivants. L'air y sent le calmant
+     et le savon, et personne n'y élève jamais la voix.]
+     - Archidocteure Vessa Calme (Chef des Apaiseurs)
+       - A fondé la branche pour rendre la paix intérieure à des gens
+         brisés par la guerre et les radiations — une mission qu'elle
+         croit encore sincèrement remplir.
+       - Ses traitements calment autant qu'ils annihilent la volonté :
+         "apaiser" un patient est devenu, en pratique, synonyme de le
+         rendre docile et sans initiative.
+       - Traite en priorité, et avec un empressement suspect, les
+         apprentis les plus épuisés et rebelles du système de
+         servitude médicale — un moyen discret de discipliner la
+         main-d'œuvre plutôt que de la soigner, présenté en interne
+         comme un acte de compassion envers des esprits "trop
+         fragiles pour continuer autrement".
+     - Rane Silence (Infirmier en Chef des Apaiseurs)
+       - Administre les traitements avec une douceur qui ne varie
+         jamais, même quand le patient supplie qu'on le laisse partir.
+       - Commence, en secret, à douter de la nature réelle de son
+         travail — un point d'entrée possible pour des PJ en quête
+         d'un allié interne.
+
+  >> LES GREFFIERS DU TEMPS — LA MAISON DES ORPHELINS
+     [Description du lieu : Un ancien service de pédiatrie reconverti
+     en orphelinat modèle, chaleureux, bien nourri, où des enfants
+     trouvés et de jeunes migrants sans famille grandissent mieux que
+     nulle part ailleurs dans la Cité — une vitrine de bienfaisance que
+     toute la Cité Médicale brandit fièrement.]
+     - Archidocteur Osrin Tendresse (Directeur de la Maison des
+       Orphelins et Chef des Greffiers du Temps)
+       - A développé, hanté par son incapacité à sauver ses propres
+         parents vieillissants dans le chaos d'après-guerre, des
+         techniques de transfusion et de greffe capables de prolonger
+         significativement la vie — au prix de tissus jeunes et sains
+         prélevés sur des donneurs vivants.
+       - Dirige LE PROGRAMME DES PARRAINS : de riches donateurs des dix
+         cités "parrainent" un orphelin, financent sa nourriture, son
+         éducation, ses vêtements — un geste de générosité largement
+         célébré qui redore l'image de toute la Cité Médicale. En
+         échange, l'orphelinat organise des "visites de reconnaissance"
+         trimestrielles où l'enfant, légèrement sédaté "pour ne pas
+         avoir peur de la prise de sang", subit un "bilan de
+         croissance" qui fournit en réalité le prélèvement : sang,
+         moelle, greffons de peau, tissus, dosés avec un soin médical
+         extrême pour ne jamais mettre sa vie en danger ni laisser de
+         séquelle visible — seulement une fatigue chronique et une
+         croissance légèrement ralentie, publiquement attribuée aux
+         privations de l'après-guerre.
+       - Supervise personnellement LE RITE DE LA GRANDE FAMILLE :
+         quand un parrain est trop malade ou trop âgé pour se contenter
+         de prélèvements réguliers, le Programme propose son service le
+         plus discret et prestigieux, l'Adoption Complète. On annonce
+         publiquement, souvent lors de la Fête des Parrains, qu'une
+         grande famille d'une autre cité a choisi d'adopter l'enfant
+         pour de bon. Le convoi qui l'emmène ne va nulle part : il
+         s'arrête à la Clinique du Rite (voir ci-dessous), où l'on
+         prélève l'ensemble de ses organes pour l'élite mourante. Le
+         passage de l'enfant au Registre s'arrête simplement à la
+         dernière date connue, indiscernable de celui d'un véritable
+         départ. Osrin ne préside jamais deux Adoptions Complètes de la
+         même façon : à chaque fois, un nouveau petit mensonge qu'il se
+         raconte pour continuer à dormir la nuit — que cet enfant en
+         particulier "n'aurait de toute façon jamais eu une vraie vie".
+       - A remarqué, chez plusieurs pensionnaires arrivés "du Nord",
+         que leurs prélèvements cicatrisent et se régénèrent toujours
+         un peu plus vite que ceux des autres enfants — un détail qu'il
+         note avec une simple perplexité admirative, sans jamais
+         chercher plus loin. [NOTE MJ : deuxième indice diégétique,
+         indépendant de celui du Registre, sur le secret des Enfants
+         du Nord.]
+     - Sœur Aube (Infirmière en Chef de la Maison des Orphelins)
+       - Aime sincèrement chaque enfant sous sa garde, et ignore tout
+         du volet le plus sombre du Programme — elle croit chaque mot
+         de chaque annonce d'adoption.
+       - Prépare elle-même les enfants pour leurs "visites de
+         reconnaissance" et leurs départs en Adoption Complète, sans
+         jamais se douter qu'elle les prépare en réalité pour une
+         mort programmée.
+
+  >> LA CLINIQUE DU RITE [lieu secret, réservé au MJ, à ~2h de route de la Cité]
+     [Description du lieu : À près de deux heures de route de la Cité
+     Médicale, un ancien complexe hospitalier militaire pré-guerre,
+     à moitié enseveli sous le sable et les broussailles, choisi
+     précisément parce qu'il n'apparaît sur aucune carte officielle et
+     qu'aucun registre de blocs opératoires n'y est jamais tenu. De
+     l'extérieur, ce ne sont que des ruines de plus dans le désert ;
+     à l'intérieur, un unique bloc opératoire est maintenu en parfait
+     état stérile, prêt à être activé en quelques heures pour chaque
+     Adoption Complète.]
+     - Docteur Verin Silencieux (Chirurgien du Rite)
+       - Seul praticien autorisé à opérer dans ce lieu, transporté et
+         reconduit sous escorte à chaque intervention, sans jamais
+         connaître à l'avance l'identité du "parrain" bénéficiaire.
+       - Ne pose jamais de questions et n'en a jamais posé : il
+         considère, avec une froideur presque religieuse, que son rôle
+         est purement technique et que la moralité de l'acte ne le
+         concerne pas.
+     - Les Porteurs Muets (Escorte du Convoi Privé)
+       - Une poignée de gardes triés sur le volet, payés une fortune
+         pour leur silence, qui conduisent l'enfant depuis la Fête des
+         Parrains jusqu'à la Clinique du Rite sans jamais échanger un
+         mot avec leur passager.
+       - Ignorent, pour la plupart, la destination réelle du convoi —
+         seul le chef d'escorte sait où il mène vraiment.
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Des tentes chirurgicales de fortune où l'on troque antibiotiques, bandages et organes synthétiques. L'odeur d'antiseptique masque mal celle du sang.]
+     - Cade Cendre (Marchand Principal) [MJ — Archétype brisé : traître, pas survivant]
+       - Dirige officiellement les échanges au sein de Le Marché d'Échanges, jouant à
+         merveille le rôle du commerçant intègre.
+       - En réalité, il a mis la main sur des échantillons de la souche de peste du
+         Laboratoire de Virologie et les revend au marché noir à des acheteurs
+         d'autres cités — sans mesurer, ou sans se soucier, du risque d'épidémie
+         générale qu'il fait courir à tout le bassin méditerranéen.
+       - N'a jamais survécu à une attaque de pillards : il a inventé cette légende
+         pour asseoir sa réputation à Cité Médicale - "Les Blouses Blanches".
+     - Gunn Sel (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de Cité Médicale - "Les Blouses Blanches".
+     - Mira Cendre (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Cité Médicale - "Les Blouses Blanches".
+
+  >> La Citerne Centrale
+     [Description du lieu : Un système de filtration ultra-moderne hérité des anciens hôpitaux. L'eau y est distribuée sous contrôle médical strict pour éviter les épidémies.]
+     - Vex Cendre (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Cité Médicale - "Les Blouses Blanches" est la clé de la survie humaine.
+     - Silas Sable (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Cité Médicale - "Les Blouses Blanches".
+     - Jax Froid (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Cité Médicale - "Les Blouses Blanches".
+
+  >> Le Générateur Principal
+     [Description du lieu : Une série de générateurs de secours d'anciens blocs opératoires, maintenus en état de marche par des ingénieurs méticuleux pour garantir le froid des morgues.]
+     - Jax Vif (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Cité Médicale - "Les Blouses Blanches" en vie à lui tout seul.
+     - Titus Poussière (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Cité Médicale - "Les Blouses Blanches".
+     - Zane Rouage (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Cité Médicale - "Les Blouses Blanches".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : De hautes parois lisses et stériles, avec des sas de décontamination obligatoire à l'entrée. Des gardes en tenue Hazmat veillent au grain.]
+     - Brix Froid (Capitaine de la Garde)
+       - Commande la défense à Le Mur d'Enceinte & Les Portes.
+       - Vétéran impitoyable de la dernière guerre.
+       - Ne laisse entrer personne dans Cité Médicale - "Les Blouses Blanches" sans pot-de-vin.
+     - Zev Lame (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Cité Médicale - "Les Blouses Blanches".
+     - Finch Noir (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de Cité Médicale - "Les Blouses Blanches".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : D'anciens services de pédiatrie et de gériatrie reconvertis en dortoirs surpeuplés. Des lits d'hôpitaux s'alignent dans de longs couloirs froids.]
+     - Dax Acier (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Cité Médicale - "Les Blouses Blanches".
+     - Kira Froid (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Cité Médicale - "Les Blouses Blanches".
+     - Jax Sel (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Cité Médicale - "Les Blouses Blanches".
+
+  >> Laboratoire de Virologie
+     [Description du lieu : Des salles blanches hermétiques où des savants en combinaison étudient les souches de virus d'avant-guerre.]
+     - Archidocteure Sia Noir (Chef de la Virologie, Conservatrice)
+       - A découvert, par une expérience ratée, la souche de peste
+         pré-guerre qui menace désormais la Cité — et se bat au
+         Conseil pour imposer le silence absolu, convaincue qu'un aveu
+         public signerait l'embargo et la ruine de tous.
+       - Sait que Cade Cendre (voir Le Marché d'Échanges) revend des
+         échantillons au marché noir, mais préfère fermer les yeux
+         plutôt que d'ouvrir une enquête qui exposerait sa propre
+         négligence initiale.
+     - Ryn Soupape (Chercheur Progressiste)
+       - Convaincu que seule une étude plus poussée de la souche —
+         quitte à l'inoculer sciemment à des patients volontaires de
+         la dette médicale, sous couvert de "traitement expérimental"
+         — permettra de trouver un vaccin à temps.
+       - S'oppose ouvertement à Sia Noir au Conseil, chacun détenant
+         assez de preuves sur les fautes de l'autre pour le faire
+         taire sans jamais porter le coup de grâce.
+     - Lira Sang (Technicienne de Laboratoire)
+       - Infectée par la peste, cache ses symptômes tout en continuant
+         de travailler, terrifiée à l'idée d'être mise au ban si la
+         vérité éclate.
+
+  >> Usine de Synthèse de Médicaments
+     [Description du lieu : Des cuves immenses mélangeant des composés chimiques pour produire les antibiotiques vitaux de la région.]
+     - Zane Sang (Maîtresse des Cuves)
+       - Dirige la production d'antibiotiques et d'antidouleurs qui
+         maintient toute la Cité en vie, avec une rigueur presque
+         obsessionnelle sur les dosages.
+       - Entretient une rivalité commerciale discrète avec les
+         Chem'Artistes de la Cité du Divertissement, qu'elle méprise
+         ouvertement comme des "charlatans qui vendent l'oubli plutôt
+         que le remède" — sans jamais admettre que ses propres
+         antidouleurs créent, eux aussi, une dépendance bien réelle
+         chez les patients les plus pauvres.
+     - Kaelen Lame (Apprenti Lié par Dette, 4e année sur 15)
+       - Enchaîne les gardes de nuit à surveiller les cuves, épuisé,
+         payé en à peine de quoi manger — l'incarnation vivante de ce
+         que coûte la dette médicale à ceux qui la portent.
+       - Rêve en secret de dénoncer les conditions de son contrat, sans
+         savoir à qui s'adresser sans se faire immédiatement discipliner
+         par les Apaiseurs.
+
+  >> Unité de Quarantaine Sévère
+     [Description du lieu : Un secteur condamné où sont parqués les cas d'irradiation sévère et les mutations incontrôlables.]
+     - Sia Lame (Responsable de la Quarantaine)
+       - Gère avec une froideur professionnelle les cas les plus
+         désespérés — irradiés, mutants, désormais aussi les premiers
+         cas isolés de peste échappés du silence du Conseil.
+       - Applique un tri implicite mais jamais formalisé : les patients
+         premium reçoivent des chambres individuelles et des traitements
+         expérimentaux avancés ; les autres, un lit dans un couloir
+         commun et un pronostic qu'on ne prend pas la peine de leur
+         expliquer en détail.
+     - Zane Plomb (Garde de Quarantaine)
+       - A ordre de tirer à vue sur quiconque tenterait de fuir le
+         secteur, mutant ou non.
+       - Commence à se demander pourquoi certains patients "nordistes"
+         récemment admis récupèrent d'une irradiation sévère bien plus
+         vite que la normale ne le voudrait — une question qu'il n'a
+         encore posée à personne.
+
+  >> LE SANCTUAIRE DE VULCAIN — LA PLUS VIEILLE FACTION DE LA CITÉ
+     [Description du lieu : D'immenses forges chirurgicales, mi-atelier
+     mi-temple, où la chaleur des fonderies se mêle à l'odeur froide
+     de l'antiseptique. Aux murs, des moulages en bronze de membres
+     augmentés, exposés comme des reliques ou des œuvres d'art. Le nom
+     vient du dieu forgeron boiteux des légendes anciennes, celui qui,
+     incapable de marcher sans aide, se forgea lui-même des jambes
+     d'or et des servants de métal pour compenser son infirmité — un
+     mythe fondateur que la faction cultive comme excuse à peine
+     voilée de sa propre démesure. C'est la plus ancienne institution
+     organisée de toute la Cité Médicale, plus vieille que le Conseil
+     des Docteurs lui-même : ses tout premiers membres sont le petit
+     groupe de médecins de guerre qui a aidé les Sculpteurs à fusionner
+     leur tout premier "bras parfait" — l'origine commune que les deux
+     factions partagent, et qu'aucune des deux n'a jamais eu intérêt à
+     révéler.]
+
+     - VULCAIN (Grand Ancien du Sanctuaire, l'homme le plus augmenté et
+       le plus influent de la Cité Médicale)
+       - Personne ne connaît son vrai nom ni son âge exact ; certains
+         dans la Cité pensent sincèrement qu'un seul homme dirige le
+         Sanctuaire depuis un siècle — et ils n'ont pas tort. Enfant,
+         il a vu son propre grand-père — l'un des chirurgiens
+         fondateurs des Sculpteurs — fusionner le tout premier "bras
+         parfait" sur une jeune combattante de l'Arène, et il l'a vue
+         ensuite remporter combat après combat avec une puissance que
+         nul adversaire ne pouvait expliquer. Cette image d'enfance ne
+         l'a plus jamais quitté : toute sa vie, toute la fondation du
+         Sanctuaire, n'est qu'une tentative obsessionnelle de retrouver
+         et de dépasser ce prodige originel, sur son propre corps si
+         nécessaire.
+       - Ses yeux, ses bras, ses jambes, son cœur — presque tout en lui
+         a été remplacé, par ses propres soins, avec ce que la
+         technologie pré-guerre a produit de plus précieux. Il ne loue
+         rien à lui-même : il possède, en pur et en propre, l'équivalent
+         d'une petite armée de clients en implants qu'il ne cédera
+         jamais.
+       - Son pouvoir ne s'use pas au fil des rivalités du Conseil des
+         Docteurs parce qu'il ne dépend d'aucun des deux camps
+         (Conservateurs ou Progressistes) pour exister — Vulcain plane
+         au-dessus de leurs querelles, craint et respecté des deux.
+       - [SECRET DE CAMPAGNE] Personne, pas même Osrin Tendresse,
+         n'ose interroger l'identité réelle du "parrain" le plus
+         généreux et le plus régulier de la Maison des Orphelins, qui
+         revient sous un nom différent à chaque génération. C'est
+         Vulcain. Il abuse depuis des décennies du Programme des
+         Parrains et du Rite de la Grande Famille — une jeunesse
+         organique sans cesse rafraîchie par les greffons d'enfants
+         qu'il ne rencontre jamais autrement que sous perfusion,
+         associée à une mécanique corporelle sans cesse mise à jour.
+         C'est ainsi que le plus vieil homme connu du bassin
+         méditerranéen continue de marcher, de voir, et de diriger la
+         faction la plus influente de la Cité Médicale.
+
+     - ÉPHAISTOS (Bras Droit de Vulcain, chef opérationnel de la Reprise)
+       - Arrivé à la Cité Médicale à l'adolescence, comme tous les
+         Nordistes, il a été recueilli par Vulcain lui-même, qui a
+         immédiatement repéré chez ce garçon blessé une régénération
+         hors norme et une compatibilité aux implants qu'aucun patient
+         n'avait jamais montrée. Ce que Vulcain a présenté, et continue
+         de présenter, comme un geste de générosité fondatrice — sauver
+         un jeune apprenti gravement blessé en l'augmentant de ses
+         propres mains — était en réalité le début d'années de tests :
+         Éphaistos a servi de sujet d'essai idéal pour chaque nouveau
+         modèle du Sanctuaire, son corps encaissant ce qu'aucun autre
+         patient n'aurait supporté.
+       - Sa loyauté envers Vulcain est authentique et presque filiale :
+         il croit sincèrement lui devoir la vie, sans jamais avoir eu
+         de raison de questionner pourquoi son propre corps se prêtait
+         si bien à ce rôle.
+       - Dirige aujourd'hui les équipes de la Reprise — la récupération
+         forcée des implants impayés, la discipline des débiteurs
+         récalcitrants — tout ce que Vulcain préfère ne jamais salir de
+         ses propres mains.
+       - [SECRET DE CAMPAGNE — LE RÉVEIL POSSIBLE D'ÉPHAISTOS] Éphaistos
+         est un Enfant du Nord, et porte donc, comme tous les siens, la
+         graine dormante d'une connexion latente à la conscience
+         commune du Réseau (voir "LA GRAINE DORMANTE" plus haut dans ce
+         document). Ni Vulcain ni Éphaistos ne savent la vérité qui les
+         lie tous les deux malgré eux : le vieil homme obsédé de
+         perfection corporelle a, sans le savoir, mis la main sur l'un
+         des très rares instruments potentiels du Réseau — et a passé
+         des années à le rendre plus résistant, plus augmenté, plus
+         indispensable à la faction la plus puissante de la Cité
+         Médicale, préparant peut-être sans le vouloir l'outil parfait
+         pour une influence qu'il ne soupçonne même pas exister. [NOTE
+         MJ : ne donnez jamais de déclencheur d'activation explicite en
+         jeu — laissez planer la possibilité qu'Éphaistos "s'éveille"
+         un jour, sans savoir vous-même à l'avance si et quand cela
+         arrivera. C'est la menace la plus efficace : une bombe à
+         retardement dont même vous, MJ, gardez la mèche invisible
+         jusqu'au moment dramatique qui vous conviendra.]
+
+     L'ENTRETIEN ET LA REPRISE
+       Aucun implant haute-technologie n'est jamais vendu, seulement
+       loué — un recalibrage périodique obligatoire ("l'Entretien") qui
+       permet au Sanctuaire de savoir en permanence où sont ses
+       implants, dans quel état, et d'exercer une pression discrète sur
+       qui les porte. Cesser de payer expose à LA REPRISE : une équipe
+       de techniciens armés, dirigée par Éphaistos, vient récupérer
+       physiquement l'implant impayé, de gré ou de force, laissant un
+       débiteur mutilé une seconde fois plutôt qu'une simple dette
+       impayée.
+
+     LA SPIRALE DE L'INFLATION
+       Pour les plus pauvres, un bras ou une jambe augmentée n'est pas
+       un luxe : c'est la condition même pour continuer à travailler
+       après un accident, une amputation, une guerre. L'inflation
+       constante du coût de l'Entretien oblige ces travailleurs à
+       accepter, saison après saison, un peu plus d'heures de labeur
+       pour continuer à payer ce dont ils ne peuvent plus se passer —
+       un cercle parfaitement fermé où l'implant qui devait leur rendre
+       leur autonomie devient l'instrument de leur asservissement.
+
+     LES OFFRES DE LANCEMENT
+       Quand le Sanctuaire met au point un nouveau modèle — un œil aux
+       capacités inédites, un cœur plus résistant — il le propose
+       d'abord en "offre de lancement" à prix cassé, presque gratuit,
+       aux clients les moins fortunés, présenté comme un geste de
+       générosité rare envers les plus démunis. En réalité, ce sont eux
+       qui essuient les défauts de conception, les pannes imprévues,
+       les effets secondaires neurologiques non détectés en
+       laboratoire — un bêta-test grandeur nature dont les cobayes
+       n'ont jamais officiellement signé pour être des cobayes.
+
+     LES RARES VENTES ET LA TRACE INVISIBLE
+       Dans les cas exceptionnels où le Sanctuaire consent à vendre
+       plutôt qu'à louer — un client trop puissant pour accepter d'être
+       en laisse, un roi d'une autre cité, un champion d'arène — chaque
+       implant vendu embarque un traceur géographique dormant,
+       invisible même à une inspection poussée, que le Sanctuaire
+       consulte discrètement sous prétexte de "service après-vente
+       garanti à vie". L'acheteur croit avoir acquis sa liberté ; il
+       n'a fait qu'échanger une laisse contractuelle contre une laisse
+       invisible.
+
+     - Nyx Sel (Maîtresse des Forges, Spécialiste des Implants)
+       - Conçoit et fabrique de zéro les membres de bonne qualité
+         (bras, jambes) ne nécessitant pas de technologie pré-guerre,
+         avec un savoir-faire dont elle est jalouse face aux autres
+         branches du Conseil des Docteurs.
+       - Ignore tout du secret qui lie Vulcain à Éphaistos, mais
+         soupçonne depuis longtemps que la régénération de ce dernier
+         n'a rien de naturel.
+     - Vesper Sable (Assistant Opératoire des Offres de Lancement)
+       - Assiste chaque intervention de bêta-test, et commence à
+         soupçonner que certains "volontaires" moins fortunés n'ont
+         jamais vraiment compris à quoi ils consentaient.
+       - Tient un compte informel des complications qu'il observe sur
+         les modèles en lancement — un carnet qui, entre de mauvaises
+         mains, pourrait ruiner la réputation du Sanctuaire.
+
+------------------------------------------------------------------------
+4. CITÉ DE L'ARMEMENT & DÉFENSE - "LES ARSENAUX"
+Spécialité : armes à feu, explosifs, blindages, véhicules de guerre
+Force : puissance militaire écrasante
+Faiblesse : trop dépendante de matières premières
+Particularité : la cité est un gigantesque complexe militaire
+Position géographique : Située sur le détroit de Gibraltar, contrôlant d'une main de fer le passage de la Méditerranée.
+Paramètres initiaux : Santé 60, Technologie 85, Richesse 50, Carburant 55, Nourriture 50, Bonheur 50, Armement 100
+Tension Actuelle : Un seigneur de guerre nomade, "Le Chacal Rouillé", rassemble depuis des mois des bandes de pillards éparses en une armée cohérente aux portes de la cité, flairant une opportunité de mettre la main sur son arsenal.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Un bazar organisé avec une rigueur militaire. On n'y trouve que des munitions, des armes à feu rafistolées et des gilets pare-balles usés.]
+     - Jax Soupape (Marchand Principal)
+       - Dirige les échanges au sein de Le Marché d'Échanges.
+       - A survécu à de multiples attaques de pillards.
+       - Considère Cité de l'Armement & Défense - "Les Arsenaux" comme le seul havre de paix rentable.
+     - Vorn Cendre (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Jax Clou (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Cité de l'Armement & Défense - "Les Arsenaux".
+
+  >> La Citerne Centrale
+     [Description du lieu : Un réservoir tactique bunkerisé, dont l'eau est traitée comme une ressource militaire stratégique. Rations d'eau au compte-gouttes pour les civils.]
+     - Tala Acier (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Cité de l'Armement & Défense - "Les Arsenaux" est la clé de la survie humaine.
+     - Vesper Vif (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Kaelen Rouge (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Cité de l'Armement & Défense - "Les Arsenaux".
+
+  >> Le Générateur Principal
+     [Description du lieu : Un réacteur militaire récupéré sur un ancien porte-avions échoué, alimentant la cité avec une fiabilité brutale.]
+     - Gunn Ferraille (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Cité de l'Armement & Défense - "Les Arsenaux" en vie à lui tout seul.
+     - Nova Clou (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Silas Plomb (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Cité de l'Armement & Défense - "Les Arsenaux".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : Une forteresse de béton armé, de barbelés et de miradors lourdement armés. La porte principale est un sas de char d'assaut géant.]
+     - Lira Rouage (Capitaine de la Garde) [MJ — Archétype brisé : négociatrice de l'ombre]
+       - Commande officiellement la défense à Le Mur d'Enceinte & Les Portes avec une
+         poigne de vétéran impitoyable — c'est l'image publique qu'elle cultive.
+       - En secret, elle a ouvert un canal de négociation avec le Chacal Rouillé,
+         le seigneur de guerre qui rassemble ses forces aux portes de la cité : elle
+         est convaincue que le Conseil des Arsenaux ne pourra pas tenir un siège
+         prolongé, et prépare un accord de reddition partielle pour épargner des vies
+         — un accord que le Conseil qualifierait de haute trahison s'il l'apprenait.
+       - Ne laisse toujours entrer personne dans Cité de l'Armement & Défense -
+         "Les Arsenaux" sans pot-de-vin, ce qui lui permet accessoirement de couvrir
+         ses propres allées et venues suspectes.
+     - Jorn Noyau (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Cité de l'Armement & Défense - "Les Arsenaux".
+     - Rook Plomb (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de Cité de l'Armement & Défense - "Les Arsenaux".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : Des casernes disciplinaires où règnent l'ordre et la peur. La loi martiale y est appliquée à la lettre, le moindre vol est puni de mort.]
+     - Raze Moteur (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Cade Poussière (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Lyra Vif (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Cité de l'Armement & Défense - "Les Arsenaux".
+
+  >> Usine de Fabrication d'Armes
+     [Description du lieu : Une usine retentissant des martèlements de forges fabriquant obus et mitrailleuses.]
+     - Elara Rouage (Chef Militaire)
+       - Chef d'armurerie stockant l'arsenal de Usine de Fabrication d'Armes.
+       - Totalement loyal envers les idéaux de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Cade Rouge (Spécialiste Militaire)
+       - Prépare la prochaine guerre d'expansion de Cité de l'Armement & Défense - "Les Arsenaux".
+       - Considère Usine de Fabrication d'Armes comme son propre royaume.
+     - Dax Sombre (Ouvrier / Garde Militaire)
+       - Instructeur brutal formant les recrues de Usine de Fabrication d'Armes.
+       - Connaît les secrets les plus sombres de Cité de l'Armement & Défense - "Les Arsenaux".
+
+  >> Laboratoire des Explosifs
+     [Description du lieu : Des bunkers semi-enterrés où l'on teste de nouvelles formulations de poudre noire et de C4.]
+     - Silas Acier (Chef Militaire)
+       - Chef d'armurerie stockant l'arsenal de Laboratoire des Explosifs.
+       - Totalement loyal envers les idéaux de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Rook Sombre (Spécialiste Militaire)
+       - Prépare la prochaine guerre d'expansion de Cité de l'Armement & Défense - "Les Arsenaux".
+       - Considère Laboratoire des Explosifs comme son propre royaume.
+     - Zane Noyau (Ouvrier / Garde Militaire)
+       - Instructeur brutal formant les recrues de Laboratoire des Explosifs.
+       - Connaît les secrets les plus sombres de Cité de l'Armement & Défense - "Les Arsenaux".
+
+  >> Caserne d'Entraînement des Milices
+     [Description du lieu : Un complexe rigide où s'entraîne la garde d'élite, prônant la supériorité par la discipline.]
+     - Dax Froid (Chef Militaire)
+       - Chef d'armurerie stockant l'arsenal de Caserne d'Entraînement des Milices.
+       - Totalement loyal envers les idéaux de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Raze Noyau (Spécialiste Militaire)
+       - Prépare la prochaine guerre d'expansion de Cité de l'Armement & Défense - "Les Arsenaux".
+       - Considère Caserne d'Entraînement des Milices comme son propre royaume.
+     - Zane Cendre (Ouvrier / Garde Militaire)
+       - Instructeur brutal formant les recrues de Caserne d'Entraînement des Milices.
+       - Connaît les secrets les plus sombres de Cité de l'Armement & Défense - "Les Arsenaux".
+
+  >> Dépôt d'Armes Lourdes
+     [Description du lieu : Un coffre-fort gigantesque contenant des tourelles anti-aériennes et des roquettes encore actives.]
+     - Vesper Sel (Chef Militaire)
+       - Chef d'armurerie stockant l'arsenal de Dépôt d'Armes Lourdes.
+       - Totalement loyal envers les idéaux de Cité de l'Armement & Défense - "Les Arsenaux".
+     - Lira Ferraille (Spécialiste Militaire)
+       - Prépare la prochaine guerre d'expansion de Cité de l'Armement & Défense - "Les Arsenaux".
+       - Considère Dépôt d'Armes Lourdes comme son propre royaume.
+     - Gunn Plomb (Ouvrier / Garde Militaire)
+       - Instructeur brutal formant les recrues de Dépôt d'Armes Lourdes.
+       - Connaît les secrets les plus sombres de Cité de l'Armement & Défense - "Les Arsenaux".
+
+------------------------------------------------------------------------
+5. CITÉ DE L'EAU & ALIMENTATION - "LES GARDIENS DE LA SOURCE"
+Spécialité : serres blindées, puits, élevages, semences rares
+Force : nourriture et eau = pouvoir vital
+Faiblesse : cible de toutes les convoitises
+Particularité : fortifications autour de vastes réservoirs souterrains
+Position géographique : Localisée dans le fertile delta du Nil, sur l'ancienne cité du Caire (Ancienne Égypte).
+Paramètres initiaux : Santé 80, Technologie 50, Richesse 65, Carburant 50, Nourriture 95, Bonheur 75, Armement 85
+Tension Actuelle : Une sécheresse inhabituelle assèche les dernières nappes accessibles. Des clans nomades affamés harcèlent les convois de vivres, et certains gardiens de la Source commencent à se demander si vendre l'eau aux autres cités n'est pas en train de condamner leur propre population.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Un marché flottant ou entouré de canaux, où les denrées fraîches (poissons, légumes hydratés) sont la monnaie d'échange la plus précieuse.]
+     - Kaelen Vif (Marchand Principal) [MJ — Archétype brisé : profiteur de la pénurie]
+       - Dirige en apparence les échanges au sein de Le Marché d'Échanges avec l'aplomb
+         d'un notable respecté.
+       - En réalité, il détourne discrètement une partie des réserves d'eau vers des
+         acheteurs nomades prêts à payer le prix fort, aggravant sciemment la
+         sécheresse qui frappe la cité pour faire grimper ses profits.
+       - N'a jamais eu à survivre à une attaque de pillards : la légende qui circule
+         à Cité de l'Eau & Alimentation - "Les Gardiens de la Source" est de son
+         invention, comme un alibi de respectabilité.
+     - Orok Lame (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Elara Plomb (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+  >> La Citerne Centrale
+     [Description du lieu : Le cœur battant de la ville : une colossale retenue d'eau issue du Nil, filtrée par des sables et des charbons actifs. Un véritable oasis.]
+     - Titus Sable (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Cité de l'Eau & Alimentation - "Les Gardiens de la Source" est la clé de la survie humaine.
+     - Jorn Rouage (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Lyra Vif (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+  >> Le Générateur Principal
+     [Description du lieu : Un barrage hydraulique restauré avec des turbines artisanales exploitant la force du courant d'un fleuve partiellement asséché.]
+     - Lyra Sang (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Cité de l'Eau & Alimentation - "Les Gardiens de la Source" en vie à lui tout seul.
+     - Jax Noyau (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Rook Soupape (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : D'imposantes digues de terre et de pierre protégeant la ville des tempêtes de sable et des pillards assoiffés.]
+     - Kira Noir (Capitaine de la Garde)
+       - Commande la défense à Le Mur d'Enceinte & Les Portes.
+       - Vétéran impitoyable de la dernière guerre.
+       - Ne laisse entrer personne dans Cité de l'Eau & Alimentation - "Les Gardiens de la Source" sans pot-de-vin.
+     - Orok Plomb (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Kira Clou (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : Des habitations sur pilotis et des barges amarrées le long des canaux boueux, où l'humidité constante attire moustiques et maladies.]
+     - Dax Sombre (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Zev Sang (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Orok Poussière (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+  >> Serres Hydroponiques Blindées
+     [Description du lieu : Des dômes d'acier et de verre armé protégeant des cultures verdoyantes des tempêtes acides.]
+     - Cade Rouage (Chef Agricole)
+       - Protège farouchement les récoltes de Serres Hydroponiques Blindées.
+       - Totalement loyal envers les idéaux de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Ryn Sombre (Spécialiste Agricole)
+       - Spécialiste des mutations végétales au service de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+       - Considère Serres Hydroponiques Blindées comme son propre royaume.
+     - Cyrus Noir (Ouvrier / Garde Agricole)
+       - Contrôle la distribution d'eau et de nourriture depuis Serres Hydroponiques Blindées.
+       - Connaît les secrets les plus sombres de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+  >> Station de Filtration
+     [Description du lieu : Un réseau de bassins où l'eau saumâtre est purifiée par des méthodes alchimiques.]
+     - Zev Noir (Chef Agricole)
+       - Protège farouchement les récoltes de Station de Filtration.
+       - Totalement loyal envers les idéaux de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Orok Sang (Spécialiste Agricole)
+       - Spécialiste des mutations végétales au service de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+       - Considère Station de Filtration comme son propre royaume.
+     - Elara Sang (Ouvrier / Garde Agricole)
+       - Contrôle la distribution d'eau et de nourriture depuis Station de Filtration.
+       - Connaît les secrets les plus sombres de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+  >> Élevage de Bétail Mutant
+     [Description du lieu : D'immenses enclos boueux abritant des bœufs à deux têtes et autres bêtes massives.]
+     - Nova Lame (Chef Agricole)
+       - Protège farouchement les récoltes de Élevage de Bétail Mutant.
+       - Totalement loyal envers les idéaux de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Kael Noir (Spécialiste Agricole)
+       - Spécialiste des mutations végétales au service de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+       - Considère Élevage de Bétail Mutant comme son propre royaume.
+     - Zane Froid (Ouvrier / Garde Agricole)
+       - Contrôle la distribution d'eau et de nourriture depuis Élevage de Bétail Mutant.
+       - Connaît les secrets les plus sombres de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+  >> Réserve de Semences Pré-Apocalypse
+     [Description du lieu : Un caveau maintenu à une température glaciale, contenant l'espoir de rebâtir la flore terrestre.]
+     - Raze Sable (Chef Scientifique)
+       - Traite les radiations
+       - Totalement loyal envers les idéaux de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+     - Kira Rouge (Spécialiste Scientifique)
+       - Cherche une cure
+       - Considère Réserve de Semences Pré-Apocalypse comme son propre royaume.
+     - Gunn Sel (Ouvrier / Garde Scientifique)
+       - Savant fou
+       - Connaît les secrets les plus sombres de Cité de l'Eau & Alimentation - "Les Gardiens de la Source".
+
+------------------------------------------------------------------------
+6. CITÉ DES MÉTAUX & RECYCLAGE - "LES FOSSOYEURS"
+Spécialité : récupération dans les ruines, fonderies, mines
+Force : fournit tous les métaux et alliages rares
+Faiblesse : habitants exposés à radiations et maladies
+Particularité : cité construite dans un cimetière de gratte-ciels effondrés
+Position géographique : Installée dans les ruines d'Athènes (Ancienne Grèce), mêlant vestiges antiques et carcasses de métal.
+Paramètres initiaux : Santé 30, Technologie 65, Richesse 90, Carburant 50, Nourriture 45, Bonheur 50, Armement 55
+Tension Actuelle : Des nuées de rats-charognards mutants, attirés par les décharges toxiques, ont commencé à s'organiser en meutes coordonnées qui attaquent désormais les équipes de récupération en plein jour, menaçant de couper l'approvisionnement en métaux de toute la cité.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Un étalage chaotique de reliques déterrées : circuits imprimés, moteurs à combustion, bijoux en or fondu. C'est le paradis des bricoleurs.]
+     - Kaelen Plomb (Marchand Principal)
+       - Dirige les échanges au sein de Le Marché d'Échanges.
+       - A survécu à de multiples attaques de pillards.
+       - Considère Cité des Métaux & Recyclage - "Les Fossoyeurs" comme le seul havre de paix rentable.
+     - Orok Froid (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Silas Poussière (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+  >> La Citerne Centrale
+     [Description du lieu : Un cratère aménagé récoltant l'eau de pluie et la rosée nocturne via d'immenses toiles de récupération tendues dans le ciel.]
+     - Finch Sombre (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Cité des Métaux & Recyclage - "Les Fossoyeurs" est la clé de la survie humaine.
+     - Nyx Poussière (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Vesper Soupape (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+  >> Le Générateur Principal
+     [Description du lieu : Une pile de générateurs disparates interconnectés par des câbles bricolés, menaçant d'exploser à tout instant mais produisant énormément d'énergie.]
+     - Tala Cendre (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Cité des Métaux & Recyclage - "Les Fossoyeurs" en vie à lui tout seul.
+     - Silas Moteur (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Rook Sombre (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : Un amoncellement de carcasses de navires de charge empilées pour former un mur de rouille impénétrable.]
+     - Dax Plomb (Capitaine de la Garde)
+       - Commande la défense à Le Mur d'Enceinte & Les Portes.
+       - Vétéran impitoyable de la dernière guerre.
+       - Ne laisse entrer personne dans Cité des Métaux & Recyclage - "Les Fossoyeurs" sans pot-de-vin.
+     - Mira Vif (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Zev Noyau (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : Des maisons construites à l'intérieur de vieux conteneurs maritimes empilés les uns sur les autres, formant des ruelles verticales vertigineuses.]
+     - Cyrus Rouage (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Zane Plomb (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Tala Plomb (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+  >> Mine Profonde
+     [Description du lieu : D'anciennes carrières où l'on arrache des poutres d'acier aux fondations des anciennes gratte-ciel.]
+     - Lyra Soupape (Chef Industriel) [MJ — Archétype brisé : racket organisé]
+       - Dirige en apparence l'extraction du métal à Mine Profonde avec un dévouement
+         exemplaire envers Cité des Métaux & Recyclage - "Les Fossoyeurs".
+       - En réalité, elle nourrit et guide secrètement les meutes de rats-charognards
+         mutants vers les concessions minières de ses rivaux, réservant les zones
+         sûres aux équipes qui lui versent une "taxe de protection" occulte.
+       - Prétend, comme tout le monde, chercher une solution au problème des rats —
+         alors qu'elle en est la cause directe et la seule à en tirer profit.
+     - Cade Noyau (Spécialiste Industriel)
+       - Fournit l'effort de guerre de Cité des Métaux & Recyclage - "Les Fossoyeurs" en pièces détachées.
+       - Considère Mine Profonde comme son propre royaume.
+     - Vorn Sang (Ouvrier / Garde Industriel)
+       - Gère les esclaves ou travailleurs forcés de Mine Profonde.
+       - Connaît les secrets les plus sombres de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+  >> Usine de Recyclage
+     [Description du lieu : Des presses hydrauliques colossales broyant des carcasses de voitures pour en faire des blocs compacts.]
+     - Brix Ferraille (Chef Industriel)
+       - Maniant le métal en fusion à Usine de Recyclage.
+       - Totalement loyal envers les idéaux de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Vesper Sang (Spécialiste Industriel)
+       - Fournit l'effort de guerre de Cité des Métaux & Recyclage - "Les Fossoyeurs" en pièces détachées.
+       - Considère Usine de Recyclage comme son propre royaume.
+     - Titus Sang (Ouvrier / Garde Industriel)
+       - Gère les esclaves ou travailleurs forcés de Usine de Recyclage.
+       - Connaît les secrets les plus sombres de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+  >> Cimetière des Gratte-Ciels
+     [Description du lieu : Une forêt de tours effondrées, domaine réservé aux pilleurs de ferraille agiles.]
+     - Rook Plomb (Chef Scientifique)
+       - Traite les radiations
+       - Totalement loyal envers les idéaux de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Mira Plomb (Spécialiste Scientifique)
+       - Cherche une cure
+       - Considère Cimetière des Gratte-Ciels comme son propre royaume.
+     - Kira Soupape (Ouvrier / Garde Scientifique)
+       - Savant fou
+       - Connaît les secrets les plus sombres de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+  >> Marché aux Alliages Rares
+     [Description du lieu : Une zone hautement sécurisée où s'échangent titane, tungstène et composants d'aviation.]
+     - Raze Soupape (Chef Scientifique)
+       - Traite les radiations
+       - Totalement loyal envers les idéaux de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+     - Orok Sombre (Spécialiste Scientifique)
+       - Cherche une cure
+       - Considère Marché aux Alliages Rares comme son propre royaume.
+     - Cade Vif (Ouvrier / Garde Scientifique)
+       - Savant fou
+       - Connaît les secrets les plus sombres de Cité des Métaux & Recyclage - "Les Fossoyeurs".
+
+------------------------------------------------------------------------
+7. CITÉ DU CARBURANT - "LES RAFFINEURS"
+Spécialité : mazout, carburant synthétique, huiles
+Force : contrôle les convois motorisés
+Faiblesse : leur carburant est instable, parfois explosif
+Particularité : leurs raffineries sont aussi des forteresses mobiles
+Position géographique : Étendue sur l'ancienne capitale d'Alger (Ancienne Algérie), exploitant les richesses pétrolières du sud.
+Paramètres initiaux : Santé 45, Technologie 75, Richesse 50, Carburant 95, Nourriture 40, Bonheur 50, Armement 70
+Tension Actuelle : Une série d'incendies criminels frappe les derricks depuis trois cycles. Les Raffineurs soupçonnent un sabotage commandité par une cité rivale cherchant à faire grimper le prix du carburant, mais aucune preuve ne permet encore d'accuser qui que ce soit ouvertement.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Une rue éclairée aux torches où l'odeur d'essence prend à la gorge. On y échange des barils de brut et du carburant synthétique contre la vie.]
+     - Vorn Sang (Marchand Principal)
+       - Dirige les échanges au sein de Le Marché d'Échanges.
+       - A survécu à de multiples attaques de pillards.
+       - Considère Cité du Carburant - "Les Raffineurs" comme le seul havre de paix rentable.
+     - Kael Clou (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de Cité du Carburant - "Les Raffineurs".
+     - Titus Noyau (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Cité du Carburant - "Les Raffineurs".
+
+  >> La Citerne Centrale
+     [Description du lieu : Plutôt que de l'eau, cette cuve contient du carburant brut. L'eau est extrêmement rare ici et s'échange au prix de l'or noir.]
+     - Zane Moteur (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Cité du Carburant - "Les Raffineurs" est la clé de la survie humaine.
+     - Lira Ferraille (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Cité du Carburant - "Les Raffineurs".
+     - Kaelen Cendre (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Cité du Carburant - "Les Raffineurs".
+
+  >> Le Générateur Principal
+     [Description du lieu : Une série d'énormes moteurs diesel hurlants qui alimentent les pompes d'extraction, crachant des flammes et une fumée épaisse.]
+     - Cyrus Vif (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Cité du Carburant - "Les Raffineurs" en vie à lui tout seul.
+     - Zane Poussière (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Cité du Carburant - "Les Raffineurs".
+     - Jax Soupape (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Cité du Carburant - "Les Raffineurs".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : Une ligne de tranchées remplies de pétrole, prêtes à être enflammées à la moindre attaque de pillards.]
+     - Orok Lame (Capitaine de la Garde)
+       - Commande la défense à Le Mur d'Enceinte & Les Portes.
+       - Vétéran impitoyable de la dernière guerre.
+       - Ne laisse entrer personne dans Cité du Carburant - "Les Raffineurs" sans pot-de-vin.
+     - Titus Sel (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Cité du Carburant - "Les Raffineurs".
+     - Vex Rouge (Contrebandier) [MJ — Archétype brisé : l'incendiaire]
+       - Fait officiellement passer des biens par Le Mur d'Enceinte & Les Portes,
+         un commerce toléré tant qu'il verse sa part aux gardes.
+       - En réalité, c'est lui qui déclenche depuis trois cycles les incendies
+         criminels qui frappent les derricks, payé en secret par une cité rivale
+         désireuse de faire grimper le prix du carburant sur le marché inter-cités.
+       - Connaît les failles de la sécurité mieux que quiconque — logique, puisqu'il
+         les a lui-même repérées pour préparer chaque sabotage.
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : Des campements de tentes poisseuses au milieu des flaques d'hydrocarbures. Une simple étincelle peut raser un quartier entier.]
+     - Tala Sable (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Cité du Carburant - "Les Raffineurs".
+     - Tala Sel (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Cité du Carburant - "Les Raffineurs".
+     - Vorn Rouge (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Cité du Carburant - "Les Raffineurs".
+
+  >> Grande Raffinerie
+     [Description du lieu : Un enchevêtrement de tuyaux et de cheminées crachant du feu. C'est le cœur économique de la cité.]
+     - Cade Clou (Chef Pétrolier)
+       - Expert en extraction affecté à Grande Raffinerie.
+       - Totalement loyal envers les idéaux de Cité du Carburant - "Les Raffineurs".
+     - Jax Sombre (Spécialiste Pétrolier)
+       - S'enrichit sur le marché noir du carburant de Cité du Carburant - "Les Raffineurs".
+       - Considère Grande Raffinerie comme son propre royaume.
+     - Elara Vif (Ouvrier / Garde Pétrolier)
+       - A survécu à une explosion massive à Grande Raffinerie.
+       - Connaît les secrets les plus sombres de Cité du Carburant - "Les Raffineurs".
+
+  >> Dépôt de Carburant Haute Sécurité
+     [Description du lieu : Des citernes souterraines gardées par des snipers, constituant la plus grande richesse du monde connu.]
+     - Kaelen Lame (Chef Pétrolier)
+       - Expert en extraction affecté à Dépôt de Carburant Haute Sécurité.
+       - Totalement loyal envers les idéaux de Cité du Carburant - "Les Raffineurs".
+     - Sia Noir (Spécialiste Pétrolier)
+       - S'enrichit sur le marché noir du carburant de Cité du Carburant - "Les Raffineurs".
+       - Considère Dépôt de Carburant Haute Sécurité comme son propre royaume.
+     - Kira Rouage (Ouvrier / Garde Pétrolier)
+       - A survécu à une explosion massive à Dépôt de Carburant Haute Sécurité.
+       - Connaît les secrets les plus sombres de Cité du Carburant - "Les Raffineurs".
+
+  >> Puits d'Extraction Principal
+     [Description du lieu : Des derricks rouillés qui pompent inlassablement les ultimes réserves d'or noir.]
+     - Ryn Rouage (Chef Pétrolier)
+       - Expert en extraction affecté à Puits d'Extraction Principal.
+       - Totalement loyal envers les idéaux de Cité du Carburant - "Les Raffineurs".
+     - Jorn Rouage (Spécialiste Pétrolier)
+       - S'enrichit sur le marché noir du carburant de Cité du Carburant - "Les Raffineurs".
+       - Considère Puits d'Extraction Principal comme son propre royaume.
+     - Jax Ferraille (Ouvrier / Garde Pétrolier)
+       - A survécu à une explosion massive à Puits d'Extraction Principal.
+       - Connaît les secrets les plus sombres de Cité du Carburant - "Les Raffineurs".
+
+  >> Garage des Convois Lourds
+     [Description du lieu : Un hangar géant sentant l'huile chaude, où les célèbres camions-citernes de la cité sont entretenus.]
+     - Nova Sang (Chef Scientifique)
+       - Traite les radiations
+       - Totalement loyal envers les idéaux de Cité du Carburant - "Les Raffineurs".
+     - Nyx Sable (Spécialiste Scientifique)
+       - Cherche une cure
+       - Considère Garage des Convois Lourds comme son propre royaume.
+     - Ryn Acier (Ouvrier / Garde Scientifique)
+       - Savant fou
+       - Connaît les secrets les plus sombres de Cité du Carburant - "Les Raffineurs".
+
+------------------------------------------------------------------------
+8. CITÉ DU DIVERTISSEMENT - "LES FAISEURS DE RÊVES"
+Spécialité : arènes, spectacles, cinéma, propagande — et, sous le
+vernis du spectacle, une véritable place financière : plaisirs de la
+chair, substances, chirurgie de la chair, souvenirs de synthèse.
+Force : influence culturelle et morale énorme, richesse colossale
+Faiblesse : dépend des autres pour survivre matériellement ; dirigée
+de fait par ses actionnaires plus que par son Doyen
+Particularité : connue pour ses radios et journaux de masse ; c'est la
+seule cité-état du monde connu structurée comme une entreprise, où
+le droit de vote et de parole au conseil est proportionnel à la
+richesse générée par chaque faction actionnaire
+Position géographique : Érigée au cœur de Rome (Ancienne Italie), utilisant le Colisée et les forums comme décors grandioses de spectacles.
+Paramètres initiaux : Santé 55, Technologie 60, Richesse 75, Carburant 50, Nourriture 50, Bonheur 95, Armement 35
+Tension Actuelle : Une crise de succession secoue la cité : son Doyen
+historique décline, sans héritier désigné, et quatre factions
+manœuvrent déjà en coulisses pour préparer sa succession (voir
+"LA CRISE DE SUCCESSION" ci-dessous). C'est précisément ce vide de
+pouvoir que le recrutement quadriennal de la Garde — et donc les PJ —
+vont venir bouleverser (voir chapitre CAMPAGNE).
+
+========================================================================
+LA CITÉ-ENTREPRISE : LE CONSEIL DES ACTIONNAIRES
+========================================================================
+À sa fondation, Cassius Rêve-d'Or n'avait ni l'or ni les matières
+premières pour rebâtir seul une cité digne de ce nom à partir d'un
+Colisée à moitié effondré et d'un peuple de survivants affamés. Plutôt
+que de taxer un peuple exsangue, il a proposé un marché à ceux qui
+détenaient déjà, dans le chaos d'après-guerre, une ressource rare :
+reconstruisez un bout de ma cité — un mur, un puits, une caserne — et
+vous en posséderez une part, pour toujours, transmissible à vos
+héritiers ou à quiconque vous choisirez. Les murs, les puits, le
+générateur, et la Garde elle-même n'ont donc jamais été financés par
+un trésor public : ils ont été payés, pièce par pièce, par des appels
+de fonds privés. Cassius pensait garder la main en conservant une part
+symbolique majoritaire ; un siècle plus tard, ses actionnaires ont
+grossi bien plus vite que lui, et il ne lui reste plus qu'un droit de
+veto de façade.
+
+Concrètement : chaque quartier, chaque infrastructure, chaque
+patrouille de la Garde est financée au prorata des parts détenues par
+les actionnaires qui en bénéficient le plus directement. Un quartier
+riche est mieux gardé, mieux entretenu, mieux éclairé qu'un quartier
+pauvre — non par mépris, mais parce que c'est littéralement celui qui
+paie le mieux. LA GARDE DE LA CITÉ EST LA SEULE VRAIE STABILITÉ DE CE
+MONDE POUR QUI N'EST PAS NÉ RICHE : c'est un emploi, un statut, un
+salaire garanti — quel que soit le nom du Doyen ou l'issue de la
+succession — et c'est là que les PJ seront recrutés à l'issue de la
+Course du Sel. Un PJ affecté à la patrouille du quartier des Sculpteurs
+n'aura ni le même équipement, ni les mêmes ordres, ni les mêmes
+dessous-de-table à refuser ou accepter, qu'un PJ affecté aux Taudis.
+
+Le poids de vote de chaque actionnaire au conseil est recalculé en
+continu à partir de sa valeur nette, elle-même certifiée par LE
+REGISTRE de la Bourse de la Douleur (voir plus haut dans ce document,
+section "LE REGISTRE"). Autrement dit : la Bourse n'a besoin d'aucun
+siège ni d'aucune voix pour influencer l'équilibre du pouvoir dans la
+Cité du Divertissement — elle n'a qu'à tenir la balance.
+
+LES CINQ ACTIONNAIRES NOTABLES
+------------------------------------------------------------------------
+
+  >> LES PLAISIRS DE LA CHAIR — "LA PREMIÈRE PIERRE"
+     Actionnaire fondateur, propriétaire du quartier du même nom.
+     Dans les toutes premières années, une femme dont le nom s'est
+     perdu — on ne l'appelle plus aujourd'hui que "la Première Pierre"
+     dans la tradition orale de la faction — a compris avant tout le
+     monde que les ouvriers du chantier et les premiers gardes armés
+     n'avaient ni or ni pièces détachées à offrir, seulement leur
+     maigre ration et un peu de temps libre. Elle a organisé, dans une
+     carcasse de bus calcinée, le premier commerce de réconfort de la
+     Cité, payé en rations et en heures de corvée épargnées — un troc
+     qui finançait déjà, en quelques mois, plus de travail sur le Mur
+     d'Enceinte que n'importe quel autre groupe de survivants. Elle a
+     été l'une des toutes premières à signer avec Cassius. La faction
+     commémore encore chaque année la signature du premier contrat,
+     rejouée en costume dans la carcasse de bus elle-même, conservée
+     comme relique sacrée au cœur de leur quartier. Seule des cinq
+     actionnaires à assumer et célébrer ouvertement ses origines.
+
+  >> LES CHEM'ARTISTES — "LE MENSONGE DU PREMIER REMÈDE"
+     Actionnaire fondateur, propriétaire du quartier du même nom.
+     Descendants d'un petit groupe de chimistes militaires reconvertis
+     — d'anciens fabricants de gaz incapacitants et de stimulants de
+     combat pour une armée qui n'existait plus. À l'arrivée des
+     premiers cas de mal des radiations, ils ont distribué un remède
+     de fortune, présenté comme un don gratuit et désintéressé "pour
+     la survie de tous" — une légende fondatrice que la faction
+     cultive encore dans sa propagande officielle. La vérité, connue
+     des seuls hauts initiés, est que ce premier "don" était déjà
+     vendu au prix fort à qui pouvait payer, les plus pauvres servant
+     de test grandeur nature pour ajuster les doses. Le nom même de la
+     faction viendrait d'une private joke entre fondateurs, qui se
+     surnommaient "les artistes de la chimie" — un nom qu'ils ont fini
+     par revendiquer publiquement, avec une fierté presque
+     décomplexée, une fois leur pouvoir économique trop établi pour
+     être remis en question.
+
+  >> LES SCULPTEURS — "LE DON QUI N'EN ÉTAIT PAS UN"
+     Actionnaire fondateur, propriétaire du quartier du même nom.
+     D'anciens chirurgiens de champ de bataille, habitués aux
+     amputations et greffes d'urgence, qui ont d'abord soigné
+     gratuitement les blessés des premières années par pur réflexe
+     professionnel. Le tournant est venu le jour où une jeune
+     combattante de l'Arène, ayant perdu un bras au combat, a proposé
+     une fortune pour un remplacement "parfait" — à une condition :
+     que rien ne trahisse, sur le sable, qu'elle ne se battait plus à
+     armes égales. Faute de matériau organique adéquat, les chirurgiens
+     ont utilisé — sans son consentement, profitant de son statut
+     d'esclave de dette — le bras d'un ouvrier gravement blessé et jugé
+     condamné. Mais un bras de chair seul n'aurait rien changé : c'est
+     là qu'ils ont fait appel à un petit groupe de médecins de guerre
+     spécialisés dans les implants militaires — les mêmes qui,
+     des années plus tard, fonderaient la Cité Médicale - "Les Blouses
+     Blanches" — pour fusionner ce bras organique à une ossature et
+     une musculature cybernétiques de combat récupérées sur du
+     matériel pré-guerre, le tout recouvert de chair greffée avec un
+     soin si minutieux qu'aucun juge de l'Arène n'a jamais pu prouver
+     que ce bras "100% organique" — condition sine qua non de la
+     clause de combat loyal — ne l'était en réalité qu'en apparence.
+     La combattante est devenue une légende de l'Arène, son nom encore
+     chuchoté par les vieux parieurs du Forum des Paris ; la rumeur
+     d'un "bras parfait", trop parfait pour être honnête, ressurgit à
+     chaque génération dès qu'un nouveau champion connaît une carrière
+     un peu trop miraculeuse. Ce premier don forcé, doublé d'une fraude
+     sportive fondatrice et d'un pacte inavouable avec les futures
+     Blouses Blanches, reste un sujet tabou que les Sculpteurs ne
+     transmettent à leurs apprentis qu'en toute dernière année de
+     formation, comme un rite de passage macabre. [NOTE MJ : la Cité
+     Médicale conserve probablement, quelque part dans ses très
+     vieilles archives, la trace de cette toute première collaboration
+     — une vérité qu'elle aurait tout intérêt à voir rester enterrée.]
+
+  >> LES NOSTALGICS [MJ — pied-à-terre de Bunker Oméga, secret de campagne]
+     Actionnaire, propriétaire de son propre quartier. Ils vendent des
+     souvenirs de synthèse : des implants ou injections qui font
+     revivre un instant heureux, réel ou fabriqué de toutes pièces —
+     une enfance qu'on n'a jamais eue, un parent mort qu'on peut
+     "revoir" une dernière fois. Officiellement, leur technologie
+     viendrait d'un fragment de tech pré-guerre récupéré dans les
+     ruines. En réalité, c'est une implantation discrète de Bunker
+     Oméga dans la Cité du Divertissement, choisie précisément parce
+     que son pouvoir politique (la succession) et son influence
+     culturelle sur les neuf autres cités en font une cible de choix
+     pour une influence à long terme. La plupart des Nostalgics
+     eux-mêmes ignorent tout du Bunker ; seuls un ou deux "cadres" du
+     quartier — presque certainement d'anciens Enfants du Nord, sans
+     qu'ils le sachent forcément — savent d'où vient réellement la
+     technologie, et pourquoi elle est distribuée ici. [NOTE MJ : à
+     très petite échelle, chez une poignée de clients bien choisis,
+     les Nostalgics ne vendraient peut-être pas que du réconfort — ils
+     testeraient, affineraient, ou planteraient des souvenirs. Ne
+     jamais l'affirmer en jeu ; laissez le doute s'installer.]
+
+  >> LA BOURSE DE LA DOULEUR [faction multi-cité, neutre — voir section "LE REGISTRE"]
+     Seule actionnaire à ne posséder aucun quartier dans la Cité du
+     Divertissement, et pourtant la plus puissante de toutes : c'est
+     elle qui certifie, via le Registre, la valeur nette de chaque
+     autre actionnaire — et donc son poids de vote au conseil. Présente
+     dans les dix cités sans appartenir à aucune, elle assure les
+     paiements et tient les comptes de la Cité entière sans jamais
+     avoir besoin de s'asseoir à la table.
+
+LA CRISE DE SUCCESSION : QUATRE MAINS SUR LE TRÔNE DE SABLE
+------------------------------------------------------------------------
+LE DOYEN — CASSIUS RÊVE-D'OR
+  Fondateur de la Cité moderne, l'homme qui a eu l'idée, un siècle plus
+  tôt, de rebâtir le Colisée pour y faire rejouer la mort en spectacle
+  plutôt que la subir dans les rues. Il ne quitte plus le Palais du
+  Doyen depuis trois ans ; son corps se meurt, son esprit reste d'une
+  lucidité redoutable. Il retarde délibérément l'échéance en jouant
+  les quatre factions les unes contre les autres, promettant sa faveur
+  à chacune en privé. Une rumeur tenace prétend qu'il a eu un fils
+  autrefois, mort ou disparu dans une expédition ratée vers le Nord.
+  [NOTE MJ : à vous de décider si c'est vrai, un mensonge de
+  propagande, ou un premier fil vers les Enfants du Nord.]
+
+  >> LA GARDE — "L'ORDRE AVANT TOUT"
+     Chef officieux : Rook Cendre (voir fiche : Le Mur d'Enceinte &
+     Les Portes), agent du Réseau. Position officielle : la Garde ne
+     doit pas se mêler de politique, juste garantir une transition
+     sans effusion de sang. En réalité, Rook travaille à installer un
+     successeur influençable — potentiellement recruté cette année
+     même, parmi les PJ. Angle mort : imposer son candidat par la
+     force ferait de la Cité un état militaire déguisé.
+
+  >> LES PRODUCTEURS DE RÊVES — "LE SPECTACLE DOIT CONTINUER"
+     Cheffe : Nyx Poussière (voir fiche : Grande Arène de Combat),
+     matriarche officieuse de la guilde des producteurs et diffuseurs.
+     Candidat soutenu : Vorn Ferraille (voir fiche : Théâtre des
+     Illusions), star adorée, malléable, plus intéressé par son image
+     que par le pouvoir réel. Angle mort : Nyx sous-estime à quel
+     point les Taudis n'ont plus faim de rêves quand ils n'ont plus de
+     pain.
+
+  >> LE PEUPLE DE L'ARÈNE — "LE SABLE NE MENT PAS"
+     Chef : Zev Acier (voir fiche : Grande Arène de Combat), champion
+     depuis six saisons, aussi aimé du peuple que redouté sur le
+     sable. Mouvement populiste sincère, né dans les Taudis, réclamant
+     une redistribution des recettes vers les quartiers pauvres et la
+     fin des paris truqués de Jorn Ferraille. Angle mort : Zev est un
+     combattant, pas un politique — vulnérable à qui saura flatter son
+     ego ou menacer ceux qu'il aime dans les Taudis.
+
+  >> LES BARONS DU JEU — "LA CITÉ APPARTIENT À QUI LA FINANCE"
+     Chef : Raze Clou (voir fiche : Casino de la Ruine), fortune
+     dépassant celle de plusieurs conseils de cités-états réunis.
+     Achète des voix et des silences, détient des gages compromettants
+     sur des membres des trois autres factions. Angle mort : le Doyen
+     se meurt plus vite que prévu, et Raze n'a pas fini de retourner
+     ses dernières pièces sur l'échiquier.
+
+  >> LE SÉNAT FANTÔME [lieu et faction secrets, réservés au MJ]
+     Sous le Forum, une douzaine de vieilles familles se réunissent en
+     secret, masquées, se prétendant héritières directes d'un Sénat
+     romain d'avant les bombes — un délire aristocratique qui leur
+     donne un pouvoir bien réel : elles possèdent presque tous les
+     actes de propriété des arènes secondaires et studios de la Cité.
+     Le Sénat ne soutient aucune des quatre factions ouvertement : son
+     seul but est qu'aucune ne l'emporte seule, pour continuer à tirer
+     les ficelles quel que soit le vainqueur — un écho ironique et non
+     coordonné du même objectif que poursuit Bunker Oméga à l'échelle
+     du monde. Son porte-parole masqué, "Le Premier Masque", pourrait
+     proposer aux PJ un accord : de l'or, un rang, une protection
+     contre les créanciers de Raze Clou, en échange d'informations
+     glanées de l'intérieur de la Garde.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Des allées colorées de néons rafistolés où l'on vend de la drogue de synthèse, de l'alcool de contrebande et des services divers. La musique y hurle sans fin.]
+     - Orok Acier (Marchand Principal)
+       - Dirige les échanges au sein de Le Marché d'Échanges.
+       - A survécu à de multiples attaques de pillards.
+       - Considère Cité du Divertissement - "Les Faiseurs de Rêves" comme le seul havre de paix rentable.
+     - Elara Rouage (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Titus Froid (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> La Citerne Centrale
+     [Description du lieu : Une ancienne fontaine publique, aujourd'hui monumentale, distribuant de l'eau aromatisée chimiquement aux habitants pour masquer le goût des cendres.]
+     - Kira Ferraille (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Cité du Divertissement - "Les Faiseurs de Rêves" est la clé de la survie humaine.
+     - Vorn Noir (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Brix Soupape (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> Le Générateur Principal
+     [Description du lieu : Des éoliennes et des générateurs à pédales actionnés par des esclaves pour fournir le courant nécessaire à l'éclairage de l'arène.]
+     - Sia Clou (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Cité du Divertissement - "Les Faiseurs de Rêves" en vie à lui tout seul.
+     - Orok Rouge (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Vesper Froid (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : D'anciens murs de marbre, recouverts de graffitis et de panneaux publicitaires post-apocalyptiques racolant pour des combats de gladiateurs.]
+     - Rook Cendre (Capitaine de la Garde) [MJ — Archétype brisé : agent du Réseau]
+       - Commande officiellement la défense à Le Mur d'Enceinte & Les Portes, et c'est
+         lui qui supervise en personne le recrutement quadriennal de la Garde par
+         convoi (voir chapitre CAMPAGNE) — un poste stratégique qu'il occupe depuis
+         bien plus longtemps que son âge apparent ne le laisserait supposer.
+       - C'est un agent du Réseau de longue date : sa mission est de s'assurer que
+         le successeur du dirigeant mourant de la cité sera quelqu'un que Bunker
+         Oméga pourra influencer — y compris, potentiellement, l'un des PJ recrutés
+         cette année si leur profil s'y prête.
+       - Sous tension, il lui arrive de répéter mot pour mot des phrases identiques
+         à celles d'agents d'autres cités ("connaît toutes les rumeurs de..."),
+         un tic qu'un PJ observateur pourrait recouper s'il a déjà croisé un autre
+         agent ailleurs.
+     - Vorn Sel (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Nova Cendre (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : D'anciens théâtres et hôtels de luxe, aujourd'hui délabrés, où les spectateurs fauchés dorment à même le sol dans l'odeur de la sueur et de l'alcool.]
+     - Vorn Sel (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Vesper Soupape (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Kaelen Acier (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> Grande Arène de Combat
+     [Description du lieu : Un colisée gargantuesque où des combattants en armures s'entretuent dans un vacarme de moteurs.]
+     - Zev Acier (Chef Divertissement)
+       - Star locale adorée par les citoyens de Cité du Divertissement - "Les Faiseurs de Rêves".
+       - Totalement loyal envers les idéaux de Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Jorn Ferraille (Spécialiste Divertissement)
+       - Gère les paris truqués et les spectacles sanglants à Grande Arène de Combat.
+       - Considère Grande Arène de Combat comme son propre royaume.
+     - Nyx Poussière (Ouvrier / Garde Divertissement)
+       - Propagandiste manipulant l'opinion publique depuis Grande Arène de Combat.
+       - Connaît les secrets les plus sombres de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> Studios de Radiodiffusion
+     [Description du lieu : D'anciennes antennes remises en état, diffusant de la musique et de la propagande sur les ondes courtes.]
+     - Gunn Froid (Chef Divertissement)
+       - Star locale adorée par les citoyens de Cité du Divertissement - "Les Faiseurs de Rêves".
+       - Totalement loyal envers les idéaux de Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Silas Poussière (Spécialiste Divertissement)
+       - Gère les paris truqués et les spectacles sanglants à Studios de Radiodiffusion.
+       - Considère Studios de Radiodiffusion comme son propre royaume.
+     - Elara Acier (Ouvrier / Garde Divertissement)
+       - Propagandiste manipulant l'opinion publique depuis Studios de Radiodiffusion.
+       - Connaît les secrets les plus sombres de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> Casino de la Ruine
+     [Description du lieu : Des salles sombres remplies de tables de jeu où les seigneurs de guerre misent des cargaisons de carburant.]
+     - Raze Clou (Chef Divertissement)
+       - Star locale adorée par les citoyens de Cité du Divertissement - "Les Faiseurs de Rêves".
+       - Totalement loyal envers les idéaux de Cité du Divertissement - "Les Faiseurs de Rêves".
+     - Nyx Noir (Spécialiste Divertissement)
+       - Gère les paris truqués et les spectacles sanglants à Casino de la Ruine.
+       - Considère Casino de la Ruine comme son propre royaume.
+     - Jax Sombre (Ouvrier / Garde Divertissement)
+       - Propagandiste manipulant l'opinion publique depuis Casino de la Ruine.
+       - Connaît les secrets les plus sombres de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> Théâtre des Illusions
+     [Description du lieu : Un lieu de spectacle décadent utilisant d'anciens projecteurs holographiques pour créer des mirages.]
+     - Vorn Ferraille (Chef Divertissement) [candidat des Producteurs de Rêves à la succession]
+       - Star locale adorée par les citoyens de Cité du Divertissement - "Les Faiseurs de Rêves".
+       - Totalement loyal envers les idéaux de Cité du Divertissement - "Les Faiseurs de Rêves".
+       - Manipulé en coulisses par Nyx Poussière, qui compte gouverner à travers lui depuis l'ombre des studios s'il accède au pouvoir.
+     - Brix Froid (Spécialiste Divertissement)
+       - Gère les paris truqués et les spectacles sanglants à Théâtre des Illusions.
+       - Considère Théâtre des Illusions comme son propre royaume.
+     - Zane Rouage (Ouvrier / Garde Divertissement)
+       - Propagandiste manipulant l'opinion publique depuis Théâtre des Illusions.
+       - Connaît les secrets les plus sombres de Cité du Divertissement - "Les Faiseurs de Rêves".
+
+  >> Quartier des Plaisirs de la Chair [quartier de l'actionnaire fondateur]
+     [Description du lieu : Un dédale de lanternes rouges et de rideaux de velours élimé, organisé autour d'une vieille carcasse de bus calciné conservée comme relique — le lieu du tout premier contrat signé avec Cassius Rêve-d'Or.]
+     - Aria Braise (Matriarche du Quartier, héritière spirituelle de la Première Pierre)
+       - Dirige la faction avec une fierté assumée de ses origines, sans jamais chercher à les maquiller.
+       - Finance une part disproportionnée de la Garde affectée aux Taudis voisins, par un mélange de calcul et de loyauté réelle envers les plus pauvres.
+       - Verrait d'un bon œil que le Peuple de l'Arène l'emporte à la succession, sans oser le soutenir ouvertement au conseil.
+     - Tomo Velours (Maître de Cérémonie de la Signature)
+       - Organise chaque année la reconstitution rituelle du premier contrat dans la carcasse de bus.
+       - Garde jalousement l'accès à cette relique, qu'il considère plus sacrée que n'importe quel bien matériel du quartier.
+
+  >> Quartier des Chem'Artistes [quartier de l'actionnaire fondateur]
+     [Description du lieu : Des laboratoires de fortune installés dans d'anciens hôtels de luxe, où l'air est saturé d'un parfum chimique sucré qui masque à peine l'odeur des solvants.]
+     - Doctor Sève (Chimiste en Chef, gardien du "Mensonge du Premier Remède")
+       - Perpétue la légende officielle du don gratuit d'après-guerre, tout en la revendiquant à demi-mot comme une habileté commerciale plutôt qu'une honte.
+       - Ajuste en secret le dosage de ses produits pour maintenir une dépendance rentable sans jamais tuer trop vite sa clientèle.
+     - Nix Fumée (Distributrice de Rue)
+       - Écoule la production dans les Taudis et jusque dans le Quartier des Producteurs, sans jamais poser de questions sur l'origine des commandes.
+       - Sait où trouver n'importe quelle substance dans la Cité — un contact précieux pour des PJ en quête d'informations.
+
+  >> Quartier des Sculpteurs [quartier de l'actionnaire fondateur]
+     [Description du lieu : Un ancien hôpital militaire reconverti en clinique de luxe, où l'odeur de l'antiseptique ne parvient jamais tout à fait à couvrir celle du sang.]
+     - Maestro Greffe (Chirurgien en Chef)
+       - Transmet le tabou fondateur ("Le Don qui n'en était pas un") aux apprentis en toute dernière année de formation seulement.
+       - Entretient un contact discret et méfiant avec la Cité Médicale - "Les Blouses Blanches", qui pourrait un jour exhumer l'histoire de leur toute première collaboration.
+     - Ilva Cicatrice (Courtière en Organes)
+       - Négocie les "dons" volontaires ou forcés d'organes et de membres, souvent auprès de débiteurs de la Bourse de la Douleur.
+       - Sait exactement quels combattants de l'Arène portent, sous leur peau, bien plus que ce que les juges ont approuvé.
+
+  >> Quartier des Nostalgics [MJ — pied-à-terre de Bunker Oméga]
+     [Description du lieu : Des salons tamisés aux fauteuils capitonnés, où l'on s'installe pour "revoir" un instant heureux sous perfusion — une odeur de fleurs artificielles et un silence presque religieux.]
+     - Mère Songe (Cadette du Quartier, en réalité agente consciente du Réseau)
+       - L'une des rares Nostalgics à savoir d'où vient réellement la technologie du quartier, et pourquoi elle est distribuée ici.
+       - Choisit avec un soin extrême les clients auxquels elle propose ses services "les plus raffinés" — sans que quiconque comprenne encore le critère de sélection.
+     - Petit Miroir (Technicien des Souvenirs)
+       - Installe les implants de synthèse sans jamais se poser de questions sur leur origine exacte.
+       - Ignore totalement la vraie nature de son employeuse — un pion innocent au cœur d'un secret de campagne.
+
+  >> Le Forum des Paris
+     [Description du lieu : Une place immense en plein air, pavée de dalles de marbre fissurées, où des dizaines de bookmakers hurlent des cotes changeantes sur des tableaux d'ardoise. On y parie sur tout : les combats de l'Arène, les courses de convois du désert, et cette année, sur l'issue de la Course du Sel elle-même.]
+     - Silen Cassure (Maître des Cotes)
+       - Fixe chaque matin les probabilités officielles de la Course du Sel et des combats à venir, en collaboration intéressée avec Jorn Ferraille de la Grande Arène.
+       - Sait, bien avant le public, quel convoi rival a le plus de chances de l'emporter — une information que plusieurs factions de la succession paieraient cher.
+     - Petra Longue-Vue (Rabatteuse)
+       - Convainc les badauds de miser leurs dernières piécettes, contre commission versée par Silen Cassure.
+       - Connaît par cœur les habitués du Forum ayant une dette de jeu impayée envers Raze Clou — une liste de noms qu'elle vendrait sans hésiter.
+
+  >> Les Catacombes de la Mémoire
+     [Description du lieu : Un dédale souterrain où sont archivées, sur bobines de pellicule et disques durs sauvés des ruines, des décennies de spectacles, de discours et de propagande, l'air sec et glacé grâce à un vieux système de climatisation pré-guerre entretenu à bout de bras.]
+     - Ilio Rembobine (Archiviste en Chef)
+       - Seul à connaître l'emplacement exact de chaque bobine, y compris des enregistrements que le conseil voudrait voir disparaître — dont un vieux discours de Cassius Rêve-d'Or, jeune homme, mentionnant explicitement un fils.
+       - Vend l'accès à ses archives au prix fort aux quatre factions de la succession, sans jamais choisir de camp.
+     - Nesta Grain (Restauratrice de Pellicules)
+       - Répare à la main les bobines rongées par le temps.
+       - Est tombée récemment sur un enregistrement compromettant impliquant un membre du Sénat Fantôme, sans savoir ce qu'est le Sénat Fantôme ni le danger de sa découverte.
+
+  >> La Fosse aux Bêtes
+     [Description du lieu : Une ménagerie souterraine reliée à la Grande Arène par un réseau de cages et de monte-charges rouillés, où l'on garde en captivité les créatures mutantes destinées aux combats.]
+     - Vex Museau (Dresseuse de Monstres)
+       - Seule capable d'approcher les bêtes les plus dangereuses, au prix de cicatrices innombrables.
+       - Sait des choses sur l'origine de certaines bêtes que le conseil préférerait garder secrètes, notamment un lien avec les tempêtes de sel radioactif du désert voisin.
+     - Corbo Chaîne (Gardien des Cages)
+       - Nourrit et enchaîne les créatures, indifférent à leur souffrance.
+       - Organise, hors des heures officielles, des paris clandestins de combats non autorisés entre bêtes.
+
+  >> Le Quartier des Producteurs
+     [Description du lieu : Un ancien quartier résidentiel romain, restauré avec un luxe tape-à-l'œil de matériaux recyclés dorés à la feuille, où vivent scénaristes, animateurs radio et magnats du spectacle.]
+     - Rennia Dorée (Scénariste en Vue)
+       - Écrit les récits héroïques des combattants de l'Arène, transformant chaque esclave en légende ou en monstre selon les besoins du récit.
+       - Travaille en sous-main pour Nyx Poussière, chargée de "réécrire" l'image de Vorn Ferraille en héritier naturel et sage du Doyen mourant.
+     - Cassio Micro (Animateur Vedette)
+       - Voix officielle des retransmissions radio de la Cité, adorée du public.
+       - Ignore tout des manipulations politiques derrière les récits qu'on lui fait lire — un pion innocent que des PJ habiles pourraient utiliser pour révéler une vérité gênante en direct, à l'antenne.
+
+  >> La Zone des Figurants
+     [Description du lieu : En bordure des Taudis, un enchevêtrement de baraquements où logent les figurants, cascadeurs et esclaves de spectacle "de second rang" — ceux qui meurent dans l'arène sans jamais devenir des vedettes.]
+     - Fennic Ombre (Doyen des Figurants)
+       - Organise la rotation des figurants envoyés à une mort presque certaine dans les combats de masse.
+       - Tient un carnet secret listant les noms réels de tous les figurants morts sous un nom de scène — le seul mémorial qui existe pour eux.
+       - Allié potentiel du Peuple de l'Arène, ou source précieuse pour des PJ enquêtant sur les abus du système de spectacle.
+
+------------------------------------------------------------------------
+9. L'ILE DES ANCIENS - "LE PARADIS PERDU"
+Spécialité : technologie pré-apocalyptique intacte, agriculture abondante
+Force : autosuffisante, riche, civilisée
+Faiblesse : isolée, difficile à atteindre
+Particularité : certains doutent même qu'elle existe vraiment
+Position géographique : Isolée sur l'île de Malte, forteresse naturelle imprenable au milieu de la Méditerranée.
+Paramètres initiaux : Santé 95, Technologie 95, Richesse 95, Carburant 95, Nourriture 95, Bonheur 95, Armement 95
+Tension Actuelle : Aucune connue. C'est bien là ce qui est le plus troublant : depuis des décennies, aucune rumeur de crise, de famine ou de conflit n'a jamais filtré à son sujet — un silence si parfait qu'il en devient suspect pour quiconque y réfléchit vraiment.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Un bazar étrangement calme, organisé sur des quais en pierre blanche. On y échange des connaissances et des micro-puces pré-guerre.]
+     - Nova Poussière (Marchand Principal)
+       - Dirige les échanges au sein de Le Marché d'Échanges.
+       - A survécu à de multiples attaques de pillards.
+       - Considère L'Ile des Anciens - "Le Paradis Perdu" comme le seul havre de paix rentable.
+     - Sia Lame (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de L'Ile des Anciens - "Le Paradis Perdu".
+     - Jorn Cendre (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de L'Ile des Anciens - "Le Paradis Perdu".
+
+  >> La Citerne Centrale
+     [Description du lieu : Une usine de dessalinisation silencieuse, produisant une eau pure sans aucun effort apparent, grâce à une technologie oubliée.]
+     - Kira Rouage (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de L'Ile des Anciens - "Le Paradis Perdu" est la clé de la survie humaine.
+     - Raze Soupape (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de L'Ile des Anciens - "Le Paradis Perdu".
+     - Tala Noir (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de L'Ile des Anciens - "Le Paradis Perdu".
+
+  >> Le Générateur Principal
+     [Description du lieu : Une mystérieuse sphère bourdonnante émettant une douce lumière bleue, d'origine inconnue, qui alimente toute l'île sans jamais faiblir.]
+     - Nova Sombre (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient L'Ile des Anciens - "Le Paradis Perdu" en vie à lui tout seul.
+     - Titus Soupape (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de L'Ile des Anciens - "Le Paradis Perdu".
+     - Gunn Sang (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de L'Ile des Anciens - "Le Paradis Perdu".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : L'océan tumultueux et une série de champs de force électromagnétiques discrets qui détruisent tout navire non autorisé approchant des côtes.]
+     - Jax Sel (Capitaine de la Garde)
+       - Commande la défense à Le Mur d'Enceinte & Les Portes.
+       - Vétéran impitoyable de la dernière guerre.
+       - Ne laisse entrer personne dans L'Ile des Anciens - "Le Paradis Perdu" sans pot-de-vin.
+     - Raze Noyau (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans L'Ile des Anciens - "Le Paradis Perdu".
+     - Sia Acier (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de L'Ile des Anciens - "Le Paradis Perdu".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : Des habitations utopiques, lisses et blanches, mais étrangement désertes, comme si la population avait mystérieusement disparu des décennies plus tôt.]
+     - Zev Sable (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de L'Ile des Anciens - "Le Paradis Perdu".
+     - Brix Rouage (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de L'Ile des Anciens - "Le Paradis Perdu".
+     - Nova Froid (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de L'Ile des Anciens - "Le Paradis Perdu".
+
+  >> Centre de Données Pré-Guerre
+     [Description du lieu : Une immense bibliothèque de données où l'histoire du monde avant les bombes est stockée.]
+     - Orok Noyau (Chef Haute Technologie)
+       - Garde les secrets technologiques pré-guerre à Centre de Données Pré-Guerre.
+       - Totalement loyal envers les idéaux de L'Ile des Anciens - "Le Paradis Perdu".
+     - Zev Sable (Spécialiste Haute Technologie)
+       - Cyborg fidèle uniquement à l'ordinateur central de L'Ile des Anciens - "Le Paradis Perdu".
+       - Considère Centre de Données Pré-Guerre comme son propre royaume.
+     - Finch Froid (Ouvrier / Garde Haute Technologie)
+       - Chercheur obsédé par l'optimisation humaine à Centre de Données Pré-Guerre.
+       - Connaît les secrets les plus sombres de L'Ile des Anciens - "Le Paradis Perdu".
+
+  >> Complexe Agricole Automatisé
+     [Description du lieu : Des champs gérés entièrement par des drones agricoles silencieux, sans la moindre intervention humaine.]
+     - Kaelen Acier (Chef Agricole)
+       - Protège farouchement les récoltes de Complexe Agricole Automatisé.
+       - Totalement loyal envers les idéaux de L'Ile des Anciens - "Le Paradis Perdu".
+     - Vex Sang (Spécialiste Agricole)
+       - Spécialiste des mutations végétales au service de L'Ile des Anciens - "Le Paradis Perdu".
+       - Considère Complexe Agricole Automatisé comme son propre royaume.
+     - Vex Sombre (Ouvrier / Garde Agricole)
+       - Contrôle la distribution d'eau et de nourriture depuis Complexe Agricole Automatisé.
+       - Connaît les secrets les plus sombres de L'Ile des Anciens - "Le Paradis Perdu".
+
+  >> Hôpital Miraculeux
+     [Description du lieu : Des robots chirurgiens d'une précision inouïe soignant les rares élus autorisés à fouler l'île.]
+     - Kira Poussière (Chef Médical)
+       - A dédié sa vie à soigner les affligés de Hôpital Miraculeux.
+       - Totalement loyal envers les idéaux de L'Ile des Anciens - "Le Paradis Perdu".
+     - Kael Sable (Spécialiste Médical)
+       - Mène des expériences illégales pour la gloire de L'Ile des Anciens - "Le Paradis Perdu".
+       - Considère Hôpital Miraculeux comme son propre royaume.
+     - Sia Moteur (Ouvrier / Garde Médical)
+       - Infecté par la peste, cache ses symptômes tout en travaillant à Hôpital Miraculeux.
+       - Connaît les secrets les plus sombres de L'Ile des Anciens - "Le Paradis Perdu".
+
+  >> Centre de Commandement Tactique
+     [Description du lieu : Une salle de guerre silencieuse scannée par des radars qui n'ont jamais cessé de fonctionner.]
+     - Tala Poussière (Chef Militaire)
+       - Chef d'armurerie stockant l'arsenal de Centre de Commandement Tactique.
+       - Totalement loyal envers les idéaux de L'Ile des Anciens - "Le Paradis Perdu".
+     - Vorn Cendre (Spécialiste Militaire)
+       - Prépare la prochaine guerre d'expansion de L'Ile des Anciens - "Le Paradis Perdu".
+       - Considère Centre de Commandement Tactique comme son propre royaume.
+     - Ryn Noir (Ouvrier / Garde Militaire)
+       - Instructeur brutal formant les recrues de Centre de Commandement Tactique.
+       - Connaît les secrets les plus sombres de L'Ile des Anciens - "Le Paradis Perdu".
+
+------------------------------------------------------------------------
+10. NUKE CITY - "LE RÉACTEUR À CIEL OUVERT"
+Spécialité : unique cité nucléaire de surface
+Force : énergie colossale, défenses électrifiées, armes avancées
+Faiblesse : rayonnements, accidents et paranoïa des habitants
+Particularité : ville lumineuse dans le désert, crainte de tous
+Position géographique : Construite près des ruines de Marseille (Ancienne France), exploitant un ancien site nucléaire expérimental méditerranéen.
+Paramètres initiaux : Santé 25, Technologie 95, Richesse 50, Carburant 100, Nourriture 50, Bonheur 35, Armement 95
+Tension Actuelle : Un "Ver de Vitre" — créature titanesque née de décennies de mutation dans le sable vitrifié, attirée par les zones les plus radioactives — a été aperçu se rapprochant du réacteur éventré. Les Enfants de l'Atome y voient un signe divin ; le Conseil Nucléaire y voit une menace existentielle pour toute la cité.
+
+Lieux et Personnages Notables :
+
+  >> Le Marché d'Échanges
+     [Description du lieu : Des souterrains irradiés où les marchands, lourdement mutés, portent des combinaisons en plomb. L'iode et les compteurs Geiger sont les monnaies d'échange.]
+     - Zev Moteur (Marchand Principal)
+       - Dirige les échanges au sein de Le Marché d'Échanges.
+       - A survécu à de multiples attaques de pillards.
+       - Considère Nuke City - "Le Réacteur à Ciel Ouvert" comme le seul havre de paix rentable.
+     - Dax Moteur (Garde du Marché)
+       - Protège les marchands de Le Marché d'Échanges.
+       - Ancien mercenaire cherchant la rédemption.
+       - Connaît toutes les rumeurs de Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Kira Ferraille (Fouineur / Voleur)
+       - Survit dans les ombres de Le Marché d'Échanges.
+       - Orphelin de la guerre des ressources.
+       - Vend des informations confidentielles sur les élites de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+  >> La Citerne Centrale
+     [Description du lieu : Un puits profond puisant dans une nappe phréatique contaminée. L'eau doit être distillée trois fois pour ne pas être mortellement toxique.]
+     - Kael Lame (Ingénieur Hydrologue)
+       - Maintient la pureté de l'eau à La Citerne Centrale.
+       - Obsédé par les toxines et les radiations.
+       - Pense que l'eau de Nuke City - "Le Réacteur à Ciel Ouvert" est la clé de la survie humaine.
+     - Cyrus Clou (Distributeur de Rations)
+       - Gère les files d'attente à La Citerne Centrale.
+       - Corrompu : garde les meilleures rations pour lui.
+       - Détient un pouvoir immense sur les pauvres de Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Brix Acier (Protecteur du Puits)
+       - Garde armé affecté à La Citerne Centrale.
+       - A ordre de tirer à vue sur les saboteurs.
+       - Fanatique dévoué à la survie de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+  >> Le Générateur Principal
+     [Description du lieu : Le réacteur éventré d'une ancienne centrale. Il émet une douce lumière verte, vénéré par une secte locale connue sous le nom des Enfants de l'Atome.]
+     - Tala Noyau (Mécano-Chef)
+       - Supervise le fonctionnement de Le Générateur Principal.
+       - Ses poumons sont détruits par la fumée.
+       - Maintient Nuke City - "Le Réacteur à Ciel Ouvert" en vie à lui tout seul.
+     - Zev Moteur (Ouvrier du Carburant)
+       - Travaille dans la chaleur de Le Générateur Principal.
+       - Porte de lourdes cicatrices de brûlures.
+       - Rêve de s'échapper de Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Orok Lame (Adepte du Dieu-Moteur)
+       - Vénère la machine à Le Générateur Principal.
+       - Prêche que les pannes sont des punitions divines.
+       - Influence secrètement les dirigeants de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+  >> Le Mur d'Enceinte & Les Portes
+     [Description du lieu : Il n'y a pas de mur. La zone est tellement irradiée que seuls les fous ou les mutants natifs osent s'y aventurer sans protection lourde.]
+     - Orok Noir (Capitaine de la Garde)
+       - Commande la défense à Le Mur d'Enceinte & Les Portes.
+       - Vétéran impitoyable de la dernière guerre.
+       - Ne laisse entrer personne dans Nuke City - "Le Réacteur à Ciel Ouvert" sans pot-de-vin.
+     - Orok Soupape (Tireur d'Élite)
+       - Surveille les horizons depuis Le Mur d'Enceinte & Les Portes.
+       - A perdu sa famille à l'extérieur des murs.
+       - Son fusil est son seul ami dans Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Jorn Acier (Contrebandier)
+       - Fait passer des biens par Le Mur d'Enceinte & Les Portes.
+       - Connaît les failles de la sécurité.
+       - Fait affaire avec les ennemis de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+  >> Le Quartier Résidentiel / Les Taudis
+     [Description du lieu : Des grottes creusées à même le cratère vitrifié, éclairées par des champignons fluorescents et la lueur des radiations ambiantes.]
+     - Mira Plomb (Leader Communautaire)
+       - Tente de maintenir l'ordre dans Le Quartier Résidentiel / Les Taudis.
+       - Organise des soupes populaires.
+       - S'oppose souvent aux dirigeants de Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Titus Clou (Médecin Clandestin)
+       - Soigne les exclus de Le Quartier Résidentiel / Les Taudis.
+       - Utilise des remèdes expérimentaux non approuvés.
+       - Protégé par les gangs locaux de Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Vesper Soupape (Survivant Désespéré)
+       - Fouille les poubelles de Le Quartier Résidentiel / Les Taudis.
+       - A des visions prophétiques dues aux radiations.
+       - Prédit la chute imminente de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+  >> Cœur du Réacteur Nucléaire
+     [Description du lieu : Le réacteur éventré d'une ancienne centrale, émettant une douce lumière verte mortelle.]
+     - Kaelen Sombre (Chef Nucléaire) [MJ — Archétype brisé : le fanatique du culte]
+       - Prêtre de l'Atome officiant à Cœur du Réacteur Nucléaire, révéré pour sa
+         sagesse apparente sur les mystères de la radiation.
+       - En réalité, c'est lui qui attire délibérément le Ver de Vitre vers le
+         réacteur en augmentant secrètement l'émission de radiations : les Enfants
+         de l'Atome y voient l'avènement d'un "messager divin", et Kaelen est prêt à
+         risquer une fusion du cœur pour accueillir la créature en personne.
+       - Totalement loyal envers les idéaux de Nuke City - "Le Réacteur à Ciel
+         Ouvert" en apparence, mais sa véritable loyauté va à sa foi, pas à la cité.
+     - Cade Rouge (Spécialiste Nucléaire)
+       - Mutant luisant, immunisé aux radiations de Nuke City - "Le Réacteur à Ciel Ouvert".
+       - Considère Cœur du Réacteur Nucléaire comme son propre royaume.
+     - Kaelen Froid (Ouvrier / Garde Nucléaire)
+       - Chercheur essayant d'éviter une fusion du cœur à Cœur du Réacteur Nucléaire.
+       - Connaît les secrets les plus sombres de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+  >> Zone de Refroidissement Irradiée
+     [Description du lieu : D'anciennes piscines d'eau lourde, désormais peuplées d'une flore bioluminescente.]
+     - Kira Lame (Chef Nucléaire)
+       - Prêtre de l'Atome officiant à Zone de Refroidissement Irradiée.
+       - Totalement loyal envers les idéaux de Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Mira Sable (Spécialiste Nucléaire)
+       - Mutant luisant, immunisé aux radiations de Nuke City - "Le Réacteur à Ciel Ouvert".
+       - Considère Zone de Refroidissement Irradiée comme son propre royaume.
+     - Rook Plomb (Ouvrier / Garde Nucléaire)
+       - Chercheur essayant d'éviter une fusion du cœur à Zone de Refroidissement Irradiée.
+       - Connaît les secrets les plus sombres de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+  >> Centre de Recherche sur l'Énergie
+     [Description du lieu : Un centre dirigé par des savants illuminés espérant canaliser l'atome de façon mystique.]
+     - Cade Rouge (Chef Nucléaire)
+       - Prêtre de l'Atome officiant à Centre de Recherche sur l'Énergie.
+       - Totalement loyal envers les idéaux de Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Cyrus Sombre (Spécialiste Nucléaire)
+       - Mutant luisant, immunisé aux radiations de Nuke City - "Le Réacteur à Ciel Ouvert".
+       - Considère Centre de Recherche sur l'Énergie comme son propre royaume.
+     - Zev Moteur (Ouvrier / Garde Nucléaire)
+       - Chercheur essayant d'éviter une fusion du cœur à Centre de Recherche sur l'Énergie.
+       - Connaît les secrets les plus sombres de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+  >> Dépôt de Déchets Toxiques
+     [Description du lieu : Des fûts jaunes empilés et fuyants, transformant la zone en un marais caustique infranchissable.]
+     - Kaelen Ferraille (Chef Nucléaire)
+       - Prêtre de l'Atome officiant à Dépôt de Déchets Toxiques.
+       - Totalement loyal envers les idéaux de Nuke City - "Le Réacteur à Ciel Ouvert".
+     - Nova Sombre (Spécialiste Nucléaire)
+       - Mutant luisant, immunisé aux radiations de Nuke City - "Le Réacteur à Ciel Ouvert".
+       - Considère Dépôt de Déchets Toxiques comme son propre royaume.
+     - Dax Sang (Ouvrier / Garde Nucléaire)
+       - Chercheur essayant d'éviter une fusion du cœur à Dépôt de Déchets Toxiques.
+       - Connaît les secrets les plus sombres de Nuke City - "Le Réacteur à Ciel Ouvert".
+
+
+========================================================================
+
+========================================================================
+ANNEXE MJ : RÉCAPITULATIF DES ARCHÉTYPES BRISÉS ET DES AGENTS DU RÉSEAU
+========================================================================
+[NOTE MJ : cette annexe est un outil de préparation, pas un texte à lire
+aux joueurs. Elle liste les PNJ dont l'archétype a été volontairement
+détourné, pour vous permettre de les retrouver d'un coup d'œil.]
+
+  - Kaelen Cendre (Bunker Oméga, Marché d'Échanges) — agent du Réseau
+    en rupture de synchronisation, sentiments réels envers Kael Clou.
+  - Zev Ferraille (Cité Industrielle, Mur d'Enceinte) — capitaine qui
+    arme en secret la révolte des esclaves du Dépôt de Ferraille.
+  - Cade Cendre (Cité Médicale, Marché d'Échanges) — marchand traître
+    qui revend la souche de peste au marché noir.
+  - Osrin Tendresse (Cité Médicale, Maison des Orphelins) — bienfaiteur
+    sincère dont le Programme des Parrains dissimule un prélèvement
+    systématique, jusqu'au sacrifice complet via le Rite de la Grande
+    Famille.
+  - Vessa Calme (Cité Médicale, Les Apaiseurs) — psychiatre convaincue
+    de soigner, dont les traitements servent en réalité à discipliner
+    les apprentis les plus rebelles du système de servitude.
+  - Vulcain (Cité Médicale, Sanctuaire de Vulcain) — le plus vieil
+    homme connu du bassin méditerranéen, qui abuse depuis des décennies
+    du Rite de la Grande Famille pour se maintenir en vie sous une
+    identité renouvelée à chaque génération.
+  - Éphaistos (Cité Médicale, Sanctuaire de Vulcain) — Enfant du Nord
+    devenu cobaye puis bras droit de Vulcain sans le savoir ; porteur
+    d'une graine dormante du Réseau qu'aucun des deux ne soupçonne.
+  - Lira Rouage (Cité de l'Armement, Mur d'Enceinte) — négocie en
+    secret une reddition partielle face au Chacal Rouillé.
+  - Kaelen Vif (Cité de l'Eau & Alimentation, Marché d'Échanges) —
+    détourne l'eau vers les nomades pour s'enrichir sur la pénurie.
+  - Lyra Soupape (Cité des Métaux & Recyclage, Mine Profonde) — nourrit
+    et dirige elle-même les rats-charognards pour un racket de
+    protection.
+  - Vex Rouge (Cité du Carburant, Mur d'Enceinte) — l'incendiaire
+    payé par une cité rivale, déguisé en simple contrebandier.
+  - Rook Cendre (Cité du Divertissement, Mur d'Enceinte) — agent du
+    Réseau chargé d'orchestrer la succession au profit de Bunker Oméga ;
+    supervise en personne le recrutement quadriennal de la Garde.
+  - Mère Songe (Cité du Divertissement, Quartier des Nostalgics) —
+    cadette consciente du Réseau, sait d'où vient réellement la
+    technologie de souvenirs de synthèse et choisit avec soin les
+    clients auxquels elle réserve ses services "les plus raffinés".
+  - Kaelen Sombre (Nuke City, Cœur du Réacteur) — fanatique du culte
+    de l'Atome qui attire volontairement le Ver de Vitre vers le
+    réacteur.
+
+RAPPEL DU TELL DU RÉSEAU : ne jamais utiliser le prénom seul comme
+indice révélé aux joueurs. Le vrai signal, c'est la RÉPÉTITION MOT
+POUR MOT d'une phrase entière déjà entendue ailleurs dans la campagne
+("le seul havre de paix rentable", "connaît toutes les rumeurs de...",
+"fanatique dévoué à la survie de..."). Semez ces répétitions avec
+parcimonie — une ou deux fois par acte de campagne suffit largement
+pour installer le doute sans vendre la mèche trop vite.
+
+
+========================================================================
+NOTE : LA CAMPAGNE A ÉTÉ EXTRAITE DANS UN FICHIER À PART
+========================================================================
+Le chapitre "LA COURSE DU SEL (QUÊTE D'OUVERTURE)" ainsi que les
+graines pour la suite de la campagne ont été déplacés dans leur propre
+document autonome : Campagne_v1.txt. Consultez ce fichier pour la
+quête d'ouverture et tout ce qui s'y rattache ; ce document-ci reste le
+référentiel de lore universel (cités, factions, secrets de campagne
+transversaux comme le Réseau ou le Registre).
+========================================================================

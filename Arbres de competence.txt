@@ -1,0 +1,346 @@
+# CAHIER DES CHARGES
+## Système d'Arbres de Compétences — Application d'Aide au MJ
+### Univers : *Chroniques de l'Apocalypse*
+
+---
+
+## 1. CONTEXTE ET OBJECTIF
+
+### 1.1 Contexte
+L'application d'aide au Maître du Jeu (MJ) gère actuellement la fiche de personnage, les ressources des Cités-États et le lore du monde (*Chroniques de l'Apocalypse*, univers post-nucléaire de 2200). L'objectif de ce chantier est d'ajouter un **système d'arbres de compétences façon Skyrim** : le joueur dépense des points de compétence pour débloquer des nœuds répartis dans des arbres thématiques, chaque nœud donnant une capacité passive (bonus permanent) ou active (capacité déclenchable, avec coût/cooldown).
+
+### 1.2 Objectif de la fonctionnalité
+Développer une IA (agent de génération de contenu) capable de :
+1. Générer/peupler la structure complète des arbres de compétences (nœuds, effets, prérequis, coûts) en respectant le format de données défini dans ce document.
+2. Respecter la cohérence avec le lore fourni (`Universe_Lore.txt`) : ambiance survivaliste post-apocalyptique, technologie diesel/vapeur, radiations, rareté des ressources.
+3. Produire deux catégories d'arbres :
+   - **Arbres communs** : visibles et accessibles par tous les personnages, quelle que soit leur Cité-État d'origine.
+   - **Arbres cachés de spécialisation** : un arbre supplémentaire par Cité-État, non visible par défaut, débloqué uniquement dans certaines conditions (cf. §6.2), et thématiquement lié à la spécialité, la force et la faiblesse de la cité concernée.
+
+### 1.3 Hors périmètre
+- L'équilibrage numérique fin (valeurs exactes de dégâts, PV, etc.) reste ajustable par le MJ ; l'IA doit fournir des valeurs indicatives cohérentes entre elles, pas une balance compétitive au sens jeu vidéo compétitif.
+- Le moteur de combat / de résolution des jets n'est pas concerné par ce chantier : seules la structure des arbres et la définition des effets sont demandées. L'intégration mécanique (comment un effet modifie un jet) est décrite en interface (§8) mais son implémentation reste du ressort de l'application existante.
+
+---
+
+## 2. PUBLIC CIBLE ET CAS D'USAGE
+
+| Utilisateur | Usage |
+|---|---|
+| **MJ** | Configure quels arbres sont visibles par ses joueurs, valide les déblocages, ajuste le nombre de points de compétence distribués par montée de niveau/session. |
+| **Joueur** | Consulte son/ses arbres, dépense ses points de compétence sur les nœuds accessibles, visualise sa progression façon "constellation" (comme Skyrim). |
+| **IA de génération de contenu** | Génère la structure et le contenu (nœuds, textes, effets) des arbres selon ce cahier des charges, à partir du lore et des paramètres de la Cité-État. |
+
+---
+
+## 3. PRINCIPES DE GAME DESIGN
+
+1. **Lisibilité visuelle** : chaque arbre est un graphe de nœuds connectés par des lignes de prérequis, à la manière des arbres de Skyrim (nœuds en cercles/losanges, lignes actives une fois débloquées, disposées en éventail depuis une ou plusieurs racines).
+2. **Progression par paliers (tiers)** : chaque arbre est structuré en **5 paliers (Tier 1 à Tier 5)**. Un nœud de Tier N nécessite au moins un nœud prérequis débloqué au Tier N-1 (sauf les racines en Tier 1, accessibles sans prérequis).
+3. **Ramification (branches)** : chaque arbre commun compte **2 à 3 branches thématiques** (ex. Médecine → "Soins de terrain" / "Chirurgie" / "Pharmacologie"), pour éviter un simple chemin linéaire et permettre des builds différenciés.
+4. **Mixité passif/actif** : environ 70% de nœuds passifs (bonus automatiques) et 30% de nœuds actifs (capacités déclenchées, avec coût en ressource et cooldown), avec une concentration plus forte de nœuds actifs dans les paliers supérieurs (les "capstones").
+5. **Nœud capstone** : chaque branche se termine par un nœud unique et puissant (Tier 5), qui doit être une capacité active mémorable et évocatrice du thème.
+6. **Coût croissant** : le coût en points de compétence d'un nœud augmente avec son palier (indicatif : Tier 1 = 1 point, Tier 2 = 1 point, Tier 3 = 2 points, Tier 4 = 2 points, Tier 5 = 3 points).
+7. **Ancrage narratif** : chaque nœud a un nom et une description courte qui doivent évoquer l'univers (mécanique diesel/vapeur, radiations, pénurie, Dieu-Moteur, etc.) et non un vocabulaire fantasy générique.
+8. **Cohérence avec les Cités-États** : les arbres cachés doivent exploiter le champ *Spécialité / Force / Faiblesse* de la cité d'origine (cf. §6), y compris en intégrant la faiblesse comme un **inconvénient mineur** sur certains nœuds, pour renforcer l'identité de chaque cité.
+
+---
+
+## 4. ARCHITECTURE GÉNÉRALE DU SYSTÈME
+
+### 4.1 Types de nœuds
+- **Nœud passif** : bonus permanent une fois débloqué (ex. +10% résistance aux radiations). Aucune action du joueur requise en jeu.
+- **Nœud actif** : capacité déclenchable manuellement par le joueur. Doit définir : coût en ressource (ex. Adrénaline, Carburant, Munitions — à faire correspondre à un système de ressource déjà existant dans l'application ou à défaut "Points d'Action"), un temps de recharge (cooldown, en tours ou en heures in-fiction selon le rythme du jeu de rôle), une portée/cible, une durée d'effet.
+- **Nœud hybride** (optionnel, à utiliser avec parcimonie) : un passif qui s'améliore quand une condition active est remplie (ex. "soigner un allié pendant un combat octroie un bouclier temporaire").
+
+### 4.2 Progression et points de compétence
+- Le personnage gagne des **Points de Compétence (PC)** à mesure de son expérience. Chaque point investi dans un arbre permet de débloquer un nœud.
+- **Règle 5e Hybride :** Le niveau total du personnage n'est pas choisi arbitrairement. Il est calculé à la volée : le personnage gagne 1 niveau dans une classe dérivée pour chaque tranche de 2 points investis dans l'arbre correspondant. Le niveau global est la somme de ces sous-niveaux.
+- Un nœud ne peut être débloqué que si :
+  1. Le joueur a suffisamment de PC non dépensés.
+  2. Au moins un nœud prérequis (lien entrant) est déjà débloqué (sauf racines).
+  3. Le cas échéant, la condition spéciale d'accès à l'arbre est remplie (cas des arbres cachés, cf. §6.2).
+- Les PC ne sont jamais remboursés automatiquement.
+
+### 4.3 Arbres communs vs arbres cachés
+| | Arbres communs | Arbres cachés de spécialisation |
+|---|---|---|
+| Nombre | 6 | 10 (un par Cité-État) |
+| Visibilité | Visibles dès la création du personnage | Masqués par défaut |
+| Accès | Libre, dès qu'on a des PC | Déblocage soumis à une condition narrative (cf. §6.2) |
+| Nombre de branches | 2-3 | 1-2 (arbres plus resserrés, très thématiques) |
+| Nombre de nœuds | ~15-20 par arbre | ~8-12 par arbre |
+| Objectif narratif | Compétences universelles de survivant | Savoir-faire exclusif d'une Cité-État, difficile d'accès |
+
+---
+
+## 5. LES 6 ARBRES COMMUNS
+
+Pour chaque arbre : thème, branches, exemples de nœuds par palier (les exemples ci-dessous sont des gabarits ; l'IA doit générer l'intégralité des nœuds manquants dans le même esprit, avec 4-7 nœuds par branche).
+
+### 5.1 MÉDECINE — *"Rafistoleurs"*
+**Thème** : soigner les alliés et soi-même, gérer maladies/radiations/infections, produits pharmaceutiques de fortune.
+**Branches** : Soins de Terrain (urgence, hémorragies) · Pharmacologie (potions, antidotes, gestion des radiations) · Chirurgie (soins lourds, prothèses).
+
+| Tier | Nœud | Type | Effet indicatif |
+|---|---|---|---|
+| 1 | Trousse de Fortune | Passif | +1 aux soins prodigués avec des bandages improvisés |
+| 1 | Sang-Froid du Rafistoleur | Passif | Peut soigner sous le feu sans malus |
+| 2 | Piqûre de Rappel | Actif (Action Bonus) | Injecte un stimulant : cible regagne 1d4 PV immédiats, coût : 1 dose de médicament, cooldown 3 tours |
+| 2 | Détox Express | Passif | Avantage aux jets de sauvegarde contre les radiations légères |
+| 3 | Diagnostic de Combat | Actif (Action) | Identifie instantanément l'état critique d'un allié (poison, saignement, fracture) et le type de soin requis |
+| 3 | Mains Stables | Passif | Avantage aux jets de Médecine lors d'un soin d'urgence |
+| 4 | Antidote Universel | Actif | Neutralise un poison ou une maladie légère, coût élevé en ingrédients rares |
+| 5 (capstone, branche Soins de Terrain) | Résurrection de Fortune | Actif | Stabilise un allié à l'article de la mort une fois par session, au prix d'un épuisement sévère du soignant |
+| 5 (capstone, branche Chirurgie) | Chirurgien de l'Apocalypse | Actif | Réalise une opération lourde (greffe/prothèse) en une fraction du temps normal, sans infrastructure hospitalière |
+
+### 5.2 TECHNOLOGIE — *"Bricoleurs de Rouille"*
+**Thème** : construire, réparer, hacker et bidouiller machines diesel/vapeur/électroniques.
+**Branches** : Mécanique Lourde (véhicules, générateurs) · Électronique & IA (pré-guerre, hacking) · Fabrication (bricolage d'objets, pièges).
+
+| Tier | Nœud | Type | Effet indicatif |
+|---|---|---|---|
+| 1 | Œil du Mécano | Passif | Avantage aux jets d'Investigation sur une machine en panne |
+| 1 | Recyclage Habile | Passif | +1d4 pièces détachées récupérées en démontant une épave |
+| 2 | Réparation d'Urgence | Actif (Action) | Répare partiellement un véhicule/générateur en plein combat, coût en pièces détachées |
+| 2 | Câblage de Fortune | Passif | Avantage aux jets de réparation sous pression |
+| 3 | Décryptage Pré-Guerre | Actif (Action) | Débloque un terminal ou une porte électronique ancienne, cooldown long |
+| 3 | Overclocking | Passif | Les machines réparées par le personnage gagnent temporairement +2 à leur Vitesse ou efficacité |
+| 4 | Sabotage Silencieux | Actif | Désactive à distance un mécanisme ennemi (piège, véhicule, tourelle) |
+| 5 (capstone) | Le Souffle du Dieu-Moteur | Actif | Relance instantanément un moteur/générateur en panne totale, avec un pic de puissance temporaire (bonus de groupe) |
+
+### 5.3 DÉFENSE — *"Murs de Chair et d'Acier"*
+**Thème** : encaisser les dégâts, protéger le groupe, réduction de dégâts, contrôle de zone (tank).
+**Branches** : Résilience (PV, résistances) · Protection du Groupe (aggro, bouclier) · Blindage (équipement lourd).
+
+| Tier | Nœud | Type | Effet indicatif |
+|---|---|---|---|
+| 1 | Cuir Tanné | Passif | Réduction des dégâts contondants de 1 |
+| 1 | Provocation | Actif (Action Bonus) | Force les ennemis proches à cibler le personnage pendant 1 tour (jet de sauvegarde Sagesse) |
+| 2 | Endurance de Survivant | Passif | +5 PV max |
+| 2 | Position Défensive | Actif (Action) | Gagne la Résistance (dégâts divisés par 2) pendant un tour, la vitesse tombe à 0 |
+| 3 | Résistance aux Radiations | Passif | Résistance aux dégâts de radiation |
+| 3 | Bouclier Humain | Actif | Absorbe une partie des dégâts destinés à un allié adjacent |
+| 4 | Blindage Improvisé | Passif | Réduction fixe des dégâts par coup (armure de fortune) |
+| 5 (capstone) | Rempart Inébranlable | Actif | Devient temporairement quasi-invulnérable et protège toute la formation, coût élevé, cooldown long |
+
+### 5.4 COMBAT RAPPROCHÉ — *"Lames et Rafales"*
+**Thème** : armes de mêlée (machettes, barres, lames improvisées) et armes automatiques courte portée (SMG/mitraillettes).
+**Branches** : Mêlée Brutale (dégâts, critiques) · Close-Quarters (SMG, mobilité rapprochée).
+
+| Tier | Nœud | Type | Effet indicatif |
+|---|---|---|---|
+| 1 | Frappe Vicieuse | Passif | Les attaques de mêlée infligent un coup critique sur un jet de 19 ou 20 |
+| 1 | Rafale Courte | Passif | +1 aux jets d'attaque avec les SMG à courte portée |
+| 2 | Enchaînement | Actif | Attaque en mêlée supplémentaire immédiate après un coup critique |
+| 2 | Chargeur Rapide | Passif | Rechargement de SMG deux fois plus rapide |
+| 3 | Frénésie du Sang | Actif | Augmente dégâts et vitesse d'attaque pendant plusieurs tours, au prix d'une résistance réduite |
+| 3 | Tir en Mouvement | Passif | Aucun malus de précision au SMG en se déplaçant |
+| 4 | Coup Fatal | Actif | Attaque garantissant un critique sur cible affaiblie |
+| 5 (capstone) | Tornade d'Acier | Actif | Enchaîne des attaques sur tous les ennemis adjacents en un seul tour |
+
+### 5.5 COMBAT À DISTANCE — *"Œil de Faucon"*
+**Thème** : mitrailleuses lourdes, fusils de précision (snipers), fusils semi-automatiques/à verrou.
+**Branches** : Précision (snipers, fusils non-automatiques) · Puissance de Feu (mitrailleuses, suppression).
+
+| Tier | Nœud | Type | Effet indicatif |
+|---|---|---|---|
+| 1 | Souffle Contrôlé | Passif | Avantage aux jets d'attaque à longue distance si le personnage n'a pas bougé |
+| 1 | Munitions Choisies | Passif | +1 aux dégâts avec fusils non-automatiques |
+| 2 | Tir Instinctif | Actif | Tir rapide sans viser, à courte-moyenne distance |
+| 2 | Refroidissement Amélioré | Passif | Réduit la surchauffe des mitrailleuses |
+| 3 | Œil de Tireur d'Élite | Actif | Tir garanti en zone vitale sur cible immobile |
+| 3 | Tir de Suppression | Actif | Arrose une zone, réduit la précision ennemie pendant le tour |
+| 4 | Sang-Froid du Sniper | Passif | Aucune pénalité de précision après un mouvement |
+| 5 (capstone) | Le Jugement | Actif | Tir unique à létalité quasi certaine sur cible désignée, longue portée, cooldown très long |
+
+### 5.6 BEAU PARLEUR — *"Voix du Désert"*
+**Thème** : négociation, intimidation, tromperie, leadership dans un monde de rareté et de brutalité.
+**Branches** : Négociation (commerce, persuasion) · Intimidation (menace, autorité) · Charisme de Groupe (leadership).
+
+| Tier | Nœud | Type | Effet indicatif |
+|---|---|---|---|
+| 1 | Sens du Marchandage | Passif | Avantage aux jets de Persuasion pour marchander |
+| 1 | Regard qui Tue | Passif | Avantage aux jets d'Intimidation contre des PNJ de rang inférieur |
+| 2 | Bluff Calculé | Actif | Fait croire un mensonge crédible sur une ressource ou une menace |
+| 2 | Autorité Naturelle | Passif | Les PNJ de rang inférieur hésitent à s'opposer au personnage |
+| 3 | Chantage | Actif | Force un PNJ à coopérer en échange de son silence sur une information compromettante |
+| 3 | Discours Rassembleur | Actif | Redonne du moral/motivation à tout le groupe avant une épreuve |
+| 4 | Lecture des Intentions | Passif | Détecte si un interlocuteur ment ou cache quelque chose |
+| 5 (capstone) | Le Verbe qui Plie les Rois | Actif | Retourne une négociation ou une confrontation hostile en faveur totale du personnage, une fois par grande scène |
+
+---
+
+## 6. LES 10 ARBRES CACHÉS DE SPÉCIALISATION (LIÉS AUX CITÉS-ÉTATS)
+
+### 6.1 Principe
+Chaque Cité-État possède un savoir-faire exclusif. Un personnage originaire de cette cité (ou ayant obtenu sa confiance) peut débloquer un **arbre caché** reflétant ce savoir-faire, en plus de ses 6 arbres communs. Chaque arbre caché s'appuie directement sur les champs *Spécialité*, *Force* et *Faiblesse* du lore.
+
+### 6.2 Condition de déblocage (à valider avec le MJ, proposition par défaut)
+- Le personnage doit être originaire de la cité, **ou**
+- avoir atteint un rang de confiance/réputation suffisant auprès d'un PNJ notable de cette cité (ex. un des personnages nommés dans le lore), **ou**
+- avoir accompli une quête/jalon scénaristique désigné par le MJ comme "clé d'accès" à ce savoir caché.
+Cette condition doit rester configurable par le MJ dans l'application (champ `condition_deblocage` en texte libre, cf. schéma §7).
+
+### 6.3 Table de correspondance Cité-État → Arbre caché
+
+| # | Cité-État | Nom de l'arbre caché | Thème central | Force exploitée | Faiblesse intégrée (inconvénient/risque mineur) |
+|---|---|---|---|---|---|
+| 1 | Bunker Oméga — "Les Fantômes d'Acier" | **Voile d'Acier** | Espionnage, agents secrets, technologie de pointe cachée | Technologie la plus avancée du monde | Isolement : certains nœuds imposent un malus social hors de l'ombre (ex. moins efficace en interaction publique) |
+| 2 | Cité Industrielle — "Les Forgerons d'Acier" | **Chaîne de Montage** | Fabrication de véhicules et générateurs à grande échelle | Maîtrise de la production lourde | Coût en ressources : nœuds actifs consomment davantage de matières premières |
+| 3 | Cité Médicale — "Les Blouses Blanches" | **Serment des Blouses Blanches** | Chirurgie avancée, prothèses, vaccins | Soins de pointe (radiations, maladies) | Dépendance : nécessite des stocks pharmaceutiques rares, indisponibles hors cité |
+| 4 | Cité de l'Armement & Défense — "Les Arsenaux" | **Doctrine des Arsenaux** | Armement lourd, blindages, véhicules de guerre | Puissance militaire écrasante | Surconsommation : gros appétit en munitions/carburant |
+| 5 | Cité de l'Eau & Alimentation — "Les Gardiens de la Source" | **Bénédiction de la Source** | Gestion de l'eau, semences rares, agriculture blindée | Contrôle des ressources vitales | Cible convoitée : certains nœuds augmentent l'attention/agressivité des pillards envers le groupe |
+| 6 | Cité des Métaux & Recyclage — "Les Fossoyeurs" | **Rites des Fossoyeurs** | Récupération dans les ruines, fonderie, mines | Approvisionnement en métaux rares | Exposition : nœuds actifs augmentent l'exposition aux radiations/maladies du personnage |
+| 7 | Cité du Carburant — "Les Raffineurs" | **Flamme des Raffineurs** | Carburants synthétiques, huiles, convois motorisés | Contrôle des convois et de l'énergie mobile | Instabilité : risque d'explosion/effet retour sur certains nœuds actifs |
+| 8 | Cité du Divertissement — "Les Faiseurs de Rêves" | **Masque des Faiseurs de Rêves** | Arènes, spectacle, propagande, manipulation culturelle | Influence culturelle et morale énorme | Fragilité matérielle : arbre sans bonus défensif/militaire propre |
+| 9 | L'Île des Anciens — "Le Paradis Perdu" | **Héritage des Anciens** | Technologie pré-apocalyptique intacte, agriculture abondante | Autosuffisance et raffinement technologique | Difficulté d'accès : nœuds nécessitant des composants introuvables ailleurs que sur l'Île |
+| 10 | Nuke City — "Le Réacteur à Ciel Ouvert" | **Communion du Réacteur** | Énergie nucléaire de surface, défenses électrifiées | Énergie colossale, armes avancées | Radiations : nœuds actifs infligent un coût en santé/contamination au personnage lui-même |
+
+### 6.4 Détail d'exemple complet — Arbre caché "Voile d'Acier" (Bunker Oméga)
+*(gabarit à répliquer par l'IA pour les 9 autres cités, dans le même esprit : 1-2 branches, 8-12 nœuds)*
+
+**Branches** : Infiltration · Renseignement Technologique.
+
+| Tier | Nœud | Type | Effet indicatif |
+|---|---|---|---|
+| 1 | Pas de l'Ombre | Passif | +15% discrétion en zone urbaine ou souterraine |
+| 1 | Contact Dormant | Passif | Dispose d'un informateur dans chaque grande cité (accès à une rumeur par session) |
+| 2 | Brouillage de Fortune | Actif | Brouille temporairement un système de surveillance électronique |
+| 2 | Identité d'Emprunt | Actif | Se fait passer pour un habitant d'une autre cité pendant une scène |
+| 3 | Réseau d'Agents | Passif | Accès prioritaire à des informations confidentielles sur les élites des cités |
+| 3 | Extraction Silencieuse | Actif | Permet d'exfiltrer un allié capturé sans déclencher l'alerte |
+| 4 | Œil du Bunker | Passif | Détecte les mensonges et les agents doubles adverses |
+| 4 (malus lié à la faiblesse) | Isolement Volontaire | Passif | Bonus renforcés en solitaire/discrétion, mais -10% en interactions sociales ouvertes/publiques |
+| 5 (capstone) | Le Fantôme Ultime | Actif | Devient totalement indétectable (technologique et physique) pendant une scène entière, une fois par grand arc narratif |
+
+---
+
+## 7. MODÈLE DE DONNÉES ATTENDU (SCHÉMA JSON)
+
+L'IA doit produire sa génération de contenu dans ce format, exploitable directement par l'application :
+
+```json
+{
+  "arbre": {
+    "id": "medecine",
+    "nom": "Médecine",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Soigner ses alliés et soi-même dans un monde en ruines.",
+    "branches": [
+      {
+        "id": "soins_de_terrain",
+        "nom": "Soins de Terrain",
+        "noeuds": [
+          {
+            "id": "trousse_de_fortune",
+            "nom": "Trousse de Fortune",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Bandages improvisés plus efficaces.",
+            "effet": {
+              "resume": "+15% soins prodigués avec du matériel improvisé",
+              "valeur": 0.15,
+              "cible": "soins_improvises"
+            }
+          },
+          {
+            "id": "piqure_de_rappel",
+            "nom": "Piqûre de Rappel",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": ["trousse_de_fortune"],
+            "description": "Injecte un stimulant qui restaure des PV immédiatement.",
+            "effet": {
+              "resume": "Soin instantané",
+              "cout_ressource": { "type": "dose_medicament", "quantite": 1 },
+              "cooldown_tours": 3,
+              "portee": "allie_adjacent"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 7.1 Champs obligatoires
+- `id` (slug unique, sans espace, en minuscule)
+- `nom` (nom affiché, français, cohérent avec l'univers)
+- `type` : `"commun"` ou `"cache"`
+- `cite_origine` : `null` pour un arbre commun, sinon l'identifiant de la Cité-État (cf. §6.3)
+- `condition_deblocage` : texte libre, `null` pour les arbres communs
+- `tier` : entier de 1 à 5
+- `type` de nœud : `"passif"`, `"actif"`, ou `"hybride"`
+- `cout_points` : entier
+- `prerequis` : tableau d'`id` de nœuds (vide pour une racine)
+- `effet` : objet libre mais devant impérativement contenir un champ `resume` en langage naturel, exploitable tel quel côté MJ, et un champ `valeur` ou équivalent chiffré si le nœud est passif ; `cout_ressource` et `cooldown_tours` si le nœud est actif.
+
+### 7.2 Contraintes de validation
+- Aucun cycle de prérequis (le graphe doit être acyclique).
+- Un nœud de Tier N (N>1) doit avoir au moins un prérequis de Tier N-1 appartenant à la même branche (sauf nœuds de convergence inter-branches, à limiter à un par arbre maximum, réservés aux capstones).
+- Les `id` doivent être uniques **dans tout le système**, pas seulement dans un arbre, pour éviter les collisions lors de l'agrégation par l'application.
+
+---
+
+## 8. INTÉGRATION AVEC LES SYSTÈMES EXISTANTS
+
+- **Ressources** : les coûts en ressources des nœuds actifs (`dose_medicament`, `piece_detachee`, `munitions`, `carburant`, etc.) doivent correspondre aux ressources déjà suivies par l'application ou, à défaut, être signalées comme "nouvelle ressource à créer" dans un champ `nouvelle_ressource: true`.
+- **Statistiques de personnage** : les effets passifs doivent référencer les statistiques déjà existantes dans la fiche de personnage de l'application (PV, précision, résistance, etc.). Si une statistique n'existe pas encore, l'IA doit la lister explicitement dans un rapport d'écart (voir §11).
+- **Statistiques de Cité-État** (Santé, Technologie, Richesse, Carburant, Nourriture, Bonheur, Armement) : les arbres cachés peuvent, en option, faire varier légèrement ces paramètres de cité lors de l'usage de certaines capacités actives majeures (ex. utiliser "Le Souffle du Dieu-Moteur" dans la Cité Industrielle consomme du Carburant de la cité), mais cela reste optionnel et doit être clairement marqué `impact_cite: true` dans l'effet.
+- **Interface visuelle** : l'affichage doit permettre une représentation en graphe façon Skyrim (nœuds ronds/losanges, connectés par des lignes, zoom/pan). Ce cahier des charges ne spécifie pas le rendu graphique lui-même (hors périmètre IA), seulement les données nécessaires à sa génération (position relative x/y optionnelle par nœud, `position: {x, y}`, peut être laissée à la charge du moteur de rendu si absente).
+
+---
+
+## 9. CONTRAINTES POUR L'IA DE GÉNÉRATION
+
+1. **Langue** : tous les textes en français, ton sombre/pragmatique cohérent avec le lore (pas de vocabulaire fantasy : pas de "mana", "sorts", "magie" — tout doit rester ancré dans la mécanique/chimie/survie).
+2. **Complétude** : pour chaque arbre commun, générer l'intégralité des nœuds (15 à 20), pas seulement les exemples donnés en §5. Pour chaque arbre caché, générer 8 à 12 nœuds par cité (§6.3), en s'inspirant du gabarit §6.4.
+3. **Cohérence de nommage** : reprendre si pertinent les noms de lieux et de personnages du lore (`Universe_Lore.txt`) dans les descriptions de nœuds pour renforcer l'ancrage (ex. un nœud de la Cité Médicale peut mentionner "les techniques du conseil des Blouses Blanches").
+4. **Pas de doublon fonctionnel** : deux nœuds différents ne doivent pas avoir un effet strictement identique, même dans des arbres différents.
+5. **Format de sortie** : uniquement le JSON défini en §7, un fichier par arbre (16 fichiers au total : 6 communs + 10 cachés), nommés `arbre_<id>.json`.
+6. **Auto-vérification** : avant de livrer, l'IA doit vérifier l'absence de cycles de prérequis et l'unicité des `id` (cf. §7.2).
+
+---
+
+## 10. CRITÈRES D'ACCEPTATION
+
+- [ ] Les 6 arbres communs sont générés, avec 15 à 20 nœuds chacun, répartis sur 5 tiers et 2-3 branches.
+- [ ] Les 10 arbres cachés sont générés, avec 8 à 12 nœuds chacun, thématiquement fidèles à la Spécialité/Force/Faiblesse de leur Cité-État d'origine.
+- [ ] Chaque arbre respecte le schéma JSON du §7 (validation automatique sans erreur : pas de cycle, `id` uniques, champs obligatoires présents).
+- [ ] Chaque nœud actif précise coût en ressource et cooldown ; chaque nœud passif précise une valeur d'effet chiffrée ou clairement quantifiable.
+- [ ] Chaque arbre caché précise sa `condition_deblocage`.
+- [ ] Un rapport d'écart liste les ressources ou statistiques mentionnées dans les effets qui n'existeraient pas encore dans l'application (cf. §8).
+- [ ] Aucune référence à du vocabulaire hors-thème (magie, fantasy) n'apparaît dans les textes générés.
+
+---
+
+## 11. LIVRABLES ATTENDUS
+
+1. 16 fichiers JSON (un par arbre), conformes au schéma du §7.
+2. Un document de synthèse (tableau récapitulatif : arbre / nombre de nœuds / branches / condition de déblocage).
+3. Un rapport d'écart signalant toute ressource ou statistique manquante à créer côté application (§8).
+4. (Optionnel) Une proposition de disposition visuelle (`position: {x, y}` par nœud) si l'IA est également chargée du placement graphique.
+
+---
+
+## 12. ANNEXE — RAPPEL DES 10 CITÉS-ÉTATS (SOURCE : `Universe_Lore.txt`)
+
+| # | Cité-État | Spécialité | Force | Faiblesse |
+|---|---|---|---|---|
+| 1 | Bunker Oméga — "Les Fantômes d'Acier" | Cité souterraine ultra-avancée, énergie nucléaire | Technologie la plus avancée du monde | Enfermée dans son secret, isolement social |
+| 2 | Cité Industrielle — "Les Forgerons d'Acier" | Machines, pièces détachées, mécanique lourde | Maîtrise la production de véhicules et générateurs | Nécessite beaucoup de matières premières et d'énergie |
+| 3 | Cité Médicale — "Les Blouses Blanches" | Médicaments, chirurgie, prothèses, vaccins | Indispensable pour soigner blessures, maladies, radiations | Dépend des autres pour carburant et nourriture |
+| 4 | Cité de l'Armement & Défense — "Les Arsenaux" | Armes à feu, explosifs, blindages, véhicules de guerre | Puissance militaire écrasante | Trop dépendante de matières premières |
+| 5 | Cité de l'Eau & Alimentation — "Les Gardiens de la Source" | Serres blindées, puits, élevages, semences rares | Nourriture et eau = pouvoir vital | Cible de toutes les convoitises |
+| 6 | Cité des Métaux & Recyclage — "Les Fossoyeurs" | Récupération dans les ruines, fonderies, mines | Fournit tous les métaux et alliages rares | Habitants exposés à radiations et maladies |
+| 7 | Cité du Carburant — "Les Raffineurs" | Mazout, carburant synthétique, huiles | Contrôle les convois motorisés | Carburant instable, parfois explosif |
+| 8 | Cité du Divertissement — "Les Faiseurs de Rêves" | Arènes, spectacles, cinéma, propagande | Influence culturelle et morale énorme | Dépend des autres pour survivre matériellement |
+| 9 | L'Île des Anciens — "Le Paradis Perdu" | Technologie pré-apocalyptique intacte, agriculture abondante | Autosuffisante, riche, civilisée | Isolée, difficile à atteindre |
+| 10 | Nuke City — "Le Réacteur à Ciel Ouvert" | Unique cité nucléaire de surface | Énergie colossale, défenses électrifiées, armes avancées | Rayonnements, accidents, paranoïa des habitants |

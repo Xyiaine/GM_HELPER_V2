@@ -1,0 +1,111 @@
+{
+  "arbre": {
+    "id": "chaine_montage",
+    "nom": "Chaîne de Montage",
+    "type": "cache",
+    "cite_origine": "cite_industrielle",
+    "condition_deblocage": "Respect des Forgerons.",
+    "description": "Construction de masse et mécanique brute.",
+    "branches": [
+      {
+        "id": "forge",
+        "nom": "La Forge",
+        "noeuds": [
+          {
+            "id": "marteau_pilon",
+            "nom": "Marteau-Pilon",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Coups très lourds.",
+            "effet": {
+              "resume": "+2 Dégâts avec Armes Lourdes Improvisées",
+              "valeur": 2
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "fabrication_express",
+            "nom": "Fabrication Express",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "marteau_pilon"
+            ],
+            "description": "Crée une arme de jet ou munition lourde en plein combat.",
+            "effet": {
+              "resume": "Craft instantané",
+              "cout_ressource": {
+                "type": "piece_detachee",
+                "quantite": 3
+              }
+            },
+            "position": {
+              "x": -50,
+              "y": 200
+            }
+          },
+          {
+            "id": "renfort_structurel",
+            "nom": "Renfort Structurel",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "fabrication_express"
+            ],
+            "description": "Les véhicules gagnent des PV additionnels.",
+            "effet": {
+              "resume": "+20 PV Max pour les camions conduits"
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          },
+          {
+            "id": "surcharge_carburant",
+            "nom": "Surcharge Carburant",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "renfort_structurel"
+            ],
+            "description": "Sacrifie de l'essence pour un boost de vitesse absurde.",
+            "effet": {
+              "resume": "Double Vitesse, consomme 2x plus de Carburant"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "titan_acier",
+            "nom": "Le Titan d'Acier",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "surcharge_carburant"
+            ],
+            "description": "Transforme un véhicule en bulldozer de combat inarrêtable.",
+            "effet": {
+              "resume": "Véhicule immunisé aux dégâts légers et écrase tout, impact massif sur le Carburant"
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

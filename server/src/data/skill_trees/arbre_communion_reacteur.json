@@ -1,0 +1,108 @@
+{
+  "arbre": {
+    "id": "communion_reacteur",
+    "nom": "Communion du Réacteur",
+    "type": "cache",
+    "cite_origine": "nuke_city",
+    "condition_deblocage": "A survécu au cœur de Nuke City.",
+    "description": "L'énergie de l'atome maîtrisée au prix de son propre corps.",
+    "branches": [
+      {
+        "id": "energie_atomique",
+        "nom": "Énergie Atomique",
+        "noeuds": [
+          {
+            "id": "lueur_emeraude",
+            "nom": "Lueur Émeraude",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Brille dans le noir, immunisé aux Rads légères.",
+            "effet": {
+              "resume": "Vision nocturne légère, immunité Rads bas niveau"
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "surcharge_ionisante",
+            "nom": "Surcharge Ionisante",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "lueur_emeraude"
+            ],
+            "description": "Ajoute des dégâts de radiation aux attaques.",
+            "effet": {
+              "resume": "+10 Dégâts Rads, inflige 2 Rads au lanceur",
+              "cooldown_tours": 2
+            },
+            "position": {
+              "x": 50,
+              "y": 200
+            }
+          },
+          {
+            "id": "absorption_gamma",
+            "nom": "Absorption Gamma",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "surcharge_ionisante"
+            ],
+            "description": "Se soigne dans les zones irradiées.",
+            "effet": {
+              "resume": "Régénère 5 PV/tour en zone radioactive"
+            },
+            "position": {
+              "x": 50,
+              "y": 300
+            }
+          },
+          {
+            "id": "mutation_instable",
+            "nom": "Mutation Instable",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "absorption_gamma"
+            ],
+            "description": "Malus aux interactions sociales, mais physique surhumain.",
+            "effet": {
+              "resume": "+3 Force, -3 Charisme"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "supernova",
+            "nom": "La Supernova",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "mutation_instable"
+            ],
+            "description": "Relâche toute son énergie nucléaire en une explosion dévastatrice.",
+            "effet": {
+              "resume": "Dégâts extrêmes en zone, laisse le personnage à 1 PV",
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

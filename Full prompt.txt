@@ -1,0 +1,1220 @@
+========================================================================
+CAHIER DES CHARGES COMPLET
+APPLICATION WEB FULLSTACK - OUTIL DE MAITRE DU JEU (JDR POST-APOCALYPTIQUE)
+Version 2.0 — Mise à jour au 15 juillet 2026
+========================================================================
+
+CE DOCUMENT EST UNE SPECIFICATION TECHNIQUE ET NARRATIVE QUI REFLETE
+L'ETAT ACTUEL DU CODE ET SERT DE REFERENCE POUR TOUT DEVELOPPEMENT
+FUTUR. IL DECRIT CE QUI EST IMPLEMENTE, COMMENT C'EST STRUCTURE, ET
+QUELS AXES D'AMELIORATION SONT IDENTIFIES.
+
+========================================================================
+TABLE DES MATIERES
+========================================================================
+PARTIE A - VISION GENERALE ET PERIMETRE FONCTIONNEL
+PARTIE B - LORE / UNIVERS DE JEU (CONTENU NARRATIF DE REFERENCE)
+PARTIE C - ARCHITECTURE TECHNIQUE (ETAT REEL)
+PARTIE D - MODELE DE DONNEES (SCHEMA PRISMA REEL)
+PARTIE E - SPECIFICATIONS FONCTIONNELLES (INTERFACE MJ)
+PARTIE F - SPECIFICATIONS FONCTIONNELLES (INTERFACE JOUEUR MOBILE)
+PARTIE G - TEMPS REEL ET SYNCHRONISATION
+PARTIE H - SECURITE ET GESTION DES ACCES
+PARTIE I - DESIGN, UX/UI ET CHARTE GRAPHIQUE
+PARTIE J - PERFORMANCE ET QUALITE
+PARTIE K - PRIORITES DE DEVELOPPEMENT (MVP ET PHASES)
+PARTIE L - AXES D'AMELIORATION
+
+
+========================================================================
+PARTIE A - VISION GENERALE ET PERIMETRE FONCTIONNEL
+========================================================================
+
+A.1 - OBJECTIF DE L'APPLICATION
+
+Créer une application web fullstack permettant à un Maître du Jeu (MJ) de
+gérer intégralement une campagne de jeu de rôle sur table dans un univers
+post-apocalyptique original : personnages, PNJ, lieux, cités, cartes
+interactives, quêtes, objets, rencontres/combats, convois, véhicules,
+arbres de compétences, notes de campagne. L'application permet une
+utilisation en session live avec mise à jour en temps réel pour les
+joueurs.
+
+L'application se compose de DEUX INTERFACES DISTINCTES ET STRICTEMENT
+SEPAREES EN TERMES DE PERIMETRE FONCTIONNEL :
+
+  1. INTERFACE MJ (usage principal : ordinateur / desktop)
+     -> Accès complet à tout le contenu de la campagne (voir Partie E)
+
+  2. INTERFACE JOUEUR (usage principal : mobile / smartphone)
+     -> Accès STRICTEMENT LIMITE (voir Partie F) :
+        a) Consultation et édition (si autorisée) de SA PROPRE fiche
+           de personnage
+        b) Lancers de dés dont les modificateurs sont calculés
+           automatiquement depuis SA fiche de personnage
+        c) Vue session live limitée (PV, tour d'initiative)
+        d) Vue convoi en cours (lecture seule)
+
+IMPORTANT : Le joueur ne doit JAMAIS pouvoir consulter les fiches des
+autres joueurs, la base de PNJ, les notes du MJ, les cartes non
+partagées, les paramètres des cités, ou tout autre contenu de la
+campagne. Le périmètre joueur est volontairement restreint. Ceci est une
+contrainte de sécurité et de design non négociable (voir Partie H).
+
+A.2 - UTILISATEURS ET ROLES
+
+- GM (Game Master / Maître du Jeu) : contrôle total sur sa/ses campagne(s).
+- PLAYER (Joueur) : accès restreint tel que défini en A.1 et Partie F.
+
+Un utilisateur peut être MJ d'une campagne et joueur dans une autre. Le
+rôle est défini PAR CAMPAGNE, pas globalement sur le compte utilisateur.
+
+A.3 - RESUME DES MODULES FONCTIONNELS (INTERFACE MJ) — ETAT IMPLEMENTE
+
+  1.  Gestion de campagnes (CRUD, invitation joueurs par email) ✅
+  2.  Fiches de personnages joueurs (CRUD, système de classes hybrides) ✅
+  3.  Base de données de PNJ (CRUD, lien lieu, favoris, statut actif) ✅
+  4.  Lieux et hiérarchie (continent > région > cité > quartier > bâtiment) ✅
+  5.  Système de Cités-Etats avec 7 paramètres dynamiques (0-100) ✅
+  6.  Carte du monde interactive (Fabric.js, upload fond, territoires) ✅
+  7.  Cartes locales par lieu (MapAsset avec marqueurs) ✅
+  8.  Créateur de quêtes (liens PNJ/lieux/cités, impact paramètres) ✅
+  9.  Suivi de rencontres / combat (tracker d'initiative) ✅
+  10. Gestion des objets (CRUD, inventaire personnage) ✅
+  11. Notes de campagne (dossiers hiérarchiques, épinglage) ✅
+  12. Lanceur de dés (expressions, avantage/désavantage, keep highest) ✅
+  13. Système de liens universel entre entités (EntityLink) ✅
+  14. Système de tags (EntityTag, couleurs) ✅
+  15. Recherche globale multi-entités ✅
+  16. Mode session live (démarrer/arrêter, partage initiative) ✅
+  17. Système de convois (génération procédurale d'événements) ✅ [AJOUT]
+  18. Système de véhicules (pièces, équipage, factions) ✅ [AJOUT]
+  19. Arbres de compétences hybrides (16 arbres, progression) ✅ [AJOUT]
+
+A.4 - RESUME DES MODULES FONCTIONNELS (INTERFACE JOUEUR MOBILE)
+
+  1. Consultation de sa fiche de personnage ✅
+  2. Edition conditionnelle (si MJ autorise) : PV, stats, skills,
+     notes, arbres de compétences ✅
+  3. Lancer de dés avec modificateurs auto (ability check, saving throw,
+     skill check, attaque, initiative, dégâts, jet libre) ✅
+  4. Historique des jets de CE joueur uniquement ✅
+  5. Vue session live (statut, tour, PV temps réel) ✅
+  6. Vue convoi en cours (read-only) ✅ [AJOUT]
+  Aucun autre module n'est accessible côté joueur.
+
+
+========================================================================
+PARTIE B - LORE / UNIVERS DE JEU (CONTENU NARRATIF DE REFERENCE)
+========================================================================
+
+Note : Le lore complet est stocké dans « Universe_Lore_v2.txt » (115 Ko)
+à la racine du projet. Un fichier « Arbres de competence.txt » (29 Ko)
+décrit les 16 arbres de compétences. Le fichier « Spec_Fiche_PJ.txt »
+(40 Ko) spécifie la fiche de personnage joueur en détail.
+
+Des scripts de seed dans server/ permettent de peupler la base avec les
+données du lore :
+- seed_lore.js : cités et lieux
+- seed_npcs.js : PNJ de l'univers
+- seed_city_locations.js : sous-lieux des cités
+- setup_lore_map.js / setup_map.js : carte du monde
+
+B.1 - CONTEXTE HISTORIQUE : LE MONDE EN 2200
+
+2050 - Première Guerre Nucléaire
+Les grandes puissances s'effondrent. L'explosion initiale rase des
+métropoles entières, l'hiver nucléaire plonge la planète dans des
+décennies de pénombre. Les survivants se regroupent en enclaves et
+bricolent des machines diesel et vapeur.
+
+2100 - Seconde Guerre Nucléaire
+Une nouvelle course au carburant et à l'eau dégénère en conflit mondial.
+Des zones entières deviennent vitrifiées, saturées de radiations, des
+océans s'assèchent. Cette fois, la planète n'a plus de retour possible.
+
+2200 - Le Temps des Cités-Etats
+Le monde est un champ de ruines. Les Cités-Etats émergent comme des
+bastions de pouvoir, chacune contrôlant une ressource clé pour la survie.
+
+B.2 - LES DIX CITES-ETATS
+
+Chaque cité contrôle 7 paramètres dynamiques :
+Santé, Richesse, Technologie, Nourriture, Bonheur, Armement, Carburant
+(échelle 0-100).
+
+1.  Cité Médicale - "Les Blouses Blanches"
+2.  Cité du Carburant - "Les Raffineurs"
+3.  Cité Industrielle - "Les Forgerons d'Acier"
+4.  Cité de l'Eau & Alimentation - "Les Gardiens de la Source"
+5.  Cité du Divertissement - "Les Faiseurs de Rêves"
+6.  Nuke City - "Le Réacteur à Ciel Ouvert"
+7.  Cité des Métaux & Recyclage - "Les Fossoyeurs"
+8.  Cité de l'Armement & Défense - "Les Arsenaux"
+9.  L'Ile des Anciens - "Le Paradis Perdu" (légendaire)
+10. Bunker Oméga - "Les Fantômes d'Acier" (souterrain, secret)
+
+(Détails complets de chaque cité dans Universe_Lore_v2.txt)
+
+B.3 - UTILISATION DU LORE
+
+Ce contenu narratif sert de JEU DE DONNEES INITIAL (seed data).
+L'application reste 100% générique : un MJ peut créer son propre univers
+de zéro avec ses propres cités, PNJ, lieux, quêtes et paramètres.
+Les événements de convoi sont aussi thématisés par cité (biomes dans
+convoyGenerator.js), mais le système reste extensible.
+
+
+========================================================================
+PARTIE C - ARCHITECTURE TECHNIQUE (ETAT REEL DU CODE)
+========================================================================
+
+C.1 - VUE D'ENSEMBLE
+
+Application web fullstack monorepo avec :
+- /client : Frontend React (Vite)
+- /server : Backend Node.js + Express
+- /scripts : Utilitaires (extraction lore, fix Prisma)
+- /archives : Fichiers archivés
+
+C.2 - STACK TECHNIQUE UTILISEE
+
+--- Frontend (client/) ---
+
+- Framework : React 18 avec architecture par composants
+- Build tool : Vite 5
+- Gestion d'état : Zustand 4.5 (3 stores : authStore, gmStore, playerStore)
+- Routing : React Router DOM 6 avec code-splitting (lazy loading
+  sur GmApp et PlayerApp)
+- Icônes : Lucide React
+- WebSocket client : socket.io-client 4.7
+- Pas de framework CSS externe : Vanilla CSS avec variables CSS
+  (thème sombre, design system avec tokens)
+- PAS de PWA configuré actuellement
+
+--- Backend (server/) ---
+
+- Runtime : Node.js avec Express 4
+- ORM : Prisma 6.9 avec SQLite (dev.db)
+- Authentification : JWT (jsonwebtoken 9) avec access token +
+  refresh token (cookie httpOnly)
+- Hashage : bcrypt (12 rounds de salage)
+- Validation : Zod 3.24 (schémas dans validators/schemas.js)
+- Temps réel : Socket.IO 4.8
+- Upload fichiers : Multer (stockage local dans /uploads)
+- Sécurité : Helmet 8, express-rate-limit 7, CORS, cookie-parser
+- Pas de stockage S3/MinIO : les fichiers sont stockés localement
+
+--- Base de données ---
+
+- SQLite via Prisma (fichier : prisma/dev.db, ~840 Ko)
+- Note : le cahier des charges initial recommandait PostgreSQL, mais
+  SQLite a été choisi pour la facilité de développement local
+- Migrations gérées par Prisma Migrate
+- Index sur toutes les clés étrangères et champs de recherche
+
+C.3 - STRUCTURE DES FICHIERS (ARBORESCENCE REELLE)
+
+GM_Helper/
+├── Full prompt.txt            # CE DOCUMENT
+├── Universe_Lore_v2.txt       # Lore complet (115 Ko)
+├── Arbres de competence.txt   # Spec des 16 arbres de compétences
+├── Spec_Fiche_PJ.txt          # Spec détaillée fiche personnage
+├── archives/
+│   └── Universe Lore.txt      # Ancienne version du lore
+├── scripts/
+│   ├── extract_lore.py        # Script Python d'extraction du lore
+│   └── fix-prisma-singleton.js
+│
+├── client/                    # ── FRONTEND ──
+│   ├── package.json
+│   ├── vite.config.js         # Proxy API + WebSocket + uploads
+│   ├── index.html
+│   └── src/
+│       ├── main.jsx           # Point d'entrée React
+│       ├── App.jsx            # Routing racine (login/register/gm/player)
+│       ├── index.css          # Design system (tokens CSS, thème sombre)
+│       │
+│       ├── pages/
+│       │   ├── Login.jsx
+│       │   ├── Register.jsx
+│       │   └── Auth.css
+│       │
+│       ├── routes/
+│       │   ├── GmApp.jsx      # Layout MJ (sidebar + routes ~15 pages)
+│       │   └── PlayerApp.jsx  # Layout joueur (header + bottom nav + 4 pages)
+│       │
+│       ├── store/
+│       │   ├── authStore.js   # Zustand: auth, tokens, user
+│       │   ├── gmStore.js     # Zustand: campaigns, characters, npcs, etc.
+│       │   └── playerStore.js # Zustand: player campaigns, character, loading
+│       │
+│       ├── utils/
+│       │   ├── api.js         # Wrapper fetch avec auth headers + refresh
+│       │   ├── socket.js      # Instance Socket.IO client
+│       │   ├── formatters.js  # Formatage classes hybrides
+│       │   └── loreData.js    # Données lore embarquées (70 Ko)
+│       │
+│       └── components/
+│           ├── ProtectedRoute.jsx  # Guard d'authentification
+│           │
+│           ├── ui/
+│           │   ├── Modal.jsx       # Composant modal réutilisable
+│           │   └── ImageUpload.jsx # Upload d'images avec preview
+│           │
+│           ├── gm/  (19 composants)
+│           │   ├── CampaignList.jsx       # Liste et création de campagnes
+│           │   ├── CampaignDashboard.jsx  # Dashboard de campagne
+│           │   ├── CharactersList.jsx     # Gestion personnages (+ skill tree)
+│           │   ├── NpcsList.jsx           # Base de PNJ
+│           │   ├── CitiesManager.jsx      # Lieux + cités (hiérarchie + params)
+│           │   ├── QuestManager.jsx       # Quêtes (CRUD + impacts cités)
+│           │   ├── CombatTracker.jsx      # Tracker d'initiative/combat
+│           │   ├── ItemsManager.jsx       # Objets et butins
+│           │   ├── NotesManager.jsx       # Notes hiérarchiques
+│           │   ├── SessionManager.jsx     # Démarrer/arrêter sessions
+│           │   ├── MapManager.jsx         # Carte du monde (Fabric.js)
+│           │   ├── LocalMapManager.jsx    # Cartes locales par lieu
+│           │   ├── ConvoyManager.jsx      # Système de convois (46 Ko)
+│           │   ├── VehiclesList.jsx       # Liste des véhicules
+│           │   ├── VehicleSheet.jsx       # Fiche véhicule détaillée
+│           │   ├── SkillTreeViewer.jsx    # Visualiseur d'arbres (SVG interactif)
+│           │   ├── GMDicePanel.jsx        # Lanceur de dés MJ
+│           │   ├── GlobalSearch.jsx       # Recherche globale
+│           │   └── TagManager.jsx         # Gestion des tags
+│           │
+│           └── player/  (6 fichiers)
+│               ├── CharacterSheet.jsx     # Fiche personnage (21 Ko)
+│               ├── CharacterSheet.css     # Styles fiche personnage
+│               ├── characterUtils.js      # Utilitaires (skills, modifiers)
+│               ├── DiceRoller.jsx         # Lanceur de dés joueur
+│               ├── LiveSession.jsx        # Vue session live
+│               └── ConvoyDashboard.jsx    # Vue convoi (read-only)
+│
+├── server/                    # ── BACKEND ──
+│   ├── package.json
+│   ├── .env / .env.example
+│   ├── uploads/               # Fichiers uploadés (cartes)
+│   │
+│   ├── prisma/
+│   │   ├── schema.prisma      # Schéma complet (~917 lignes, 27 modèles)
+│   │   ├── seed.js            # Seed de base
+│   │   ├── dev.db             # Base SQLite (~840 Ko)
+│   │   └── migrations/        # Historique migrations
+│   │
+│   ├── *.js (scripts racine)  # ~15 scripts utilitaires de seed/fix
+│   │   ├── seed_lore.js       # Seed des cités et lieux du lore
+│   │   ├── seed_npcs.js       # Seed des PNJ du lore
+│   │   ├── seed_city_locations.js  # Seed des sous-lieux
+│   │   ├── setup_lore_map.js  # Configuration carte du monde
+│   │   ├── seed_map_positions.js   # Positions des cités sur la carte
+│   │   └── ... (autres scripts de correction et données)
+│   │
+│   └── src/
+│       ├── index.js           # Point d'entrée (Express + Socket.IO)
+│       ├── sockets.js         # Handlers WebSocket (auth, rooms, events)
+│       │
+│       ├── middleware/
+│       │   ├── auth.js        # verifyToken, requireCampaignAccess,
+│       │   │                  # requireGM, requirePlayer, requireMember
+│       │   └── validate.js    # Middleware Zod (validate schema)
+│       │
+│       ├── routes/
+│       │   ├── auth.js        # /api/v1/auth (register, login, refresh, logout, me)
+│       │   │
+│       │   ├── gm/  (20 fichiers de routes)
+│       │   │   ├── campaigns.js    # CRUD campagnes + invitation joueurs
+│       │   │   ├── characters.js   # CRUD personnages + progression hybride
+│       │   │   ├── npcs.js         # CRUD PNJ
+│       │   │   ├── locations.js    # CRUD lieux hiérarchiques
+│       │   │   ├── cities.js       # CRUD cités + paramètres + historique
+│       │   │   ├── quests.js       # CRUD quêtes + objectifs + impacts
+│       │   │   ├── encounters.js   # CRUD encounters + combattants + initiative
+│       │   │   ├── items.js        # CRUD objets
+│       │   │   ├── notes.js        # CRUD notes hiérarchiques
+│       │   │   ├── dice.js         # Lanceur de dés MJ
+│       │   │   ├── sessions.js     # Sessions live (start/stop/state)
+│       │   │   ├── tags.js         # CRUD tags + EntityTag
+│       │   │   ├── links.js        # EntityLink CRUD
+│       │   │   ├── search.js       # Recherche globale multi-entités
+│       │   │   ├── uploads.js      # Upload d'images
+│       │   │   ├── maps.js         # MapAsset + MapMarker
+│       │   │   ├── worldMap.js     # Carte du monde (GET/PUT/upload image)
+│       │   │   ├── convoys.js      # Convois (CRUD + génération procédurale)
+│       │   │   ├── vehicles.js     # Véhicules (CRUD + pièces + équipage)
+│       │   │   └── skillTrees.js   # Lecture des arbres de compétences
+│       │   │
+│       │   └── player/  (5 fichiers de routes)
+│       │       ├── campaigns.js    # Liste campagnes du joueur
+│       │       ├── character.js    # GET/PUT sa propre fiche
+│       │       ├── dice.js         # Dés avec calcul serveur
+│       │       ├── session.js      # Statut session live
+│       │       └── convoy.js       # Vue convoi en cours (read-only)
+│       │
+│       ├── services/
+│       │   ├── dice.js             # Moteur de dés (rollDice, computeCharacterRoll)
+│       │   └── convoyGenerator.js  # Génération procédurale d'événements de convoi
+│       │                           # (71 Ko, ~1000 lignes, biomes par cité)
+│       │
+│       ├── utils/
+│       │   ├── dnd5eMath.js        # Calculs D&D 5e (modifiers, skills, véhicules)
+│       │   └── hybridProgression.js # Système de classes hybrides par arbres
+│       │
+│       ├── validators/
+│       │   └── schemas.js          # Schémas Zod (547 lignes, toutes entités)
+│       │
+│       ├── data/
+│       │   └── skill_trees/        # 16 fichiers JSON d'arbres de compétences
+│       │       ├── arbre_combat_rapproche.json
+│       │       ├── arbre_combat_distance.json
+│       │       ├── arbre_defense.json
+│       │       ├── arbre_medecine.json
+│       │       ├── arbre_technologie.json
+│       │       ├── arbre_beau_parleur.json
+│       │       ├── arbre_voile_acier.json  (Espionnage/Infiltration)
+│       │       └── ... (9 arbres de faction : un par cité)
+│       │
+│       └── scripts/
+│           ├── generateSkillTrees1.js  # Générateur arbres principaux
+│           ├── generateSkillTrees2.js  # Générateur arbres factions
+│           ├── seed_library.js         # Seed bibliothèque d'objets
+│           ├── seed_madmax.js          # Seed thématique Mad Max
+│           └── seed_vehicle_parts.js   # Seed pièces de véhicules
+
+C.4 - SEPARATION STRICTE DES INTERFACES
+
+Le code respecte la séparation architecturale :
+
+1. Frontend : Deux applications logiquement séparées via React Router
+   - /gm/*    → GmApp.jsx (lazy loaded)
+   - /player/* → PlayerApp.jsx (lazy loaded)
+   Le code-splitting via lazy() garantit que le bundle joueur ne
+   contient pas le code MJ.
+
+2. Backend : Deux groupes de endpoints strictement séparés
+   - /api/v1/gm/campaigns/:campaignId/...  (20 fichiers de routes)
+     Middleware : verifyToken + requireCampaignAccess + requireGM
+   - /api/v1/player/campaigns/:campaignId/...  (5 fichiers de routes)
+     Middleware : verifyToken + requireCampaignAccess + requirePlayer
+
+3. Les endpoints player ne retournent JAMAIS de données d'autres joueurs,
+   de PNJ, de cités, de cartes ou de notes.
+
+C.5 - CONFIGURATION VITE
+
+Le proxy Vite (vite.config.js) redirige :
+- /api        → http://localhost:3000
+- /socket.io  → http://localhost:3000 (WebSocket)
+- /uploads    → http://localhost:3000
+
+C.6 - VARIABLES D'ENVIRONNEMENT (server/.env)
+
+- DATABASE_URL : URL Prisma vers la base SQLite
+- JWT_SECRET : Clé secrète pour les tokens JWT
+- JWT_EXPIRES_IN : Durée du access token (défaut : 15m)
+- CLIENT_URL : URL du frontend (défaut : http://localhost:5173)
+- PORT : Port du serveur (défaut : 3000)
+- UPLOAD_DIR : Répertoire des fichiers uploadés (défaut : ./uploads)
+- NODE_ENV : Environnement (development / production)
+
+
+========================================================================
+PARTIE D - MODELE DE DONNEES (SCHEMA PRISMA REEL)
+========================================================================
+
+Le schéma Prisma (schema.prisma, 917 lignes) définit 27 modèles :
+
+D.1 - MODELES D'AUTHENTIFICATION
+
+- User : id, email, passwordHash, displayName, createdAt, updatedAt
+  → Relations : memberships, characters, diceRolls, vehicleAccesses
+- RefreshToken : id, token (unique), userId, expiresAt, createdAt
+
+D.2 - MODELES DE CAMPAGNE
+
+- Campaign : id, name, description, coverImage, gameSystem, gmUserId,
+  timestamps
+  → Relations : memberships, characters, npcs, locations, quests,
+    encounters, items, notes, tags, entityLinks, diceRolls, sessions,
+    mapAssets, worldMap, convoys, factions, vehicles, vehicleParts
+- CampaignMembership : id, campaignId, userId, role ("GM"|"PLAYER"),
+  status ("invited"|"active"), invitedAt
+  → Constraint unique : (campaignId, userId)
+
+D.3 - MODELES DE PERSONNAGES
+
+- Character : id, campaignId, ownerUserId, name, race, class, level,
+  alignment, background
+  Stats de base : strength, dexterity, constitution, intelligence,
+    wisdom, charisma (défaut 10)
+  Stats de combat : hpCurrent, hpMax, temporaryHp, armorClass, speed,
+    initiative, hitDice (JSON), deathSaves (JSON), heroicInspiration
+  Compétences : proficiencyBonus, skills (JSON), savingThrows (JSON)
+  Classe hybride : traits (JSON), skillPoints, unlockedSkills (JSON)
+  Autre : notes, portraitUrl, canBeEditedByPlayer (booléen)
+  → Relations : campaign, owner, inventoryItems, combatants, diceRolls,
+    vehicleCrewSlots, vehicleAccesses
+
+- CharacterInventoryItem : id, characterId, itemId, quantity, equipped
+  → Unique : (characterId, itemId)
+
+D.4 - MODELES DE PNJ
+
+- NPC : id, campaignId, name, race, role, portraitUrl, personality,
+  description, locationId, isFavorite, isActive, stats (JSON), gmNotes
+  → Relations : campaign, location, questLinks, combatants
+
+D.5 - MODELES DE LIEUX
+
+- Location : id, campaignId, parentLocationId (hiérarchie), name,
+  type ("continent"|"region"|"city"|"district"|"building"|"room"),
+  description, imageUrl, climate, population, government, notableFeatures
+  → Relations : campaign, parentLocation, childLocations, npcs, city,
+    questLinks, encounters, mapMarkers
+
+D.6 - MODELES DE CITES-ETATS
+
+- City : id, locationId (unique), health/wealth/technology/food/
+  happiness/armament/fuel (0-100), customParameters (JSON),
+  specialty, strength, weakness, peculiarity,
+  mapX, mapY, factionColor (hex), territoryData (JSON polygone)
+  → Relations : location, parameterHistory, questImpacts,
+    convoysAsOrigin, convoysAsDestination
+
+- CityParameterHistory : id, cityId, parameter, oldValue, newValue,
+  cause, questId, createdAt
+
+D.7 - MODELES DE CARTES
+
+- WorldMap : id, campaignId (unique), baseMapImageUrl, canvasState (JSON),
+  zoom, panX, panY
+  → Une carte du monde par campagne
+
+- MapAsset : id, campaignId, name, imageUrl, layerData (JSON)
+  → Relations : campaign, markers
+
+- MapMarker : id, mapAssetId, x, y, type, label, icon, color,
+  linkedNpcId, linkedLocationId, linkedQuestId (liens polymorphes)
+
+D.8 - MODELES DE QUETES
+
+- Quest : id, campaignId, name, description, type, difficulty, level,
+  duration, imageUrl, questGiverNpcId, xpReward, goldReward,
+  itemRewards (JSON), status, progress (0-100)
+  → Relations : campaign, objectives, cityImpacts, npcLinks, locationLinks
+
+- QuestObjective : id, questId, description, orderIndex, isHidden,
+  isOptional, status ("pending"|"completed"|"failed")
+
+- QuestCityImpact : id, questId, outcome, cityId, parameter, modifier
+  → Définit l'impact d'un résultat de quête sur un paramètre de cité
+
+- QuestNPCLink : id, questId, npcId, role
+  → Unique : (questId, npcId)
+
+- QuestLocationLink : id, questId, locationId, role
+  → Unique : (questId, locationId)
+
+D.9 - MODELES DE COMBAT
+
+- Encounter : id, campaignId, name, description, locationId, status
+  ("planned"|"active"|"completed"), currentRound, currentTurnIndex
+
+- EncounterCombatant : id, encounterId, name, type
+  ("character"|"npc"|"monster"), initiative, hpCurrent, hpMax,
+  armorClass, conditions (JSON), notes, orderIndex, characterId, npcId
+
+D.10 - MODELES D'OBJETS
+
+- Item : id, campaignId, name, type, rarity, description, value, weight,
+  imageUrl, properties (JSON)
+
+D.11 - MODELES DE NOTES
+
+- Note : id, campaignId, parentFolderId (hiérarchie), title, content
+  (rich text), isFolder, isPinned, visibleByPlayers
+
+D.12 - MODELES DE TAGS ET LIENS
+
+- Tag : id, campaignId, name, color
+  → Unique : (campaignId, name)
+
+- EntityTag : id, tagId, entityType, entityId
+  → Unique : (tagId, entityType, entityId)
+
+- EntityLink : id, campaignId, sourceEntityType, sourceEntityId,
+  targetEntityType, targetEntityId, relationType
+  → Unique : (campaignId, source*, target*)
+
+D.13 - MODELES DE DES
+
+- DiceRoll : id, campaignId, userId, characterId, expression, result,
+  details (JSON), label, visibleToAll, createdAt
+
+D.14 - MODELES DE SESSIONS
+
+- Session : id, campaignId, status ("planned"|"live"|"ended"),
+  startedAt, endedAt, summary, activeEncounterId, shareInitiative
+
+D.15 - MODELES DE CONVOIS [AJOUT POST-V1]
+
+- Convoy : id, campaignId, name, status
+  ("planning"|"in_progress"|"completed"|"failed"|"abandoned"),
+  originCityId, destinationCityId, difficulty (0-100),
+  cargoType ("resources"|"humans"|"mixed"), cargoDetails (JSON),
+  Ressources (gauges 0-100) : fuel, water, food, medicine, ammo,
+  currentStepIndex, totalSteps, proposedRewards (JSON), selectedRewards (JSON)
+  → Relations : campaign, originCity, destCity, vehicles, events
+
+- ConvoyVehicle : id, convoyId, type ("moto"|"car"|"truck"), name,
+  hpCurrent, hpMax, passengers (JSON), isDestroyed
+
+- ConvoyEvent : id, convoyId, orderIndex, status
+  ("pending"|"active"|"resolved"|"skipped"),
+  category ("climate"|"encounter"|"calm"|"mechanical"|"custom"),
+  title, description, severity ("low"|"medium"|"high"|"critical"),
+  biomeSource, effects (JSON), gmNotes
+
+D.16 - MODELES DE FACTIONS ET VEHICULES [AJOUT POST-V1]
+
+- Faction : id, campaignId, name, description, color
+
+- Vehicle : id, campaignId, factionId, name, modelType, description,
+  imageUrl, speedBase, acBase, hpMaxBase, hpCurrent, fuelCurrent, fuelMax,
+  exhaustionLevel, notes, tags (JSON)
+  → Relations : campaign, faction, partSlots, crewSlots, accesses
+
+- VehiclePart : id, campaignId, name, partType
+  ("body"|"engine"|"nos"|"weapon"|"misc"), description, rarity,
+  value, weight, imageUrl, modifiers (JSON: acBonus, hpBonus, etc.)
+
+- VehiclePartSlot : id, vehicleId, partType, partId, condition
+  ("new"|"good"|"damaged"|"severely_damaged"|"broken")
+
+- VehicleCrewSlot : id, vehicleId, role ("pilot"|"gunner"|"engineer"),
+  characterId, description
+
+- VehicleAccess : id, vehicleId, userId, characterId, accessLevel
+  ("view"|"operate")
+
+
+========================================================================
+PARTIE E - SPECIFICATIONS FONCTIONNELLES DETAILLEES (INTERFACE MJ)
+========================================================================
+
+E.1 - GESTION DE CAMPAGNES ✅
+- Création, édition, suppression de campagnes
+- Invitation de joueurs par email
+- Dashboard de campagne (personnages, PNJ, lieux, quêtes)
+
+E.2 - FICHES DE PERSONNAGES ✅
+- Création/édition complète avec 6 caractéristiques D&D 5e
+- Système de classes hybrides via arbres de compétences :
+  Le personnage n'a pas de classe fixe. Sa "classe" est déterminée par
+  les points investis dans les 16 arbres de compétences. Le système
+  hybridProgression.js calcule les niveaux par arbre (1 niveau pour
+  2 points investis). Exemple : un personnage ayant investi 4 points
+  en "Combat Rapproché" et 2 en "Médecine" sera "Combat Rapproché
+  niveau 2 / Médecine niveau 1".
+- Gestion des skills (18 compétences D&D 5e) avec 3 niveaux :
+  0 (aucune), 1 (maîtrise), 2 (expertise)
+- Gestion des jets de sauvegarde (proficient ou non)
+- Inventaire via CharacterInventoryItem
+- Hit Dice, Death Saves, Inspiration Héroïque
+- PV temporaires
+- Toggle canBeEditedByPlayer pour contrôle du MJ
+- Visualiseur d'arbres de compétences intégré (SkillTreeViewer)
+
+E.3 - ARBRES DE COMPETENCES ✅ [AJOUT]
+- 16 arbres de compétences stockés en JSON dans server/src/data/skill_trees/
+- 7 arbres de base : Combat Rapproché, Combat Distance, Défense,
+  Médecine, Technologie, Beau Parleur, Voile d'Acier (espionnage)
+- 9 arbres de faction (un par cité majeure) : Serment des Blouses
+  Blanches, Flamme des Raffineurs, Chaîne de Montage, Bénédiction
+  de la Source, Masque des Faiseurs de Rêves, Communion du Réacteur,
+  Rites des Fossoyeurs, Doctrine des Arsenaux, Héritage des Anciens
+- Chaque arbre a des branches avec des nœuds (compétences) à débloquer
+- Coût en points de compétence, prérequis entre nœuds
+- Visualiseur SVG interactif avec pan/zoom et sélection de nœuds
+- Le MJ et le joueur (si autorisé) peuvent débloquer/verrouiller des skills
+
+E.4 - BASE DE DONNEES DE PNJ ✅
+- CRUD complet avec nom, race, rôle, portrait, personnalité, description
+- Liaison à un lieu (locationId)
+- Favoris et statut actif
+- Stats optionnelles (JSON)
+- Notes MJ (non visibles par les joueurs)
+
+E.5 - LIEUX ET HIERARCHIE ✅
+- Structure hiérarchique : continent > région > cité > quartier >
+  bâtiment > pièce
+- Navigation arborescente dans CitiesManager.jsx
+- Chaque lieu : nom, type, description, image, climat, population,
+  gouvernement, caractéristiques notables
+- Intégré avec le système de cités (une Location de type "city" peut
+  être liée à un modèle City)
+
+E.6 - SYSTEME DE CITES-ETATS ✅
+- 7 paramètres dynamiques (0-100) : Santé, Richesse, Technologie,
+  Nourriture, Bonheur, Armement, Carburant
+- Paramètres personnalisés additionnels (customParameters JSON)
+- Historique des changements (CityParameterHistory) avec cause
+- Détails textuels : spécialité, force, faiblesse, particularité
+- Données de carte : position (mapX, mapY), couleur faction, territoire
+- Impacts automatiques via le système de quêtes
+
+E.7 - CARTE DU MONDE INTERACTIVE ✅
+- Un WorldMap par campagne (auto-créé au premier accès)
+- Upload d'image de fond de carte (10 Mo max, JPEG/PNG/WEBP/GIF)
+- MapManager.jsx : composant de ~47 Ko implémentant un éditeur
+  complet basé sur HTML5 Canvas (pas Fabric.js au final)
+- Marqueurs de cités positionnables sur la carte
+- Zones de territoire colorées par cité (polygones SVG)
+- Sauvegarde de l'état du canvas (zoom, pan, objets)
+- Différent du système Fabric.js initialement prévu : l'implémentation
+  actuelle utilise un canvas HTML5 custom
+
+E.8 - CARTES LOCALES ✅
+- MapAsset par lieu (multiples possibles par campagne)
+- LocalMapManager.jsx : gestion de cartes locales avec marqueurs
+- Marqueurs liés à des PNJ, lieux ou quêtes
+- Système de calques basique
+
+E.9 - CREATEUR DE QUETES ✅
+- CRUD avec : nom, description, type (main/secondary/faction/personal),
+  difficulté, niveau, durée, image, donneur de quête (PNJ)
+- Récompenses : XP, or, objets
+- Objectifs multiples avec statut, visibilité, optionnalité
+- Liaisons PNJ : donneur, allié, ennemi, neutre
+- Liaisons lieux : départ, objectif, fin, exploration
+- IMPACT SUR LES CITES : définition d'impacts par outcome (succès/
+  échec/partiel) sur les paramètres de cités
+- Application automatique des impacts lors du changement de statut
+- Historisation dans CityParameterHistory
+- Suivi : statut + barre de progression (0-100%)
+
+E.10 - RENCONTRES / COMBAT ✅
+- CRUD encounters avec localisation
+- Ajout de combattants (personnages, PNJ, monstres)
+- Liste d'initiative avec orderIndex
+- Suivi PV courants/max, CA, conditions (JSON)
+- Compteur de round, indicateur de tour
+- Notes par combattant
+- Statuts : planned → active → completed
+
+E.11 - GESTION DES OBJETS ✅
+- CRUD items avec type, rareté, description, valeur, poids, propriétés
+- Attribution à un personnage via CharacterInventoryItem
+- Quantité et statut "équipé"
+- Catégorisation par type et rareté
+
+E.12 - NOTES DE CAMPAGNE ✅
+- Organisation hiérarchique en dossiers/sous-dossiers (isFolder)
+- Contenu texte (pas d'éditeur riche complet actuellement)
+- Épinglage de notes importantes (isPinned)
+- Flag visibleByPlayers (préparation future)
+
+E.13 - LANCEUR DE DES ✅
+- Service dice.js côté serveur supportant :
+  - Expressions : NdX (ex: 2d6, 1d20)
+  - Modificateurs : +N, -N
+  - Keep highest/lowest : NdXkhY, NdXklY (ex: 4d6kh3, 2d20kl1)
+  - Expressions composées : 2d6+1d4+3
+- Types de jets calculés depuis la fiche :
+  ability_check, saving_throw, skill_check, attack, damage,
+  initiative, free
+- Avantage (2d20kh1) / Désavantage (2d20kl1)
+- Diffusion temps réel via Socket.IO (visibleToAll)
+- Historique persisté en base (DiceRoll)
+
+E.14 - SYSTEME DE LIENS UNIVERSEL ✅
+- EntityLink : liaison bidirectionnelle entre toutes entités
+- Types de relation personnalisables (relationType)
+- Requêtable dans les deux sens
+
+E.15 - TAGS ✅
+- Tags colorés par campagne
+- EntityTag : association polymorphe (character, npc, location, quest,
+  item, note)
+- CRUD tags + gestion dans TagManager.jsx
+
+E.16 - RECHERCHE GLOBALE ✅
+- GlobalSearch.jsx dans le header MJ
+- Recherche multi-entités via endpoint /api/v1/gm/.../search
+- Recherche dans : personnages, PNJ, lieux, quêtes, items, notes
+
+E.17 - SESSIONS LIVE ✅
+- SessionManager.jsx dans la sidebar MJ
+- Démarrer/arrêter une session (status: planned → live → ended)
+- Partage d'initiative (shareInitiative)
+- Liaison avec un encounter actif (activeEncounterId)
+
+E.18 - SYSTEME DE CONVOIS ✅ [AJOUT POST-V1]
+- ConvoyManager.jsx (~46 Ko) : interface complète de gestion
+- Création de convoi : cité d'origine, destination, difficulté,
+  type de cargaison, véhicules, ressources
+- GENERATION PROCEDURALE D'EVENEMENTS :
+  Le convoyGenerator.js (~71 Ko, ~1000 lignes) génère une "roadmap"
+  d'événements basée sur :
+  - La distance entre les cités (nombre d'étapes)
+  - La difficulté (influence la sévérité et le nombre d'événements)
+  - Les biomes des cités traversées (chaque cité a un pool
+    d'événements thématiques : climatiques et rencontres)
+  - Catégories : climate, encounter, calm, mechanical, custom
+  - Sévérités : low, medium, high, critical
+  - Chaque événement a un titre, une description narrative riche,
+    des effets mécaniques (JSON), et un espace pour notes MJ
+- Gestion des ressources (5 jauges 0-100) : carburant, eau,
+  nourriture, médicaments, munitions
+- Véhicules de convoi avec PV et passagers
+- Système de récompenses (proposées par le système, sélectionnées
+  par le MJ)
+- Avancement étape par étape avec résolution d'événements
+- Diffusion temps réel aux joueurs (vue read-only)
+
+E.19 - SYSTEME DE VEHICULES ✅ [AJOUT POST-V1]
+- VehiclesList.jsx : liste des véhicules de la campagne
+- VehicleSheet.jsx : fiche véhicule détaillée avec :
+  - Stats de base : vitesse, CA, PV max, PV courants, carburant
+  - Système de pièces modulaire (VehiclePartSlot) :
+    Types : body, engine, nos, weapon, misc
+    Chaque pièce a des modificateurs (acBonus, hpBonus, speedBonus, etc.)
+    Condition de la pièce : new → good → damaged → severely_damaged → broken
+  - Système d'équipage (VehicleCrewSlot) :
+    Rôles : pilot, gunner, engineer (etc.)
+    Liaison avec les personnages
+  - Factions (regroupement thématique de véhicules)
+  - Accès contrôlé (VehicleAccess : view, operate)
+  - Calcul dynamique des stats finales via calculateVehicleStats()
+    (modifiers des pièces appliqués sur les stats de base)
+- Catalogue de pièces (VehiclePart) par campagne
+- Niveau d'exhaustion du véhicule
+
+
+========================================================================
+PARTIE F - SPECIFICATIONS FONCTIONNELLES DETAILLEES (INTERFACE JOUEUR)
+========================================================================
+
+PERIMETRE STRICT : l'interface joueur n'expose QUE les fonctions listées
+ci-dessous.
+
+F.1 - CONNEXION ET SELECTION DE CAMPAGNE ✅
+- Le joueur se connecte avec son compte
+- Sélecteur de campagne si appartient à plusieurs (dropdown dans le header)
+- Auto-sélection de la première campagne
+
+F.2 - CONSULTATION DE LA FICHE ✅
+- CharacterSheet.jsx (21 Ko) : fiche complète optimisée mobile
+- Onglets : Stats, Skills/Saves, Inventaire, Arbres de compétences, Notes
+- Affichage : identité, caractéristiques avec modificateurs, PV,
+  CA, initiative, vitesse
+- Calcul automatique des stats dérivées côté client :
+  speed = 8 + DEX mod, initiative = DEX mod, AC = 10 + DEX mod,
+  HP max = 10 + ((level-1) * 6) + (level * CON mod)
+- Système de points de stats investissables (max = 5 + niveau)
+- Portrait, background, notes
+
+F.3 - EDITION DE LA FICHE ✅
+- Si canBeEditedByPlayer est true :
+  - Modification : PV, stats (via points), skills, savingThrows,
+    arbres de compétences, notes
+  - Schema de validation restreint côté serveur
+    (playerUpdateCharacterSchema) : seuls les champs autorisés
+    sont modifiables
+  - Mise à jour temps réel vers le MJ via Socket.IO
+- Si permission non active : lecture seule avec message explicite
+
+F.4 - LANCER DE DES ✅
+- DiceRoller.jsx : interface tactile simplifiée
+- Jets pré-configurés calculés depuis la fiche :
+  - Ability check (6 caractéristiques)
+  - Saving throw (6 sauvegardes avec proficiency)
+  - Skill check (18 compétences avec modifier auto)
+  - Attack roll (STR ou DEX based)
+  - Damage roll (expression libre)
+  - Initiative
+  - Jet libre (expression custom)
+- Avantage / Désavantage
+- CALCUL COTE SERVEUR (anti-triche) : le client envoie seulement
+  le type de jet, le serveur calcule le modificateur depuis les
+  données en base
+- Historique des jets du joueur
+
+F.5 - VUE SESSION LIVE ✅
+- LiveSession.jsx :
+  - Indicateur "Session en cours"
+  - PV en temps réel
+  - Tour en cours si initiative partagée
+  - Fil d'activité limité à SES actions
+
+F.6 - VUE CONVOI ✅ [AJOUT]
+- ConvoyDashboard.jsx : vue read-only du convoi en cours
+  - État du convoi (ressources, véhicules, progression)
+  - Événement actif avec description
+  - Socket.IO pour mises à jour temps réel
+  - Aucune possibilité de modification
+
+F.7 - NAVIGATION JOUEUR
+- Barre de navigation fixe en bas (player-nav) avec 4 liens :
+  My Sheet, Dice, Session, Convoi
+- Layout mobile-first : max-width 600px, centré
+- Design : une colonne, boutons larges
+
+
+========================================================================
+PARTIE G - TEMPS REEL ET SYNCHRONISATION
+========================================================================
+
+G.1 - IMPLEMENTATION SOCKET.IO ✅
+- Fichier : server/src/sockets.js
+- Authentification JWT sur la connexion WebSocket
+- Système de rooms :
+  - campaign:{campaignId} : tous les membres
+  - campaign:{campaignId}:gm : MJ uniquement
+  - campaign:{campaignId}:player : joueurs uniquement
+  - user:{userId} : par utilisateur
+- Vérification de membership avant join
+
+G.2 - EVENEMENTS IMPLEMENTES
+- join_campaign / leave_campaign : gestion des rooms
+- joined_campaign : confirmation avec rôle
+- Émission de dice_roll lors d'un jet de dés
+- convoy_update : mise à jour du convoi en cours
+- session_update : changement d'état de session
+- character_update : notification de modification de fiche
+
+G.3 - EXIGENCES TECHNIQUES RESPECTEES
+- Token JWT vérifié à la connexion socket (middleware io.use)
+- Vérification serveur de l'appartenance à la campagne avant join
+- Filtrage côté serveur : un joueur ne reçoit que SES données
+- Reconnexion automatique gérée par socket.io-client
+
+
+========================================================================
+PARTIE H - SECURITE ET GESTION DES ACCES
+========================================================================
+
+H.1 - AUTHENTIFICATION ✅
+- bcrypt avec 12 rounds de salage
+- JWT access token (durée : 15 minutes par défaut)
+- Refresh token (crypto.randomBytes, 40 hex chars)
+  stocké en cookie httpOnly + secure + sameSite
+  durée : 7 jours
+- Rate limiting sur auth : 20 requêtes / 15 min
+
+H.2 - AUTORISATION ✅
+- Middleware auth.js : 5 fonctions chaînables
+  - verifyToken : vérifie le JWT
+  - requireCampaignAccess : vérifie l'appartenance à la campagne
+  - requireGM : vérifie le rôle GM
+  - requirePlayer : vérifie le rôle PLAYER
+  - requireMember : vérifie l'appartenance (GM ou PLAYER)
+- CHAQUE route GM : verifyToken + requireCampaignAccess + requireGM
+- CHAQUE route Player : verifyToken + requireCampaignAccess + requirePlayer
+- Vérification de propriété : les routes player vérifient que le
+  personnage demandé appartient à l'utilisateur connecté
+
+H.3 - VALIDATION DES ENTREES ✅
+- Zod 3.24 : schemas.js (547 lignes) couvrant TOUTES les entités
+- Middleware validate.js appliqué sur chaque route d'écriture
+- Schema restreint pour les joueurs (playerUpdateCharacterSchema)
+- Validation de types, longueurs, plages de valeurs
+
+H.4 - UPLOAD DE FICHIERS ✅
+- Multer avec validation MIME (jpeg, png, webp, gif)
+- Limite de taille : 10 Mo
+- Noms de fichiers générés (crypto.randomBytes + timestamp)
+- Stockage hors racine exécutable (/uploads)
+
+H.5 - CALCULS COTE SERVEUR ✅
+- dice.js : computeCharacterRoll() calcule les modificateurs
+  côté serveur depuis les données en base
+- dnd5eMath.js : calculs de modificateurs, proficiency, skills
+- Le client n'envoie que le type de jet, jamais le résultat
+
+H.6 - SEPARATION DES CAMPAGNES ✅
+- Chaque requête filtre par campaignId
+- requireCampaignAccess vérifie l'appartenance de l'utilisateur
+
+H.7 - SECURITE TRANSPORT & HEADERS ✅
+- Helmet 8 pour les headers de sécurité
+- CORS configuré (origin restreint)
+- Rate limiting général : 1000 req / 15 min
+
+H.8 - JOURNALISATION
+- console.log/error pour les connexions socket et erreurs
+- Pas de système de logging structuré (voir Axes d'amélioration)
+
+
+========================================================================
+PARTIE I - DESIGN, UX/UI ET CHARTE GRAPHIQUE
+========================================================================
+
+I.1 - DESIGN SYSTEM (index.css) ✅
+- Thème sombre (dark theme) par défaut
+- Variables CSS (tokens) :
+  Fonds : --bg-primary (#1a1a1a), --bg-secondary (#2d2d2d),
+          --bg-tertiary (#353535), --bg-hover (#404040)
+  Texte : --text-primary (#f0f0f0), --text-secondary (#aaaaaa)
+  Accent : --accent-primary (#6366f1 indigo), --accent-hover (#4f46e5)
+  Sémantique : --danger (#ef4444), --success (#10b981), --warning (#f59e0b)
+  Bordures : --border-color (#3f3f46)
+  Rayons : --radius-sm (4px), --radius-md (8px), --radius-lg (12px)
+- Typographie : Inter, Roboto, sans-serif
+- Composants de base stylés : boutons (.btn-primary, .btn-secondary),
+  inputs, textareas, selects
+- Classes utilitaires : .loading-screen
+
+I.2 - INTERFACE MJ ✅
+- Layout sidebar + main content (flex, 100vh)
+- Sidebar 250px avec :
+  - Logo "GM Helper"
+  - Info utilisateur + logout
+  - Navigation : Campaigns, Dashboard, Map, Notes, Characters,
+    NPCs, Locations & Cities, Quests, Encounters, Items, Tags,
+    Convois, Véhicules
+  - SessionManager ancré en bas
+- Header avec GlobalSearch
+- Zone de contenu principale scrollable
+- Composants modaux pour création/édition
+
+I.3 - INTERFACE JOUEUR ✅
+- Layout mobile-first (max-width 600px, centré)
+- Header avec sélecteur de campagne (dropdown)
+- Zone de contenu scrollable
+- Navigation basse fixe (player-nav) : My Sheet, Dice, Session, Convoi
+- Design une colonne, boutons larges
+
+
+========================================================================
+PARTIE J - PERFORMANCE ET QUALITE
+========================================================================
+
+J.1 - PERFORMANCE ✅ (PARTIEL)
+- Code splitting via React.lazy() pour GmApp et PlayerApp
+- Proxy Vite pour éviter les problèmes CORS en développement
+- Index Prisma sur toutes les clés étrangères et champs de recherche
+
+J.2 - FIABILITE ✅ (PARTIEL)
+- Gestion d'erreurs sur chaque route backend (try/catch)
+- Messages d'erreur utilisateur dans l'interface
+- Reconnexion Socket.IO automatique
+- PAS de tests automatisés actuellement
+
+
+========================================================================
+PARTIE K - PRIORITES DE DEVELOPPEMENT (ETAT ACTUEL)
+========================================================================
+
+K.1 - MVP — TOUT EST IMPLEMENTE ✅
+
+1. Authentification et gestion de campagnes ✅
+2. Séparation stricte des interfaces MJ / Joueur ✅
+3. Gestion des fiches de personnages ✅
+4. Base de données de PNJ ✅
+5. Lieux avec système de Cités-Etats ✅
+6. Créateur de quêtes avec impact paramètres ✅
+7. Système de liens entre entités ✅
+8. Tracker de combat/initiative ✅
+9. Lanceur de dés avec calcul serveur ✅
+10. Mode session live ✅
+11. Interface joueur mobile ✅
+
+K.2 - AJOUTS POST-MVP IMPLEMENTES ✅
+
+12. Système de convois avec génération procédurale ✅
+13. Système de véhicules avec pièces et équipage ✅
+14. Arbres de compétences hybrides (16 arbres, 100+ compétences) ✅
+15. Carte du monde interactive ✅
+16. Cartes locales par lieu ✅
+17. Système de factions ✅
+
+K.3 - FONCTIONNALITES SPECIFIEES MAIS NON IMPLEMENTEES
+
+- Editeur de texte riche complet (TipTap/Quill/ProseMirror)
+- Brouillard de guerre sur les cartes
+- Export PDF de fiche de personnage
+- Historique/changelog des modifications de personnage
+- Embranchements de quêtes complexes et dépendances entre quêtes
+- Génération dynamique de quêtes basée sur l'état des cités
+- Simulateur "what-if" pour impact de quêtes
+- Tables de butin générables
+- Vue comparaison entre cités
+- Vue "carte thermique" (heat map) des cités
+- Alertes de seuil critique pour les paramètres de cités
+- Graphiques d'évolution des paramètres dans le temps
+- PWA (Progressive Web App) pour l'interface joueur
+- Modèles de quêtes réutilisables (templates)
+- Modèles de rencontres réutilisables
+- Dépendances entre quêtes (prérequis, chaînes)
+
+
+========================================================================
+PARTIE L - AXES D'AMELIORATION
+========================================================================
+
+L.1 - ARCHITECTURE & INFRASTRUCTURE
+
+1. MIGRATION VERS POSTGRESQL
+   La base SQLite actuelle est adaptée au développement local mais
+   limitante pour la production (pas de connexions concurrentes,
+   pas de types avancés). Migrer vers PostgreSQL comme initialement
+   prévu améliorerait la robustesse et les performances.
+
+2. MIGRATION VERS TYPESCRIPT
+   Le projet est entièrement en JavaScript. TypeScript apporterait
+   la sécurité de typage, l'autocomplétion, et réduirait les bugs
+   runtime. Prisma génère déjà des types — les exploiter pleinement.
+
+3. STRUCTURATION BACKEND (NestJS ou modules Express)
+   Les routes Express sont fonctionnelles mais le code pourrait
+   bénéficier d'une couche service plus formalisée séparant la
+   logique métier des contrôleurs de route.
+
+4. TESTS AUTOMATISES
+   Aucun test unitaire ou d'intégration n'existe actuellement.
+   Priorités : tests d'autorisation (un joueur ne peut pas accéder
+   aux données d'un autre), tests du calcul de dés, tests des
+   impacts de quêtes sur les cités.
+
+5. CI/CD
+   Mettre en place un pipeline d'intégration continue (GitHub Actions
+   ou équivalent) avec linting, tests, et build automatique.
+
+L.2 - SECURITE
+
+6. LOGGING STRUCTURE
+   Remplacer les console.log/console.error par un système de logging
+   structuré (Winston, Pino) avec niveaux de log et rotation des
+   fichiers. Ajouter la journalisation des actions sensibles.
+
+7. VALIDATION MIME RENFORCEE
+   La validation de type MIME actuelle se fie au Content-Type du
+   client. Utiliser une librairie de détection de magic bytes
+   (file-type) pour vérifier le type réel du fichier.
+
+8. PROTECTION CSRF
+   Si les cookies de session sont utilisés sur des formulaires,
+   ajouter une protection CSRF (csurf ou équivalent).
+
+9. RATE LIMITING PLUS GRANULAIRE
+   Le rate limiting actuel est global. Ajouter des limites par
+   utilisateur et par endpoint sensible (création de campagne,
+   upload de fichiers, etc.).
+
+L.3 - FONCTIONNALITES
+
+10. EDITEUR DE TEXTE RICHE
+    Les notes de campagne utilisent un simple textarea. Intégrer
+    TipTap ou Quill permettrait du formatage riche, des liens vers
+    des entités, des tableaux, des images inline, etc.
+
+11. BROUILLARD DE GUERRE
+    La carte du monde et les cartes locales n'ont pas de système
+    de brouillard de guerre. C'est une fonctionnalité clé pour les
+    sessions live : le MJ révèle progressivement la carte.
+
+12. EXPORT PDF
+    Permettre l'export de fiches de personnage en PDF lisibles,
+    formatées, imprimables. Utiliser une librairie comme jsPDF ou
+    Puppeteer côté serveur.
+
+13. HISTORIQUE/CHANGELOG DES FICHES
+    Implémenter un historique des modifications sur les fiches de
+    personnages (qui a modifié quoi, quand). Utile pour le MJ et
+    pour éviter les abus.
+
+14. SYSTEME DE QUETES AVANCE
+    - Embranchements narratifs (choix A → conséquence X, choix B →
+      conséquence Y)
+    - Dépendances et prérequis entre quêtes
+    - Chaînes de quêtes
+    - Templates de quêtes réutilisables
+    - Génération automatique basée sur l'état des cités
+
+15. GESTION DU BUTIN AVANCEE
+    Tables de loot randomisées, trésors générables par rareté
+    et type, loot tables liées aux rencontres.
+
+16. PWA (PROGRESSIVE WEB APP)
+    Ajouter un service worker et un manifest.json pour l'interface
+    joueur mobile : installation sur l'écran d'accueil, fonctionnement
+    offline basique, notifications push pour "c'est votre tour".
+
+17. GRAPHIQUES ET ANALYTICS DES CITES
+    Visualiser l'évolution des paramètres de cités dans le temps
+    (graphiques linéaires), vue de comparaison entre cités, carte
+    thermique des paramètres sur la carte du monde.
+
+18. DASHBOARD MJ ENRICHI
+    Le dashboard actuel est basique. Ajouter : widgets de contenu
+    récent, checklist de préparation de session, graphiques
+    d'évolution des cités, résumé d'impacts de quêtes, alertes
+    de cités en état critique.
+
+L.4 - UX/UI
+
+19. DESIGN POLISH
+    L'interface est fonctionnelle mais utilise beaucoup de styles
+    inline dans les composants JSX. Extraire les styles dans des
+    fichiers CSS dédiés ou utiliser des CSS Modules pour une
+    meilleure maintenabilité et un design plus cohérent.
+
+20. ANIMATIONS ET MICRO-INTERACTIONS
+    Ajouter des transitions sur les modales, les changements
+    d'onglets, les résultats de dés (animation de roulement),
+    les changements de PV, etc.
+
+21. ACCESSIBILITE (WCAG)
+    Ajouter les attributs ARIA, assurer la navigation clavier
+    complète, vérifier les contrastes, ajouter les textes
+    alternatifs, utiliser du HTML sémantique partout.
+
+22. RESPONSIVE DESIGN MJ
+    L'interface MJ est desktop-first mais pourrait bénéficier
+    d'un mode tablette (sidebar repliable, layouts adaptatifs).
+
+23. THEME CLAIR OPTIONNEL
+    Proposer un thème clair en alternative au thème sombre,
+    avec un toggle dans les préférences utilisateur.
+
+L.5 - DONNEES & CONTENU
+
+24. SYSTEME D'IMPORT/EXPORT
+    Permettre l'export complet d'une campagne (JSON ou ZIP) et
+    l'import dans une nouvelle instance. Utile pour les backups
+    et le partage entre MJ.
+
+25. SEED DATA PLUS RICHE
+    Compléter les données de seed avec plus de PNJ, quêtes
+    pré-construites, et objets pour offrir une expérience de
+    démonstration plus complète.
+
+26. GENERATION D'IMAGES IA
+    Intégrer un générateur d'images (portraits de PNJ, cartes,
+    portraits de personnages) via API de génération d'images.
+
+L.6 - PERFORMANCE & SCALABILITE
+
+27. PAGINATION & VIRTUALISATION
+    Les listes (PNJ, objets, quêtes) ne sont pas paginées.
+    Implémenter la pagination côté serveur et la virtualisation
+    côté client pour les grandes campagnes.
+
+28. MISE EN CACHE
+    Ajouter un cache en mémoire (Redis ou simple cache LRU)
+    pour les requêtes fréquentes (skill trees, campagne active,
+    dernières modifications).
+
+29. OPTIMISATION DES IMAGES
+    Génération automatique de thumbnails à l'upload, compression,
+    lazy loading des images dans l'interface.
+
+30. STOCKAGE FICHIERS CLOUD
+    Migrer le stockage de fichiers vers un service compatible S3
+    (AWS S3, MinIO, Cloudflare R2) pour la production.
+
+
+========================================================================
+FIN DU DOCUMENT
+========================================================================

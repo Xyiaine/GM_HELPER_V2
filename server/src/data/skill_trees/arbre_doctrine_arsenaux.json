@@ -1,0 +1,112 @@
+{
+  "arbre": {
+    "id": "doctrine_arsenaux",
+    "nom": "Doctrine des Arsenaux",
+    "type": "cache",
+    "cite_origine": "armement",
+    "condition_deblocage": "Grade chez les Arsenaux.",
+    "description": "Armement lourd et destruction massive.",
+    "branches": [
+      {
+        "id": "destruction",
+        "nom": "Destruction Lourde",
+        "noeuds": [
+          {
+            "id": "science_balistique",
+            "nom": "Science Balistique",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Ignore 10% de l'armure ennemie.",
+            "effet": {
+              "resume": "Pénétration d'Armure +10%"
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "grenadier_expert",
+            "nom": "Grenadier Expert",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "science_balistique"
+            ],
+            "description": "Zone d'effet des explosifs augmentée.",
+            "effet": {
+              "resume": "+50% rayon explosif"
+            },
+            "position": {
+              "x": 50,
+              "y": 200
+            }
+          },
+          {
+            "id": "pluie_de_feu",
+            "nom": "Pluie de Feu",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "grenadier_expert"
+            ],
+            "description": "Vide tout un chargeur lourd en une attaque.",
+            "effet": {
+              "resume": "Dégâts x3, vide le chargeur",
+              "cooldown_tours": 5
+            },
+            "position": {
+              "x": 50,
+              "y": 300
+            }
+          },
+          {
+            "id": "armure_reactive",
+            "nom": "Armure Réactive",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "pluie_de_feu"
+            ],
+            "description": "Les attaques de mêlée subies infligent des dégâts à l'attaquant.",
+            "effet": {
+              "resume": "Renvoi de Dégâts en Mêlée"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "fureur_arsenal",
+            "nom": "La Fureur de l'Arsenal",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "armure_reactive"
+            ],
+            "description": "Frappe d'artillerie dévastatrice coordonnée.",
+            "effet": {
+              "resume": "Dégâts AoE Massifs",
+              "cout_ressource": {
+                "type": "munitions_lourdes",
+                "quantite": 5
+              },
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

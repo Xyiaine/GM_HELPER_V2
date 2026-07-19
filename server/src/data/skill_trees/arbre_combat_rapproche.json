@@ -1,0 +1,173 @@
+{
+  "arbre": {
+    "id": "combat_rapproche",
+    "nom": "Combat Rapproché",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Armes de mêlée et armes automatiques courte portée.",
+    "branches": [
+      {
+        "id": "melee_brutale",
+        "nom": "Mêlée Brutale",
+        "noeuds": [
+          {
+            "id": "frappe_vicieuse",
+            "nom": "Frappe Vicieuse",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Coups plus précis.",
+            "effet": {
+              "resume": "Critique sur 19-20 en mêlée"
+            },
+            "position": {
+              "x": -50,
+              "y": 100
+            }
+          },
+          {
+            "id": "enchainement",
+            "nom": "Enchaînement",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "frappe_vicieuse"
+            ],
+            "description": "Attaque supplémentaire gratuite après un critique.",
+            "effet": {
+              "resume": "Attaque bonus sur Critique",
+              "cooldown_tours": 1
+            },
+            "position": {
+              "x": -50,
+              "y": 200
+            }
+          },
+          {
+            "id": "frenesie_du_sang",
+            "nom": "Frénésie du Sang",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "enchainement"
+            ],
+            "description": "Attaques téméraires.",
+            "effet": {
+              "resume": "Avantage aux attaques de mêlée, mais les ennemis ont l'Avantage pour vous toucher (2 tours)",
+              "cooldown_tours": 5
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          },
+          {
+            "id": "coup_fatal",
+            "nom": "Coup Fatal",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "frenesie_du_sang"
+            ],
+            "description": "Garantit un coup critique sur cible affaiblie.",
+            "effet": {
+              "resume": "Critique garanti si PV cible < 30%",
+              "cooldown_tours": 3
+            },
+            "position": {
+              "x": -50,
+              "y": 400
+            }
+          },
+          {
+            "id": "tornade_acier",
+            "nom": "Tornade d'Acier",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "coup_fatal"
+            ],
+            "description": "Attaque tous les ennemis adjacents en un tour.",
+            "effet": {
+              "resume": "Attaque AoE mêlée",
+              "cout_ressource": {
+                "type": "adrenaline",
+                "quantite": 1
+              },
+              "cooldown_tours": 5
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "close_quarters",
+        "nom": "Close-Quarters",
+        "noeuds": [
+          {
+            "id": "rafale_courte",
+            "nom": "Rafale Courte",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Réduit la dispersion des mitraillettes à bout portant.",
+            "effet": {
+              "resume": "+2 Précision au SMG (<10m)",
+              "valeur": 2
+            },
+            "position": {
+              "x": 50,
+              "y": 100
+            }
+          },
+          {
+            "id": "chargeur_rapide",
+            "nom": "Chargeur Rapide",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "rafale_courte"
+            ],
+            "description": "Rechargement deux fois plus rapide.",
+            "effet": {
+              "resume": "Rechargement coûte une action libre"
+            },
+            "position": {
+              "x": 50,
+              "y": 200
+            }
+          },
+          {
+            "id": "tir_en_mouvement",
+            "nom": "Tir en Mouvement",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "chargeur_rapide"
+            ],
+            "description": "Aucun malus de précision en se déplaçant avec un SMG.",
+            "effet": {
+              "resume": "Tir en courant sans malus"
+            },
+            "position": {
+              "x": 50,
+              "y": 300
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

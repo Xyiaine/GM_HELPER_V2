@@ -1,0 +1,178 @@
+{
+  "arbre": {
+    "id": "combat_distance",
+    "nom": "Combat à Distance",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Fusils de précision et mitrailleuses lourdes.",
+    "branches": [
+      {
+        "id": "precision",
+        "nom": "Précision",
+        "noeuds": [
+          {
+            "id": "souffle_controle",
+            "nom": "Souffle Contrôlé",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Visée stable.",
+            "effet": {
+              "resume": "+2 Précision (>20m)",
+              "valeur": 2
+            },
+            "position": {
+              "x": -50,
+              "y": 100
+            }
+          },
+          {
+            "id": "munitions_choisies",
+            "nom": "Munitions Choisies",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Balles spéciales.",
+            "effet": {
+              "resume": "+1 Dégât Fusil",
+              "valeur": 1
+            },
+            "position": {
+              "x": -100,
+              "y": 100
+            }
+          },
+          {
+            "id": "oeil_sniper",
+            "nom": "Œil de Tireur d'Élite",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "souffle_controle"
+            ],
+            "description": "Tir garanti en zone vitale sur cible immobile.",
+            "effet": {
+              "resume": "Coup critique automatique (cible immobile)",
+              "cooldown_tours": 4
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          },
+          {
+            "id": "sang_froid_sniper",
+            "nom": "Sang-Froid du Sniper",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "oeil_sniper"
+            ],
+            "description": "Aucune pénalité après un mouvement.",
+            "effet": {
+              "resume": "Mouvement sans malus de visée"
+            },
+            "position": {
+              "x": -50,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_jugement",
+            "nom": "Le Jugement",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "sang_froid_sniper"
+            ],
+            "description": "Tir mortel longue distance.",
+            "effet": {
+              "resume": "Létalité extrême, ignore les armures",
+              "cout_ressource": {
+                "type": "munitions_lourdes",
+                "quantite": 1
+              },
+              "cooldown_tours": 10
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "puissance_de_feu",
+        "nom": "Puissance de Feu",
+        "noeuds": [
+          {
+            "id": "tir_instinctif",
+            "nom": "Tir Instinctif",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "souffle_controle"
+            ],
+            "description": "Tir de réaction sans viser à moyenne distance.",
+            "effet": {
+              "resume": "Attaque d'opportunité à l'arme à feu",
+              "cooldown_tours": 2
+            },
+            "position": {
+              "x": 50,
+              "y": 200
+            }
+          },
+          {
+            "id": "refroidissement_ameliore",
+            "nom": "Refroidissement Amélioré",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "souffle_controle"
+            ],
+            "description": "Réduit la surchauffe des mitrailleuses.",
+            "effet": {
+              "resume": "Double le nombre de tirs avant surchauffe"
+            },
+            "position": {
+              "x": 100,
+              "y": 200
+            }
+          },
+          {
+            "id": "tir_suppression",
+            "nom": "Tir de Suppression",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "refroidissement_ameliore"
+            ],
+            "description": "Arrose une zone, réduit la précision ennemie.",
+            "effet": {
+              "resume": "Désavantage aux jets d'attaque ennemis dans la zone",
+              "cout_ressource": {
+                "type": "munitions",
+                "quantite": 20
+              },
+              "cooldown_tours": 3
+            },
+            "position": {
+              "x": 100,
+              "y": 300
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

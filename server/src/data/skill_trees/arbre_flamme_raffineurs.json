@@ -1,0 +1,112 @@
+{
+  "arbre": {
+    "id": "flamme_raffineurs",
+    "nom": "Flamme des Raffineurs",
+    "type": "cache",
+    "cite_origine": "carburant",
+    "condition_deblocage": "Allié des Raffineurs.",
+    "description": "Carburants, explosifs et moteurs en feu.",
+    "branches": [
+      {
+        "id": "chimie_combustion",
+        "nom": "Chimie de Combustion",
+        "noeuds": [
+          {
+            "id": "expert_en_mazout",
+            "nom": "Expert en Mazout",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Réduit la consommation des véhicules.",
+            "effet": {
+              "resume": "-20% Conso Carburant"
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "melange_instable",
+            "nom": "Mélange Instable",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "expert_en_mazout"
+            ],
+            "description": "Crée un explosif puissant mais instable.",
+            "effet": {
+              "resume": "Dégâts AoE, 10% chance d'explosion sur soi",
+              "cout_ressource": {
+                "type": "carburant",
+                "quantite": 1
+              }
+            },
+            "position": {
+              "x": -50,
+              "y": 200
+            }
+          },
+          {
+            "id": "moteur_hurlant",
+            "nom": "Moteur Hurlant",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "melange_instable"
+            ],
+            "description": "Boost extrême d'un véhicule, l'endommage.",
+            "effet": {
+              "resume": "+50% Vitesse Véhicule, -10 PV Véhicule",
+              "cooldown_tours": 2
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          },
+          {
+            "id": "peau_ignifugee",
+            "nom": "Peau Ignifugée",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "moteur_hurlant"
+            ],
+            "description": "Résistance au feu.",
+            "effet": {
+              "resume": "Immunité aux dégâts de Feu"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "holocauste_mobile",
+            "nom": "L'Holocauste Mobile",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "peau_ignifugee"
+            ],
+            "description": "Embrase le véhicule pour percer les lignes ennemies sans subir de dommages.",
+            "effet": {
+              "resume": "Dégâts continus AoE autour du véhicule, Invulnérabilité au feu",
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

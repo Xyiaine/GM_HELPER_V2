@@ -1,0 +1,756 @@
+========================================================================
+CAHIER DES CHARGES
+MODULE "FICHE DE PERSONNAGE" - MISE AU FORMAT D&D 5e
+APPLICATION GM_HELPER
+Version 1.0
+========================================================================
+
+CE DOCUMENT EST UNE SPECIFICATION TECHNIQUE DESTINEE A ETRE UTILISEE
+DIRECTEMENT PAR UNE IA DE GENERATION/MODIFICATION DE CODE SUR LE PROJET
+GM_HELPER DEJA EXISTANT. IL COMPLETE (ET NE REMPLACE PAS) LE CAHIER DES
+CHARGES GENERAL DE L'APPLICATION. TOUTE AMBIGUITE DOIT ETRE LEVEE EN
+SUIVANT CE DOCUMENT A LA LETTRE. L'IA DOIT COMMENCER PAR INSPECTER LE
+CODE EXISTANT (modèle Character, module "arbres de compétences", écrans
+de fiche de personnage actuels) AVANT TOUTE MODIFICATION, ET ADAPTER LES
+NOMS DE FICHIERS/COMPOSANTS/TABLES CI-DESSOUS A LA STRUCTURE REELLE DU
+PROJET SI ELLE DIFFERE DE CE QUI EST DECRIT.
+
+========================================================================
+TABLE DES MATIERES
+========================================================================
+PARTIE A - CONTEXTE ET OBJECTIF
+PARTIE B - PERIMETRE DE LA MISSION
+PARTIE C - MODELE DE DONNEES CIBLE (FICHE D&D 5e)
+PARTIE D - REGLES DE CALCUL (SERVEUR UNIQUEMENT)
+PARTIE E - ORGANISATION DE LA FICHE EN ONGLETS
+PARTIE F - LES ARBRES DE COMPETENCES : MISE A JOUR AU MODELE D&D 5e
+PARTIE G - COMPORTEMENT COTE JOUEUR VS COTE MJ
+PARTIE H - MIGRATION DES DONNEES EXISTANTES
+PARTIE I - UX / UI
+PARTIE J - CRITERES D'ACCEPTATION ET TESTS
+PARTIE K - PHASAGE
+PARTIE L - FICHES DE VEHICULES
+
+
+========================================================================
+PARTIE A - CONTEXTE ET OBJECTIF
+========================================================================
+
+A.1 - CONTEXTE
+GM_Helper est une application de gestion de campagne de jeu de rôle
+(univers post-apocalyptique original, cf. cahier des charges général).
+Elle possède déjà :
+  - un module "Fiche de personnage" simplifié (identité, race, classe,
+    niveau, alignement, background, 6 caractéristiques, PV, CA, vitesse,
+    inventaire, sorts) ;
+  - un module "arbres de compétences" (skill trees) déjà implémenté et
+    fonctionnel dans l'application, actuellement calé sur l'univers
+    maison du jeu (compétences/talents propres au contexte
+    post-apocalyptique) ;
+  - une séparation stricte des interfaces MJ (édition complète) et
+    Joueur (consultation + édition conditionnelle de sa propre fiche).
+
+A.2 - OBJECTIF DE CETTE MISSION
+Faire évoluer le module "Fiche de personnage" pour qu'il corresponde
+fonctionnellement à une fiche de personnage D&D 5e standard (mêmes
+caractéristiques, mêmes statistiques dérivées, mêmes mécaniques de jeu :
+maîtrises, jets de sauvegarde, compétences, sorts, etc.), tout en
+conservant l'intégration avec le module "arbres de compétences" déjà
+existant, sous la forme d'un ou plusieurs onglets de la fiche.
+
+Les arbres de compétences existants doivent ensuite être mis à jour pour
+que leur contenu (noeuds, prérequis, progression) corresponde au modèle
+D&D 5e (classes, sous-classes, dons/feats, aptitudes de classe et de
+race par niveau) plutôt qu'au système maison actuel.
+
+A.3 - NON-OBJECTIFS
+- Ce document ne remet pas en cause l'univers narratif post-apocalyptique
+  de la campagne (PNJ, lieux, cités, quêtes) : seule la fiche de
+  personnage et les arbres de compétences sont concernés.
+- Il ne s'agit pas de réécrire entièrement le moteur de règles en un
+  simulateur D&D 5e exhaustif (pas de gestion des règles de combat
+  tour par tour au sens strict) : l'objectif est la FICHE et ses
+  DONNEES/CALCULS AFFICHES, pas un moteur de résolution de combat complet.
+- Les autres modules de l'application (PNJ, cartes, quêtes, cités, etc.)
+  ne sont pas impactés, sauf ceux qui référencent directement une fiche
+  de personnage (ex : tracker d'initiative, lanceur de dés).
+
+
+========================================================================
+PARTIE B - PERIMETRE DE LA MISSION
+========================================================================
+
+B.1 - CE QUI DOIT ETRE FAIT
+  1. Etendre le modèle de données "Character" pour couvrir l'ensemble des
+     champs d'une fiche D&D 5e (Partie C).
+  2. Implémenter les calculs de modificateurs, bonus de maîtrise,
+     emplacements de sorts, etc. côté serveur (Partie D).
+  3. Réorganiser l'écran de fiche de personnage en onglets clairs,
+     incluant un onglet dédié aux arbres de compétences existants
+     (Partie E).
+  4. Mettre à jour le module "arbres de compétences" pour qu'il
+     reflète la progression D&D 5e par classe/sous-classe/race/dons
+     (Partie F).
+  5. Adapter en conséquence :
+     - le lanceur de dés (jets de compétence/sauvegarde utilisant
+       désormais les maîtrises D&D 5e) ;
+     - le tracker d'initiative (initiative = modificateur de
+       Dextérité + bonus divers) ;
+     - l'interface joueur mobile ("Ma Fiche") qui doit rester capable
+       d'afficher/éditer la fiche enrichie sans surcharge visuelle.
+  6. Fournir un script/processus de migration des fiches existantes
+     vers le nouveau modèle (Partie H).
+
+B.2 - CE QUI NE DOIT PAS ETRE CASSE
+  - La séparation des permissions MJ / Joueur (H.5/H.6 du cahier des
+    charges général) doit rester intacte : tout calcul de modificateur
+    ou de jet reste calculé côté serveur, jamais fait confiance côté
+    client.
+  - Le filtrage par campaign_id doit continuer de s'appliquer à toutes
+    les nouvelles tables/champs ajoutés.
+  - Les fonctionnalités déjà en place sur les arbres de compétences
+    (affichage, déblocage de noeuds, sauvegarde de progression) doivent
+    continuer de fonctionner avec le nouveau contenu ; seul le CONTENU
+    des arbres change, pas nécessairement leur mécanique d'affichage/
+    interaction si elle est déjà satisfaisante (voir F.4).
+
+
+========================================================================
+PARTIE C - MODELE DE DONNEES CIBLE (FICHE D&D 5e)
+========================================================================
+
+L'IA doit étendre l'entité Character existante (et ses tables liées)
+pour couvrir les champs suivants. Les noms de colonnes sont indicatifs ;
+adapter au style de nommage déjà utilisé dans le projet.
+
+C.1 - IDENTITE
+  - nom, race (+ sous-race si applicable), alignement, historique (background),
+    expérience (XP) ou "niveau manuel" selon le mode choisi par le MJ,
+    portrait_url, taille, âge, genre, divinité/croyance (optionnel).
+  - La progression de niveau est **hybride** : le niveau total n'est pas choisi
+    manuellement. Il est calculé dynamiquement à partir des arbres de compétences
+    (1 niveau par tranche de 2 points investis dans une branche donnée).
+    Le niveau total est la somme de ces niveaux dérivés.
+
+C.2 - CARACTERISTIQUES (ABILITY SCORES)
+  6 scores : Force, Dextérité, Constitution, Intelligence, Sagesse,
+  Charisme. Chaque score va de 1 à 30 (typiquement 8-20 à la création).
+  Chaque score a un modificateur dérivé = floor((score - 10) / 2),
+  toujours calculé côté serveur, jamais stocké en dur (ou recalculé à
+  chaque lecture/écriture pour éviter toute désynchronisation).
+
+C.3 - BONUS DE MAITRISE ET PROFICIENCIES
+  Dérivé du niveau total du personnage selon la table standard 5e :
+    Niveaux 1-4   -> +2
+    Niveaux 5-8   -> +3
+    Niveaux 9-12  -> +4
+    Niveaux 13-16 -> +5
+    Niveaux 17-20 -> +6
+  Toujours calculé côté serveur à partir du niveau total.
+  Note spécifique : Les scores de maîtrise ne sont pas débloqués par les classes 
+  elles-mêmes. À la création du personnage, le joueur dispose de 3 maîtrises 
+  libres que le MJ valide en fonction de son background. Le MJ pourra en 
+  distribuer d'autres au cours du jeu.
+
+C.4 - JETS DE SAUVEGARDE (SAVING THROWS)
+  6 jets de sauvegarde, un par caractéristique. Pour chacun :
+  - maîtrisé (booléen, déterminé par la classe du personnage) ;
+  - modificateur = modificateur de caractéristique + (bonus de maîtrise
+    si maîtrisé).
+
+C.5 - COMPETENCES (SKILLS) - LES 18 COMPETENCES STANDARD
+  Chaque compétence est rattachée à une caractéristique fixe :
+    Acrobaties          -> Dextérité
+    Arcanes              -> Intelligence
+    Athlétisme            -> Force
+    Discrétion            -> Dextérité
+    Dressage              -> Sagesse
+    Escamotage (Sleight of Hand) -> Dextérité
+    Histoire              -> Intelligence
+    Intimidation          -> Charisme
+    Investigation          -> Intelligence
+    Médecine              -> Sagesse
+    Nature                -> Intelligence
+    Perception            -> Sagesse
+    Persuasion            -> Charisme
+    Perspicacité (Insight) -> Sagesse
+    Religion              -> Intelligence
+    Représentation (Performance) -> Charisme
+    Survie                -> Sagesse
+    Tromperie (Deception)  -> Charisme
+
+  Pour chaque compétence, stocker un état de maîtrise à 3 niveaux :
+  0 = aucune maîtrise, 1 = maîtrisé, 2 = expertise (double bonus de
+  maîtrise, réservé à certaines classes comme le Roublard ou le
+  Barde). Modificateur affiché = modificateur de la caractéristique
+  liée + (bonus de maîtrise x niveau de maîtrise de la compétence).
+
+C.6 - COMBAT
+  - Classe d'Armure (CA), avec détail de calcul optionnel (armure +
+    bouclier + modificateur de Dextérité selon le type d'armure) ;
+  - Points de Vie actuels, Points de Vie maximum, Points de Vie
+    temporaires ;
+  - Dés de vie (type de dé selon la classe, ex : d10 pour un Guerrier,
+    et nombre de dés de vie restants/dépensés) ;
+  - Initiative = modificateur de Dextérité (+ bonus éventuels) ;
+  - Vitesse de déplacement (en mètres ou cases selon convention du
+    projet) ;
+  - Inspiration héroïque (booléen, accordée par le MJ) ;
+  - Liste d'attaques/armes équipées : nom, bonus d'attaque (calculé),
+    type de dégâts et dé de dégâts, portée, propriétés.
+
+C.7 - [SUPPRIME - PAS DE SORTS]
+
+C.8 - EQUIPEMENT ET RESSOURCES
+  - Inventaire (déjà existant : CharacterInventoryItem), conserver tel
+    quel ;
+  - Monnaie : Pièces de Platine, Or, Argent, Cuivre (au minimum Or et
+    Argent doivent être disponibles, les autres optionnelles selon
+    configuration de campagne) ;
+  - Outils et langues maîtrisés (liste libre ou catalogue prédéfini).
+
+C.9 - BACKGROUND ET ROLEPLAY
+  - Traits de personnalité, Idéaux, Liens, Défauts (les 4 champs
+    classiques d'un historique 5e) ;
+  - Traits raciaux (liste de capacités issues de la race) ;
+  - Capacités acquises : issues du déblocage des nœuds dans les arbres de
+    compétences (le système hybride remplace les traits de classe stricts).
+  - Dons (feats) obtenus, le cas échéant.
+
+C.10 - CHAMPS DEJA EXISTANTS A CONSERVER TELS QUELS
+  peut_etre_edite_par_joueur, historique des modifications (changelog),
+  export PDF, liaison à des lieux/PNJ/objets/quêtes : ces mécaniques
+  existantes s'appliquent identiquement à la fiche enrichie.
+
+
+========================================================================
+PARTIE D - REGLES DE CALCUL (SERVEUR UNIQUEMENT)
+========================================================================
+
+Conformément à la politique anti-triche déjà en vigueur dans
+l'application (calculs de dés effectués côté serveur), TOUS les calculs
+suivants doivent être effectués et validés côté serveur, jamais
+approuvés depuis une valeur envoyée telle quelle par le client :
+
+  - modificateur de caractéristique ;
+  - bonus de maîtrise selon le niveau ;
+  - modificateur de jet de sauvegarde ;
+  - modificateur de compétence (avec gestion de l'expertise) ;
+  - initiative ;
+  - bonus d'attaque et dégâts des armes/attaques ;
+
+Toute tentative d'un joueur d'envoyer une valeur de score, de
+modificateur ou de résultat de jet directement doit être ignorée : le
+serveur recalcule systématiquement à partir des données stockées.
+
+
+========================================================================
+PARTIE E - ORGANISATION DE LA FICHE EN ONGLETS
+========================================================================
+
+L'écran de fiche de personnage (côté MJ comme côté joueur, avec le
+même contenu mais des droits d'édition différents) doit être réorganisé
+en onglets. Proposition de structure, à adapter à l'existant :
+
+  1. "Identité"
+     Nom, race, classe(s)/niveau, alignement, historique, portrait,
+     traits de personnalité / idéaux / liens / défauts.
+
+  2. "Caractéristiques & Jets"
+     Les 6 caractéristiques et leurs modificateurs, les 6 jets de
+     sauvegarde (avec case à cocher "maîtrisé"), bonus de maîtrise
+     affiché en lecture seule (calculé).
+
+  3. "Compétences"
+     Les 18 compétences avec leur caractéristique associée, case de
+     maîtrise/expertise, et modificateur final calculé.
+
+  4. "Combat"
+     CA, PV actuels/max/temporaires, dés de vie, initiative, vitesse,
+     inspiration héroïque, liste d'attaques.
+
+  5. [SUPPRIME - PAS DE SORTS]
+
+  6. "Inventaire"
+     Reprend le module existant (objets, monnaie, poids si géré).
+
+  7. "Arbres de compétences"
+     Intègre le module "arbres de compétences". Le système est hybride :
+     l'arbre ne représente pas les classes 5e de base, mais les spécialités
+     post-apocalyptiques. L'investissement de points dans ces arbres définit
+     à la volée les "classes" et sous-classes du personnage.
+
+  8. "Notes MJ" (visible uniquement côté MJ)
+     Notes privées liées à ce personnage, non visibles par le joueur.
+
+Chaque onglet doit respecter individuellement la règle
+peut_etre_edite_par_joueur (ou une granularité plus fine si déjà
+supportée) : un joueur sans permission voit les onglets en lecture
+seule, à l'exception du lancer de dés qui reste toujours disponible.
+
+
+========================================================================
+PARTIE F - LES ARBRES DE COMPETENCES : SYSTEME 5e HYBRIDE
+========================================================================
+
+F.1 - LE SYSTEME HYBRIDE
+L'application utilise un système de progression hybride. Les classes standard
+de D&D 5e n'existent pas en tant que telles. 
+Le personnage gagne des points de compétences qu'il investit dans les arbres
+(ex: Médecine, Ingénierie, Combat).
+
+F.2 - CALCUL A LA VOLEE
+Le niveau et les classes du personnage sont calculés "à la volée" depuis
+ses investissements dans les arbres :
+  - Pour chaque arbre (ex: Médecine), 2 points investis = 1 niveau dans cette classe.
+  - Le niveau total du personnage est la somme des niveaux de ses classes.
+  - Les nœuds débloquent des passifs (bonus fixes) et des actifs (capacités
+    qui utilisent le système d'action de la 5e).
+  - Aucune magie n'existe dans ces arbres.
+
+F.3 - INTERFACE ET DEBLOCAGE
+L'interface de l'arbre permet au joueur de visualiser la constellation et
+de dépenser ses points. Les compétences actives obtenues se comportent
+comme des aptitudes 5e standards (jet d'attaque, action bonus, cooldowns).
+
+
+========================================================================
+PARTIE G - COMPORTEMENT COTE JOUEUR VS COTE MJ
+========================================================================
+
+G.1 - COTE MJ
+Accès complet en lecture/écriture à tous les onglets de toutes les
+fiches de sa campagne, y compris l'onglet "Notes MJ" et la possibilité
+d'activer/désactiver la permission d'édition du joueur par onglet ou
+globalement.
+
+G.2 - COTE JOUEUR
+  - Accès à sa propre fiche uniquement (règle déjà existante,
+    non modifiée par cette mission).
+  - Les onglets "Identité", "Caractéristiques & Jets", "Compétences",
+    "Combat", "Inventaire", "Arbres de compétences" sont
+    visibles ; l'onglet "Notes MJ" ne l'est jamais.
+  - L'édition de chaque onglet reste soumise à
+    peut_etre_edite_par_joueur (ou à la granularité fine déjà prévue).
+  - Le lancer de dés (Perception, Discrétion, jets de sauvegarde,
+    attaques, etc.) doit désormais utiliser les modificateurs calculés
+    à partir du nouveau modèle 5e (maîtrise/expertise de compétence,
+    bonus de maîtrise, caractéristique liée).
+
+
+========================================================================
+PARTIE H - MIGRATION DES DONNEES EXISTANTES
+========================================================================
+
+H.1 - PRINCIPE
+Aucune fiche de personnage existante ne doit être perdue. L'IA doit
+prévoir un script/une procédure de migration qui :
+  - ajoute les nouvelles colonnes/tables sans supprimer les anciennes
+    tant que la migration n'est pas validée ;
+  - initialise les nouveaux champs avec des valeurs par défaut
+    raisonnables (ex : aucune maîtrise de compétence par défaut, bonus
+    de maîtrise recalculé automatiquement depuis le niveau déjà stocké) ;
+  - conserve l'historique des modifications (changelog) déjà en place,
+    en y ajoutant une entrée signalant la migration vers le modèle 5e.
+
+H.2 - ARBRES DE COMPETENCES EXISTANTS
+  - Sauvegarder (export ou table d'archive) le contenu actuel des
+    arbres de compétences maison avant remplacement, afin qu'il puisse
+    être restauré ou consulté si le MJ souhaite revenir en arrière ou
+    s'en resservir pour une autre campagne non-5e.
+  - La progression déjà débloquée par les joueurs sur l'ancien arbre
+    doit être conservée dans cette archive mais ne doit pas être
+    automatiquement reportée sur le nouvel arbre 5e (les deux systèmes
+    ne sont pas mappables terme à terme).
+
+
+========================================================================
+PARTIE I - UX / UI
+========================================================================
+
+  - Conserver le thème sombre et la charte graphique déjà définie dans
+    le cahier des charges général (Partie I).
+  - La navigation par onglets doit être cohérente entre desktop (MJ) et
+    mobile (joueur) : onglets horizontaux scrollables ou menu déroulant
+    sur mobile pour limiter l'encombrement.
+  - Les valeurs calculées (modificateurs, bonus de maîtrise, CA,
+    initiative) doivent être visuellement distinguées des valeurs
+    éditables (ex : fond légèrement différent, icône de cadenas ou
+    de calcul automatique).
+  - L'onglet "Arbres de compétences" doit rester lisible sur mobile :
+    prévoir un mode zoom/pan tactile si l'arbre est large, cohérent
+    avec ce que le module existant propose déjà.
+
+
+========================================================================
+PARTIE J - CRITERES D'ACCEPTATION ET TESTS
+========================================================================
+
+  1. Une fiche de personnage créée par le MJ permet de saisir les 6
+     caractéristiques et affiche automatiquement les modificateurs
+     corrects.
+  2. Le bonus de maîtrise affiché correspond à la table 5e standard
+     selon le niveau total du personnage, et n'est jamais éditable
+     manuellement.
+  3. Les 18 compétences sont listées avec leur caractéristique
+     correcte, et le modificateur affiché reflète l'état de maîtrise/
+     expertise coché.
+  4. [SUPPRIME - PAS DE SORTS]
+  5. [SUPPRIME - PAS DE SORTS]
+  6. L'onglet "Arbres de compétences" affiche un arbre correspondant à
+     la classe du personnage, avec les noeuds débloqués jusqu'à son
+     niveau actuel et les noeuds futurs visibles mais verrouillés.
+  7. Un joueur ne peut pas modifier un champ calculé (modificateur,
+     bonus de maîtrise, CA totale si calculée) même en manipulant une
+     requête réseau : le serveur revalide et ignore toute valeur
+     incohérente envoyée par le client.
+  8. Le lanceur de dés utilise les nouveaux modificateurs pour un jet
+     de compétence ou de sauvegarde donné.
+  9. Les fiches de personnages créées avant la migration restent
+     accessibles et affichent des valeurs par défaut cohérentes après
+     migration (pas d'erreur, pas de perte de données de base :
+     nom, race, classe, niveau, inventaire).
+  10. La séparation des permissions MJ/Joueur et le filtrage par
+      campaign_id restent vérifiés sur toutes les nouvelles routes/
+      champs ajoutés.
+
+
+========================================================================
+PARTIE K - PHASAGE
+========================================================================
+
+K.1 - PHASE 1 (SOCLE)
+  - Extension du modèle de données (Partie C.1 à C.6).
+  - Calculs serveur des modificateurs, bonus de maîtrise, jets de
+    sauvegarde, compétences (Partie D).
+  - Réorganisation en onglets (Partie E).
+  - Migration des fiches existantes (Partie H.1).
+
+K.2 - PHASE 2 (ARBRES)
+  - Mise à jour du contenu des arbres de compétences vers le modèle
+    D&D 5e par classe/sous-classe (Partie F).
+  - Archivage de l'ancien contenu des arbres (Partie H.2).
+
+K.3 - PHASE 3 (FINITIONS)
+  - Arbre "Race" et arbre "Dons" (Partie F.2, derniers points).
+  - Export PDF mis à jour pour refléter la nouvelle structure de fiche.
+  - Ajustements UX mobile pour l'onglet "Arbres de compétences"
+    (Partie I).
+
+
+========================================================================
+PARTIE L - FICHES DE VEHICULES
+========================================================================
+
+L.1 - OBJECTIF
+En complément de la fiche de personnage, l'application doit permettre au
+MJ de créer et gérer des FICHES DE VEHICULES, cohérentes avec l'univers
+post-apocalyptique de la campagne. Une fiche de véhicule est volontai-
+rement plus CONCISE qu'une fiche de personnage : elle ne reprend pas les
+6 caractéristiques, compétences, sorts, etc., mais uniquement les
+éléments nécessaires à son utilisation en jeu (déplacement, résistance,
+armement).
+
+L.2 - MODELE DE DONNEES - ENTITE VEHICLE
+  - Vehicle (id, campaign_id, faction_id, nom, type/modèle (ex :
+    buggy blindé, train forteresse, dirigeable), description,
+    image_url, Vitesse ACTUELLE (dérivée, voir L.3), Vitesse DE BASE,
+    Classe d'Armure (CA) ACTUELLE (dérivée, voir L.3), Points de Vie
+    actuels, Points de Vie maximum ACTUELS (dérivés, voir L.3), Points
+    de Vie maximum DE BASE, réserve d'essence actuelle, réserve
+    d'essence maximum, niveau d'épuisement (0 à N, cf. L.6), notes MJ,
+    tags).
+  - VehicleCrewSlot (id, vehicle_id, poste (ex : pilote, tireur
+    mitrailleuse, tireur canon, ingénieur), character_id [nullable si
+    poste vacant ou tenu par un PNJ], description du poste). Optionnel
+    mais recommandé : permet de savoir qui manoeuvre quelle arme
+    pendant un combat/une poursuite.
+
+Les valeurs "actuelles" de CA, PV max et Vitesse ne sont PAS saisies
+manuellement : elles sont RECALCULEES côté serveur à partir de la
+Vitesse de base et des PV max de base, modifiés par les pièces
+installées (Partie L.3 à L.6). Seuls les PV ACTUELS (dégâts subis) et
+la réserve d'essence actuelle restent des valeurs mutables en jeu.
+
+L.3 - SYSTEME DE PIECES (VEHICLE PARTS)
+Chaque véhicule est composé d'un ensemble de PIECES modifiables,
+améliorables, dégradables ou remplaçables en cours de campagne. C'est
+ce système de pièces qui détermine les statistiques finales du
+véhicule (CA, PV max, Vitesse), et non des valeurs fixes saisies une
+fois pour toutes sur la fiche.
+
+  - VehiclePartSlot (id, vehicle_id, type_de_piece [carrosserie|moteur|
+    kit nos|armes], piece_id [référence
+    vers VehiclePart, nullable si l'emplacement est vide], état [neuf|
+    bon état|endommagé|gravement endommagé|hors service]).
+    Un véhicule possède un ou plusieurs emplacements de carrosserie et
+    de moteur (généralement un seul de chaque, sauf véhicule
+    exceptionnel type train à plusieurs wagons), zéro ou un kit NOS, et
+    zéro à N emplacements d'armes selon son gabarit (cf. L.5).
+  - VehiclePart (id, campaign_id, nom, type_de_piece, description,
+    rareté/valeur, modificateurs apportés selon son type (cf. L.4 à
+    L.6), poids/encombrement si géré, image_url). Ce catalogue de
+    pièces constitue une donnée de référence/catalogue, réutilisable
+    entre véhicules, au même titre qu'un objet (Item) est réutilisable
+    entre personnages.
+
+  - Chaque pièce a un état de dégradation (neuf / bon état / endommagé
+    / gravement endommagé / hors service), qui MODULE l'effet de la
+    pièce sur les statistiques du véhicule (ex : une carrosserie
+    "endommagée" apporte un bonus de CA réduit par rapport à son bonus
+    nominal ; une carrosserie "hors service" n'apporte plus aucun
+    bonus et peut même infliger un malus).
+  - Une pièce peut être : AMELIOREE (remplacement par une pièce
+    supérieure du catalogue), DEGRADEE (baisse d'un cran d'état suite
+    à des dégâts subis en jeu, décidé par le MJ ou automatiquement si
+    les PV du véhicule passent sous un seuil), ou REMPLACEE
+    (retrait de la pièce actuelle de l'emplacement et pose d'une
+    nouvelle pièce, l'ancienne repartant en inventaire/butin si
+    applicable).
+  - Toute modification de pièce (pose, dégradation, réparation,
+    retrait) doit être journalisée si le mécanisme de changelog déjà
+    présent sur les fiches de personnage est réutilisé ici.
+
+L.4 - CARROSSERIE (IMPACT SUR LA CA ET LES PV)
+La pièce de type "carrosserie" est celle qui a le plus grand impact
+défensif du véhicule :
+  - elle apporte un bonus (ou malus) à la Classe d'Armure de base du
+    véhicule (ex : carrosserie légère = CA de base inchangée mais
+    Vitesse conservée ; carrosserie blindée = bonus de CA important
+    mais malus de Vitesse, cf. interaction avec le moteur en L.5) ;
+  - elle apporte un bonus (ou malus) aux Points de Vie maximum de base
+    du véhicule (ex : carrosserie renforcée = + X PV max).
+  - Ces bonus sont MODULES par l'état de dégradation de la pièce
+    (L.3) : une carrosserie fortement endommagée protège moins bien et
+    peut réduire les PV max effectifs (sans toutefois faire perdre au
+    véhicule des PV actuels déjà encaissés au-delà de ce nouveau
+    maximum recalculé, sauf choix explicite du MJ).
+  - CA finale = CA de base du véhicule + bonus de carrosserie modulé
+    par son état. PV max finaux = PV max de base + bonus de
+    carrosserie modulé par son état. Ces deux valeurs sont recalculées
+    côté serveur à chaque changement d'état ou de pièce.
+
+L.5 - ARMES DE VEHICULE (INTEGREES COMME DES ARMES DE PERSONNAGE)
+Les armes montées sur un véhicule (mitrailleuse de toit, canon,
+lance-flammes, herse arrière, etc.) sont traitées, dans leur
+structure de données, DE LA MEME FACON qu'une arme de personnage (cf.
+Partie C.6 : nom, type de dégâts, dé de dégâts, portée, propriétés,
+effets spéciaux comme une zone d'effet pour un lance-flammes), mais
+elles sont montées/démontées comme n'importe quelle autre PIECE de
+véhicule plutôt que portées dans un inventaire de personnage :
+  - VehiclePart de type "arme" référence directement une entrée de type
+    arme (réutilisation du même catalogue d'armes que celui utilisé
+    pour l'équipement des personnages si le projet en a déjà un,
+    plutôt qu'un second catalogue d'armes dupliqué) ;
+  - chaque emplacement d'arme (VehiclePartSlot de type "arme") du
+    véhicule peut recevoir une arme différente du catalogue, être
+    laissé vide, ou recevoir une arme endommagée (état dégradé
+    réduisant son modificateur d'attaque ou ses dégâts, voire la
+    rendant inutilisable si "hors service") ;
+  - le MODIFICATEUR D'ATTAQUE SPECIALISE de chaque arme montée reste
+    fixe et propre à l'arme elle-même (indépendant des caractéristiques
+    d'un personnage), comme défini plus bas en L.9 - ce modificateur
+    peut néanmoins être réduit par l'état de dégradation de l'arme
+    (une arme "endommagée" tire avec un malus, une arme "hors service"
+    ne peut plus tirer) ;
+  - le nombre d'emplacements d'armes disponibles dépend du gabarit du
+    véhicule (ex : un buggy a 1 emplacement, un train forteresse en a
+    plusieurs), défini sur le modèle/type de véhicule.
+
+L.6 - MOTEUR ET VITESSE
+La pièce de type "moteur" détermine la Vitesse effective du véhicule :
+  - chaque moteur du catalogue apporte un modificateur (positif ou
+    négatif) à la Vitesse de base du véhicule (ex : moteur diesel
+    lourd = malus de Vitesse mais meilleure fiabilité/PV, moteur
+    suralimenté = bonus de Vitesse) ;
+  - ce modificateur est modulé par l'état de dégradation du moteur
+    (L.3) : un moteur endommagé réduit la Vitesse effective, un moteur
+    hors service peut immobiliser le véhicule (Vitesse effective = 0) ;
+  - Vitesse finale = Vitesse de base + modificateur de moteur modulé
+    par son état + tout autre modificateur temporaire actif (cf. L.7 -
+    kit NOS), toujours recalculée côté serveur.
+
+L.7 - KIT NOS (BOOST TEMPORAIRE DE VITESSE)
+Le "kit NOS" est une pièce optionnelle (VehiclePartSlot de type
+"kit_nos") qui permet une AUGMENTATION TEMPORAIRE de la Vitesse du
+véhicule au prix d'une contrepartie sur son épuisement :
+  - Activation : le pilote (ou occupant du poste dédié si géré, cf.
+    VehicleCrewSlot) déclenche le kit NOS pendant une phase de
+    déplacement/poursuite/combat.
+  - Effet : bonus de Vitesse temporaire défini par la pièce (ex :
+    +X pendant Y tours/minutes/tant que la ressource du kit n'est pas
+    épuisée, selon la convention de temps déjà utilisée par le tracker
+    de combat de l'application).
+  - Coût : chaque activation augmente le NIVEAU D'EPUISEMENT du
+    véhicule d'un cran (cf. L.8), et peut consommer un supplément de
+    réserve d'essence (paramétrable par pièce : un kit NOS peut avoir
+    son propre réservoir dédié, ou puiser dans la réserve d'essence
+    générale du véhicule, selon le type de kit).
+  - Un kit NOS peut avoir un nombre d'utilisations limité avant de
+    nécessiter une recharge/réparation (ressource propre à la pièce,
+    distincte de l'essence générale), et peut lui-même se dégrader
+    (état de la pièce, L.3) en cas de sur-utilisation, augmentant le
+    risque de panne ou réduisant son bonus à chaque activation
+    supplémentaire au-delà d'un seuil défini par le MJ.
+
+L.8 - RESERVE D'ESSENCE ET NIVEAU D'EPUISEMENT
+En plus du système de pièces, chaque véhicule dispose de deux
+ressources globales de fonctionnement, indépendantes de l'état des
+pièces mais interagissant avec elles :
+  - RESERVE D'ESSENCE : quantité d'essence actuelle / maximum. Se
+    consomme selon la distance parcourue, l'utilisation d'équipements
+    gourmands, ou l'activation du kit NOS (cf. L.7). Un véhicule à sec
+    ne peut plus se déplacer (Vitesse effective = 0) indépendamment de
+    l'état de son moteur. Rechargeable en jeu (ravitaillement, quête,
+    ressource de campagne cohérente avec l'économie carburant/eau/
+    munitions déjà décrite dans le cahier des charges général).
+  - NIVEAU D'EPUISEMENT : jauge (ou paliers, ex : 0 = frais, jusqu'à un
+    niveau maximum configurable = à bout de souffle/en surchauffe)
+    représentant l'usure d'utilisation intensive du véhicule (effort
+    prolongé, utilisations répétées du kit NOS, etc.), DISTINCTE des
+    Points de Vie (qui représentent les dégâts subis en combat) et de
+    la réserve d'essence (qui représente le carburant disponible).
+    Chaque palier d'épuisement peut appliquer un malus temporaire (ex :
+    malus de Vitesse, risque de panne/avarie aléatoire, malus aux jets
+    d'attaque des armes) jusqu'à récupération (repos, réparation,
+    passage de temps en jeu selon la convention déjà utilisée pour la
+    récupération des personnages, si applicable).
+  - Ces deux ressources (essence et épuisement) doivent être affichées
+    clairement sur la fiche de véhicule (L.11), avec des indicateurs
+    visuels de type jauge, cohérents avec le style déjà utilisé pour
+    les paramètres de cités (Partie E.5 du cahier des charges général).
+
+L.9 - MODIFICATEUR D'ATTAQUE SPECIALISE
+Contrairement aux attaques d'un personnage (Partie C.6), qui dépendent
+de ses caractéristiques et de son bonus de maîtrise, chaque arme de
+véhicule possède son PROPRE modificateur d'attaque, fixe et défini sur
+la pièce elle-même (ex : mitrailleuse de toit +5, canon principal +3,
+lance-flammes +4), modulé par son état de dégradation (L.3, L.5). Ce
+modificateur représente la qualité/le calibrage de l'arme montée sur
+le véhicule, indépendamment du personnage qui la manie.
+  - Si un personnage occupe un poste de tir (VehicleCrewSlot), le MJ
+    peut choisir, par arme, si le jet d'attaque utilise :
+      a) uniquement le modificateur spécialisé de l'arme (mode par
+         défaut, recommandé pour rester simple), ou
+      b) le modificateur spécialisé de l'arme + le modificateur de
+         caractéristique pertinent du personnage tireur (mode
+         optionnel, à activer par arme ou par campagne si le MJ
+         souhaite plus de granularité).
+  - Ce choix doit être un paramètre configurable (au niveau de l'arme
+    ou de la campagne), pas une règle imposée en dur.
+  - Comme pour tout calcul de jet, le calcul final reste effectué côté
+    serveur (cf. Partie D), jamais fait confiance depuis le client.
+
+L.10 - ACCES JOUEUR AUX VEHICULES
+  - Un véhicule N'EST PAS automatiquement visible ou utilisable par
+    tous les joueurs. Le MJ doit pouvoir accorder ou retirer l'accès
+    à un véhicule, de façon similaire à peut_etre_edite_par_joueur sur
+    une fiche de personnage.
+  - Prévoir un champ ou une table d'association (ex :
+    VehicleAccess (id, vehicle_id, user_id ou character_id, niveau
+    d'accès [aucun|consultation|pilotage/tir])) permettant :
+      - à un joueur sans accès de ne même pas voir le véhicule dans
+        son interface ;
+      - à un joueur avec accès "consultation" de voir la fiche en
+        lecture seule ;
+      - à un joueur avec accès "pilotage/tir" d'utiliser le véhicule
+        en session (jets d'attaque des armes, déplacement, activation
+        du kit NOS) si le MJ l'y autorise, en cohérence avec un poste
+        d'équipage (L.2) éventuellement occupé par son personnage.
+  - Par défaut, un véhicule nouvellement créé n'est visible/accessible
+    que côté MJ, jusqu'à attribution explicite d'un accès.
+
+L.11 - VEHICULES RANGES PAR FACTIONS
+  - Chaque véhicule appartient obligatoirement à une FACTION
+    (faction_id, référence vers une entité Faction déjà existante ou à
+    créer si l'application n'a pas encore cette notion : id,
+    campaign_id, nom, description, couleur/emblème, notes MJ).
+  - L'interface MJ doit permettre de naviguer/filtrer les véhicules par
+    faction (ex : vue "Garage" ou "Flotte" groupée par faction,
+    similaire dans l'esprit à la vue grille/liste déjà utilisée pour
+    les PNJ).
+  - Un même véhicule ne peut appartenir qu'à une seule faction à la
+    fois ; un changement de propriétaire (véhicule capturé, cédé,
+    volé...) se fait en modifiant la faction_id du véhicule, avec
+    conservation de cet évènement dans l'historique/changelog du
+    véhicule si le mécanisme de changelog déjà présent sur les fiches
+    de personnage est réutilisé ici.
+  - Les joueurs n'ont, par défaut, aucune visibilité sur les véhicules
+    des factions auxquelles ils n'ont pas explicitement accès (cf.
+    L.10), même si ce véhicule appartient nominalement à leur propre
+    faction (l'accès reste géré véhicule par véhicule, pas seulement
+    par appartenance de faction).
+
+L.12 - ORGANISATION DE LA FICHE VEHICULE (ONGLETS OU VUE UNIQUE)
+Etant donné la concision relative de cette fiche par rapport à une
+fiche de personnage, une vue unique à sections dépliables est
+recommandée plutôt qu'une structure à onglets multiples :
+  1. En-tête : nom, type/modèle, image, faction, Vitesse finale, CA
+     finale, PV actuels/max (barre de vie), jauge d'essence, jauge
+     d'épuisement.
+  2. Bloc "Pièces installées" : carrosserie, moteur, kit NOS (si
+     présent), chacune avec son état de dégradation et un bouton
+     d'action MJ (améliorer/dégrader/réparer/remplacer).
+  3. Bloc "Armement" : liste des emplacements d'armes et des armes qui
+     y sont montées, chacune avec son modificateur d'attaque
+     spécialisé (modulé par son état), dégâts, portée, et bouton de
+     "jet d'attaque rapide" branché sur le lanceur de dés existant.
+  4. Bloc "Equipage" (si VehicleCrewSlot est implémenté) : postes et
+     personnages/PNJ assignés.
+  5. Bloc "Notes MJ" (visible MJ uniquement).
+
+L.13 - INTEGRATION AVEC L'EXISTANT
+  - Le lanceur de dés (module déjà existant) doit pouvoir déclencher un
+    jet d'attaque de véhicule au même titre qu'un jet de personnage,
+    avec le même principe de calcul serveur et d'historique de jets.
+  - Le tracker d'initiative/rencontre doit pouvoir accepter un véhicule
+    comme "combattant" au même titre qu'un personnage/PNJ (similaire à
+    EncounterCombatant, cf. modèle de données du cahier des charges
+    général), pour gérer des combats/poursuites impliquant des
+    véhicules, y compris l'activation ponctuelle du kit NOS pendant une
+    poursuite.
+  - Le système de liens universel (EntityLink) doit pouvoir relier un
+    véhicule à des PNJ, lieux, factions, quêtes, comme n'importe quelle
+    autre entité de la campagne.
+  - Si le projet dispose déjà d'un catalogue d'objets/armes pour les
+    personnages (Item, cf. Partie D.1 du cahier des charges général),
+    les armes de véhicules doivent, autant que possible, réutiliser ce
+    même catalogue plutôt que d'en dupliquer un second (cf. L.5).
+
+L.14 - CRITERES D'ACCEPTATION SPECIFIQUES
+  1. Une fiche de véhicule créée par le MJ affiche Vitesse, CA, PV,
+     réserve d'essence et niveau d'épuisement, ainsi que la liste de
+     ses armes avec leur modificateur d'attaque spécialisé.
+  2. La CA et les PV max affichés reflètent correctement la pièce de
+     carrosserie installée et son état de dégradation ; leur
+     modification (changement de pièce ou dégradation) recalcule
+     immédiatement ces valeurs côté serveur.
+  3. La Vitesse affichée reflète correctement la pièce de moteur
+     installée, son état, et un éventuel bonus temporaire actif du
+     kit NOS.
+  4. L'activation du kit NOS augmente la Vitesse temporairement et
+     incrémente le niveau d'épuisement du véhicule, avec consommation
+     éventuelle d'essence, calculé côté serveur.
+  5. Un véhicule dont la réserve d'essence atteint zéro voit sa Vitesse
+     effective ramenée à zéro tant qu'il n'est pas ravitaillé.
+  6. Une arme montée sur un véhicule utilise la même structure de
+     données qu'une arme de personnage, avec son propre modificateur
+     d'attaque spécialisé modulé par son état.
+  7. Un jet d'attaque déclenché depuis une arme de véhicule utilise le
+     modificateur spécialisé de cette arme (et, si configuré, le
+     modificateur de caractéristique du tireur), calculé côté serveur.
+  8. Un joueur sans accès explicite à un véhicule ne le voit pas dans
+     son interface, même s'il appartient à sa faction.
+  9. Un joueur avec accès "pilotage/tir" peut déclencher un jet
+     d'attaque ou activer le kit NOS pour un véhicule qui lui est
+     accessible.
+  10. Les véhicules sont regroupables/filtrables par faction dans
+      l'interface MJ.
+  11. Un changement de faction_id, de pièce installée, ou d'état de
+      dégradation d'un véhicule est journalisé si le mécanisme de
+      changelog est réutilisé.
+
+
+========================================================================
+FIN DU DOCUMENT
+========================================================================

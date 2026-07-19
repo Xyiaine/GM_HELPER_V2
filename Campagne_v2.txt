@@ -1,0 +1,677 @@
+﻿========================================================================
+DOCUMENT DE CAMPAGNE — SÉPARÉ DU LORE UNIVERSEL
+========================================================================
+[NOTE : ce document remplace Campagne_v1.txt. Il contient la quête
+d'ouverture, ses graines pour la suite, et les notes MJ qui s'y
+rattachent directement.
+
+Ce document suppose une connaissance complète du lore universel — en
+particulier des fiches de la Cité du Divertissement - "Les Faiseurs de
+Rêves" (crise de succession, Conseil des Actionnaires, les cinq
+actionnaires), du secret du Réseau / Bunker Oméga, et de la section
+"LE REGISTRE" (Bourse de la Douleur). Gardez le fichier de lore à
+portée de main en parallèle de celui-ci : les renvois ("voir chapitre
+CAMPAGNE", "voir fiche : ...") n'ont volontairement pas été retirés du
+texte, pour que vous puissiez naviguer entre les deux documents sans
+perdre le fil.]
+
+========================================================================
+CHAPITRE CAMPAGNE : LA COURSE DU SEL (QUÊTE D'OUVERTURE)
+========================================================================
+
+CONTEXTE
+------------------------------------------------------------------------
+Tous les quatre ans, la Cité du Divertissement - "Les Faiseurs de Rêves"
+organise un recrutement pour sa Garde, seule voie d'entrée fiable dans
+la cité pour un étranger sans fortune ni parrain. La règle est d'une
+simplicité brutale : des convois s'élancent depuis le centre du désert
+de sel — l'ancienne Mer Méditerranée asséchée — en direction de la
+Cité du Divertissement. Le premier convoi arrivé au complet est recruté
+dans la Garde. Les autres repartent bredouilles, ou n'en reviennent pas.
+
+Cette année, cinq convois se sont élancés — un de plus que d'habitude,
+la Cité ayant ouvert une inscription supplémentaire pour absorber
+l'afflux de candidats. Chaque convoi transporte, en plus de ses
+recrues, une cargaison commerciale à destination d'un des actionnaires
+de la Cité du Divertissement : la Course du Sel n'est pas qu'un
+concours de recrutement, c'est aussi, chaque saison, l'occasion pour
+plusieurs grandes maisons marchandes du bassin méditerranéen de faire
+livrer leurs marchandises les plus sensibles sous bonne escorte.
+
+Les inscriptions se sont faites au hasard, sans considérer les origines
+des postulants. Les PJ, chacun issu d'une cité-état différente (tirée
+au sort en début de partie) et chacun investi d'une mission secrète
+pour le compte de sa cité d'origine — infiltrer la Garde de la Cité du
+Divertissement et y faire pencher la balance du pouvoir en sa faveur —
+se retrouvent, par ce même hasard, assignés au MÊME convoi : le Convoi
+n°2. Ils ne se connaissent pas. Ils ne savent rien les uns des autres.
+Et ils doivent, dès la première heure, apprendre à se faire confiance
+pour survivre — tout en sachant, au fond d'eux, qu'ils travaillent en
+réalité les uns contre les autres.
+
+[NOTE MJ : ne révélez jamais aux joueurs les objectifs secrets des
+autres PJ. Chaque joueur ne connaît que sa propre mission. C'est cette
+asymétrie d'information, et non un mensonge du MJ, qui doit générer la
+tension à la table — d'autant plus que, cette fois, AUCUN joueur ne
+connaît non plus sa propre mission au moment où l'aventure commence
+(voir "L'AMNÉSIE" ci-dessous).]
+
+LES CINQ CONVOIS ET LEURS CARGAISONS
+------------------------------------------------------------------------
+  - CONVOI 1 — "LES LOUPS DE SEL" : rapides, agressifs, prêts à
+    saboter les autres convois pour gagner. Menés par Ashen Roka,
+    ancien esclave de l'Arène devenu pillard, convaincu qu'entrer dans
+    la Garde par la force plutôt que par le mérite est la seule
+    justice qu'il reconnaisse encore. Cargaison : des précurseurs
+    chimiques de contrebande destinés aux Chem'Artistes — une cargaison
+    de grande valeur que Roka n'a aucune intention de perdre, ce qui
+    rend son agressivité plus rationnelle qu'elle n'y paraît.
+  - CONVOI 2 (PJ) : le convoi des joueurs, composé d'inconnus rassemblés
+    par le hasard des inscriptions. Cargaison : une caisse scellée dont
+    le contenu exact n'a jamais été révélé aux PJ avant le départ —
+    et qu'aucun d'eux, désormais amnésiques, n'est plus en mesure de
+    deviner. [NOTE MJ : gardez le contenu de cette caisse en réserve
+    comme fil rouge ; ne le révélez que lorsque la scène dramatique
+    s'y prêtera. Rien n'oblige à ce que ce soit un contenu "gentil".]
+  - CONVOI 3 — "LA CARAVANE DU SEL BLANC" : un convoi de marchands
+    prudents, lourdement chargé, lent mais bien défendu. Dirigé par
+    Selia Sel-Blanc, matriarche d'une lignée qui traverse ce désert
+    depuis trois générations. Cargaison : textiles fins, parfums et
+    vins destinés aux Plaisirs de la Chair.
+  - CONVOI 4 — "LES CENDRES SILENCIEUSES" : un petit convoi discret qui
+    évite l'affrontement direct et privilégie des raccourcis dangereux
+    à travers les zones les plus irradiées. Guidé par Vray Cendres,
+    éclaireuse capable d'éviter méthodiquement chaque poche de
+    radiation. Cargaison : organes et composants de prothèses destinés
+    aux Sculpteurs — une cargaison périssable et sensible qui justifie
+    à elle seule le choix du raccourci le plus risqué : vitesse et
+    discrétion avant tout.
+  - CONVOI 5 — LE CONVOI DES NOSTALGICS : un convoi discret, peu armé,
+    transportant des précurseurs neurochimiques bruts destinés à la
+    fabrication des souvenirs de synthèse. C'EST CE CONVOI QUI EXPLOSE
+    AU DÉBUT DE L'AVENTURE (voir ci-dessous).
+
+L'OUVERTURE IN MEDIAS RES : L'INCIDENT DU CONVOI DES NOSTALGICS
+------------------------------------------------------------------------
+[NOTE MJ IMPORTANTE : la campagne ne commence PAS au Puits Blanc, au
+départ de la course. Elle commence en plein milieu du désert de sel,
+en plein milieu de la course elle-même — un vrai cold open, ET EN PLEIN
+MOUVEMENT : le convoi des PJ n'est jamais à l'arrêt. Les PJ n'ont aucun
+souvenir de comment ils en sont arrivés là.]
+
+Voici ce qui s'est réellement passé, à réserver à votre seule
+connaissance de MJ : à un moment de la course, le Convoi 2 a croisé la
+route du Convoi 5 (les Nostalgics), roulant à pleine vitesse. Pour une
+raison que vous seul déterminerez — ordre secret que l'un des PJ avait
+reçu et a depuis oublié, malentendu pris pour une attaque ennemie,
+panique collective, ou influence extérieure encore à découvrir — LES
+PJ ONT OUVERT LE FEU SUR LE CONVOI DES NOSTALGICS SANS RALENTIR. Une
+des munitions ou un impact a enflammé la cargaison de précurseurs
+neurochimiques bruts, provoquant une explosion qui a soufflé le convoi
+entier — mais le Convoi 2 n'a jamais stoppé sa course : il a traversé
+le nuage de vapeurs à pleine allure, sans s'arrêter, sans même
+ralentir.
+
+L'aventure commence à la seconde où le premier PJ reprend connaissance
+— TOUJOURS EN MOUVEMENT, le véhicule filant sur le sel, le vent dans le
+visage. Par-dessus son épaule, au loin derrière eux, l'épave du Convoi
+5 brûle encore, une colonne de fumée noire et de vapeurs qui se
+dissipe lentement dans le ciel. Et surtout : LE PJ POSTÉ À LA TOURELLE
+DE LA JEEP EST TOUJOURS EN TRAIN DE TIRER. Son doigt est encore crispé
+sur la détente, l'arme crache encore par à-coups vers l'arrière — vers
+le vide, vers l'épave qui s'éloigne, vers rien de précis — et lui-même
+n'a plus la moindre idée de pourquoi il continue. C'est en général la
+toute première ligne de dialogue à jouer : ce joueur qui réalise, en
+plein geste, qu'il ne sait plus ce qu'il fait, ni depuis quand, ni
+pourquoi son arme est déjà chaude.
+
+Presque aussitôt, un second choc : LE SOL TREMBLE DERRIÈRE EUX. Quelque
+chose de massif remonte des profondeurs du sel, attiré par le sang,
+l'explosion et les vapeurs — le ver des sables (voir ci-dessous), qui
+prend le convoi en chasse depuis l'arrière. Les PJ n'ont pas le temps
+de s'arrêter pour comprendre : ils doivent déjà fuir quelque chose,
+sans savoir qui ils sont, ni ce qu'ils viennent de faire.
+
+[NOTE MJ : ne révélez JAMAIS d'emblée que ce sont les PJ eux-mêmes qui
+ont tiré les premiers, ni pourquoi. Laissez les indices matériels
+parler — le canon fumant, les douilles qui s'accumulent au plancher du
+véhicule, la direction du tir, la panique des autres PJ face à celui
+qui tire encore sans le vouloir — et laissez les joueurs eux-mêmes
+formuler l'hypothèse dérangeante avant de la confirmer. La question
+"qu'avons-nous fait ?" doit peser sur toute la première partie de la
+campagne, y compris une fois recrutés dans la Garde.]
+
+L'AMNÉSIE
+------------------------------------------------------------------------
+Chaque PJ a perdu, au moment de l'explosion : son identité complète
+(nom, cité d'origine, visage des proches), sa mission secrète pour le
+compte de sa cité, le souvenir des autres PJ (même s'ils se sont
+rencontrés avant le départ), et le souvenir de l'incident lui-même. Ce
+qu'il reste : les réflexes, les compétences, le langage, et une vague
+sensation corporelle de familiarité ou de malaise face à certains
+objets, lieux ou personnes.
+
+  - JETS DE MÉMOIRE : proposez un jet de mémoire à chaque grande étape
+    de la course (soit trois occasions sur l'ensemble de la quête
+    d'ouverture), avec une difficulté qui baisse à chaque fois qu'un
+    souvenir est ramené par un déclencheur narratif plutôt que par le
+    seul hasard du dé — une odeur, un mot prononcé par un PNJ, un
+    geste répété sans y penser. Ne faites jamais du seul jet de dé le
+    moteur principal du retour de mémoire : un jet raté peut très bien
+    laisser filtrer un fragment flou, sensoriel, avant le souvenir net.
+  - RETOURS ASYMÉTRIQUES : les PJ ne doivent pas récupérer leur mémoire
+    au même rythme ni dans le même ordre. L'un peut retrouver son nom
+    avant sa mission secrète ; un autre peut se souvenir d'un des
+    autres PJ avant de se souvenir de lui-même. Cette asymétrie est
+    votre meilleur outil de tension : un PJ qui se souvient de sa
+    mission secrète avant les autres doit décider, en jeu, s'il en
+    parle ou non.
+  - OBJETS-DÉCLENCHEURS : chaque PJ devrait porter sur lui, dès la
+    scène d'ouverture, un objet personnel discret qui pourra plus tard
+    déclencher un souvenir précis et dramatique (une lettre codée, une
+    cicatrice, un bijou, un objet religieux, une arme gravée). [NOTE MJ
+    : à définir une fois les PJ créés — les personnages n'existent pas
+    encore au moment de l'écriture de ce document. Revenez compléter
+    cette section avec un objet par PJ dès que les fiches seront
+    prêtes.]
+
+LE VER DES SABLES (BÉBÉ) — L'ENFANT DU VER DE VITRE
+------------------------------------------------------------------------
+[NOTE MJ — RÉVÉLATION À GARDER EN RÉSERVE : ce n'est pas une espèce
+distincte du Ver de Vitre qui menace Nuke City (voir sa fiche) — c'est
+littéralement SON PETIT. Le désert de sel que traverse la Course n'est
+autre que le fond asséché de l'ancienne Mer Méditerranée, et Nuke City
+elle-même est bâtie tout près de son rivage, sur les ruines de
+Marseille : la même bête titanesque qui rôde près du réacteur éventré
+a très bien pu pondre, ou mettre bas, quelque part dans les étendues
+vitrifiées qui s'étendent entre les deux cités. Ne révélez ce lien
+qu'au moment qui vous conviendra le mieux dans la campagne — l'idée que
+la mère, immense, chasse peut-être quelque part dans le même désert que
+traversent les PJ doit rester une menace en arrière-plan, jamais
+confirmée avant l'heure.]
+
+L'explosion du Convoi 5 — la détonation, le sang, les vapeurs
+chimiques — a attiré quelque chose sous le sel. Un juvénile, à en
+juger par sa taille, sa vitesse et son comportement encore imprudent —
+mais déjà capable d'engloutir un véhicule entier d'un seul coup de
+mâchoire. Ce qui le rend particulièrement terrifiant n'est pas sa
+taille — déjà bien assez pour tuer — mais l'implication qu'il n'est
+qu'un bébé : quelque chose de bien plus grand rôde forcément quelque
+part dans ce désert, et pourrait ne pas être loin de son petit.
+
+  - Le ver prend le Convoi 2 en chasse DÈS LA SCÈNE D'OUVERTURE, depuis
+    l'arrière — ce n'est pas une menace qui apparaît plus tard dans la
+    course, c'est ce qui pousse les PJ à fuir en avant sans jamais
+    pouvoir s'arrêter pour comprendre ce qui vient de se passer. Il ne
+    doit jamais être un simple monstre de fin d'étape : c'est une
+    menace rampante qui plane sur les trois étapes de la course,
+    détectée par des signes indirects entre deux apparitions directes
+    — vibrations sous le sable, dunes qui s'affaissent sans raison,
+    silence soudain de la faune locale, un convoi rival aperçu au loin
+    qui disparaît d'un coup sans laisser d'épave visible.
+  - Réservez deux ou trois apparitions directes maximum sur l'ensemble
+    de la quête d'ouverture (la première dès la scène d'ouverture,
+    voir plus haut) — la rareté de son apparition physique doit
+    renforcer la terreur de son approche plutôt que de la banaliser
+    par la répétition.
+  - Le ver peut frapper indifféremment le Convoi 2 (PJ) ou l'un des
+    convois rivaux, ce qui peut forcer des alliances temporaires
+    inattendues (voir Étape 2 Alternative A, sous-étape 2A.e,
+    ci-dessous) ou au contraire éliminer un convoi rival de la course
+    sans que les PJ n'y soient pour rien.
+
+STRUCTURE DE LA COURSE
+------------------------------------------------------------------------
+La course se déroule sur 3 à 5 jours de jeu (à ajuster selon le rythme
+souhaité), traversés en 3 grandes étapes — plus une halte forcée
+intercalée entre l'Étape 1 et l'Étape 2 (voir "ÉTAPE 1.5 — LA
+CREVASSE") — chacune ancrée dans un repère nommé et mémorable du
+désert de sel plutôt que dans un décor générique. À l'Étape 2, la
+route se scinde désormais en deux itinéraires parallèles à part
+entière : ALTERNATIVE A (Les Dunes Chantantes) et ALTERNATIVE B (La
+Passe du Sel Noir). Chaque étape est elle-même découpée en sous-étapes
+lettrées (ex. 1.a, 1.b, 1.c) pour faciliter la narration au fil de la
+table.
+
+MÉCANIQUE : INDICES ET JETS
+------------------------------------------------------------------------
+Chaque danger important de la quête d'ouverture suit la même
+progression en deux temps :
+  1. [INDICE] — un signe discret, purement narratif, décrit AVANT tout
+     jet de dé : un bruit qui ne colle pas, une odeur qui devient plus
+     forte, une vibration à peine perceptible. Un joueur qui réagit à
+     cet indice de son propre chef — sans qu'on le lui demande, sur la
+     seule base du roleplay et de l'instinct de son personnage —
+     obtient un avantage mécanique face au danger qui approche (selon
+     votre système : avantage au jet, initiative gagnée, information
+     supplémentaire, etc.).
+  2. [JET] — si personne ne mord à l'indice, la narration se fait plus
+     insistante et vous demandez alors directement un jet (Perception,
+     Vigilance, Survie ou équivalent) pour que les PJ comprennent ce
+     qui se passe avant qu'il ne soit trop tard.
+Ce principe s'applique à chaque fois que vous verrez les balises
+[INDICE] et [JET] dans les sous-étapes ci-dessous. Chaque sous-étape,
+qu'elle contienne un danger ou non, doit être plantée par une courte
+narration sensorielle sur trois registres : ce qu'on VOIT, ce qu'on
+ENTEND, ce qu'on SENT (odeur). Visez une ambiance étouffante et
+anxiogène, mais jamais désespérée : le ton doit rester épique, celui
+d'un groupe de survivants pris dans quelque chose de plus grand qu'eux,
+pas celui d'une fatalité déjà scellée.
+
+  ÉTAPE 0 — LA FUITE (scène d'ouverture, avant toute étape nommée)
+
+    0.a — Le réveil en mouvement
+      Visuel : le tableau de bord fêlé qui vibre sous les doigts, le
+      sable qui gicle en gerbes sous les pneus, l'horizon qui tangue à
+      travers un pare-brise constellé d'impacts.
+      Bruit : le moteur qui hurle à plein régime, le vent qui claque
+      contre la tôle, un sifflement aigu et continu dans les oreilles —
+      les tympans encore sonnés par l'explosion.
+      Odeur : la poudre brûlée qui colle à la gorge, et sous elle, un
+      relent chimique presque sucré, entêtant, qui ne devrait pas être
+      là.
+      Aucun des PJ ne sait qui il est, ni pourquoi il est ici.
+
+    0.b — La détente encore pressée
+      Visuel : un des PJ, posté à la tourelle du véhicule, le doigt
+      crispé sur la détente, le canon de son arme qui fume encore.
+      Bruit : des détonations espacées qui continuent de claquer vers
+      l'arrière, le cliquetis métallique de la culasse qui crache dans
+      le vide.
+      C'est le premier moment de jeu à faire vivre : ce joueur qui
+      réalise, en pleine action, qu'il ne sait plus depuis quand ni
+      pourquoi il tire.
+
+    0.c — L'épave au loin
+      Visuel : par-dessus l'épaule, une colonne de fumée noire qui
+      s'élève au-dessus d'une silhouette de métal tordu, déjà minuscule
+      à l'horizon.
+      Bruit : un dernier écho de l'explosion qui roule sur le sel comme
+      un tonnerre lointain, puis plus rien que le vent.
+      Odeur : un reste de vapeur âcre, presque florale, porté par l'air
+      chaud et qui s'estompe à mesure que la distance grandit.
+
+    0.d — Le sol qui tremble
+      [INDICE] Un fin crépitement de grains de sable qui se remettent à
+      danser sur le plancher du véhicule. Un choc sourd et rythmique,
+      presque imperceptible, remonte par les sièges — quelque chose qui
+      cogne le sol, quelque part derrière eux, au loin. Un PJ qui
+      réagit à ce signe sans qu'on le lui demande (ralentir pour
+      écouter, regarder par-dessus son épaule, hurler un avertissement)
+      gagne un avantage sur ce qui va suivre.
+      [JET] Sinon, demandez un jet de Perception ou de Vigilance : les
+      PJ distinguent alors, loin derrière eux, une ondulation de sable
+      qui se déplace contre le sens du vent — quelque chose de massif
+      approche sous la surface, forçant le convoi à accélérer avant
+      même d'avoir pu reprendre ses esprits.
+
+  ÉTAPE 1 — LA ROUTE DES CARCASSES
+
+    1.a — Entrée dans le cimetière de tôle
+      Visuel : des dizaines d'épaves rouillées, portières arrachées,
+      carcasses à moitié enfouies dans les dunes basses.
+      Bruit : le grincement de tôle tordue qui se balance au vent, le
+      crissement du sable sous les pneus.
+      Odeur : la rouille chaude, la poussière, une pointe âcre de
+      carburant rance qui suinte encore de vieux réservoirs éventrés.
+
+    1.b — La chaleur écrasante
+      Visuel : un mirage qui fait trembler l'horizon, un ciel blanc et
+      aveuglant qui écrase tout relief.
+      Bruit : un silence pesant, ponctué du bourdonnement erratique
+      d'insectes mutants attirés par la sueur.
+      Odeur : le sel chaud, la sueur qui colle aux vêtements, une odeur
+      de plastique qui commence à fondre sur le tableau de bord.
+
+    1.c — Poussière à l'horizon
+      [INDICE] Un fin panache de poussière, presque invisible, qui ne
+      suit pas tout à fait la direction du vent — un signe qu'un
+      conducteur expérimenté ou un PJ instinctif peut repérer sans
+      qu'on le lui demande, gagnant ainsi un temps d'avance pour
+      préparer sa réaction avant tout contact.
+      [JET] Sinon, un jet de Perception révèle la poussière juste à
+      temps pour éviter d'être pris totalement au dépourvu par un
+      convoi rival qui approche.
+
+    1.d — Panne mécanique forcée
+      Visuel : un panache de fumée noire qui s'échappe du capot, une
+      pièce qui rougeoie dangereusement.
+      Bruit : une toux métallique, le moteur qui cale par à-coups.
+      Force une répartition des tâches sous pression, malgré la
+      méfiance mutuelle des PJ qui ne se connaissent pas encore.
+
+    1.e — Premier contact avec un convoi rival
+      Visuel : au loin, les silhouettes des Loups de Sel (motos
+      légères) ou de la Caravane du Sel Blanc (véhicules lourds).
+      Bruit : un grondement de moteurs porté par le vent, qui grandit
+      puis se stabilise à distance respectueuse.
+      Éventuellement, la découverte que ce convoi a lui-même vu ou
+      entendu l'explosion du Convoi 5, et se pose déjà des questions
+      sur qui en est responsable.
+
+  ÉTAPE 1.5 — LA CREVASSE (halte forcée)
+
+    1.5.a — La tempête qui monte
+      [INDICE] L'air devient étrangement statique, les cheveux se
+      dressent sur les bras, un silence brutal remplace le bourdonnement
+      des insectes — les signes avant-coureurs d'une tempête de sel,
+      repérables par un PJ attentif avant même de voir le mur de
+      poussière à l'horizon.
+      [JET] Sinon, un jet de Survie ou de Perception permet d'estimer,
+      au moment où le mur ocre et électrique devient visible, le temps
+      qu'il reste avant qu'elle ne les rattrape — juste assez, ou pas
+      assez, selon la réussite du jet.
+      Rouler dedans, c'est la mort presque certaine : perte totale de
+      visibilité, sel radioactif en suspension dans l'air, risque réel
+      de retournement du véhicule.
+
+    1.5.b — La ruée vers l'abri
+      Visuel : une profonde crevasse de roche dure affleurant au milieu
+      du sel — un des rares endroits du désert où le sol n'est pas fait
+      de sable mais de pierre nue.
+      Bruit : le rugissement du moteur poussé à fond, le sable qui
+      commence à cingler la carrosserie.
+      LES VERS NE CREUSENT PAS LA ROCHE : la crevasse est le seul lieu
+      de toute la course où les PJ peuvent être certains, au moins pour
+      un temps, d'être hors d'atteinte du ver des sables.
+
+    1.5.c — L'attente dans la roche
+      Visuel : l'obscurité étroite de la crevasse, à peine trouée par
+      la lumière filtrant de l'extérieur.
+      Bruit : l'écho de leur propre respiration contre la pierre froide,
+      le rugissement étouffé de la tempête au-dehors.
+      Odeur : la pierre humide et minérale, en contraste total avec la
+      chaleur sèche du désert.
+      Un temps mort forcé, rare dans une course où tout pousse
+      normalement à avancer — bonne occasion de tenter un jet de
+      mémoire ou de faire affleurer un premier dialogue sincère entre
+      deux PJ qui ne savent toujours pas s'ils peuvent se faire
+      confiance.
+
+    1.5.d — Le convoi lointain
+      Visuel : à travers le voile de sel qui se soulève déjà en
+      tourbillons, la silhouette à peine visible d'un autre convoi, pris
+      dans la tempête montante — et pris en chasse par quelque chose
+      sous le sable. De brefs éclats de lumière : départs de tir,
+      peut-être un projecteur affolé qui balaie l'obscurité.
+      Bruit : des coups de feu étouffés par le vent, des bruits de
+      moteur qui s'emballent, des cris qu'on ne peut pas distinguer du
+      vent. Puis, d'un coup, plus rien.
+      [NOTE MJ : ne confirmez JAMAIS l'identité de ce convoi, ni son
+      sort exact. L'essentiel est de faire comprendre aux PJ, sans le
+      moindre doute, ce qui les attend s'ils sortent à découvert avant
+      que le ver n'ait perdu leur trace. Gardez un éventuel payoff
+      (survivant, épave retrouvée à l'Étape 3) en réserve.]
+
+    1.5.e — Le chant dans la crevasse
+      [INDICE] Une fois le silence retombé, un chant grave et continu
+      affleure par-dessus le vent qui faiblit — presque identique à
+      celui des Dunes Chantantes, sauf qu'ici, dans une crevasse de
+      roche nue à des kilomètres de la moindre dune, ce son n'a aucune
+      raison logique d'exister. Un PJ qui relève spontanément cette
+      incohérence peut agir avant même le jet.
+      [JET] Sinon, un jet de Perception ou de Survie révèle que ce
+      n'est pas le vent qui chante, mais des voix humaines qui
+      l'imitent à la perfection — un chant rituel entonné par LES
+      ADORATEURS DU CHANT DES DUNES, des membres des Enfants du Sel qui
+      vénèrent ce son comme la voix de leurs ancêtres au point de
+      l'avoir appris à reproduire eux-mêmes. Ne montrez jamais
+      directement ces chanteurs à ce stade : les PJ doivent ressortir
+      de la crevasse avec la certitude dérangeante d'avoir été
+      observés, sans savoir depuis quand ni pourquoi.
+
+  ÉTAPE 2 — ALTERNATIVE A : LES DUNES CHANTANTES
+
+    2A.a — Approche des dunes géantes
+      Visuel : des dunes titanesques qui dominent l'horizon, leurs
+      crêtes changeant de teinte avec la lumière rasante.
+      Bruit : un bourdonnement grave qui commence à peine à poindre,
+      porté par le vent qui s'engouffre entre les pentes de sable.
+      Odeur : un sable propre et minéral, presque sans poussière, et
+      une odeur d'ozone électrique qui picote les narines.
+
+    2A.b — Le chant grandit
+      Visuel : des vagues de sable qui semblent presque vibrer au
+      rythme du son.
+      Bruit : le chant des dunes s'intensifie, une harmonie grave et
+      inquiétante qui semble venir de partout à la fois.
+      Une beauté troublante à jouer pleinement — c'est un des moments
+      les plus "épiques" du voyage, avant que tout ne bascule.
+
+    2A.c — Poussière et bruit de moteurs
+      [INDICE] Un nuage de poussière qui ne correspond pas au vent
+      dominant, et surtout : le chant qui semble marquer une pause
+      imperceptible, comme si quelque chose, quelque part, retenait son
+      souffle. Un PJ attentif à cette rupture de rythme peut se
+      préparer avant l'embuscade.
+      [JET] Sinon, un jet de Perception révèle juste à temps le
+      grondement de motos légères qui approchent : Ashen Roka et ses
+      Loups de Sel, venus tenter un sabotage direct.
+
+    2A.d — L'attaque des Loups de Sel
+      Visuel : des motos qui surgissent entre les dunes, des éclats de
+      lumière sur des lames et des canons.
+      Bruit : cris, tirs, moteurs qui rugissent, chant des dunes qui
+      continue en toile de fond, indifférent au chaos.
+      Odeur : poudre, sueur, sable soulevé qui pique la gorge.
+      C'est ici que les PJ doivent décider collectivement comment
+      réagir : fuir, négocier, combattre, ou retourner la situation en
+      piégeant les Loups de Sel à leur tour.
+
+    2A.e — Le chant qui s'arrête net
+      [INDICE] En plein affrontement, le chant omniprésent des dunes
+      s'interrompt d'un coup, en plein accord — un silence si total et
+      si soudain qu'il semble presque plus bruyant que le chant
+      lui-même. Un PJ qui remarque cette absence peut réagir avant que
+      le sol ne cède.
+      [JET] Sinon, un jet de Perception ou d'Instinct permet de sentir
+      la vibration qui monte sous leurs pieds une fraction de seconde
+      avant que LE VER DES SABLES NE REFASSE SURFACE — surgissant au
+      milieu de l'affrontement et forçant une alliance temporaire et
+      non négociée entre les PJ et les Loups de Sel pour simplement
+      survivre.
+
+    2A.f — Rencontre avec les Enfants du Sel
+      Visuel : des silhouettes enveloppées de tissus couleur sable,
+      immobiles sur les crêtes des dunes, qui n'étaient pas là un
+      instant plus tôt.
+      Bruit : le chant reprend, plus doux, presque un murmure de
+      soulagement.
+      LES ENFANTS DU SEL, le clan nomade qui vénère ce chant comme la
+      voix de leurs ancêtres, peuvent guider, mettre en garde, ou
+      exiger un tribut des convois qui traversent leur territoire — un
+      allié récurrent précieux pour la suite de la campagne s'ils sont
+      traités avec respect. [NOTE MJ : bon endroit pour semer
+      discrètement le premier indice des Enfants du Nord — un membre
+      d'un convoi rival, présenté comme originaire du Nord, ne sait
+      nommer aucun lieu précis de son "pays" si on le presse de
+      questions, et les Enfants du Sel remarquent quelque chose
+      d'étrange chez lui, "comme s'il n'avait pas d'ombre dans le chant
+      des dunes".]
+
+  ÉTAPE 2 — ALTERNATIVE B : LA PASSE DU SEL NOIR
+
+    2B.a — Entrée dans le verre noir
+      Visuel : une étendue de sable vitrifié par d'anciens essais
+      nucléaires, d'un noir charbonneux et luisant, semé d'éclats
+      coupants comme du verre brisé.
+      Bruit : le crissement caractéristique du sable-verre sous les
+      pneus, et le cliquetis erratique d'un compteur Geiger de fortune.
+      Odeur : une odeur d'ozone et de métal brûlé qui prend à la gorge.
+      LE TERRAIN FUSIONNÉ, PRESQUE MINÉRAL, TIENT LE VER DES SABLES À
+      DISTANCE — comme la roche de la crevasse, cette voie protège
+      d'une menace en échange d'une autre.
+
+    2B.b — Navigation prudente
+      Visuel : une chaleur qui fait trembler l'air au-dessus du verre
+      noir, des reflets verdâtres qui affleurent par endroits.
+      Bruit : le compteur qui crépite plus fort à intervalles
+      irréguliers, le souffle tendu des PJ qui retiennent leur
+      respiration à chaque pic.
+      Une tension continue, sans répit, différente du danger frontal
+      des autres étapes.
+
+    2B.c — Poches de radiation
+      [INDICE] Le cliquetis du compteur qui s'intensifie de façon
+      inégale, une lueur verdâtre à peine perceptible qui affleure dans
+      une dépression du terrain, juste devant le convoi. Un PJ
+      instinctif qui ralentit ou dévie de sa propre initiative évite le
+      pire avant même le jet.
+      [JET] Sinon, un jet de Survie ou de Science permet de repérer la
+      poche de radiation à temps pour la contourner ; un échec expose
+      le convoi à une dose dangereuse.
+
+    2B.d — Rencontre avec les Cendres Silencieuses
+      Visuel : des silhouettes casquées, équipées de lunettes de
+      vision nocturne dont les verres luisent faiblement dans la nuit
+      qui tombe.
+      Bruit : des voix étouffées, des moteurs maintenus au ralenti pour
+      ne pas attirer l'attention.
+      Vray Cendres et son petit convoi, guidés par un instinct presque
+      surnaturel du terrain, peuvent croiser la route des PJ ici —
+      échange d'informations, alliance prudente, ou indifférence
+      calculée selon l'humeur du moment.
+
+    2B.e — Le grondement contenu
+      Visuel : au loin, à la lisière du verre noir, des ondulations de
+      sable qui contournent la zone vitrifiée sans jamais y entrer.
+      Bruit : un grondement sourd et frustré qui tourne autour du
+      convoi sans jamais s'approcher — le ver des sables, tenu en
+      respect par le terrain, mais qui n'abandonne pas pour autant.
+      Cette étape doit laisser un sentiment d'urgence contenue : les PJ
+      sont provisoirement protégés, mais savent qu'ils devront tôt ou
+      tard ressortir du verre noir — et que le ver, lui, attendra.
+
+  ÉTAPE 3 — LE CIMETIÈRE DES CONVOIS
+
+    3.a — Arrivée dans l'ossuaire
+      Visuel : un vaste ossuaire de métal à ciel ouvert, des dizaines
+      d'épaves à perte de vue, des ossements blanchis par le sel.
+      Bruit : le vent qui siffle à travers les carcasses de métal comme
+      à travers des flûtes brisées.
+      Odeur : le métal chauffé, l'ozone, et une pointe tenace de
+      décomposition ancienne.
+
+    3.b — Convergence des convois rivaux
+      Visuel : au loin, les silhouettes de la Caravane du Sel Blanc et
+      des Cendres Silencieuses qui convergent, chacune de son côté,
+      vers le même point.
+      Bruit : plusieurs moteurs qui grondent en même temps, des nuages
+      de poussière qui commencent à se mêler.
+
+    3.c — L'obstacle final
+      [INDICE] Selon l'obstacle choisi (pont effondré, tempête acide,
+      champ de mines de l'ancienne guerre), semez un signe discret
+      avant la confrontation directe : une terre visiblement remuée en
+      motifs suspects, un ciel qui vire au jaune sale, un pont qui
+      grince sous une charge qu'il ne devrait plus supporter. Un PJ
+      attentif peut adapter sa trajectoire avant même le jet.
+      [JET] Sinon, un jet de Perception ou de Pilotage permet de
+      négocier l'obstacle au dernier moment, avec des conséquences plus
+      lourdes en cas d'échec.
+
+    3.d — Le sprint final
+      Visuel : les épaves qui défilent à toute vitesse de part et
+      d'autre, les convois rivaux au coude à coude.
+      Bruit : les moteurs poussés au maximum, des cris, des tirs
+      éventuels entre convois désespérés de gagner.
+      L'ordre d'arrivée peut basculer jusqu'à la dernière minute —
+      laissez une vraie incertitude sur qui va gagner, y compris la
+      possibilité que le Convoi 2 n'arrive PAS premier (voir "Et si les
+      PJ perdent ?" ci-dessous).
+
+    3.e — Ultime apparition du ver (optionnelle)
+      [INDICE] Si vous voulez pousser la tension à son comble avant
+      l'arrivée : un dernier tremblement du sol, un silence qui retombe
+      sur le vacarme du sprint final.
+      [JET] Un jet de Perception ou d'Instinct permet d'anticiper une
+      ultime charge du ver des sables, juste avant les portes de la
+      Cité — une menace finale à réserver aux tables qui veulent un
+      climax maximal, à sauter sans hésiter si le rythme de la partie
+      s'y prête mieux sans elle.
+
+ARRIVÉE ET RECRUTEMENT
+------------------------------------------------------------------------
+Si le Convoi 2 arrive premier : tout le convoi est recruté en bloc dans
+la Garde de la Cité du Divertissement, sans qu'aucune question ne soit
+posée sur les origines de chacun — exactement comme le veut la
+tradition du recrutement quadriennal. Personne, à ce stade, ne fait
+encore le lien entre ce convoi de recrues et la disparition du Convoi
+5 des Nostalgics — mais ce lien existe, quelque part dans les archives
+du Registre ou dans la mémoire d'un convoi rival témoin de la scène, et
+peut ressurgir à tout moment de la campagne (voir "GRAINES POUR LA
+SUITE"). C'est le moment où l'acte 1 (survie collective et quête de
+mémoire) bascule vers l'acte 2 (infiltration et rivalité feutrée) :
+chaque PJ commence alors, à mesure que sa mémoire lui revient,
+à chercher discrètement comment faire avancer les intérêts de sa cité
+d'origine au sein d'une institution qui vient tout juste de
+l'accueillir — tout en gérant le poids de ce qu'il a peut-être fait au
+Convoi 5.
+
+ET SI LES PJ PERDENT ?
+------------------------------------------------------------------------
+Ne traitez jamais la course comme un simple test binaire. Si un convoi
+rival arrive avant eux, ne fermez pas la porte : les PJ peuvent par
+exemple se faire recruter en tant que renforts tardifs après une perte
+notable subie par le convoi vainqueur pendant la course, ou saisir une
+occasion de rejoindre la Garde par un autre biais (exploit individuel
+remarqué, faveur rendue à un officier). L'essentiel est que l'échec ait
+un coût réel et visible — sans pour autant clore l'intrigue principale.
+
+GRAINES POUR LA SUITE DE LA CAMPAGNE
+------------------------------------------------------------------------
+  - Rook Cendre, le Capitaine de la Garde qui supervise le recrutement,
+    est un agent du Réseau (voir sa fiche à la Cité du Divertissement) :
+    il observe les PJ dès leur arrivée pour évaluer lequel serait le
+    plus "malléable" en vue de la succession qui se prépare. Il pourrait
+    être l'un des premiers à faire le lien entre ce convoi et la
+    disparition du Convoi 5, sans que les PJ ne le sachent — un levier
+    de chantage silencieux qu'il pourrait choisir de garder en réserve
+    plutôt que de l'exposer immédiatement.
+  - Un des membres PNJ d'un convoi rival (survivant d'une embuscade,
+    ou recruté malgré tout comme le Convoi 2) peut devenir un allié ou
+    un rival récurrent une fois toutes les factions réunies dans la
+    même caserne de la Garde.
+  - LE MYSTÈRE DE L'INCIDENT : "pourquoi avons-nous tiré sur le Convoi
+    5 ?" doit rester une question ouverte et centrale pendant une bonne
+    partie de la campagne. Pistes possibles à réserver pour plus tard,
+    au choix du MJ : un ordre secret qu'un PJ avait reçu de sa cité
+    d'origine et a depuis oublié ; une manipulation extérieure (le
+    Réseau, cherchant à éliminer un convoi gênant pour les Nostalgics
+    sans se salir les mains) ; ou un survivant du Convoi 5, resté
+    caché, qui accuse ouvertement les PJ dès qu'il les recroise à la
+    Cité.
+  - LE CONTENU DE LA CAISSE SCELLÉE du Convoi 2 reste un fil rouge en
+    réserve : que transportaient réellement les PJ, pour qui, et
+    est-ce que quelqu'un à la Cité du Divertissement attend encore
+    cette livraison ?
+  - LE VER DES SABLES (BÉBÉ) EST L'ENFANT DU VER DE VITRE DE NUKE CITY
+    (voir la note MJ dans "LE VER DES SABLES" ci-dessus) : un lien à
+    révéler quand vous le jugerez dramatiquement opportun, par exemple
+    si la campagne amène un jour les PJ jusqu'à Nuke City elle-même.
+    D'ici là, la mère peut rôder en arrière-plan, jamais vue, jamais
+    confirmée — un présage plutôt qu'une menace immédiate.
+  - Le premier indice du secret des "Enfants du Nord" peut être semé
+    dès l'Étape 2 Alternative A (voir plus haut, sous-étape 2A.f) : un
+    membre de l'un des convois rivaux, présenté comme originaire du
+    Nord, est incapable de nommer un seul lieu précis de son pays
+    d'origine si un PJ le presse de questions.
+  - La crise de succession de la Cité du Divertissement, et le Conseil
+    des Actionnaires qui la sous-tend (voir Tension Actuelle et
+    "LA CITÉ-ENTREPRISE" de la cité), offrent un fil rouge naturel pour
+    les PJ une fois recrutés : chacun peut chercher à approcher,
+    discréditer, ou soutenir un des prétendants au pouvoir, selon les
+    intérêts de sa cité d'origine — sachant que le vrai pouvoir, celui
+    qui recalcule en continu le poids de chaque faction, appartient au
+    Registre de la Bourse de la Douleur (voir section "LE REGISTRE"),
+    une institution que ni les PJ ni la plupart des habitants de la
+    Cité ne soupçonnent d'avoir un tel poids.
+  - Puisque la Garde elle-même est financée au prorata des parts des
+    actionnaires, l'affectation de chaque PJ à un quartier donné (les
+    Sculpteurs, les Plaisirs de la Chair, les Nostalgics, les Taudis...)
+    est un excellent levier de campagne à moyen terme : elle détermine
+    concrètement quels secrets, quelles corruptions locales et quelles
+    loyautés divisées chaque personnage va découvrir en premier. Notez
+    en particulier qu'une affectation au Quartier des Nostalgics prend
+    un relief tout particulier compte tenu de ce que les PJ leur ont
+    peut-être fait subir sans s'en souvenir.

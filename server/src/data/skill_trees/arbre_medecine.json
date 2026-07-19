@@ -1,0 +1,224 @@
+{
+  "arbre": {
+    "id": "medecine",
+    "nom": "Médecine",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Soigner ses alliés et soi-même dans un monde en ruines.",
+    "branches": [
+      {
+        "id": "soins_de_terrain",
+        "nom": "Soins de Terrain",
+        "noeuds": [
+          {
+            "id": "trousse_de_fortune",
+            "nom": "Trousse de Fortune",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Bandages improvisés plus efficaces.",
+            "effet": {
+              "resume": "+2 soins prodigués avec du matériel improvisé",
+              "valeur": 2,
+              "cible": "soins_improvises"
+            },
+            "position": {
+              "x": 50,
+              "y": 100
+            }
+          },
+          {
+            "id": "sang_froid_rafistoleur",
+            "nom": "Sang-Froid du Rafistoleur",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Peut soigner sous le feu sans malus.",
+            "effet": {
+              "resume": "Soins en combat sans pénalité"
+            },
+            "position": {
+              "x": -50,
+              "y": 100
+            }
+          },
+          {
+            "id": "piqure_de_rappel",
+            "nom": "Piqûre de Rappel",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "trousse_de_fortune"
+            ],
+            "description": "Injecte un stimulant qui restaure des PV immédiatement.",
+            "effet": {
+              "resume": "Soin instantané",
+              "cout_ressource": {
+                "type": "dose_medicament",
+                "quantite": 1
+              },
+              "cooldown_tours": 3,
+              "portee": "allie_adjacent"
+            },
+            "position": {
+              "x": 50,
+              "y": 200
+            }
+          },
+          {
+            "id": "mains_stables",
+            "nom": "Mains Stables",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "piqure_de_rappel",
+              "sang_froid_rafistoleur"
+            ],
+            "description": "Aucune chance d'échec critique lors d'un soin d'urgence.",
+            "effet": {
+              "resume": "Empêche les échecs critiques médicaux"
+            },
+            "position": {
+              "x": 0,
+              "y": 300
+            }
+          },
+          {
+            "id": "resurrection_de_fortune",
+            "nom": "Résurrection de Fortune",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "mains_stables"
+            ],
+            "description": "Stabilise un allié à l'article de la mort au prix d'un épuisement sévère.",
+            "effet": {
+              "resume": "Ranimation critique (coûte 1 action complète et réduit les PV max du soigneur temporairement)",
+              "cooldown_tours": 99,
+              "portee": "allie_adjacent"
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "pharmacologie",
+        "nom": "Pharmacologie",
+        "noeuds": [
+          {
+            "id": "detox_express",
+            "nom": "Détox Express",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "trousse_de_fortune"
+            ],
+            "description": "Réduit de moitié la durée des effets de radiations légères.",
+            "effet": {
+              "resume": "Durée des radiations divisée par 2"
+            },
+            "position": {
+              "x": 150,
+              "y": 200
+            }
+          },
+          {
+            "id": "diagnostic_combat",
+            "nom": "Diagnostic de Combat",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "detox_express"
+            ],
+            "description": "Identifie instantanément l'état critique d'un allié (poison, saignement, fracture).",
+            "effet": {
+              "resume": "Analyse médicale instantanée",
+              "cooldown_tours": 1
+            },
+            "position": {
+              "x": 150,
+              "y": 300
+            }
+          },
+          {
+            "id": "antidote_universel",
+            "nom": "Antidote Universel",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "diagnostic_combat"
+            ],
+            "description": "Neutralise un poison ou une maladie légère.",
+            "effet": {
+              "resume": "Purge les altérations d'état",
+              "cout_ressource": {
+                "type": "dose_medicament",
+                "quantite": 3
+              },
+              "cooldown_tours": 5
+            },
+            "position": {
+              "x": 150,
+              "y": 400
+            }
+          }
+        ]
+      },
+      {
+        "id": "chirurgie",
+        "nom": "Chirurgie",
+        "noeuds": [
+          {
+            "id": "anatomie_appliquee",
+            "nom": "Anatomie Appliquée",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "sang_froid_rafistoleur"
+            ],
+            "description": "Savoir où frapper et où suturer.",
+            "effet": {
+              "resume": "Critique sur 19-20 en mêlée et +2 soins globaux"
+            },
+            "position": {
+              "x": -150,
+              "y": 200
+            }
+          },
+          {
+            "id": "chirurgien_apocalypse",
+            "nom": "Chirurgien de l'Apocalypse",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "anatomie_appliquee"
+            ],
+            "description": "Réalise une opération lourde (greffe/prothèse) sans infrastructure hospitalière.",
+            "effet": {
+              "resume": "Chirurgie de terrain miraculeuse",
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": -150,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

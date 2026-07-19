@@ -1,0 +1,111 @@
+{
+  "arbre": {
+    "id": "benediction_source",
+    "nom": "Bénédiction de la Source",
+    "type": "cache",
+    "cite_origine": "eau",
+    "condition_deblocage": "Ami des Gardiens de la Source.",
+    "description": "Maîtrise de l'eau et survie hydrique.",
+    "branches": [
+      {
+        "id": "survie_hydrique",
+        "nom": "Survie Hydrique",
+        "noeuds": [
+          {
+            "id": "chameau_du_desert",
+            "nom": "Chameau du Désert",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "description": "Peut survivre avec très peu d'eau.",
+            "effet": {
+              "resume": "Besoins en eau divisés par 2"
+            },
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "purification_naturelle",
+            "nom": "Purification Naturelle",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "chameau_du_desert"
+            ],
+            "description": "Rend buvable n'importe quelle eau saumâtre.",
+            "effet": {
+              "resume": "Génère 5 Eau Potable"
+            },
+            "position": {
+              "x": -50,
+              "y": 200
+            }
+          },
+          {
+            "id": "culture_acceleree",
+            "nom": "Culture Accélérée",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "purification_naturelle"
+            ],
+            "description": "Fait pousser des rations en une nuit avec des graines spéciales.",
+            "effet": {
+              "resume": "Génère 10 Nourriture",
+              "cout_ressource": {
+                "type": "eau",
+                "quantite": 2
+              }
+            },
+            "position": {
+              "x": -50,
+              "y": 300
+            }
+          },
+          {
+            "id": "parfum_de_vie",
+            "nom": "Parfum de Vie",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "culture_acceleree"
+            ],
+            "description": "L'odeur de la ressource attire l'attention (Faiblesse).",
+            "effet": {
+              "resume": "+10% de chances de rencontres hostiles, +10% Charisme"
+            },
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "maitre_oasis",
+            "nom": "Maître de l'Oasis",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "parfum_de_vie"
+            ],
+            "description": "Crée un havre de paix temporaire.",
+            "effet": {
+              "resume": "Repose tout le groupe, soigne toutes les blessures légères",
+              "cooldown_tours": 99
+            },
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
