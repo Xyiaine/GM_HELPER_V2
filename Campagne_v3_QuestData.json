@@ -1,0 +1,1136 @@
+{
+  "schemaVersion": "Systeme_De_Quete_v2",
+  "importInstructions": "Ce fichier contient l'intégralité de la quête d'ouverture 'La Course du Sel' sous une forme structurée, destinée à être importée telle quelle dans le Système de Quêtes de GM Helper (v2). Chaque objet correspond exactement à une table du schéma décrit dans Systeme_De_Quete_v2.md. Les champs 'id' sont des identifiants techniques internes à ce fichier, utilisés uniquement pour les références croisées (fromNodeId, nodeId, etc.) ; ils ne portent aucune signification narrative. Le champ 'displayCode' porte la numérotation narrative humaine (ex: '0.d', '2A.e') et doit être conservé tel quel pour l'affichage. Pour tout texte narratif complémentaire ou contexte de lecture, se référer au document séparé Campagne_v3_Lore.md, qui n'a pas besoin d'être importé dans le système de quêtes.",
+  "Quest": {
+    "id": "quest_course_du_sel",
+    "name": "La Course du Sel",
+    "description": "Quête d'ouverture de campagne. Un convoi de recrues fonce vers la Cité du Divertissement pour intégrer la Garde. Les PJ ont eux-mêmes déclenché, sans le savoir, l'explosion d'un convoi rival, et subissent une amnésie rétrograde tout en étant pris en chasse par un ver des sables.",
+    "gmNotes": "SECRET CENTRAL : à un moment de la course (avant le début de la scène jouée), le Convoi 2 (les PJ) a croisé le Convoi 5 (les Nostalgics) et a ouvert le feu sans raison connue, provoquant l'explosion de sa cargaison de précurseurs neurochimiques. Le nuage de vapeurs a causé une amnésie rétrograde totale chez tous les PJ. Ne jamais révéler ce secret directement ; le faire émerger par les indices matériels (canon fumant, douilles, direction du tir) et laisser les joueurs formuler l'hypothèse eux-mêmes. Le ver des sables qui prend le convoi en chasse est le petit du Ver de Vitre de Nuke City (secret de campagne à révéler plus tard, voir QuestThreatTracker 'threat_ver_des_sables').",
+    "playerSummary": "Vous êtes un convoi de recrues fonçant à travers le désert de sel vers la Cité du Divertissement, dans une course où le premier convoi arrivé au complet intègre la Garde de la Cité. Vous venez de reprendre connaissance sans savoir ni qui vous êtes, ni ce qui vient de se passer, ni pourquoi une de vos armes est encore chaude.",
+    "type": "principale",
+    "difficulty": "moyenne-elevee",
+    "recommendedLevel": "Quête d'ouverture de campagne (niveau 1 / personnages débutants)",
+    "estimatedDuration": "3 a 5 sessions de jeu (3 a 5 jours de temps in-fiction)",
+    "itemRewards": [
+      "Recrutement dans la Garde de la Cité du Divertissement (récompense narrative principale, conditionnelle a l'arrivée en tête - voir QuestNode node_3d et node_end_success)"
+    ],
+    "status": "not_started",
+    "progress": 0,
+    "visibility": "partial",
+    "visibilityNotes": "Les joueurs voient qu'ils sont dans une course et qu'ils ont perdu la mémoire (partial). Le fait qu'ils aient eux-mêmes causé l'explosion du Convoi 5, et la nature réelle du ver des sables, restent 'secret' au sens de la visibilité meme si le champ global est 'partial'."
+  },
+  "QuestObjective": [
+    {
+      "id": "obj_atteindre_cite",
+      "questId": "quest_course_du_sel",
+      "label": "Atteindre la Cité du Divertissement avant les autres convois",
+      "order": 1,
+      "isHidden": false,
+      "isOptional": false,
+      "status": "pending"
+    },
+    {
+      "id": "obj_decouvrir_incident",
+      "questId": "quest_course_du_sel",
+      "label": "Découvrir ce qui s'est réellement passé avec le Convoi 5",
+      "order": 2,
+      "isHidden": true,
+      "isOptional": true,
+      "status": "pending",
+      "notes": "Objectif central de la tension dramatique mais non bloquant pour la réussite de la quête."
+    },
+    {
+      "id": "obj_sauver_mira",
+      "questId": "quest_course_du_sel",
+      "label": "Secourir la survivante retrouvée dans les décombres du Convoi 5",
+      "order": 3,
+      "isHidden": true,
+      "isOptional": true,
+      "status": "pending",
+      "unlockedByNodeId": "node_0d"
+    },
+    {
+      "id": "obj_respect_enfants_du_sel",
+      "questId": "quest_course_du_sel",
+      "label": "Traiter les Adorateurs du Chant des Dunes / les Enfants du Sel avec respect",
+      "order": 4,
+      "isHidden": true,
+      "isOptional": true,
+      "status": "pending",
+      "unlockedByNodeId": "node_15b"
+    },
+    {
+      "id": "obj_negocier_loups_de_sel",
+      "questId": "quest_course_du_sel",
+      "label": "Résoudre l'affrontement avec les Loups de Sel sans effusion de sang (négociation)",
+      "order": 5,
+      "isHidden": false,
+      "isOptional": true,
+      "status": "pending"
+    }
+  ],
+  "QuestThreatTracker": [
+    {
+      "id": "threat_ver_des_sables",
+      "questId": "quest_course_du_sel",
+      "name": "Le Ver des Sables (bébé)",
+      "currentLevel": 0,
+      "maxLevel": 4,
+      "stateLabel": "dormant",
+      "description": "Juvénile, enfant du Ver de Vitre de Nuke City (secret de campagne, ne pas révéler avant l'heure). Capable d'engloutir un véhicule entier. Ne creuse pas la roche ni le verre vitrifié. Réserver 2 a 3 apparitions directes maximum sur l'ensemble de la quête."
+    }
+  ],
+  "QuestNodeThreatEffect": [
+    {
+      "nodeId": "node_0d",
+      "threatId": "threat_ver_des_sables",
+      "effect": "increment",
+      "effectValue": 1,
+      "notes": "Premier contact indirect - vibrations sous le sable."
+    },
+    {
+      "nodeId": "node_0e",
+      "threatId": "threat_ver_des_sables",
+      "effect": "increment",
+      "effectValue": 1,
+      "notes": "Conditionnel : +1 par round supplémentaire passé a fouiller l'épave."
+    },
+    {
+      "nodeId": "node_2Ae",
+      "threatId": "threat_ver_des_sables",
+      "effect": "trigger_attack",
+      "effectValue": 3,
+      "notes": "Apparition directe, en plein affrontement avec les Loups de Sel. Force une alliance temporaire non négociée."
+    },
+    {
+      "nodeId": "node_2Be",
+      "threatId": "threat_ver_des_sables",
+      "effect": "neutralize",
+      "effectValue": 0,
+      "notes": "Le ver est tenu a distance par le terrain vitrifié tant que les PJ restent dans la Passe du Sel Noir. Menace contenue, pas éliminée."
+    },
+    {
+      "nodeId": "node_3e",
+      "threatId": "threat_ver_des_sables",
+      "effect": "trigger_attack",
+      "effectValue": 4,
+      "notes": "Apparition optionnelle, climax maximal. A activer seulement si le rythme de la table s'y prête."
+    }
+  ],
+  "QuestFactionProgress": [
+    {
+      "questId": "quest_course_du_sel",
+      "factionName": "Convoi 2 (PJ)",
+      "progressValue": 0,
+      "lastUpdatedNodeId": "node_0a"
+    },
+    {
+      "questId": "quest_course_du_sel",
+      "factionName": "Les Loups de Sel (Convoi 1)",
+      "progressValue": 0,
+      "lastUpdatedNodeId": "node_0a",
+      "notes": "Chef : Ashen Roka. Cargaison : précurseurs chimiques pour les Chem'Artistes."
+    },
+    {
+      "questId": "quest_course_du_sel",
+      "factionName": "La Caravane du Sel Blanc (Convoi 3)",
+      "progressValue": 0,
+      "lastUpdatedNodeId": "node_0a",
+      "notes": "Cheffe : Selia Sel-Blanc. Cargaison : textiles, parfums, vins pour les Plaisirs de la Chair. Convoi lent mais increvable."
+    },
+    {
+      "questId": "quest_course_du_sel",
+      "factionName": "Les Cendres Silencieuses (Convoi 4)",
+      "progressValue": 0,
+      "lastUpdatedNodeId": "node_0a",
+      "notes": "Cheffe : Vray Cendres. Cargaison : organes et prothèses pour les Sculpteurs. Emprunte la Passe du Sel Noir."
+    },
+    {
+      "questId": "quest_course_du_sel",
+      "factionName": "Le Convoi des Nostalgics (Convoi 5)",
+      "progressValue": 0,
+      "lastUpdatedNodeId": "node_0a",
+      "notes": "ÉLIMINÉ DE LA COURSE avant le début de la scène jouée - détruit par l'explosion. Ne progresse plus."
+    }
+  ],
+  "QuestCharacterState": {
+    "notes": "Instancier une ligne par PJ pour chaque stateKey ci-dessous, valeur initiale false pour tous. Mettre a jour de façon asymétrique - ne jamais synchroniser les PJ entre eux.",
+    "stateKeysTemplate": [
+      {
+        "stateKey": "memory_own_identity",
+        "label": "Se souvient de son nom et de sa cité d'origine",
+        "defaultValue": false
+      },
+      {
+        "stateKey": "memory_secret_mission",
+        "label": "Se souvient de sa mission secrète",
+        "defaultValue": false
+      },
+      {
+        "stateKey": "memory_other_pjs",
+        "label": "Se souvient d'un ou plusieurs autres PJ",
+        "defaultValue": false
+      },
+      {
+        "stateKey": "memory_incident",
+        "label": "Se souvient de l'incident (avoir tiré sur le Convoi 5)",
+        "defaultValue": false
+      }
+    ],
+    "memoryRollOpportunityNodeIds": [
+      "node_15c",
+      "node_2Ab",
+      "node_2Bb",
+      "node_3a"
+    ],
+    "memoryRollNotes": "Trois occasions de jet de mémoire sont prévues sur l'ensemble de la quête. node_15c est systématique (Crevasse) ; node_2Ab ou node_2Bb selon la branche empruntée ; node_3a a l'arrivée. Difficulté dégressive si un déclencheur narratif a précédé le jet plutôt que le seul hasard du dé. Le jet de mémoire à node_15c se resout desormais via le mecanisme des flashs d'eclair de la tempete statique : chaque flash declenche un flashback involontaire chez le PJ qu'il touche."
+  },
+  "QuestNPCLink": [
+    {
+      "npcId": "npc_mira",
+      "questId": "quest_course_du_sel",
+      "role": "a secourir / alliee potentielle (ou menace future)",
+      "nodeId": "node_0e"
+    },
+    {
+      "npcId": "npc_ashen_roka",
+      "questId": "quest_course_du_sel",
+      "role": "antagoniste / rival de convoi",
+      "nodeId": "node_2Ad"
+    },
+    {
+      "npcId": "npc_selia_sel_blanc",
+      "questId": "quest_course_du_sel",
+      "role": "rival de convoi, potentiellement neutre a allie",
+      "nodeId": "node_1e"
+    },
+    {
+      "npcId": "npc_vray_cendres",
+      "questId": "quest_course_du_sel",
+      "role": "rival de convoi, potentiellement neutre a allie",
+      "nodeId": "node_2Bd"
+    },
+    {
+      "npcId": "npc_enfants_du_sel",
+      "questId": "quest_course_du_sel",
+      "role": "clan nomade, allie recurrent potentiel",
+      "nodeId": "node_2Af"
+    },
+    {
+      "npcId": "npc_rook_cendre",
+      "questId": "quest_course_du_sel",
+      "role": "recruteur de la Garde, agent du Reseau (secret)",
+      "nodeId": "node_end_success"
+    },
+    {
+      "npcId": "npc_enfants_du_sel",
+      "questId": "quest_course_du_sel",
+      "role": "sauveteurs lors de la Suspension (premier contact)",
+      "nodeId": "node_15b"
+    }
+  ],
+  "QuestLocationLink": [
+    {
+      "locationId": "loc_puits_blanc",
+      "questId": "quest_course_du_sel",
+      "notes": "Point de depart officiel de la course, jamais joue directement (la quete commence in medias res)."
+    },
+    {
+      "locationId": "loc_route_des_carcasses",
+      "questId": "quest_course_du_sel",
+      "coveredNodeIds": [
+        "node_1a",
+        "node_1b",
+        "node_1c",
+        "node_1d",
+        "node_1e",
+        "node_1f"
+      ]
+    },
+    {
+      "locationId": "loc_la_crevasse",
+      "questId": "quest_course_du_sel",
+      "coveredNodeIds": [
+        "node_15a",
+        "node_15b",
+        "node_15c",
+        "node_15d",
+        "node_15e"
+      ]
+    },
+    {
+      "locationId": "loc_dunes_chantantes",
+      "questId": "quest_course_du_sel",
+      "coveredNodeIds": [
+        "node_2Aa",
+        "node_2Ab",
+        "node_2Ac",
+        "node_2Ad",
+        "node_2Ae",
+        "node_2Af"
+      ]
+    },
+    {
+      "locationId": "loc_passe_du_sel_noir",
+      "questId": "quest_course_du_sel",
+      "coveredNodeIds": [
+        "node_2Ba",
+        "node_2Bb",
+        "node_2Bc",
+        "node_2Bd",
+        "node_2Be"
+      ]
+    },
+    {
+      "locationId": "loc_cimetiere_des_convois",
+      "questId": "quest_course_du_sel",
+      "coveredNodeIds": [
+        "node_3a",
+        "node_3b",
+        "node_3c",
+        "node_3d",
+        "node_3e"
+      ]
+    },
+    {
+      "locationId": "loc_cite_du_divertissement",
+      "questId": "quest_course_du_sel",
+      "coveredNodeIds": [
+        "node_end_success",
+        "node_end_alt"
+      ]
+    }
+  ],
+  "QuestItemLink": [
+    {
+      "itemId": "item_caisse_scellee",
+      "questId": "quest_course_du_sel",
+      "notes": "Cargaison mystere du Convoi 2 (PJ). Contenu jamais revele dans ce document - a definir par le MJ au moment dramatique opportun. Examinable sans etre ouverte a tout moment via une action joueur."
+    },
+    {
+      "itemId": "item_flacon_precurseur_nostalgics",
+      "questId": "quest_course_du_sel",
+      "notes": "Recompense de fouille, node_0e."
+    }
+  ],
+  "QuestNodeReward": [
+    {
+      "nodeId": "node_0e",
+      "rewardType": "item",
+      "rewardValue": "Flacon intact de précurseur neurochimique des Nostalgics",
+      "conditional": "si fouille de l'épave effectuée"
+    },
+    {
+      "nodeId": "node_0e",
+      "rewardType": "npcFavor",
+      "rewardValue": "Mira sauvée - alliée potentielle",
+      "conditional": "si fouille effectuée avant que le ver n'attaque"
+    },
+    {
+      "nodeId": "node_1e",
+      "rewardType": "information",
+      "rewardValue": "Pièce détachée de valeur ou information vendable sur la cargaison d'un convoi rival",
+      "conditional": "si les PJ fouillent ou interrogent intelligemment"
+    },
+    {
+      "nodeId": "node_15b",
+      "rewardType": "npcFavor",
+      "rewardValue": "Premier geste de bonne volonté des Enfants du Sel (objet ou conseil de route)",
+      "conditional": "si le chant est suivi à temps et que les Adorateurs du Chant des Dunes sont traités avec respect"
+    },
+    {
+      "nodeId": "node_2Ad",
+      "rewardType": "item",
+      "rewardValue": "Part de la cargaison de contrebande des Loups de Sel (précurseurs chimiques, monnayables aux Chem'Artistes)",
+      "conditional": "en cas de victoire ou de négociation réussie"
+    },
+    {
+      "nodeId": "node_2Bd",
+      "rewardType": "npcFavor",
+      "rewardValue": "Faveur ou information de Vray Cendres",
+      "conditional": "si les Cendres Silencieuses ont été traitées sans agressivité"
+    },
+    {
+      "nodeId": "node_3d",
+      "rewardType": "npcFavor",
+      "rewardValue": "Reconnaissance immédiate d'un officier de la Garde, ou respect gagné auprès des convois rivaux survivants",
+      "conditional": "pour le PJ ayant le mieux négocié l'obstacle final"
+    }
+  ],
+  "QuestNode": [
+    {
+      "id": "node_0a",
+      "displayCode": "0.a",
+      "type": "start",
+      "pacingTag": "climax",
+      "isOptional": false,
+      "sensoryVisual": "Tableau de bord fêlé qui vibre sous les doigts, sable qui gicle en gerbes sous les pneus, horizon qui tangue à travers un pare-brise constellé d'impacts.",
+      "sensorySound": "Moteur qui hurle à plein régime, vent qui claque contre la tôle, sifflement aigu et continu dans les oreilles.",
+      "sensorySmell": "Poudre brûlée qui colle à la gorge, et sous elle un relent chimique presque sucré, entêtant, qui ne devrait pas être là.",
+      "mjDescription": "Aucun PJ ne sait qui il est, ni pourquoi il est ici. Le convoi est en mouvement, jamais à l'arrêt.",
+      "reached": false,
+      "actionsNarrativeHook": "Le corps agit avant l'esprit : les mains sont déjà sur le volant, les pieds déjà calés contre le plancher qui tangue, alors que la mémoire reste muette.",
+      "suggestedActions": [
+        "Reprendre fermement le volant pour stabiliser la course",
+        "Vérifier son propre corps à la recherche d'une blessure, avant même de comprendre où l'on se trouve"
+      ]
+    },
+    {
+      "id": "node_0b",
+      "displayCode": "0.b",
+      "type": "intermediate",
+      "pacingTag": "climax",
+      "isOptional": false,
+      "sensoryVisual": "Un des PJ, posté à la tourelle du véhicule, le doigt crispé sur la détente, le canon de son arme qui fume encore.",
+      "sensorySound": "Détonations espacées qui continuent de claquer vers l'arrière, cliquetis métallique de la culasse qui crache dans le vide.",
+      "mjDescription": "Premier moment de jeu à faire vivre : le joueur à la tourelle réalise qu'il ne sait plus depuis quand ni pourquoi il tire. Ne pas révéler que c'est lui (les PJ) qui a déclenché l'explosion du Convoi 5.",
+      "reached": false,
+      "actionsNarrativeHook": "Le doigt reste crispé une seconde de trop, et ce silence gêné entre PJ commence à peser plus lourd que le bruit du moteur.",
+      "suggestedActions": [
+        "Lâcher l'arme, de force ou de sa propre volonté",
+        "Interpeller les autres à voix haute : \"C'est toi qui as commencé ?\""
+      ]
+    },
+    {
+      "id": "node_0c",
+      "displayCode": "0.c",
+      "type": "intermediate",
+      "pacingTag": "climax",
+      "isOptional": false,
+      "sensoryVisual": "Par-dessus l'épaule, une colonne de fumée noire au-dessus d'une silhouette de métal tordu, déjà minuscule à l'horizon.",
+      "sensorySound": "Dernier écho de l'explosion qui roule sur le sel comme un tonnerre lointain, puis plus rien que le vent.",
+      "sensorySmell": "Reste de vapeur âcre, presque florale, qui s'estompe avec la distance.",
+      "mjDescription": "C'est l'épave du Convoi 5 (les Nostalgics), que les PJ ne reconnaissent pas encore comme responsables.",
+      "reached": false,
+      "actionsNarrativeHook": "La fumée s'amenuise à l'horizon, et quelque chose dans ce silence donne presque envie de se retourner plutôt que de foncer.",
+      "suggestedActions": [
+        "Scruter l'épave à la longue-vue en quête de survivants",
+        "Calculer une trajectoire pour s'en écarter au plus vite plutôt que d'y retourner"
+      ]
+    },
+    {
+      "id": "node_0d",
+      "displayCode": "0.d",
+      "type": "intermediate",
+      "pacingTag": "climax",
+      "isOptional": false,
+      "requiredSkillCategory": "Perception",
+      "sensoryVisual": "Une ondulation de sable qui se déplace contre le sens du vent, loin derrière le convoi.",
+      "sensorySound": "Fin crépitement de grains de sable sur le plancher du véhicule, choc sourd et rythmique remontant par les sièges.",
+      "detectionMechanic": {
+        "indiceText": "Crépitement de sable et choc sourd rythmique, presque imperceptible.",
+        "advantageGranted": "Le PJ repère la menace avant le jet ; avantage sur la fuite qui suit.",
+        "jetSkill": "Perception ou Vigilance",
+        "jetDifficulty": null,
+        "jetFailureConsequence": "Le convoi est surpris, perd du temps ; le tracker de menace 'threat_ver_des_sables' gagne un niveau supplémentaire."
+      },
+      "mjDescription": "Le ver des sables (bébé) fait sa première apparition indirecte, forçant le convoi à accélérer.",
+      "reached": false,
+      "actionsNarrativeHook": "Le crépitement remonte par les sièges avant même que quiconque n'ait mis un mot dessus.",
+      "suggestedActions": [
+        "Accélérer sans attendre de confirmation",
+        "Hurler un avertissement au reste du convoi"
+      ]
+    },
+    {
+      "id": "node_0e",
+      "displayCode": "0.e",
+      "type": "intermediate",
+      "pacingTag": "respiration",
+      "isOptional": true,
+      "mjDescription": "Fouille de l'épave du Convoi 5, choix risqué et non pénalisé. Fait apparaître Mira (voir QuestNPCLink npc_mira) et débloque obj_sauver_mira et obj_decouvrir_incident. Chaque round supplémentaire passé ici incrémente threat_ver_des_sables (voir QuestNodeThreatEffect).",
+      "reached": false,
+      "actionsNarrativeHook": "L'épave fume encore, et chaque seconde passée ici se paie potentiellement cher.",
+      "suggestedActions": [
+        "Fouiller les corps et les débris en quête d'indices ou de survivants",
+        "Décider à voix haute combien de temps le convoi peut se permettre de rester"
+      ]
+    },
+    {
+      "id": "node_1a",
+      "displayCode": "1.a",
+      "type": "intermediate",
+      "isOptional": false,
+      "sensoryVisual": "Dizaines d'épaves rouillées, portières arrachées, carcasses à moitié enfouies dans les dunes basses.",
+      "sensorySound": "Grincement de tôle tordue qui se balance au vent, crissement du sable sous les pneus.",
+      "sensorySmell": "Rouille chaude, poussière, pointe âcre de carburant rance.",
+      "mjDescription": "Entrée dans la Route des Carcasses.",
+      "reached": false,
+      "actionsNarrativeHook": "Chaque carcasse dépassée semble receler quelque chose que personne n'a encore pris le temps de regarder.",
+      "suggestedActions": [
+        "Fouiller une épave au passage",
+        "Repérer un raccourci entre les carcasses"
+      ]
+    },
+    {
+      "id": "node_1b",
+      "displayCode": "1.b",
+      "type": "intermediate",
+      "isOptional": false,
+      "sensoryVisual": "Mirage qui fait trembler l'horizon, ciel blanc et aveuglant.",
+      "sensorySound": "Silence pesant, bourdonnement erratique d'insectes mutants attirés par la sueur.",
+      "sensorySmell": "Sel chaud, sueur, plastique qui commence à fondre sur le tableau de bord.",
+      "mjDescription": "Chaleur écrasante, pure ambiance, aucun danger direct.",
+      "reached": false,
+      "actionsNarrativeHook": "La chaleur commence à peser sur les corps autant que sur les nerfs.",
+      "suggestedActions": [
+        "Rationner l'eau du convoi",
+        "Chercher un carré d'ombre pour souffler avant de repartir"
+      ]
+    },
+    {
+      "id": "node_1c",
+      "displayCode": "1.c",
+      "type": "intermediate",
+      "isOptional": false,
+      "requiredSkillCategory": "Survie ou Connaissance du terrain",
+      "detectionMechanic": {
+        "indiceText": "Le mur de poussière a une teinte trop uniforme, trop dense pour être un simple coup de vent.",
+        "advantageGranted": "Le PJ identifie la tempête de sable radioactive avant le jet et peut préparer une protection.",
+        "jetSkill": "Survie ou Connaissance du terrain",
+        "jetDifficulty": null,
+        "jetFailureConsequence": "Exposition légère à la contamination si aucune protection n'est prise à temps."
+      },
+      "mjDescription": "Tempête de sable radioactive (voir Universe_Lore v7, section tempêtes). Peu importe le jet : un des PJ hurle 'IL FAUT METTRE LES MASQUES !' sans savoir pourquoi - un réflexe instinctif qui survit à l'amnésie. Assigner ce cri à un PJ en particulier ou laisser émerger spontanément. Le sable s'infiltre aussi dans le moteur, causant la panne de node_1d.",
+      "reached": false,
+      "sensoryVisual": "L'horizon se teinte d'un ocre sale, un mur de poussière qui grossit et avale le paysage.",
+      "sensorySound": "Sifflement du vent qui monte en fréquence, sable qui crépite contre la tôle.",
+      "sensorySmell": "Poussière minérale, âcreté métallique caractéristique des sols vitrifiés traversés.",
+      "actionsNarrativeHook": "Le réflexe a parlé avant la réflexion - reste à savoir ce que le corps de chacun sait faire d'autre.",
+      "suggestedActions": [
+        "Distribuer ou enfiler les masques sans attendre d'ordre",
+        "Sceller les fenêtres et bâcher la caisse scellée contre la poussière qui s'infiltre déjà"
+      ]
+    },
+    {
+      "id": "node_1d",
+      "displayCode": "1.d",
+      "type": "intermediate",
+      "isOptional": false,
+      "requiredSkillCategory": "Force ou Pilotage",
+      "sensoryVisual": "Panache de fumée noire qui s'échappe du capot, pièce qui rougeoie dangereusement.",
+      "sensorySound": "Toux métallique, moteur qui cale par à-coups.",
+      "mjDescription": "Panne mécanique forcée, causée par les filtres encrassés lors de la tempête de sable radioactive de node_1c. Résoluble par Force (dégager une pièce coincée) ou Pilotage (compenser une direction capricieuse). Force une répartition des tâches malgré la méfiance mutuelle des PJ.",
+      "reached": false,
+      "actionsNarrativeHook": "Le moteur tousse, et quelqu'un va devoir plonger les mains dans le cambouis pendant qu'un autre couvre ses arrières.",
+      "suggestedActions": [
+        "Tenter la réparation à la force des bras",
+        "Monter la garde pendant qu'un autre répare"
+      ]
+    },
+    {
+      "id": "node_1e",
+      "displayCode": "1.e",
+      "type": "intermediate",
+      "isOptional": false,
+      "sensoryVisual": "Au loin, silhouettes des Loups de Sel (motos légères) ou de la Caravane du Sel Blanc (véhicules lourds).",
+      "sensorySound": "Grondement de moteurs porté par le vent, qui grandit puis se stabilise à distance respectueuse.",
+      "mjDescription": "Premier contact avec un convoi rival. Piste d'enquête active possible : interroger un survivant sur l'explosion aperçue/entendue.",
+      "reached": false,
+      "actionsNarrativeHook": "Le convoi rival est encore assez loin pour qu'un choix reste possible : se montrer, ou pas.",
+      "suggestedActions": [
+        "Se cacher plutôt que se montrer",
+        "Héler le convoi rival pour un échange d'informations"
+      ]
+    },
+    {
+      "id": "node_1f",
+      "displayCode": "1.f",
+      "type": "intermediate",
+      "pacingTag": "respiration",
+      "isOptional": false,
+      "sensoryVisual": "Petit feu de fortune monté à l'abri d'une carcasse de véhicule, étoiles denses et froides au-dessus du désert.",
+      "sensorySound": "Crépitement des braises, silence du vent qui tombe avec la nuit, cri lointain d'un animal mutant.",
+      "sensorySmell": "Fumée de bois rare et précieux, ration chauffée, poussière du jour qui retombe.",
+      "mjDescription": "Bivouac du soir. AUCUN DANGER, AUCUN JET FORCÉ ICI. Espace réservé au roleplay pur entre PJ.",
+      "reached": false,
+      "actionsNarrativeHook": "Le feu crépite, et pour la première fois depuis le réveil, personne ne court après rien.",
+      "suggestedActions": [
+        "Partager la première garde de nuit avec un autre PJ",
+        "Examiner son objet personnel à la lueur du feu"
+      ]
+    },
+    {
+      "id": "node_15a",
+      "displayCode": "1.5.a",
+      "type": "intermediate",
+      "isOptional": false,
+      "requiredSkillCategory": null,
+      "detectionMechanic": null,
+      "mjDescription": "La Suspension (voir Universe_Lore v7). La visibilité se dissout progressivement jusqu'à la cécité totale - écho volontaire de l'amnésie des PJ. DÉMARRER ICI UN TIMER DE SCÈNE (mécanique Timer du système de quêtes) : timeoutNodeId = node_15c (tempête statique) si les PJ ne suivent pas le chant à temps en node_15b.",
+      "reached": false,
+      "sensoryVisual": "Pas de mur net cette fois - une blancheur beige diffuse qui envahit tout, sans front, sans direction claire.",
+      "sensorySound": "Étouffement complet, jusqu'aux moteurs qui semblent assourdis.",
+      "sensorySmell": "Presque rien - une poussière si fine qu'elle en devient insidieuse.",
+      "timer": {
+        "enabled": true,
+        "timeoutNodeId": "node_15c"
+      },
+      "actionsNarrativeHook": "Le blanc gagne du terrain plus vite que quiconque ne l'admet à voix haute.",
+      "suggestedActions": [
+        "Attacher les PJ entre eux avant que le blanc n'avale tout",
+        "Couper le moteur pour économiser et mieux entendre ce qui approche"
+      ]
+    },
+    {
+      "id": "node_15b",
+      "displayCode": "1.5.b",
+      "type": "intermediate",
+      "isOptional": false,
+      "sensoryVisual": null,
+      "sensorySound": "Un chant faible qui perce la blancheur, portant différemment à travers la Suspension.",
+      "mjDescription": "Risque de séparation et d'épuisement (la plupart des morts attribuées à la Suspension viennent de l'épuisement, pas de la tempête elle-même). Le chant appartient aux Adorateurs du Chant des Dunes, membres des Enfants du Sel. SI LES PJ SUIVENT LE CHANT À TEMPS : les Enfants du Sel les guident hors de la Suspension jusqu'à une crevasse de roche dure (les vers ne creusent pas la roche) - premier vrai contact avec le clan, qui commence par un sauvetage. Débloque obj_respect_enfants_du_sel et le QuestNodeReward associé. SI LE TEMPS S'ÉCOULE : voir node_15c.",
+      "reached": false,
+      "requiredSkillCategory": "Perception ou Survie",
+      "detectionMechanic": {
+        "indiceText": "Un chant à peine audible perce la blancheur opaque.",
+        "advantageGranted": "Le PJ repère la direction du chant et guide le convoi sans attendre le jet.",
+        "jetSkill": "Perception ou Survie",
+        "jetDifficulty": null,
+        "jetFailureConsequence": "Le temps de scène s'écoule sans que le chant soit suivi - voir timeoutNodeId de node_15a."
+      },
+      "actionsNarrativeHook": "Une voix, quelque part dans le blanc, semble savoir où elle va - reste à décider si on la croit.",
+      "suggestedActions": [
+        "Suivre le chant à l'instinct, sans attendre de confirmation",
+        "Crier pour se signaler à la voix inconnue"
+      ]
+    },
+    {
+      "id": "node_15c",
+      "displayCode": "1.5.c",
+      "type": "intermediate",
+      "pacingTag": "respiration",
+      "isOptional": false,
+      "sensoryVisual": "Arcs électriques qui zèbrent la blancheur opaque, illuminant tout par flashs violents et brefs.",
+      "sensorySound": "Crépitement électrique, grondement sourd, cliquetis métallique des objets qui se chargent.",
+      "sensorySmell": "Pierre humide et minérale, en contraste total avec la chaleur sèche du désert.",
+      "mjDescription": "Tempête statique - conséquence du timeout de la Suspension (node_15a). Danger : armes/munitions métalliques risquent un arc ; désorientation accrue. MÉCANIQUE CLÉ : chaque flash d'éclair déclenche, chez le PJ qu'il touche, un flashback mémoriel involontaire, bref et fragmenté - assigner un flash différent à chaque PJ pour un spotlight individuel en pleine tempête (voir QuestCharacterState). Un des flashs peut aussi illuminer, une fraction de seconde, un autre convoi au loin pris en chasse par quelque chose sous le sable - ne JAMAIS confirmer son identité ni son sort (payoff possible réservé pour l'Étape 3). Résolution : le chant reste audible entre les éclairs - les PJ peuvent encore le suivre pour rejoindre les Enfants du Sel, ou improviser un abri de fortune (dégâts et risques, pas de mort automatique).",
+      "reached": false,
+      "requiredSkillCategory": null,
+      "detectionMechanic": null,
+      "actionsNarrativeHook": "Chaque arc de lumière transforme un objet métallique en danger et un souvenir enfoui en flash douloureux.",
+      "suggestedActions": [
+        "Retirer les armes et objets métalliques portés sur soi",
+        "Mettre à l'abri un PJ figé par un flashback"
+      ]
+    },
+    {
+      "id": "node_2Aa",
+      "displayCode": "2A.a",
+      "type": "intermediate",
+      "pathGroup": "Alternative A",
+      "isOptional": false,
+      "sensoryVisual": "Dunes titanesques qui dominent l'horizon, crêtes changeant de teinte avec la lumière rasante.",
+      "sensorySound": "Bourdonnement grave qui commence à peine à poindre.",
+      "sensorySmell": "Sable propre et minéral, odeur d'ozone électrique.",
+      "reached": false,
+      "actionsNarrativeHook": "Le bourdonnement grave semble déjà indiquer une direction, pour qui veut bien l'écouter.",
+      "suggestedActions": [
+        "Écouter le chant pour deviner la direction à prendre",
+        "Vérifier son arme avant d'aller plus loin"
+      ]
+    },
+    {
+      "id": "node_2Ab",
+      "displayCode": "2A.b",
+      "type": "intermediate",
+      "pathGroup": "Alternative A",
+      "pacingTag": "climax",
+      "isOptional": false,
+      "sensoryVisual": "Vagues de sable qui semblent vibrer au rythme du son.",
+      "sensorySound": "Chant des dunes qui s'intensifie, harmonie grave et inquiétante venant de partout à la fois.",
+      "mjDescription": "Moment épique à jouer pleinement avant que tout ne bascule. Opportunité de jet de mémoire alternative (voir QuestCharacterState).",
+      "reached": false,
+      "actionsNarrativeHook": "Le chant enfle au point de presque devenir un langage.",
+      "suggestedActions": [
+        "Tenter de saisir un sens dans les paroles ou le rythme du chant",
+        "Prendre une minute pour reprendre son souffle avant la suite"
+      ]
+    },
+    {
+      "id": "node_2Ac",
+      "displayCode": "2A.c",
+      "type": "intermediate",
+      "pathGroup": "Alternative A",
+      "isOptional": false,
+      "requiredSkillCategory": "Perception",
+      "detectionMechanic": {
+        "indiceText": "Nuage de poussière qui ne correspond pas au vent dominant, et le chant qui marque une pause imperceptible.",
+        "advantageGranted": "Le PJ se prépare avant l'embuscade.",
+        "jetSkill": "Perception",
+        "jetDifficulty": null,
+        "jetFailureConsequence": "Les PJ sont surpris par l'arrivée d'Ashen Roka et des Loups de Sel."
+      },
+      "reached": false,
+      "actionsNarrativeHook": "Le bruit de moteurs approche plus vite que prévu.",
+      "suggestedActions": [
+        "Ralentir et se planquer en silence",
+        "Envoyer un éclaireur en avant-poste"
+      ]
+    },
+    {
+      "id": "node_2Ad",
+      "displayCode": "2A.d",
+      "type": "intermediate",
+      "pathGroup": "Alternative A",
+      "isOptional": false,
+      "requiredSkillCategory": "Charisme (alternative au combat ou a la fuite)",
+      "sensoryVisual": "Motos qui surgissent entre les dunes, éclats de lumière sur lames et canons.",
+      "sensorySound": "Cris, tirs, moteurs qui rugissent, chant des dunes en toile de fond, indifférent au chaos.",
+      "sensorySmell": "Poudre, sueur, sable soulevé qui pique la gorge.",
+      "mjDescription": "Décision collective : fuir, négocier, combattre, ou retourner la situation. La négociation (Charisme) doit être une option aussi valable que le combat. Débloque obj_negocier_loups_de_sel et QuestNodeReward associé si succès/négociation.",
+      "reached": false,
+      "actionsNarrativeHook": "Ashen Roka lui-même hésite une fraction de seconde avant l'assaut - une ouverture, si quelqu'un ose la saisir.",
+      "suggestedActions": [
+        "Tenter de négocier directement avec Ashen Roka",
+        "Bloquer la route avec le véhicule pour couper toute retraite aux Loups de Sel"
+      ]
+    },
+    {
+      "id": "node_2Ae",
+      "displayCode": "2A.e",
+      "type": "intermediate",
+      "pathGroup": "Alternative A",
+      "isOptional": false,
+      "requiredSkillCategory": "Perception ou Instinct",
+      "detectionMechanic": {
+        "indiceText": "Le chant omniprésent des dunes s'interrompt d'un coup, en plein accord - silence total et soudain.",
+        "advantageGranted": "Le PJ réagit avant que le sol ne cède.",
+        "jetSkill": "Perception ou Instinct",
+        "jetDifficulty": null,
+        "jetFailureConsequence": "Le ver des sables surgit par surprise (voir QuestNodeThreatEffect node_2Ae)."
+      },
+      "mjDescription": "Le ver des sables refait surface en plein affrontement, forçant une alliance temporaire et non négociée entre les PJ et les Loups de Sel.",
+      "reached": false,
+      "actionsNarrativeHook": "Le silence est plus terrifiant que n'importe quel bruit de combat.",
+      "suggestedActions": [
+        "Hurler l'alerte générale au convoi et aux Loups de Sel",
+        "Forcer une trêve immédiate pour fuir ensemble"
+      ]
+    },
+    {
+      "id": "node_2Af",
+      "displayCode": "2A.f",
+      "type": "intermediate",
+      "pathGroup": "Alternative A",
+      "isOptional": false,
+      "sensoryVisual": "Silhouettes enveloppées de tissus couleur sable, immobiles sur les crêtes des dunes.",
+      "sensorySound": "Le chant reprend, plus doux, presque un murmure de soulagement.",
+      "mjDescription": "Retour chez les Enfants du Sel - si les PJ ont été secourus au node_15b, ce n'est plus une première rencontre mais un retour en territoire connu, avec la dette du sauvetage encore fraîche des deux côtés. Allié récurrent potentiel si traité avec respect. BON ENDROIT pour semer le premier indice des Enfants du Nord.",
+      "reached": false,
+      "actionsNarrativeHook": "La dette du sauvetage reste ouverte, dans un sens ou dans l'autre.",
+      "suggestedActions": [
+        "Offrir un présent en remerciement",
+        "Demander leur aide pour la suite du trajet"
+      ]
+    },
+    {
+      "id": "node_2Ba",
+      "displayCode": "2B.a",
+      "type": "intermediate",
+      "pathGroup": "Alternative B",
+      "isOptional": false,
+      "sensoryVisual": "Étendue de sable vitrifié par d'anciens essais nucléaires, noir charbonneux et luisant, semé d'éclats coupants.",
+      "sensorySound": "Crissement du sable-verre sous les pneus, cliquetis erratique d'un compteur Geiger de fortune.",
+      "sensorySmell": "Ozone et métal brûlé.",
+      "mjDescription": "Le terrain fusionné, presque minéral, tient le ver des sables à distance - comme la roche de la Crevasse.",
+      "reached": false,
+      "actionsNarrativeHook": "Le sol change de nature sous les pneus, et personne ne sait encore à quel point il faut s'en méfier.",
+      "suggestedActions": [
+        "Équiper une protection improvisée contre les radiations",
+        "Sonder le sol avant d'avancer plus loin"
+      ]
+    },
+    {
+      "id": "node_2Bb",
+      "displayCode": "2B.b",
+      "type": "intermediate",
+      "pathGroup": "Alternative B",
+      "isOptional": false,
+      "sensoryVisual": "Chaleur qui fait trembler l'air au-dessus du verre noir, reflets verdâtres par endroits.",
+      "sensorySound": "Compteur qui crépite plus fort à intervalles irréguliers.",
+      "mjDescription": "Tension continue sans répit, différente du danger frontal des autres étapes. Opportunité de jet de mémoire alternative.",
+      "reached": false,
+      "actionsNarrativeHook": "Chaque mètre parcouru ici se négocie.",
+      "suggestedActions": [
+        "Surveiller le compteur de près, à voix haute pour tout le convoi",
+        "Tracer la trajectoire la plus sûre en silence"
+      ]
+    },
+    {
+      "id": "node_2Bc",
+      "displayCode": "2B.c",
+      "type": "intermediate",
+      "pathGroup": "Alternative B",
+      "isOptional": false,
+      "requiredSkillCategory": "Survie ou Science",
+      "detectionMechanic": {
+        "indiceText": "Cliquetis du compteur qui s'intensifie de façon inégale, lueur verdâtre à peine perceptible dans une dépression du terrain.",
+        "advantageGranted": "Le PJ instinctif évite le pire avant même le jet.",
+        "jetSkill": "Survie ou Science",
+        "jetDifficulty": null,
+        "jetFailureConsequence": "Le convoi est exposé à une dose dangereuse de radiation."
+      },
+      "reached": false,
+      "actionsNarrativeHook": "La lueur verdâtre ne pardonne aucune hésitation.",
+      "suggestedActions": [
+        "Dévier immédiatement la trajectoire",
+        "Envoyer un éclaireur à pied tester le sol avant de risquer le véhicule"
+      ]
+    },
+    {
+      "id": "node_2Bd",
+      "displayCode": "2B.d",
+      "type": "intermediate",
+      "pathGroup": "Alternative B",
+      "isOptional": false,
+      "sensoryVisual": "Silhouettes casquées, lunettes de vision nocturne dont les verres luisent faiblement.",
+      "sensorySound": "Voix étouffées, moteurs maintenus au ralenti.",
+      "mjDescription": "Rencontre avec Vray Cendres et les Cendres Silencieuses - échange d'informations, alliance prudente, ou indifférence calculée selon l'humeur.",
+      "reached": false,
+      "actionsNarrativeHook": "Vray Cendres jauge le convoi des PJ avec la même prudence qu'elle réserve aux radiations.",
+      "suggestedActions": [
+        "Proposer un échange d'informations",
+        "Offrir de l'aide matérielle ou médicale en gage de bonne foi"
+      ]
+    },
+    {
+      "id": "node_2Be",
+      "displayCode": "2B.e",
+      "type": "intermediate",
+      "pathGroup": "Alternative B",
+      "isOptional": false,
+      "sensoryVisual": "À la lisière du verre noir, ondulations de sable qui contournent la zone vitrifiée sans jamais y entrer.",
+      "sensorySound": "Grondement sourd et frustré qui tourne autour du convoi sans jamais s'approcher.",
+      "mjDescription": "Urgence contenue : protection temporaire du ver des sables, mais menace qui attend la sortie du verre noir (voir QuestNodeThreatEffect node_2Be).",
+      "reached": false,
+      "actionsNarrativeHook": "Le grondement contourne le verre noir sans jamais y pénétrer, mais il n'oublie pas.",
+      "suggestedActions": [
+        "Couper les moteurs et rester immobile",
+        "Planifier précisément l'itinéraire de sortie du verre noir"
+      ]
+    },
+    {
+      "id": "node_convergence",
+      "displayCode": "convergence-2",
+      "type": "convergence",
+      "isOptional": false,
+      "mjDescription": "Point de ralliement entre l'Alternative A (node_2Af) et l'Alternative B (node_2Be) avant l'Étape 3.",
+      "reached": false
+    },
+    {
+      "id": "node_3a",
+      "displayCode": "3.a",
+      "type": "intermediate",
+      "isOptional": false,
+      "sensoryVisual": "Vaste ossuaire de métal à ciel ouvert, dizaines d'épaves à perte de vue, ossements blanchis par le sel.",
+      "sensorySound": "Vent qui siffle à travers les carcasses de métal comme à travers des flûtes brisées.",
+      "sensorySmell": "Métal chauffé, ozone, pointe tenace de décomposition ancienne.",
+      "mjDescription": "Arrivée dans le Cimetière des Convois. Opportunité de jet de mémoire finale (voir QuestCharacterState).",
+      "reached": false,
+      "actionsNarrativeHook": "Quelque part parmi ces épaves anonymes se trouve peut-être la réponse à ce qui a été aperçu pendant la tempête statique.",
+      "suggestedActions": [
+        "Chercher un indice sur le convoi disparu à la Suspension",
+        "Inspecter le véhicule et l'équipement avant le sprint final"
+      ]
+    },
+    {
+      "id": "node_3b",
+      "displayCode": "3.b",
+      "type": "intermediate",
+      "isOptional": false,
+      "sensoryVisual": "Au loin, silhouettes de la Caravane du Sel Blanc et des Cendres Silencieuses qui convergent vers le même point.",
+      "sensorySound": "Plusieurs moteurs qui grondent en même temps, nuages de poussière qui se mêlent.",
+      "reached": false,
+      "actionsNarrativeHook": "Les autres convois arrivent au coude à coude, et la dernière ligne droite n'a pas encore choisi son vainqueur.",
+      "suggestedActions": [
+        "Décider de coopérer ou de saboter un rival",
+        "Échanger un dernier mot avec un convoi adverse"
+      ]
+    },
+    {
+      "id": "node_3c",
+      "displayCode": "3.c",
+      "type": "intermediate",
+      "isOptional": false,
+      "requiredSkillCategory": "Perception, Pilotage, ou Bricolage (selon approche choisie)",
+      "detectionMechanic": {
+        "indiceText": "Signe discret selon l'obstacle choisi par le MJ : terre remuée en motifs suspects (mines), ciel qui vire au jaune sale (tempête acide), pont qui grince sous une charge excessive.",
+        "advantageGranted": "Le PJ adapte sa trajectoire avant même le jet.",
+        "jetSkill": "Perception ou Pilotage (ou résolution par Bricolage pour désamorcer/consolider)",
+        "jetDifficulty": null,
+        "jetFailureConsequence": "Conséquences plus lourdes en cas d'échec (dégâts au véhicule, retard, blessure)."
+      },
+      "mjDescription": "Obstacle final a choisir par le MJ : pont effondré, tempête acide, ou champ de mines de l'ancienne guerre.",
+      "reached": false,
+      "actionsNarrativeHook": "L'obstacle ne laissera pas de deuxième chance.",
+      "suggestedActions": [
+        "Tenter de désamorcer l'obstacle à la main",
+        "Sacrifier du temps pour sécuriser un passage plus sûr pour tous"
+      ]
+    },
+    {
+      "id": "node_3d",
+      "displayCode": "3.d",
+      "type": "intermediate",
+      "isOptional": false,
+      "sensoryVisual": "Épaves qui défilent à toute vitesse, convois rivaux au coude à coude.",
+      "sensorySound": "Moteurs poussés au maximum, cris, tirs éventuels entre convois désespérés de gagner.",
+      "mjDescription": "Sprint final. Ordre d'arrivée incertain jusqu'à la dernière minute - le Convoi 2 peut ne PAS arriver premier (voir node_end_alt).",
+      "reached": false,
+      "actionsNarrativeHook": "Chaque seconde compte, et chaque convoi rival le sait aussi bien que les PJ.",
+      "suggestedActions": [
+        "Pousser le moteur au-delà de ses limites",
+        "Gêner activement la progression d'un convoi rival"
+      ]
+    },
+    {
+      "id": "node_3e",
+      "displayCode": "3.e",
+      "type": "intermediate",
+      "pacingTag": "climax",
+      "isOptional": true,
+      "requiredSkillCategory": "Perception ou Instinct",
+      "detectionMechanic": {
+        "indiceText": "Dernier tremblement du sol, silence qui retombe sur le vacarme du sprint final.",
+        "advantageGranted": "Le PJ anticipe la charge avant qu'elle ne survienne.",
+        "jetSkill": "Perception ou Instinct",
+        "jetDifficulty": null,
+        "jetFailureConsequence": "Charge surprise du ver des sables juste avant les portes de la Cité."
+      },
+      "mjDescription": "Menace finale optionnelle. A sauter sans hésiter si le rythme de la partie s'y prête mieux sans elle.",
+      "reached": false,
+      "actionsNarrativeHook": "La charge finale ne laisse le temps que d'un seul choix.",
+      "suggestedActions": [
+        "Sacrifier une part de la cargaison pour distraire le ver",
+        "Protéger un PJ blessé au prix de sa propre vitesse"
+      ]
+    },
+    {
+      "id": "node_end_success",
+      "displayCode": "FIN-succes",
+      "type": "end",
+      "isOptional": false,
+      "mjDescription": "Le Convoi 2 arrive premier. Recrutement en bloc dans la Garde, sans question sur les origines. Personne ne fait encore le lien avec le Convoi 5. Bascule vers l'acte 2 (infiltration, rivalité feutrée). Déclenche QuestDependency vers la quête suivante (voir Quest.itemRewards).",
+      "outcome": "success",
+      "reached": false
+    },
+    {
+      "id": "node_end_alt",
+      "displayCode": "FIN-alternative",
+      "type": "end",
+      "isOptional": false,
+      "mjDescription": "Un convoi rival arrive premier. Ne pas fermer la porte : recrutement possible en tant que renforts tardifs après une perte notable du convoi vainqueur, ou occasion de rejoindre la Garde par un autre biais (exploit individuel, faveur d'un officier). L'échec doit avoir un coût réel et visible sans clore l'intrigue principale.",
+      "outcome": "failed_but_recoverable",
+      "reached": false
+    }
+  ],
+  "QuestNodeConnection": [
+    {
+      "fromNodeId": "node_0a",
+      "toNodeId": "node_0b",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_0b",
+      "toNodeId": "node_0c",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_0c",
+      "toNodeId": "node_0d",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_0d",
+      "toNodeId": "node_1a",
+      "label": "Fuite immédiate"
+    },
+    {
+      "fromNodeId": "node_0d",
+      "toNodeId": "node_0e",
+      "label": "Les PJ s'arrêtent pour fouiller l'épave (risqué)"
+    },
+    {
+      "fromNodeId": "node_0e",
+      "toNodeId": "node_1a",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_1a",
+      "toNodeId": "node_1b",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_1b",
+      "toNodeId": "node_1c",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_1c",
+      "toNodeId": "node_1d",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_1d",
+      "toNodeId": "node_1e",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_1e",
+      "toNodeId": "node_1f",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_1f",
+      "toNodeId": "node_15a",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_15a",
+      "toNodeId": "node_15b",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_15b",
+      "toNodeId": "node_15c",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Aa",
+      "toNodeId": "node_2Ab",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Ab",
+      "toNodeId": "node_2Ac",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Ac",
+      "toNodeId": "node_2Ad",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Ad",
+      "toNodeId": "node_2Ae",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Ae",
+      "toNodeId": "node_2Af",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Af",
+      "toNodeId": "node_convergence",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Ba",
+      "toNodeId": "node_2Bb",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Bb",
+      "toNodeId": "node_2Bc",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Bc",
+      "toNodeId": "node_2Bd",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Bd",
+      "toNodeId": "node_2Be",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_2Be",
+      "toNodeId": "node_convergence",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_convergence",
+      "toNodeId": "node_3a",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_3a",
+      "toNodeId": "node_3b",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_3b",
+      "toNodeId": "node_3c",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_3c",
+      "toNodeId": "node_3d",
+      "label": null
+    },
+    {
+      "fromNodeId": "node_3d",
+      "toNodeId": "node_3e",
+      "label": "Le MJ choisit d'activer l'ultime apparition du ver"
+    },
+    {
+      "fromNodeId": "node_3d",
+      "toNodeId": "node_end_success",
+      "label": "Le Convoi 2 arrive premier (3.e sautée ou déjà résolue)"
+    },
+    {
+      "fromNodeId": "node_3d",
+      "toNodeId": "node_end_alt",
+      "label": "Un convoi rival arrive premier"
+    },
+    {
+      "fromNodeId": "node_3e",
+      "toNodeId": "node_end_success",
+      "label": "Le Convoi 2 arrive premier après l'ultime apparition du ver"
+    },
+    {
+      "fromNodeId": "node_3e",
+      "toNodeId": "node_end_alt",
+      "label": "Un convoi rival arrive premier malgré tout"
+    },
+    {
+      "fromNodeId": "node_15a",
+      "toNodeId": "node_15c",
+      "label": "Timeout : la Suspension n'est pas résolue à temps"
+    },
+    {
+      "fromNodeId": "node_15b",
+      "toNodeId": "node_2Aa",
+      "label": "Alternative A : Les Dunes Chantantes (chant suivi a temps)"
+    },
+    {
+      "fromNodeId": "node_15b",
+      "toNodeId": "node_2Ba",
+      "label": "Alternative B : La Passe du Sel Noir (chant suivi a temps)"
+    },
+    {
+      "fromNodeId": "node_15c",
+      "toNodeId": "node_2Aa",
+      "label": "Alternative A : Les Dunes Chantantes (apres la tempete statique)"
+    },
+    {
+      "fromNodeId": "node_15c",
+      "toNodeId": "node_2Ba",
+      "label": "Alternative B : La Passe du Sel Noir (apres la tempete statique)"
+    }
+  ],
+  "QuestDependency": [
+    {
+      "questId": "quest_course_du_sel",
+      "dependencyType": "trigger",
+      "triggeredOnNodeId": "node_end_success",
+      "notes": "Déclenche l'ouverture de l'Acte 2 (infiltration de la Garde, rivalité feutrée entre PJ) - quête suivante non encore rédigée sous forme de fichier séparé au moment de cet export."
+    }
+  ],
+  "QuestCityImpact": {
+    "notes": "Aucun impact chiffré sur les paramètres d'une cité-état n'est défini pour cette quête d'ouverture au moment de cet export. A compléter si vous souhaitez que l'issue de la course affecte les jauges de la Cité du Divertissement (voir Universe_Lore, section Tension Actuelle)."
+  }
+}
