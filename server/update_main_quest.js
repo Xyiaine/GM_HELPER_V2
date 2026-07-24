@@ -234,11 +234,11 @@ async function main() {
   // 5. NPC Links
   console.log("Creating NPC Links...");
   const npcDefinitions = [
-    { jsonId: "npc_mira", name: "Mira", role: "a secourir / alliee potentielle", description: "Apprentie technicienne du Convoi 5, amnésique suite à l'explosion." },
-    { jsonId: "npc_ashen_roka", name: "Ashen Roka", role: "antagoniste / rival de convoi", description: "Chef des Loups de Sel (Convoi 1). Ancien esclave de l'Arène devenu pillard." },
-    { jsonId: "npc_selia_sel_blanc", name: "Selia Sel-Blanc", role: "rival de convoi", description: "Cheffe de la Caravane du Sel Blanc (Convoi 3). Marchande prudente." },
-    { jsonId: "npc_vray_cendres", name: "Vray Cendres", role: "rival de convoi", description: "Cheffe des Cendres Silencieuses (Convoi 4). Éclaireuse instinctive." },
-    { jsonId: "npc_enfants_du_sel", name: "Les Enfants du Sel", role: "clan nomade", description: "Adorateurs du Chant des Dunes. Nomades du désert asséché." },
+    { jsonId: "npc_ines", name: "Ines", role: "a secourir / alliee potentielle", description: "Apprentie technicienne du Convoi 5, amnésique suite à l'explosion." },
+    { jsonId: "npc_doran_roka", name: "Doran Roka", role: "antagoniste / rival de convoi", description: "Chef des Loups de Sel (Convoi 1). Ancien esclave de l'Arène devenu pillard." },
+    { jsonId: "npc_meya_sel_blanc", name: "Meya Sel-Blanc", role: "rival de convoi", description: "Cheffe de la Caravane du Sel Blanc (Convoi 3). Matriarche marchande." },
+    { jsonId: "npc_ashka_cendres", name: "Ashka Cendres", role: "rival de convoi", description: "Cheffe des Cendres Silencieuses (Convoi 4). Éclaireuse instinctive." },
+    { jsonId: "npc_sura_voix_des_dunes", name: "Sura Voix-des-Dunes", role: "meneuse clan nomade", description: "Meneuse des Adorateurs du Chant des Dunes (Enfants du Sel)." },
     { jsonId: "npc_rook_cendre", name: "Capitaine Rook Cendre", role: "recruteur de la Garde", description: "Officier de la Garde de la Cité du Divertissement, agent du Réseau." }
   ];
 
@@ -362,8 +362,11 @@ async function main() {
       sensoryText = parts.join('\n\n');
     }
 
-    // Format mjDescription to include hooks & actions
+    // Format mjDescription to include hooks, actions & problems
     let fullMjDesc = jsonNode.mjDescription || "";
+    if (jsonNode.problems && jsonNode.problems.length > 0) {
+      fullMjDesc += `\n\n**Problèmes à résoudre** :\n` + jsonNode.problems.map(p => `- "${p.description}" [${p.skillCheck}] → ${p.failureConsequence}`).join('\n');
+    }
     if (jsonNode.actionsNarrativeHook) {
       fullMjDesc += `\n\n**Amorce Narrative** : ${jsonNode.actionsNarrativeHook}`;
     }

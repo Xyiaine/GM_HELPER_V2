@@ -1,6 +1,6 @@
 {
   "schemaVersion": "Systeme_De_Quete_v2",
-  "importInstructions": "Ce fichier contient l'intégralité de la quête d'ouverture 'La Course du Sel' sous une forme structurée, destinée à être importée telle quelle dans le Système de Quêtes de GM Helper (v2). Chaque objet correspond exactement à une table du schéma décrit dans Systeme_De_Quete_v2.md. Les champs 'id' sont des identifiants techniques internes à ce fichier, utilisés uniquement pour les références croisées (fromNodeId, nodeId, etc.) ; ils ne portent aucune signification narrative. Le champ 'displayCode' porte la numérotation narrative humaine (ex: '0.d', '2A.e') et doit être conservé tel quel pour l'affichage. Pour tout texte narratif complémentaire ou contexte de lecture, se référer au document séparé Campagne_v3_Lore.md, qui n'a pas besoin d'être importé dans le système de quêtes.",
+  "importInstructions": "Ce fichier contient l'intégralité de la quête d'ouverture 'La Course du Sel' sous une forme structurée, destinée à être importée telle quelle dans le Système de Quêtes de GM Helper (v2). Chaque objet correspond exactement à une table du schéma décrit dans Systeme_De_Quete_v2.md. Les champs 'id' sont des identifiants techniques internes à ce fichier, utilisés uniquement pour les références croisées (fromNodeId, nodeId, etc.) ; ils ne portent aucune signification narrative. Le champ 'displayCode' porte la numérotation narrative humaine (ex: '0.d', '2A.e') et doit être conservé tel quel pour l'affichage. Pour tout texte narratif complémentaire ou contexte de lecture, se référer au document séparé Campagne_v3_Lore (1).md, qui n'a pas besoin d'être importé dans le système de quêtes.",
   "Quest": {
     "id": "quest_course_du_sel",
     "name": "La Course du Sel",
@@ -40,9 +40,9 @@
       "notes": "Objectif central de la tension dramatique mais non bloquant pour la réussite de la quête."
     },
     {
-      "id": "obj_sauver_mira",
+      "id": "obj_sauver_ines",
       "questId": "quest_course_du_sel",
-      "label": "Secourir la survivante retrouvée dans les décombres du Convoi 5",
+      "label": "Secourir la survivante retrouvée dans les décombres du Convoi 5 (Ines)",
       "order": 3,
       "isHidden": true,
       "isOptional": true,
@@ -129,21 +129,21 @@
       "factionName": "Les Loups de Sel (Convoi 1)",
       "progressValue": 0,
       "lastUpdatedNodeId": "node_0a",
-      "notes": "Chef : Ashen Roka. Cargaison : précurseurs chimiques pour les Chem'Artistes."
+      "notes": "Chef : Doran Roka. Cargaison : précurseurs chimiques pour les Chem'Artistes."
     },
     {
       "questId": "quest_course_du_sel",
       "factionName": "La Caravane du Sel Blanc (Convoi 3)",
       "progressValue": 0,
       "lastUpdatedNodeId": "node_0a",
-      "notes": "Cheffe : Selia Sel-Blanc. Cargaison : textiles, parfums, vins pour les Plaisirs de la Chair. Convoi lent mais increvable."
+      "notes": "Cheffe : Meya Sel-Blanc. Cargaison : textiles, parfums, vins pour les Plaisirs de la Chair. Convoi lent mais increvable."
     },
     {
       "questId": "quest_course_du_sel",
       "factionName": "Les Cendres Silencieuses (Convoi 4)",
       "progressValue": 0,
       "lastUpdatedNodeId": "node_0a",
-      "notes": "Cheffe : Vray Cendres. Cargaison : organes et prothèses pour les Sculpteurs. Emprunte la Passe du Sel Noir."
+      "notes": "Cheffe : Ashka Cendres. Cargaison : organes et prothèses pour les Sculpteurs. Emprunte la Passe du Sel Noir."
     },
     {
       "questId": "quest_course_du_sel",
@@ -187,25 +187,25 @@
   },
   "QuestNPCLink": [
     {
-      "npcId": "npc_mira",
+      "npcId": "npc_ines",
       "questId": "quest_course_du_sel",
       "role": "a secourir / alliee potentielle (ou menace future)",
       "nodeId": "node_0e"
     },
     {
-      "npcId": "npc_ashen_roka",
+      "npcId": "npc_doran_roka",
       "questId": "quest_course_du_sel",
       "role": "antagoniste / rival de convoi",
       "nodeId": "node_2Ad"
     },
     {
-      "npcId": "npc_selia_sel_blanc",
+      "npcId": "npc_meya_sel_blanc",
       "questId": "quest_course_du_sel",
       "role": "rival de convoi, potentiellement neutre a allie",
       "nodeId": "node_1e"
     },
     {
-      "npcId": "npc_vray_cendres",
+      "npcId": "npc_ashka_cendres",
       "questId": "quest_course_du_sel",
       "role": "rival de convoi, potentiellement neutre a allie",
       "nodeId": "node_2Bd"
@@ -226,6 +226,12 @@
       "npcId": "npc_enfants_du_sel",
       "questId": "quest_course_du_sel",
       "role": "sauveteurs lors de la Suspension (premier contact)",
+      "nodeId": "node_15b"
+    },
+    {
+      "npcId": "npc_sura_voix_des_dunes",
+      "questId": "quest_course_du_sel",
+      "role": "meneuse des Adorateurs du Chant des Dunes / sauveteuse lors de la Suspension",
       "nodeId": "node_15b"
     }
   ],
@@ -323,7 +329,7 @@
     {
       "nodeId": "node_0e",
       "rewardType": "npcFavor",
-      "rewardValue": "Mira sauvée - alliée potentielle",
+      "rewardValue": "Ines sauvée - alliée potentielle",
       "conditional": "si fouille effectuée avant que le ver n'attaque"
     },
     {
@@ -347,7 +353,7 @@
     {
       "nodeId": "node_2Bd",
       "rewardType": "npcFavor",
-      "rewardValue": "Faveur ou information de Vray Cendres",
+      "rewardValue": "Faveur ou information de Ashka Cendres",
       "conditional": "si les Cendres Silencieuses ont été traitées sans agressivité"
     },
     {
@@ -373,6 +379,18 @@
       "suggestedActions": [
         "Reprendre fermement le volant pour stabiliser la course",
         "Vérifier son propre corps à la recherche d'une blessure, avant même de comprendre où l'on se trouve"
+      ],
+      "problems": [
+        {
+          "description": "Le volant vibre violemment entre tes mains, la direction hésite à chaque cahot du terrain.",
+          "skillCheck": "Jet de Réflexes ou Pilotage",
+          "failureConsequence": "Échec : le véhicule fait une embardée, dégât mineur au convoi."
+        },
+        {
+          "description": "Une douleur sourde parcourt ton corps quelque part, sans que tu saches si elle est grave.",
+          "skillCheck": "Jet de Vigueur ou Médecine",
+          "failureConsequence": "Échec : une blessure passe inaperçue et s'aggrave, désavantage sur un jet physique plus tard dans la journée."
+        }
       ]
     },
     {
@@ -389,6 +407,18 @@
       "suggestedActions": [
         "Lâcher l'arme, de force ou de sa propre volonté",
         "Interpeller les autres à voix haute : \"C'est toi qui as commencé ?\""
+      ],
+      "problems": [
+        {
+          "description": "Ton doigt reste crispé sur la détente, comme si la volonté n'y était pour rien.",
+          "skillCheck": "Jet de Sang-Froid",
+          "failureConsequence": "Échec : une balle perdue supplémentaire part, gaspillant une munition ou frôlant un allié."
+        },
+        {
+          "description": "Les regards des autres pèsent sur toi, chargés d'une question que personne n'ose poser à voix haute.",
+          "skillCheck": "Jet de Charisme",
+          "failureConsequence": "Échec : la méfiance s'installe d'un cran de plus entre les PJ."
+        }
       ]
     },
     {
@@ -406,6 +436,18 @@
       "suggestedActions": [
         "Scruter l'épave à la longue-vue en quête de survivants",
         "Calculer une trajectoire pour s'en écarter au plus vite plutôt que d'y retourner"
+      ],
+      "problems": [
+        {
+          "description": "La fumée au loin brouille tes yeux en un halo indistinct.",
+          "skillCheck": "Jet de Perception",
+          "failureConsequence": "Échec : un détail important de l'épave (silhouette, mouvement) passe inaperçu."
+        },
+        {
+          "description": "Le véhicule tire légèrement vers l'épave, comme si une partie de toi voulait déjà y retourner.",
+          "skillCheck": "Jet de Pilotage",
+          "failureConsequence": "Échec : le convoi dévie involontairement, perdant un peu de temps."
+        }
       ]
     },
     {
@@ -430,6 +472,18 @@
       "suggestedActions": [
         "Accélérer sans attendre de confirmation",
         "Hurler un avertissement au reste du convoi"
+      ],
+      "problems": [
+        {
+          "description": "Le moteur peine à répondre sous ton pied, comme si le sable ralentissait chaque rouage.",
+          "skillCheck": "Jet de Pilotage",
+          "failureConsequence": "Échec : quelques secondes précieuses perdues, la menace gagne du terrain."
+        },
+        {
+          "description": "Ta voix se perd dans le vent, le reste du convoi semble ne pas t'avoir entendu.",
+          "skillCheck": "Jet de Vigueur (crier fort)",
+          "failureConsequence": "Échec : un véhicule du convoi ne reçoit pas l'alerte à temps."
+        }
       ]
     },
     {
@@ -438,12 +492,24 @@
       "type": "intermediate",
       "pacingTag": "respiration",
       "isOptional": true,
-      "mjDescription": "Fouille de l'épave du Convoi 5, choix risqué et non pénalisé. Fait apparaître Mira (voir QuestNPCLink npc_mira) et débloque obj_sauver_mira et obj_decouvrir_incident. Chaque round supplémentaire passé ici incrémente threat_ver_des_sables (voir QuestNodeThreatEffect).",
+      "mjDescription": "Fouille de l'épave du Convoi 5, choix risqué et non pénalisé. Fait apparaître Ines (voir QuestNPCLink npc_mira) et débloque obj_sauver_mira et obj_decouvrir_incident. Chaque round supplémentaire passé ici incrémente threat_ver_des_sables (voir QuestNodeThreatEffect).",
       "reached": false,
       "actionsNarrativeHook": "L'épave fume encore, et chaque seconde passée ici se paie potentiellement cher.",
       "suggestedActions": [
         "Fouiller les corps et les débris en quête d'indices ou de survivants",
         "Décider à voix haute combien de temps le convoi peut se permettre de rester"
+      ],
+      "problems": [
+        {
+          "description": "Les décombres encore chauds craquent sous chaque pas, du métal tordu prêt à entailler la peau.",
+          "skillCheck": "Jet de Réflexes",
+          "failureConsequence": "Échec : coupure ou blessure mineure en fouillant."
+        },
+        {
+          "description": "Le temps presse, mais impossible de dire précisément combien il en reste avant que quelque chose n'arrive.",
+          "skillCheck": "Jet de Sang-Froid",
+          "failureConsequence": "Échec : le temps est sous-estimé, la menace du ver progresse d'un cran de plus que prévu."
+        }
       ]
     },
     {
@@ -460,6 +526,18 @@
       "suggestedActions": [
         "Fouiller une épave au passage",
         "Repérer un raccourci entre les carcasses"
+      ],
+      "problems": [
+        {
+          "description": "Une plaque de tôle rouillée cède sous ton poids dans un grincement sinistre.",
+          "skillCheck": "Jet de Réflexes",
+          "failureConsequence": "Échec : chute, blessure mineure, ou bruit qui attire l'attention."
+        },
+        {
+          "description": "Le raccourci qui semblait évident se perd entre deux carcasses presque identiques.",
+          "skillCheck": "Jet de Perception ou Survie",
+          "failureConsequence": "Échec : détour, un peu de temps perdu."
+        }
       ]
     },
     {
@@ -476,6 +554,18 @@
       "suggestedActions": [
         "Rationner l'eau du convoi",
         "Chercher un carré d'ombre pour souffler avant de repartir"
+      ],
+      "problems": [
+        {
+          "description": "Ta gorge se serre, la chaleur brouille ta vue par vagues.",
+          "skillCheck": "Jet de Vigueur",
+          "failureConsequence": "Échec : un coup de chaleur ralentit le PJ pour la suite de l'étape."
+        },
+        {
+          "description": "L'ombre repérée au loin est plus éloignée qu'elle ne semblait, et le convoi n'attendra pas indéfiniment.",
+          "skillCheck": "Jet de Perception ou Survie",
+          "failureConsequence": "Échec : la pause est écourtée, aucun vrai répit gagné."
+        }
       ]
     },
     {
@@ -500,6 +590,18 @@
       "suggestedActions": [
         "Distribuer ou enfiler les masques sans attendre d'ordre",
         "Sceller les fenêtres et bâcher la caisse scellée contre la poussière qui s'infiltre déjà"
+      ],
+      "problems": [
+        {
+          "description": "Le masque se coince, les sangles s'emmêlent alors que l'air se charge déjà de poussière.",
+          "skillCheck": "Jet de Dextérité",
+          "failureConsequence": "Échec : quelques secondes d'exposition supplémentaires à la contamination."
+        },
+        {
+          "description": "La bâche glisse entre tes doigts, le vent manquant de te l'arracher avant qu'elle ne couvre la caisse.",
+          "skillCheck": "Jet de Force ou Réflexes",
+          "failureConsequence": "Échec : la caisse scellée reste partiellement exposée à la poussière."
+        }
       ]
     },
     {
@@ -516,6 +618,18 @@
       "suggestedActions": [
         "Tenter la réparation à la force des bras",
         "Monter la garde pendant qu'un autre répare"
+      ],
+      "problems": [
+        {
+          "description": "Le moteur crache une vapeur âcre à chaque tentative de redémarrage.",
+          "skillCheck": "Jet de Mécanique ou Force",
+          "failureConsequence": "Échec : la réparation prend plus de temps que prévu."
+        },
+        {
+          "description": "Sous le capot, un mince filet d'eau s'échappe déjà de la citerne — une fuite qu'il faut colmater avant qu'elle ne s'aggrave.",
+          "skillCheck": "Jet de Mécanique ou Bricolage",
+          "failureConsequence": "Échec : la citerne perd une part significative de son eau (Cactus de Sel nécessaire)."
+        }
       ]
     },
     {
@@ -531,6 +645,18 @@
       "suggestedActions": [
         "Se cacher plutôt que se montrer",
         "Héler le convoi rival pour un échange d'informations"
+      ],
+      "problems": [
+        {
+          "description": "Le convoi rival grossit à vue d'œil, et le temps de décider s'amenuise.",
+          "skillCheck": "Jet de Perception ou Sang-Froid",
+          "failureConsequence": "Échec : le convoi rival remarque les PJ en premier, prenant l'initiative de la rencontre."
+        },
+        {
+          "description": "Ta voix porte plus loin que prévu dans le silence du désert — impossible de la rappeler une fois lancée.",
+          "skillCheck": "Jet de Charisme",
+          "failureConsequence": "Échec : le message est mal interprété par le convoi rival, qui réagit avec méfiance ou hostilité."
+        }
       ]
     },
     {
@@ -548,6 +674,18 @@
       "suggestedActions": [
         "Partager la première garde de nuit avec un autre PJ",
         "Examiner son objet personnel à la lueur du feu"
+      ],
+      "problems": [
+        {
+          "description": "Le feu crépite, mais le bois rare menace de s'éteindre avant la fin de la nuit.",
+          "skillCheck": "Jet de Survie",
+          "failureConsequence": "Échec : le feu s'éteint, une nuit plus froide et plus vulnérable."
+        },
+        {
+          "description": "L'objet personnel semble familier, sans qu'aucun souvenir précis ne remonte.",
+          "skillCheck": "Jet de Volonté ou Empathie (introspection)",
+          "failureConsequence": "Échec : aucun fragment de mémoire n'affleure cette fois — sans conséquence mécanique grave."
+        }
       ]
     },
     {
@@ -570,6 +708,18 @@
       "suggestedActions": [
         "Attacher les PJ entre eux avant que le blanc n'avale tout",
         "Couper le moteur pour économiser et mieux entendre ce qui approche"
+      ],
+      "problems": [
+        {
+          "description": "La corde glisse entre des mains moites, difficile à nouer fermement dans la panique montante.",
+          "skillCheck": "Jet de Dextérité",
+          "failureConsequence": "Échec : le lien entre deux PJ n'est pas assez solide, risque de rupture plus tard dans le blanc."
+        },
+        {
+          "description": "Le moteur, une fois coupé, refuse de repartir aussi facilement qu'il s'est arrêté.",
+          "skillCheck": "Jet de Mécanique",
+          "failureConsequence": "Échec : redémarrage retardé, temps perdu sur le chronomètre de la Suspension."
+        }
       ]
     },
     {
@@ -593,6 +743,18 @@
       "suggestedActions": [
         "Suivre le chant à l'instinct, sans attendre de confirmation",
         "Crier pour se signaler à la voix inconnue"
+      ],
+      "problems": [
+        {
+          "description": "Le chant semble venir de partout à la fois, brouillé par l'écho de la blancheur.",
+          "skillCheck": "Jet de Perception ou Survie",
+          "failureConsequence": "Échec : mauvaise direction prise, du temps perdu sur le chronomètre."
+        },
+        {
+          "description": "Ta voix, en criant, se perd presque aussitôt, absorbée par le silence ouaté de la Suspension.",
+          "skillCheck": "Jet de Vigueur",
+          "failureConsequence": "Échec : le signal n'est pas entendu, aucune réponse ne vient."
+        }
       ]
     },
     {
@@ -612,6 +774,18 @@
       "suggestedActions": [
         "Retirer les armes et objets métalliques portés sur soi",
         "Mettre à l'abri un PJ figé par un flashback"
+      ],
+      "problems": [
+        {
+          "description": "Chaque geste pour retirer une arme ou un objet métallique semble une éternité sous les éclairs qui crépitent.",
+          "skillCheck": "Jet de Dextérité",
+          "failureConsequence": "Échec : un arc frappe l'objet encore porté, dégât ou étourdissement bref."
+        },
+        {
+          "description": "Le PJ figé par le flashback ne réagit à aucun appel, un poids mort en pleine tempête.",
+          "skillCheck": "Jet de Force",
+          "failureConsequence": "Échec : impossible de le déplacer à temps, il subit un choc supplémentaire du prochain éclair."
+        }
       ]
     },
     {
@@ -628,6 +802,18 @@
       "suggestedActions": [
         "Écouter le chant pour deviner la direction à prendre",
         "Vérifier son arme avant d'aller plus loin"
+      ],
+      "problems": [
+        {
+          "description": "Le chant, ténu, se confond avec le sifflement du vent — difficile de discerner une vraie direction.",
+          "skillCheck": "Jet de Perception",
+          "failureConsequence": "Échec : direction erronée prise dans les dunes, détour."
+        },
+        {
+          "description": "Le mécanisme de l'arme résiste, enrayé par le sable fin qui s'est infiltré partout.",
+          "skillCheck": "Jet de Mécanique ou Dextérité",
+          "failureConsequence": "Échec : l'arme reste partiellement enrayée pour la suite de l'étape."
+        }
       ]
     },
     {
@@ -645,6 +831,18 @@
       "suggestedActions": [
         "Tenter de saisir un sens dans les paroles ou le rythme du chant",
         "Prendre une minute pour reprendre son souffle avant la suite"
+      ],
+      "problems": [
+        {
+          "description": "Les paroles du chant semblent presque former des mots, juste hors de portée de la compréhension.",
+          "skillCheck": "Jet d'Intelligence ou Perception",
+          "failureConsequence": "Échec : rien ne se laisse saisir, occasion manquée."
+        },
+        {
+          "description": "Le souffle se fait court, la fatigue accumulée depuis le réveil commence à peser.",
+          "skillCheck": "Jet de Vigueur",
+          "failureConsequence": "Échec : un point de fatigue s'accumule, désavantage à la prochaine action physique."
+        }
       ]
     },
     {
@@ -666,6 +864,18 @@
       "suggestedActions": [
         "Ralentir et se planquer en silence",
         "Envoyer un éclaireur en avant-poste"
+      ],
+      "problems": [
+        {
+          "description": "Le convoi ennemi s'approche plus vite que le temps qu'il faudrait pour se mettre pleinement à couvert.",
+          "skillCheck": "Jet de Discrétion ou Réflexes",
+          "failureConsequence": "Échec : repéré avant d'être prêt, perte de l'avantage de surprise."
+        },
+        {
+          "description": "L'éclaireur envoyé en avant-poste peine à revenir sans se faire remarquer.",
+          "skillCheck": "Jet de Discrétion",
+          "failureConsequence": "Échec : l'éclaireur est repéré, ou revient avec une information incomplète."
+        }
       ]
     },
     {
@@ -680,10 +890,22 @@
       "sensorySmell": "Poudre, sueur, sable soulevé qui pique la gorge.",
       "mjDescription": "Décision collective : fuir, négocier, combattre, ou retourner la situation. La négociation (Charisme) doit être une option aussi valable que le combat. Débloque obj_negocier_loups_de_sel et QuestNodeReward associé si succès/négociation.",
       "reached": false,
-      "actionsNarrativeHook": "Ashen Roka lui-même hésite une fraction de seconde avant l'assaut - une ouverture, si quelqu'un ose la saisir.",
+      "actionsNarrativeHook": "Doran Roka lui-même hésite une fraction de seconde avant l'assaut - une ouverture, si quelqu'un ose la saisir.",
       "suggestedActions": [
         "Tenter de négocier directement avec Ashen Roka",
         "Bloquer la route avec le véhicule pour couper toute retraite aux Loups de Sel"
+      ],
+      "problems": [
+        {
+          "description": "Les mots de négociation se bousculent, et Doran Roka n'est pas homme à attendre longtemps une réponse.",
+          "skillCheck": "Jet de Charisme",
+          "failureConsequence": "Échec : la négociation échoue, le combat devient inévitable."
+        },
+        {
+          "description": "Le véhicule cale au pire moment, en travers de la route qu'il devait bloquer.",
+          "skillCheck": "Jet de Pilotage",
+          "failureConsequence": "Échec : la manœuvre de blocage échoue, les Loups de Sel contournent facilement."
+        }
       ]
     },
     {
@@ -706,6 +928,18 @@
       "suggestedActions": [
         "Hurler l'alerte générale au convoi et aux Loups de Sel",
         "Forcer une trêve immédiate pour fuir ensemble"
+      ],
+      "problems": [
+        {
+          "description": "Le silence soudain écrase les tympans, et crier une alerte cohérente demande un effort que la panique ne facilite pas.",
+          "skillCheck": "Jet de Sang-Froid",
+          "failureConsequence": "Échec : l'alerte, confuse, ne prévient pas tout le monde à temps."
+        },
+        {
+          "description": "Convaincre les Loups de Sel de cesser le feu en une poignée de secondes tient de l'exploit.",
+          "skillCheck": "Jet de Charisme",
+          "failureConsequence": "Échec : la trêve échoue, le combat continue malgré la menace commune."
+        }
       ]
     },
     {
@@ -722,6 +956,18 @@
       "suggestedActions": [
         "Offrir un présent en remerciement",
         "Demander leur aide pour la suite du trajet"
+      ],
+      "problems": [
+        {
+          "description": "Le présent choisi semble dérisoire face à ce que Sura et les siens ont offert.",
+          "skillCheck": "Jet de Charisme ou Empathie",
+          "failureConsequence": "Échec : le geste tombe à plat, sans offenser mais sans vraiment toucher non plus."
+        },
+        {
+          "description": "La question posée touche visiblement à quelque chose que les Enfants du Sel préfèrent taire.",
+          "skillCheck": "Jet de Charisme (Diplomatie)",
+          "failureConsequence": "Échec : Sura élude poliment, aucune information supplémentaire n'est obtenue."
+        }
       ]
     },
     {
@@ -739,6 +985,18 @@
       "suggestedActions": [
         "Équiper une protection improvisée contre les radiations",
         "Sonder le sol avant d'avancer plus loin"
+      ],
+      "problems": [
+        {
+          "description": "Le tissu de fortune censé protéger des radiations laisse passer un peu trop d'air pour être vraiment fiable.",
+          "skillCheck": "Jet de Bricolage",
+          "failureConsequence": "Échec : protection imparfaite, légère exposition."
+        },
+        {
+          "description": "Le sol semble stable sous le premier pas, mais craque étrangement sous le second.",
+          "skillCheck": "Jet de Perception ou Survie",
+          "failureConsequence": "Échec : un point faible du sol n'est pas repéré, risque pour plus tard."
+        }
       ]
     },
     {
@@ -755,6 +1013,18 @@
       "suggestedActions": [
         "Surveiller le compteur de près, à voix haute pour tout le convoi",
         "Tracer la trajectoire la plus sûre en silence"
+      ],
+      "problems": [
+        {
+          "description": "Le compteur crépite de façon erratique, difficile à interpréter sans une lecture attentive.",
+          "skillCheck": "Jet de Science",
+          "failureConsequence": "Échec : une poche de radiation proche passe inaperçue jusqu'à la prochaine sous-étape."
+        },
+        {
+          "description": "La trajectoire tracée dans le silence semble sûre, mais un détail du terrain a peut-être échappé à l'œil.",
+          "skillCheck": "Jet de Perception",
+          "failureConsequence": "Échec : un détour coûteux en temps s'impose plus tard."
+        }
       ]
     },
     {
@@ -776,6 +1046,18 @@
       "suggestedActions": [
         "Dévier immédiatement la trajectoire",
         "Envoyer un éclaireur à pied tester le sol avant de risquer le véhicule"
+      ],
+      "problems": [
+        {
+          "description": "Chaque mètre de déviation improvisée use un peu plus de carburant déjà compté.",
+          "skillCheck": "Jet de Pilotage",
+          "failureConsequence": "Échec : consommation excessive de carburant, ressource à surveiller plus tard."
+        },
+        {
+          "description": "L'éclaireur envoyé à pied doit revenir vite, sans laisser une trace de son passage qui trahirait le convoi.",
+          "skillCheck": "Jet de Discrétion",
+          "failureConsequence": "Échec : l'éclaireur laisse une trace repérable, un risque pour plus tard."
+        }
       ]
     },
     {
@@ -786,12 +1068,24 @@
       "isOptional": false,
       "sensoryVisual": "Silhouettes casquées, lunettes de vision nocturne dont les verres luisent faiblement.",
       "sensorySound": "Voix étouffées, moteurs maintenus au ralenti.",
-      "mjDescription": "Rencontre avec Vray Cendres et les Cendres Silencieuses - échange d'informations, alliance prudente, ou indifférence calculée selon l'humeur.",
+      "mjDescription": "Rencontre avec Ashka Cendres et les Cendres Silencieuses - échange d'informations, alliance prudente, ou indifférence calculée selon l'humeur.",
       "reached": false,
-      "actionsNarrativeHook": "Vray Cendres jauge le convoi des PJ avec la même prudence qu'elle réserve aux radiations.",
+      "actionsNarrativeHook": "Ashka Cendres jauge le convoi des PJ avec la même prudence qu'elle réserve aux radiations.",
       "suggestedActions": [
         "Proposer un échange d'informations",
         "Offrir de l'aide matérielle ou médicale en gage de bonne foi"
+      ],
+      "problems": [
+        {
+          "description": "Ashka Cendres jauge chaque mot avant de répondre, et une maladresse pourrait fermer la conversation net.",
+          "skillCheck": "Jet de Charisme",
+          "failureConsequence": "Échec : Ashka se referme, aucune information n'est partagée."
+        },
+        {
+          "description": "L'aide matérielle offerte pourrait sembler suspecte plutôt que généreuse, selon la manière dont elle est présentée.",
+          "skillCheck": "Jet de Charisme ou Empathie",
+          "failureConsequence": "Échec : le geste est perçu avec méfiance, aucune faveur en retour n'est gagnée."
+        }
       ]
     },
     {
@@ -808,6 +1102,18 @@
       "suggestedActions": [
         "Couper les moteurs et rester immobile",
         "Planifier précisément l'itinéraire de sortie du verre noir"
+      ],
+      "problems": [
+        {
+          "description": "Rester parfaitement immobile alors que le grondement approche demande un sang-froid que la panique menace de rompre.",
+          "skillCheck": "Jet de Sang-Froid",
+          "failureConsequence": "Échec : un geste ou un bruit trahit la présence du convoi, le grondement se rapproche un instant."
+        },
+        {
+          "description": "Tracer une sortie sûre du verre noir, sans donnée fiable, tient plus du pari que du calcul.",
+          "skillCheck": "Jet de Survie ou Perception",
+          "failureConsequence": "Échec : la sortie choisie est plus longue ou plus risquée que prévu."
+        }
       ]
     },
     {
@@ -832,6 +1138,18 @@
       "suggestedActions": [
         "Chercher un indice sur le convoi disparu à la Suspension",
         "Inspecter le véhicule et l'équipement avant le sprint final"
+      ],
+      "problems": [
+        {
+          "description": "Les épaves se ressemblent toutes, et chercher un indice précis parmi elles prend un temps que le sprint final ne pardonnera pas.",
+          "skillCheck": "Jet de Perception",
+          "failureConsequence": "Échec : aucun indice trouvé, du temps précieux perdu."
+        },
+        {
+          "description": "Une pièce d'équipement, secouée par des jours de trajet, montre des signes d'usure qu'il faudrait vérifier avant de foncer.",
+          "skillCheck": "Jet de Mécanique",
+          "failureConsequence": "Échec : un problème d'équipement non détecté ressurgit plus tard, au pire moment."
+        }
       ]
     },
     {
@@ -846,6 +1164,18 @@
       "suggestedActions": [
         "Décider de coopérer ou de saboter un rival",
         "Échanger un dernier mot avec un convoi adverse"
+      ],
+      "problems": [
+        {
+          "description": "Coopérer ou saboter, la décision doit se prendre en une fraction de seconde, sans temps pour peser le pour et le contre.",
+          "skillCheck": "Jet de Sang-Froid",
+          "failureConsequence": "Échec : l'occasion est manquée, ni coopération ni sabotage n'aboutissent."
+        },
+        {
+          "description": "Le dernier mot échangé avec le convoi adverse pourrait envenimer les choses autant que les apaiser.",
+          "skillCheck": "Jet de Charisme",
+          "failureConsequence": "Échec : la relation avec ce convoi rival se détériore pour la suite de la campagne."
+        }
       ]
     },
     {
@@ -867,6 +1197,18 @@
       "suggestedActions": [
         "Tenter de désamorcer l'obstacle à la main",
         "Sacrifier du temps pour sécuriser un passage plus sûr pour tous"
+      ],
+      "problems": [
+        {
+          "description": "Désamorcer à la main demande une précision que des mains tremblantes de fatigue ne garantissent plus.",
+          "skillCheck": "Jet de Dextérité",
+          "failureConsequence": "Échec : l'obstacle inflige des dégâts au véhicule ou à un PJ."
+        },
+        {
+          "description": "Sécuriser un passage plus sûr pour tous prend du temps — du temps que les convois rivaux, eux, ne perdent pas.",
+          "skillCheck": "Jet de Pilotage ou Ingénierie",
+          "failureConsequence": "Échec : le convoi perd une position précieuse dans la course."
+        }
       ]
     },
     {
@@ -882,6 +1224,18 @@
       "suggestedActions": [
         "Pousser le moteur au-delà de ses limites",
         "Gêner activement la progression d'un convoi rival"
+      ],
+      "problems": [
+        {
+          "description": "Le moteur hurle à un régime qu'il n'était pas censé tenir, une vibration inquiétante montant du châssis.",
+          "skillCheck": "Jet de Pilotage",
+          "failureConsequence": "Échec : dommage au véhicule, ralentissement."
+        },
+        {
+          "description": "Gêner un rival exige de se rapprocher dangereusement de son véhicule, au risque d'une collision.",
+          "skillCheck": "Jet de Pilotage ou Réflexes",
+          "failureConsequence": "Échec : collision mineure, dégâts pour les deux véhicules."
+        }
       ]
     },
     {
@@ -904,6 +1258,18 @@
       "suggestedActions": [
         "Sacrifier une part de la cargaison pour distraire le ver",
         "Protéger un PJ blessé au prix de sa propre vitesse"
+      ],
+      "problems": [
+        {
+          "description": "Larguer une part de la cargaison au bon moment, sans se faire repérer par la charge elle-même qui roule dans l'habitacle.",
+          "skillCheck": "Jet de Réflexes",
+          "failureConsequence": "Échec : la cargaison est larguée trop tôt ou trop tard, sans effet sur le ver."
+        },
+        {
+          "description": "Protéger un PJ blessé en pleine charge finale ralentit inévitablement le véhicule — la question est de combien.",
+          "skillCheck": "Jet de Force",
+          "failureConsequence": "Échec : le ralentissement est plus important que prévu, risque accru pour tout le convoi."
+        }
       ]
     },
     {
