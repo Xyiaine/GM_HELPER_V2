@@ -412,23 +412,10 @@ export default function QuestGraphEditor({ quest, campaignId }) {
               <textarea 
                 defaultValue={selectedNode.sensoryText || ''} 
                 onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { sensoryText: e.target.value })}
+                placeholder="Décrivez les éléments visuels, sonores, odeurs..."
                 style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #10b981', borderRadius: '4px', fontSize: '1rem', lineHeight: '1.4' }}
-                rows={4}
+                rows={8}
               />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginTop: '8px' }}>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span style={{ fontSize: '0.8rem', color: '#10b981' }}>Visuel</span>
-                  <input type="text" defaultValue={selectedNode.sensoryVisual || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { sensoryVisual: e.target.value })} style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #10b981', borderRadius: '4px' }} />
-                </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span style={{ fontSize: '0.8rem', color: '#10b981' }}>Sonore</span>
-                  <input type="text" defaultValue={selectedNode.sensorySound || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { sensorySound: e.target.value })} style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #10b981', borderRadius: '4px' }} />
-                </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span style={{ fontSize: '0.8rem', color: '#10b981' }}>Odeur</span>
-                  <input type="text" defaultValue={selectedNode.sensorySmell || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { sensorySmell: e.target.value })} style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #10b981', borderRadius: '4px' }} />
-                </label>
-              </div>
 
               <button 
                 className="btn-secondary"
