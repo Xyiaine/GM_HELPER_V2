@@ -5,87 +5,365 @@
     "type": "commun",
     "cite_origine": null,
     "condition_deblocage": null,
-    "description": "Soigner ses alliés et soi-même dans un monde en ruines.",
+    "description": "Analogue Clerc (scientifique) — Soins de terrain, pharmacologie, chirurgie lourde et noyau REBOOT.",
+    "attributs": [
+      "Intelligence",
+      "Sagesse"
+    ],
+    "classe_5e_ref": "Clerc (scientifique)",
+    "monnaie": "points",
+    "budget_total": 28,
     "branches": [
       {
         "id": "soins_de_terrain",
         "nom": "Soins de Terrain",
         "noeuds": [
           {
-            "id": "trousse_de_fortune",
-            "nom": "Trousse de Fortune",
+            "id": "premiers_secours",
+            "nom": "Premiers Secours",
             "tier": 1,
             "type": "passif",
             "cout_points": 1,
             "prerequis": [],
-            "description": "Bandages improvisés plus efficaces.",
+            "prerequis_logique": "ou",
+            "description": "Stabilise automatiquement un allié à l'agonie à proximité, 1x par combat.",
             "effet": {
-              "resume": "+2 soins prodigués avec du matériel improvisé",
-              "valeur": 2,
-              "cible": "soins_improvises"
+              "resume": "Stabilisation automatique d'agonisant 1x/combat"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": -120,
               "y": 100
             }
           },
           {
-            "id": "sang_froid_rafistoleur",
-            "nom": "Sang-Froid du Rafistoleur",
-            "tier": 1,
-            "type": "passif",
-            "cout_points": 1,
-            "prerequis": [],
-            "description": "Peut soigner sous le feu sans malus.",
-            "effet": {
-              "resume": "Soins en combat sans pénalité"
-            },
-            "position": {
-              "x": -50,
-              "y": 100
-            }
-          },
-          {
-            "id": "piqure_de_rappel",
-            "nom": "Piqûre de Rappel",
+            "id": "triage_rapide",
+            "nom": "Triage Rapide",
             "tier": 2,
             "type": "actif",
             "cout_points": 1,
             "prerequis": [
-              "trousse_de_fortune"
+              "premiers_secours"
             ],
-            "description": "Injecte un stimulant qui restaure des PV immédiatement.",
+            "prerequis_logique": "ou",
+            "description": "Soigne rapidement un allié légèrement blessé, sans matériel lourd.",
             "effet": {
-              "resume": "Soin instantané",
-              "cout_ressource": {
-                "type": "dose_medicament",
-                "quantite": 1
-              },
-              "cooldown_tours": 3,
-              "portee": "allie_adjacent"
+              "resume": "Soin rapide de blessure légère",
+              "cooldown_tours": 2
             },
+            "contrepartie": "-1 Discrétion pendant le soin (concentration visible).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": -160,
               "y": 200
             }
           },
           {
-            "id": "mains_stables",
-            "nom": "Mains Stables",
+            "id": "diagnostic_rapide",
+            "nom": "Diagnostic Rapide",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "premiers_secours"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Identifie instantanément la nature d'une blessure, maladie ou intoxication.",
+            "effet": {
+              "resume": "Analyse instantanée des afflictions"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "sang_froid_clinique",
+            "nom": "Sang-Froid Clinique",
             "tier": 3,
             "type": "passif",
             "cout_points": 2,
             "prerequis": [
-              "piqure_de_rappel",
-              "sang_froid_rafistoleur"
+              "triage_rapide",
+              "diagnostic_rapide"
             ],
-            "description": "Aucune chance d'échec critique lors d'un soin d'urgence.",
+            "prerequis_logique": "ou",
+            "description": "Aucun désavantage à soigner sous le feu ennemi.",
             "effet": {
-              "resume": "Empêche les échecs critiques médicaux"
+              "resume": "Soins en combat sans pénalités"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 0,
+              "x": -160,
               "y": 300
+            }
+          },
+          {
+            "id": "antidote_express",
+            "nom": "Antidote Express",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "triage_rapide",
+              "diagnostic_rapide"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Neutralise un poison ou une toxine en cours d'effet chez un allié.",
+            "effet": {
+              "resume": "Purge d'1 poison/toxine actif",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "chirurgie_de_fortune",
+            "nom": "Chirurgie de Fortune",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "sang_froid_clinique",
+              "antidote_express"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Stabilise et soigne significativement un allié gravement blessé en plein combat.",
+            "effet": {
+              "resume": "Restauration PV majeure d'urgence",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "endurance_clinique",
+            "nom": "Endurance Clinique",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "sang_froid_clinique",
+              "antidote_express"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Les soins prodigués sont plus efficaces si le porteur est resté indemne durant le combat.",
+            "effet": {
+              "resume": "+50% efficacité soins si soigneur indemne"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "miracle_clinique",
+            "nom": "Miracle Clinique",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "chirurgie_de_fortune",
+              "endurance_clinique"
+            ],
+            "prerequis_logique": "et",
+            "description": "Ramène un allié inconscient à un état stable et fonctionnel presque instantanément.",
+            "effet": {
+              "resume": "Reconstitution vitale d'urgence K.O.",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "chirurgie_et_pharmacologie",
+        "nom": "Chirurgie & Pharmacologie",
+        "noeuds": [
+          {
+            "id": "pharmacopee_de_base",
+            "nom": "Pharmacopée de Base",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Fabrique/prépare des remèdes de base efficaces avec des ressources limitées.",
+            "effet": {
+              "resume": "Craft de médikits/remèdes de fortune"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "main_stable",
+            "nom": "Main Stable",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "pharmacopee_de_base"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus aux interventions chirurgicales complexes.",
+            "effet": {
+              "resume": "+2 aux opérations/greffes chirurgicales"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "cocktail_therapeutique",
+            "nom": "Cocktail Thérapeutique",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "pharmacopee_de_base"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Injecte un mélange qui soigne et stabilise sur la durée.",
+            "effet": {
+              "resume": "Régénération de PV sur 3 tours",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 Constitution effective pendant quelques heures.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "anesthesie_controlee",
+            "nom": "Anesthésie Contrôlée",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "main_stable",
+              "cocktail_therapeutique"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Insensibilise une cible à la douleur, réduisant certains effets de choc.",
+            "effet": {
+              "resume": "Réduction des effets de choc/douleur",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "savoir_faire_blouses_blanches",
+            "nom": "Savoir-Faire des Blouses Blanches",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "main_stable",
+              "cocktail_therapeutique"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus significatif à toute opération nécessitant un équipement médical avancé (greffes, implants).",
+            "effet": {
+              "resume": "+4 aux greffes et pose d'implants"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "greffe_d_urgence",
+            "nom": "Greffe d'Urgence",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "anesthesie_controlee",
+              "savoir_faire_blouses_blanches"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Répare un membre/organe gravement endommagé en pleine intervention.",
+            "effet": {
+              "resume": "Restauration d'1 membre/organe mutilé",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "stock_personnel",
+            "nom": "Stock Personnel",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "anesthesie_controlee",
+              "savoir_faire_blouses_blanches"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Conserve toujours une réserve de fournitures médicales de base.",
+            "effet": {
+              "resume": "Réserve de secours médicale permanente"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
             }
           },
           {
@@ -95,125 +373,24 @@
             "type": "actif",
             "cout_points": 3,
             "prerequis": [
-              "mains_stables"
+              "greffe_d_urgence",
+              "stock_personnel"
             ],
-            "description": "Stabilise un allié à l'article de la mort au prix d'un épuisement sévère.",
+            "prerequis_logique": "et",
+            "description": "Ramène un allié récemment décédé à la vie. Nécessite un noyau REBOOT (organe symbiote vendu par les Blouses Blanches). Usage unique par noyau.",
             "effet": {
-              "resume": "Ranimation critique (coûte 1 action complète et réduit les PV max du soigneur temporairement)",
-              "cooldown_tours": 99,
-              "portee": "allie_adjacent"
-            },
-            "position": {
-              "x": 0,
-              "y": 500
-            }
-          }
-        ]
-      },
-      {
-        "id": "pharmacologie",
-        "nom": "Pharmacologie",
-        "noeuds": [
-          {
-            "id": "detox_express",
-            "nom": "Détox Express",
-            "tier": 2,
-            "type": "passif",
-            "cout_points": 1,
-            "prerequis": [
-              "trousse_de_fortune"
-            ],
-            "description": "Réduit de moitié la durée des effets de radiations légères.",
-            "effet": {
-              "resume": "Durée des radiations divisée par 2"
-            },
-            "position": {
-              "x": 150,
-              "y": 200
-            }
-          },
-          {
-            "id": "diagnostic_combat",
-            "nom": "Diagnostic de Combat",
-            "tier": 3,
-            "type": "actif",
-            "cout_points": 2,
-            "prerequis": [
-              "detox_express"
-            ],
-            "description": "Identifie instantanément l'état critique d'un allié (poison, saignement, fracture).",
-            "effet": {
-              "resume": "Analyse médicale instantanée",
-              "cooldown_tours": 1
-            },
-            "position": {
-              "x": 150,
-              "y": 300
-            }
-          },
-          {
-            "id": "antidote_universel",
-            "nom": "Antidote Universel",
-            "tier": 4,
-            "type": "actif",
-            "cout_points": 2,
-            "prerequis": [
-              "diagnostic_combat"
-            ],
-            "description": "Neutralise un poison ou une maladie légère.",
-            "effet": {
-              "resume": "Purge les altérations d'état",
+              "resume": "Réanimation d'un cadavre (coûte 1 Noyau REBOOT)",
+              "cooldown_tours": 4,
               "cout_ressource": {
-                "type": "dose_medicament",
-                "quantite": 3
-              },
-              "cooldown_tours": 5
+                "type": "noyau_reboot",
+                "quantite": 1
+              }
             },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation au chirurgien.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
             "position": {
-              "x": 150,
-              "y": 400
-            }
-          }
-        ]
-      },
-      {
-        "id": "chirurgie",
-        "nom": "Chirurgie",
-        "noeuds": [
-          {
-            "id": "anatomie_appliquee",
-            "nom": "Anatomie Appliquée",
-            "tier": 2,
-            "type": "passif",
-            "cout_points": 1,
-            "prerequis": [
-              "sang_froid_rafistoleur"
-            ],
-            "description": "Savoir où frapper et où suturer.",
-            "effet": {
-              "resume": "Critique sur 19-20 en mêlée et +2 soins globaux"
-            },
-            "position": {
-              "x": -150,
-              "y": 200
-            }
-          },
-          {
-            "id": "chirurgien_apocalypse",
-            "nom": "Chirurgien de l'Apocalypse",
-            "tier": 5,
-            "type": "actif",
-            "cout_points": 3,
-            "prerequis": [
-              "anatomie_appliquee"
-            ],
-            "description": "Réalise une opération lourde (greffe/prothèse) sans infrastructure hospitalière.",
-            "effet": {
-              "resume": "Chirurgie de terrain miraculeuse",
-              "cooldown_tours": 99
-            },
-            "position": {
-              "x": -150,
+              "x": 120,
               "y": 500
             }
           }

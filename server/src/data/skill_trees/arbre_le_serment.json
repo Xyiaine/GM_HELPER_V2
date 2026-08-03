@@ -1,0 +1,417 @@
+{
+  "arbre": {
+    "id": "le_serment",
+    "nom": "Le Serment",
+    "type": "brouillon",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Paladin (profane) — Vœu personnel de protection et justice sans attache religieuse.",
+    "attributs": [
+      "Force",
+      "Charisme"
+    ],
+    "classe_5e_ref": "Paladin (profane)",
+    "monnaie": "points",
+    "budget_total": 28,
+    "ressource_propre": {
+      "nom": "Détermination",
+      "description": "Se régénère en agissant conformément au Serment gravé.",
+      "regeneration": "actions_conformes_au_serment"
+    },
+    "branches": [
+      {
+        "id": "protection_juree",
+        "nom": "Protection Jurée",
+        "noeuds": [
+          {
+            "id": "voeu_grave",
+            "nom": "Vœu Gravé",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Établit le Serment (à qui/quoi il est lié) ; débloque l'accès à la Détermination.",
+            "effet": {
+              "resume": "Débloque la ressource Détermination"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -120,
+              "y": 100
+            }
+          },
+          {
+            "id": "rempart_du_serment",
+            "nom": "Rempart du Serment",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "voeu_grave"
+            ],
+            "prerequis_logique": "ou",
+            "description": "S'interpose et absorbe une partie des dégâts destinés à la personne/cause protégée.",
+            "effet": {
+              "resume": "Interposition et absorption de dégâts",
+              "cooldown_tours": 2,
+              "cout_ressource": {
+                "type": "determination",
+                "quantite": 1
+              }
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "endurance_de_la_promesse",
+            "nom": "Endurance de la Promesse",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "voeu_grave"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance mineure aux dégâts tant que l'objet du Serment est à portée de vue.",
+            "effet": {
+              "resume": "+1 Résistance si protégé en vue"
+            },
+            "contrepartie": "-1 aux jets sociaux envers quiconque menace le Serment.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "aura_du_serment",
+            "nom": "Aura du Serment",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "rempart_du_serment",
+              "endurance_de_la_promesse"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Les alliés proches de l'objet du Serment gagnent un bonus de défense mineur.",
+            "effet": {
+              "resume": "+1 Défense alliés proches du protégé"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "aucun_pas_en_arriere",
+            "nom": "Aucun Pas en Arrière",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "rempart_du_serment",
+              "endurance_de_la_promesse"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Avantage aux jets de résistance contre le fait d'être repoussé ou contraint de reculer.",
+            "effet": {
+              "resume": "Immunité aux effets de recul/repli forcé"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "aigle_gardien",
+            "nom": "Aigle Gardien",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "aura_du_serment",
+              "aucun_pas_en_arriere"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Intercepte une attaque destinée à quiconque est sous la protection du Serment.",
+            "effet": {
+              "resume": "Interception d'attaque à distance pour le protégé",
+              "cooldown_tours": 4,
+              "cout_ressource": {
+                "type": "determination",
+                "quantite": 2
+              }
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "conviction_inebranlable",
+            "nom": "Conviction Inébranlable",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "aura_du_serment",
+              "aucun_pas_en_arriere"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance à la peur et au contrôle mental tant que le Serment n'est pas compromis.",
+            "effet": {
+              "resume": "Immunité contrôle mental si Serment respecté"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_dernier_rempart",
+            "nom": "Le Dernier Rempart",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "aigle_gardien",
+              "conviction_inebranlable"
+            ],
+            "prerequis_logique": "et",
+            "description": "Devient la cible prioritaire de tous les ennemis proches et gagne une résistance majeure.",
+            "effet": {
+              "resume": "Provocation globale + Résistance ultime",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "jugement_personnel",
+        "nom": "Jugement Personnel",
+        "noeuds": [
+          {
+            "id": "oeil_du_jugement",
+            "nom": "Œil du Jugement",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Identifie instantanément qui représente une menace directe pour l'objet du Serment.",
+            "effet": {
+              "resume": "Détection des menaces contre le Serment"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "frappe_du_serment",
+            "nom": "Frappe du Serment",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "oeil_du_jugement"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Dégâts bonus contre une cible ayant menacé ou attaqué l'objet du Serment.",
+            "effet": {
+              "resume": "Châtiment vengeresse (+dégâts)",
+              "cooldown_tours": 2,
+              "cout_ressource": {
+                "type": "determination",
+                "quantite": 1
+              }
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "colere_contenue",
+            "nom": "Colère Contenue",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "oeil_du_jugement"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus d'attaque après avoir vu l'objet du Serment blessé.",
+            "effet": {
+              "resume": "+2 Attaque si protégé blessé"
+            },
+            "contrepartie": "-1 Sagesse effective pendant ce combat contre la cible.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "marque_du_parjure",
+            "nom": "Marque du Parjure",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "frappe_du_serment",
+              "colere_contenue"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Désigne un ennemi comme parjure : les alliés gagnent un avantage à l'attaquer.",
+            "effet": {
+              "resume": "Marque de parjure (Avantage alliés)",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "poursuite_implacable",
+            "nom": "Poursuite Implacable",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "frappe_du_serment",
+              "colere_contenue"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Aucune pénalité de mouvement en poursuivant une cible marquée.",
+            "effet": {
+              "resume": "Vitesse max en poursuite de cible marquée"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "jugement_amplifie",
+            "nom": "Jugement Amplifié",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "marque_du_parjure",
+              "poursuite_implacable"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Une frappe consacrée par la Détermination inflige des dégâts majorés à une cible marquée.",
+            "effet": {
+              "resume": "Frappe sacrée amplifiée",
+              "cooldown_tours": 2,
+              "cout_ressource": {
+                "type": "determination",
+                "quantite": 2
+              }
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "determination_renouvelee",
+            "nom": "Détermination Renouvelée",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "marque_du_parjure",
+              "poursuite_implacable"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Régénère plus vite la Détermination après avoir protégé activement l'objet du Serment.",
+            "effet": {
+              "resume": "Recouvrement rapide de Détermination"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_jugement_final",
+            "nom": "Le Jugement Final",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "jugement_amplifie",
+              "determination_renouvelee"
+            ],
+            "prerequis_logique": "et",
+            "description": "Libère toute sa Détermination en un assaut dévastateur contre celui qui a menacé son Serment.",
+            "effet": {
+              "resume": "Assaut vengeresse dévastateur ultime",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": 120,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

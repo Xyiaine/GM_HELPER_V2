@@ -1,0 +1,469 @@
+{
+  "arbre": {
+    "id": "pisteur_des_sables",
+    "nom": "Pisteur des Sables",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Rôdeur — Tir de précision à distance et compagnon animal du Bassin.",
+    "attributs": [
+      "Dextérité",
+      "Sagesse"
+    ],
+    "classe_5e_ref": "Rôdeur",
+    "monnaie": "points",
+    "budget_total": 28,
+    "bestiaire": {
+      "palier_1": [
+        {
+          "nom": "Chacal-Cendré",
+          "pv": 12,
+          "def": 12,
+          "atq": "+3/1d6",
+          "vitesse": "rapide",
+          "capacite": "Discipline de Meute"
+        },
+        {
+          "nom": "Chien-Perdu",
+          "pv": 14,
+          "def": 10,
+          "atq": "+4/1d8",
+          "vitesse": "moyenne",
+          "capacite": "Instinct Sauvage aléatoire"
+        },
+        {
+          "nom": "Vestige Radiotrophe",
+          "pv": 6,
+          "def": 8,
+          "atq": "+1/1d4",
+          "vitesse": "lente",
+          "capacite": "Profil survie/détection radique"
+        }
+      ],
+      "palier_2": [
+        {
+          "nom": "Scorpion de Verre",
+          "pv": 18,
+          "def": 15,
+          "atq": "+4/1d8 (venin cristallisant)",
+          "vitesse": "moyenne",
+          "capacite": "Camouflage de Verre"
+        },
+        {
+          "nom": "Fouisseur de Sel",
+          "pv": 16,
+          "def": 13,
+          "atq": "+4/1d6",
+          "vitesse": "souterraine",
+          "capacite": "Embuscade Souterraine"
+        }
+      ],
+      "palier_3": [
+        {
+          "nom": "Jeune Caprimyces Titanicus",
+          "pv": 30,
+          "def": 16,
+          "atq": "+6/2d8",
+          "vitesse": "lente",
+          "capacite": "Symbiose Sporale"
+        },
+        {
+          "nom": "Rejeton du Ver de Vitre",
+          "pv": 26,
+          "def": 14,
+          "atq": "+7/2d6 (brûlure)",
+          "vitesse": "rapide",
+          "capacite": "Radiation passive"
+        },
+        {
+          "nom": "Anguille-Tonnerre",
+          "pv": 24,
+          "def": 13,
+          "atq": "+6/2d6 (décharge)",
+          "vitesse": "très rapide",
+          "capacite": "Apex du delta"
+        }
+      ]
+    },
+    "branches": [
+      {
+        "id": "tir_de_precision",
+        "nom": "Tir de Précision",
+        "noeuds": [
+          {
+            "id": "souffle_retenu",
+            "nom": "Souffle Retenu",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Avantage au tir à distance si le personnage n'a pas bougé pendant son tour.",
+            "effet": {
+              "resume": "Avantage au tir à distance si immobile ce tour"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -120,
+              "y": 100
+            }
+          },
+          {
+            "id": "cartouches_choisies",
+            "nom": "Cartouches Choisies",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "souffle_retenu"
+            ],
+            "prerequis_logique": "ou",
+            "description": "+1 dégât avec les armes à un coup non-automatiques.",
+            "effet": {
+              "resume": "+1 dégât (armes à un coup)"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "visee_stabilisee",
+            "nom": "Visée Stabilisée",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "souffle_retenu"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Annule le désavantage dû au mouvement ou à une cible partiellement cachée.",
+            "effet": {
+              "resume": "Annule désavantage de mouvement/couverture",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 à la Discrétion pendant la préparation du tir (immobilité totale requise).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "oeil_de_tireur_d_elite",
+            "nom": "Œil de Tireur d'Élite",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "cartouches_choisies",
+              "visee_stabilisee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Contre une cible immobile : touche automatiquement une zone vitale (dégâts maximisés).",
+            "effet": {
+              "resume": "Touche zone vitale automatique (dégâts max)",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "pas_du_fouisseur",
+            "nom": "Pas du Fouisseur",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "cartouches_choisies",
+              "visee_stabilisee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Aucune pénalité de discrétion en s'immobilisant pour tirer en zone de dunes/sable ; la première attaque depuis une position dissimulée bénéficie d'un avantage.",
+            "effet": {
+              "resume": "Discrétion parfaite en dunes + avantage au 1er tir"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "sang_froid_du_bassin",
+            "nom": "Sang-Froid du Bassin",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "oeil_de_tireur_d_elite",
+              "pas_du_fouisseur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Aucune pénalité de précision après un déplacement, même en terrain difficile.",
+            "effet": {
+              "resume": "Précision intacte en déplacement/terrain difficile"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "cadence_du_chasseur",
+            "nom": "Cadence du Chasseur",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "oeil_de_tireur_d_elite",
+              "pas_du_fouisseur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Une fois par repos long : deux tirs de précision sur la même cible au lieu d'un.",
+            "effet": {
+              "resume": "Deux tirs de précision sur la même cible",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_jugement_du_bassin",
+            "nom": "Le Jugement du Bassin",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "sang_froid_du_bassin",
+              "cadence_du_chasseur"
+            ],
+            "prerequis_logique": "et",
+            "description": "Tir unique à très longue portée contre une cible qui ignore la menace : dégâts quasi-létaux garantis, ignore une partie de l'armure.",
+            "effet": {
+              "resume": "Tir d'exécution longue portée (ignore armure)",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation au tireur (concentration extrême).",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "compagnon_de_chasse",
+        "nom": "Compagnon de Chasse",
+        "noeuds": [
+          {
+            "id": "lien_du_bassin",
+            "nom": "Lien du Bassin",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Débloque le compagnon Palier 1. Le compagnon agit toujours juste après le Pisteur, sans initiative séparée.",
+            "effet": {
+              "resume": "Débloque compagnon Palier 1"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "commandement_de_base",
+            "nom": "Commandement de Base",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "lien_du_bassin"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Ordonne au compagnon une action simple (attaquer, distraire, rapporter).",
+            "effet": {
+              "resume": "Ordre simple au compagnon",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "flair_du_bassin",
+            "nom": "Flair du Bassin",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "lien_du_bassin"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Le compagnon repère embuscades/pièges/proies à l'odorat ; avantage aux tests de pistage.",
+            "effet": {
+              "resume": "Détection embuscades/pièges + avantage pistage"
+            },
+            "contrepartie": "-1 à son prochain jet d'initiative s'il est exposé à une odeur forte/toxique.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "compagnon_aguerri",
+            "nom": "Compagnon Aguerri",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "commandement_de_base",
+              "flair_du_bassin"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Débloque l'accès au Palier 2, en remplacement du Palier 1.",
+            "effet": {
+              "resume": "Compagnon Palier 2"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "tactique_de_meute",
+            "nom": "Tactique de Meute",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "commandement_de_base",
+              "flair_du_bassin"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Si le compagnon et le Pisteur attaquent la même cible dans le même tour, la seconde attaque a un avantage.",
+            "effet": {
+              "resume": "Avantage aux attaques combinées maître/compagnon",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "endurance_du_bassin",
+            "nom": "Endurance du Bassin",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "compagnon_aguerri",
+              "tactique_de_meute"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Le compagnon gagne une résistance aux dégâts de poison et de radiation.",
+            "effet": {
+              "resume": "Résistance poison et radiation pour le compagnon"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "rappel_d_urgence",
+            "nom": "Rappel d'Urgence",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "compagnon_aguerri",
+              "tactique_de_meute"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Si le compagnon est mis hors combat, il peut être stabilisé/rappelé une fois par repos long.",
+            "effet": {
+              "resume": "Sauve le compagnon K.O. 1x par repos long",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "symbiose_du_bassin",
+            "nom": "Symbiose du Bassin",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "endurance_du_bassin",
+              "rappel_d_urgence"
+            ],
+            "prerequis_logique": "et",
+            "description": "Débloque le Palier 3. Une fois par repos long, fusion d'actions avec le compagnon en assaut coordonné.",
+            "effet": {
+              "resume": "Compagnon Palier 3 + Assaut coordonné dévastateur",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 1 niveau d'Exténuation au Pisteur.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 1,
+            "position": {
+              "x": 120,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

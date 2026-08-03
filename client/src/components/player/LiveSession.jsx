@@ -71,6 +71,14 @@ export default function LiveSession({ campaignId }) {
       setTimers(prev => prev.filter(t => t.nodeId !== data.nodeId));
     };
 
+    const [combatState, setCombatState] = useState(null);
+
+    const handleEncounterState = (data) => {
+      if (data && data.encounter) {
+        setCombatState(data.encounter);
+      }
+    };
+
     socket.on('session:message', handleMessage);
     socket.on('session:started', handleSessionStarted);
     socket.on('session:ended', handleSessionEnded);
@@ -78,6 +86,7 @@ export default function LiveSession({ campaignId }) {
     socket.on('spotlight_clear', handleSpotlightClear);
     socket.on('quest_node_timer_started', handleTimerStarted);
     socket.on('quest_node_timer_cleared', handleTimerCleared);
+    socket.on('encounter_state_changed', handleEncounterState);
 
     return () => {
       socket.off('session:message', handleMessage);
@@ -87,6 +96,7 @@ export default function LiveSession({ campaignId }) {
       socket.off('spotlight_clear', handleSpotlightClear);
       socket.off('quest_node_timer_started', handleTimerStarted);
       socket.off('quest_node_timer_cleared', handleTimerCleared);
+      socket.off('encounter_state_changed', handleEncounterState);
       socket.disconnect();
     };
   }, [campaignId, accessToken, fetchSession]);

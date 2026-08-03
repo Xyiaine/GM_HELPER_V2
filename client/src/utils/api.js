@@ -35,6 +35,15 @@ const api = {
     return api.handleResponse(res);
   },
 
+  patch: async (url, body) => {
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: api.getHeaders(),
+      body: JSON.stringify(body),
+    });
+    return api.handleResponse(res);
+  },
+
   delete: async (url) => {
     const res = await fetch(url, {
       method: 'DELETE',

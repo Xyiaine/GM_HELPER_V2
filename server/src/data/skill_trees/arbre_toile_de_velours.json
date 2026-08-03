@@ -1,0 +1,397 @@
+{
+  "arbre": {
+    "id": "toile_de_velours",
+    "nom": "Toile de Velours",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Barde — Manipulation sociale, séduction, intrigue politique et négociation.",
+    "attributs": [
+      "Charisme",
+      "Sagesse"
+    ],
+    "classe_5e_ref": "Barde",
+    "monnaie": "points",
+    "budget_total": 28,
+    "branches": [
+      {
+        "id": "manipulation_et_seduction",
+        "nom": "Manipulation & Séduction",
+        "noeuds": [
+          {
+            "id": "charme_naturel",
+            "nom": "Charme Naturel",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Bonus aux premières impressions et à la séduction.",
+            "effet": {
+              "resume": "+2 aux premiers contacts sociaux"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -120,
+              "y": 100
+            }
+          },
+          {
+            "id": "mensonge_convaincant",
+            "nom": "Mensonge Convaincant",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "charme_naturel"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus pour mentir de façon crédible sous pression.",
+            "effet": {
+              "resume": "Avantage aux jets de Tromperie sous pression"
+            },
+            "contrepartie": "Si découvert, -1 aux jets sociaux futurs avec ce PNJ.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "suggestion_habile",
+            "nom": "Suggestion Habile",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "charme_naturel"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Pousse subtilement une cible à reconsidérer une décision immédiate.",
+            "effet": {
+              "resume": "Inflexion de décision chez la cible",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "lecture_des_desirs",
+            "nom": "Lecture des Désirs",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "mensonge_convaincant",
+              "suggestion_habile"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Identifie ce qu'une cible désire ou craint le plus après une conversation.",
+            "effet": {
+              "resume": "Détection des désirs/craintes profondes d'1 PNJ"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "faux_semblant",
+            "nom": "Faux-Semblant",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "mensonge_convaincant",
+              "suggestion_habile"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Se fait passer pour quelqu'un d'autre de façon crédible sur une courte durée.",
+            "effet": {
+              "resume": "Usurpation d'identité temporaire",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "emprise_sociale",
+            "nom": "Emprise Sociale",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "lecture_des_desirs",
+              "faux_semblant"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus significatif sur toute cible déjà charmée/manipulée avec succès.",
+            "effet": {
+              "resume": "Avantage permanent sur cibles déjà manipulées"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "marionnettiste",
+            "nom": "Marionnettiste",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "lecture_des_desirs",
+              "faux_semblant"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Pousse une cible à accomplir une action mineure en sa faveur.",
+            "effet": {
+              "resume": "Injonction d'action sans éveil de soupçons",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_coeur_dans_la_main",
+            "nom": "Le Cœur dans la Main",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "emprise_sociale",
+              "marionnettiste"
+            ],
+            "prerequis_logique": "et",
+            "description": "Une cible devient temporairement convaincue que le porteur est son plus proche allié.",
+            "effet": {
+              "resume": "Fascination/Allégeance aveugle temporaire",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation (épuisement mental).",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "negociation_et_intrigue",
+        "nom": "Négociation & Intrigue",
+        "noeuds": [
+          {
+            "id": "sens_du_marche",
+            "nom": "Sens du Marché",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Obtient systématiquement de meilleures conditions dans les échanges.",
+            "effet": {
+              "resume": "+20% valeur de troc/négociation"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "menace_voilee",
+            "nom": "Menace Voilée",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "sens_du_marche"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Intimide sans jamais formuler une menace explicite.",
+            "effet": {
+              "resume": "Intimidation subtile inattaquable",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "PNJs clairvoyants se méfient (-1 interactions futures).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "oreille_fine",
+            "nom": "Oreille Fine",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "sens_du_marche"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Capte les rumeurs et informations utiles bien plus vite dans une cité.",
+            "effet": {
+              "resume": "Détection accélérée de rumeurs/secrets de cité"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "reseau_d_allies",
+            "nom": "Réseau d'Alliés",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "menace_voilee",
+              "oreille_fine"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Dispose toujours d'un contact utile dans n'importe quelle cité visitée au moins une fois.",
+            "effet": {
+              "resume": "Contact influent garanti dans chaque cité"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "double_discours",
+            "nom": "Double Discours",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "menace_voilee",
+              "oreille_fine"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Tient deux discours contradictoires à deux interlocuteurs différents sans se faire prendre.",
+            "effet": {
+              "resume": "Manipulation parallèle de deux factions",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "maitre_du_jeu",
+            "nom": "Maître du Jeu",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "reseau_d_allies",
+              "double_discours"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Avantage dans toute négociation à plusieurs parties.",
+            "effet": {
+              "resume": "Avantage aux négociations multi-factions"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "coup_monte",
+            "nom": "Coup Monté",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "reseau_d_allies",
+              "double_discours"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Orchestre un évènement social qui retourne discrètement une situation en sa faveur.",
+            "effet": {
+              "resume": "Inversion d'évènement politique/social",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "l_ombre_derriere_le_trone",
+            "nom": "L'Ombre derrière le Trône",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "maitre_du_jeu",
+              "coup_monte"
+            ],
+            "prerequis_logique": "et",
+            "description": "Influence durablement une décision politique/économique majeure d'une cité.",
+            "effet": {
+              "resume": "Coup d'état d'influence politique discret",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": 120,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

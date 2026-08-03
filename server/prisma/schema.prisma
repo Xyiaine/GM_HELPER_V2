@@ -76,6 +76,7 @@ model Campaign {
   factions    Faction[]
   vehicles    Vehicle[]            @relation("CampaignVehicles")
   vehicleParts VehiclePart[]       @relation("CampaignVehicleParts")
+  bestiary    Bestiary[]
 
   @@index([gmUserId])
   @@map("campaigns")
@@ -203,20 +204,27 @@ model NPC {
   isActive    Boolean @default(true)
 
   // Stats (simplified or full — stored as JSON)
-  stats   String? // JSON: { strength: 14, ... } or null for non-combat NPCs
-  gmNotes String?
+  stats      String? // JSON: { strength: 14, ... } or null for non-combat NPCs
+  armorClass Int?
+  hpMax      Int?
+  hpCurrent  Int?
+  speed      String?
+  bestiaryId String?
+  gmNotes    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  campaign   Campaign          @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  location   Location?         @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  campaign   Campaign             @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  location   Location?            @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  bestiary   Bestiary?            @relation(fields: [bestiaryId], references: [id], onDelete: SetNull)
   questLinks QuestNPCLink[]
   combatants EncounterCombatant[]
 
   @@index([campaignId])
   @@index([locationId])
+  @@index([bestiaryId])
   @@map("npcs")
 }
 
@@ -395,6 +403,8 @@ model Quest {
   visibility  String  @default("secret") // "secret" | "known" | "partial"
   playerSummary String?
   gmNotes     String?
+  gmSecrets   String?   // Secrets MJ (BE-8)
+  gmChangelog String?   // Technical changelog (BE-8)
 
   // Quest giver
   questGiverNpcId String?
@@ -404,9 +414,11 @@ model Quest {
   goldReward Int?
   itemRewards String? // JSON array of item descriptions
 
-  // Status
-  status     String @default("not_started") // "not_started" | "active" | "completed" | "failed" | "abandoned"
-  progress   Int    @default(0) // 0-100
+  // Status & Template/Instance (BE-1)
+  status          String  @default("not_started") // "not_started" | "active" | "completed" | "failed" | "abandoned"
+  progress        Int     @default(0) // 0-100
+  isTemplate      Boolean @default(false)
+  templateQuestId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -422,10 +434,12 @@ model Quest {
   dependentOnMe QuestDependency[]   @relation("QuestTriggeredBy")
   nodes         QuestNode[]
   
-  // v2 relations
+  // v2 & v4 relations
   threats           QuestThreatTracker[]
   factionProgress   QuestFactionProgress[]
   characterStates   QuestCharacterState[]
+  npcProfiles       QuestNPCProfile[]
+  mechanicNotes     QuestMechanicNotes?
 
   @@index([campaignId])
   @@index([questGiverNpcId])
@@ -434,13 +448,16 @@ model Quest {
 }
 
 model QuestObjective {
-  id          String  @id @default(cuid())
-  questId     String
-  description String
-  orderIndex  Int     @default(0)
-  isHidden    Boolean @default(false)
-  isOptional  Boolean @default(false)
-  status      String  @default("pending") // "pending" | "completed" | "failed"
+  id                 String  @id @default(cuid())
+  questId            String
+  description        String
+  orderIndex         Int     @default(0)
+  isHidden           Boolean @default(false)
+  isOptional         Boolean @default(false)
+  status             String  @default("pending") // "pending" | "completed" | "failed"
+  notes              String? // MJ notes on objective
+  investigationLeads String? // JSON: [{ lead, nodeId, reveals }]
+  unlockedByNodeId   String? // ID of node that unlocks this objective
 
   quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
 
@@ -465,7 +482,7 @@ model QuestCityImpact {
 }
 
 model QuestNPCLink {
-  id     String @id @default(cuid())
+  id      String @id @default(cuid())
   questId String
   npcId   String
   role    String // "giver" | "ally" | "enemy" | "neutral" | "other"
@@ -473,7 +490,7 @@ model QuestNPCLink {
   quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
   npc   NPC   @relation(fields: [npcId], references: [id], onDelete: Cascade)
 
-  @@unique([questId, npcId])
+  @@index([questId, npcId])
   @@index([questId])
   @@index([npcId])
   @@map("quest_npc_links")
@@ -488,7 +505,7 @@ model QuestLocationLink {
   quest    Quest    @relation(fields: [questId], references: [id], onDelete: Cascade)
   location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 
-  @@unique([questId, locationId])
+  @@index([questId, locationId])
   @@index([questId])
   @@index([locationId])
   @@map("quest_location_links")
@@ -502,7 +519,7 @@ model QuestItemLink {
   quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
   item  Item  @relation(fields: [itemId], references: [id], onDelete: Cascade)
 
-  @@unique([questId, itemId])
+  @@index([questId, itemId])
   @@index([questId])
   @@index([itemId])
   @@map("quest_item_links")
@@ -524,52 +541,99 @@ model QuestDependency {
 }
 
 // ============================================================
+// BESTIARY
+// ============================================================
+
+model Bestiary {
+  id              String   @id @default(cuid())
+  campaignId      String
+  name            String
+  category        String   @default("other") // "humanoid" | "beast" | "undead" | "construct" | "aberration" | "other"
+  challengeRating Float?
+  armorClass      Int      @default(10)
+  hpMax           Int      @default(1)
+  hpFormula       String?  // ex: "8d8+16"
+  speed           String?  // ex: "9m, vol 18m"
+  stats           String?  // JSON: {str:14, dex:12, con:13, int:2, wis:10, cha:5}
+  attacks         String?  // JSON: [{name, bonus, damage, range}]
+  traits          String?  // JSON: capacités spéciales, résistances, immunités
+  savingThrows    String?  // JSON
+  description     String?
+  isFavorite      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  campaign   Campaign             @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  npcs       NPC[]
+  combatants EncounterCombatant[]
+
+  @@index([campaignId])
+  @@map("bestiary")
+}
+
+// ============================================================
 // ENCOUNTERS / COMBAT
 // ============================================================
 
 model Encounter {
-  id          String  @id @default(cuid())
-  campaignId  String
-  name        String
-  description String?
-  locationId  String?
-  status      String  @default("planned") // "planned" | "active" | "completed"
-  currentRound Int    @default(0)
-  currentTurnIndex Int @default(0)
+  id              String   @id @default(cuid())
+  campaignId      String
+  name            String
+  description     String?
+  locationId      String?
+  status          String   @default("planned") // "planned" | "active" | "completed"
+  phase           String   @default("planned") // "planned" | "surprise_check" | "initiative_entry" | "active" | "completed"
+  surpriseEnabled Boolean  @default(false)
+  currentRound    Int      @default(0)
+  currentTurnIndex Int     @default(0)
+  questNodeId     String?
+  summary         String?  // JSON summary on combat end
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   campaign   Campaign             @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   location   Location?            @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  questNode  QuestNode?           @relation(fields: [questNodeId], references: [id], onDelete: SetNull)
   combatants EncounterCombatant[]
 
   @@index([campaignId])
+  @@index([questNodeId])
   @@map("encounters")
 }
 
 model EncounterCombatant {
-  id          String  @id @default(cuid())
-  encounterId String
-  name        String
-  type        String  // "character" | "npc" | "monster"
-  initiative  Int     @default(0)
-  hpCurrent   Int     @default(0)
-  hpMax       Int     @default(0)
-  armorClass  Int     @default(10)
-  conditions  String? // JSON array: ["stunned", "poisoned"]
-  notes       String?
-  orderIndex  Int     @default(0)
+  id                 String   @id @default(cuid())
+  encounterId        String
+  name               String
+  type               String   // "character" | "npc" | "monster" | "vehicle"
+  sourceType         String   @default("manual") // "character" | "npc" | "bestiary" | "vehicle" | "manual"
+  sourceId           String?
+  initiative         Int      @default(0)
+  hpCurrent          Int      @default(0)
+  hpMax              Int      @default(0)
+  armorClass         Int      @default(10)
+  conditions         String?  // JSON array: ["stunned", "poisoned"]
+  notes              String?
+  orderIndex         Int      @default(0)
+  isSurprised        Boolean  @default(false)
+  isVisibleToPlayers Boolean  @default(true)
 
-  // Link to actual entity (optional)
+  // Link to actual entities (optional)
   characterId String?
   npcId       String?
+  bestiaryId  String?
+  vehicleId   String?
 
   encounter Encounter  @relation(fields: [encounterId], references: [id], onDelete: Cascade)
   character Character? @relation(fields: [characterId], references: [id], onDelete: SetNull)
   npc       NPC?       @relation(fields: [npcId], references: [id], onDelete: SetNull)
+  bestiary  Bestiary?  @relation(fields: [bestiaryId], references: [id], onDelete: SetNull)
+  vehicle   Vehicle?   @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
 
   @@index([encounterId])
+  @@index([bestiaryId])
+  @@index([vehicleId])
   @@map("encounter_combatants")
 }
 
@@ -884,9 +948,10 @@ model Vehicle {
   campaign Campaign @relation("CampaignVehicles", fields: [campaignId], references: [id], onDelete: Cascade)
   faction  Faction? @relation(fields: [factionId], references: [id], onDelete: SetNull)
   
-  partSlots VehiclePartSlot[]
-  crewSlots VehicleCrewSlot[]
-  accesses  VehicleAccess[]
+  partSlots  VehiclePartSlot[]
+  crewSlots  VehicleCrewSlot[]
+  accesses   VehicleAccess[]
+  combatants EncounterCombatant[]
 
   @@index([campaignId])
   @@index([factionId])
@@ -990,7 +1055,7 @@ model QuestNode {
   status            String    @default("not_reached") // "not_reached" | "reached"
   reachedAt         DateTime?
   
-  // v2 fields
+  // v2 & v4 fields
   detectionMechanic     String?   // JSON
   pathGroup             String?   
   displayCode           String?   
@@ -1000,6 +1065,13 @@ model QuestNode {
   sensoryVisual         String?
   sensorySound          String?
   sensorySmell          String?
+  isStrategicChoice     Boolean   @default(false)
+  routeChoiceOptions    String?   // JSON: [{ id, label, description, poolEffect }]
+  poolNotes             String?   // Pool role notes
+  generativeFailure     String?   // JSON: { trigger, branchNodeId, notes }
+  captainSelection      String?   // JSON: { trigger, resolutionMethod, deadlockFallback, payoff, conflictManagementLevers }
+  resolutionBranches    String?   // JSON
+  combatTemplate        String?   // JSON: [{sourceType, sourceId, count}]
 
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -1012,6 +1084,7 @@ model QuestNode {
   connectionsTo     QuestNodeConnection[] @relation("ConnectionTo")
   rewards           QuestNodeReward[]
   threatEffects     QuestNodeThreatEffect[]
+  encounters        Encounter[]
   
   @@index([questId])
   @@map("quest_nodes")
@@ -1023,6 +1096,7 @@ model QuestNodeConnection {
   toNodeId            String
   label               String?
   isTimeoutConnection Boolean  @default(false)
+  condition           String?  // Condition structurée (ex: "route == longue", "relationship.loups_de_sel == hostile")
   
   fromNode QuestNode @relation("ConnectionFrom", fields: [fromNodeId], references: [id], onDelete: Cascade)
   toNode   QuestNode @relation("ConnectionTo", fields: [toNodeId], references: [id], onDelete: Cascade)
@@ -1074,7 +1148,7 @@ model MapRevealedZone {
 }
 
 // ============================================================
-// QUEST SYSTEM v2 EXTENSIONS
+// QUEST SYSTEM v2 & v4 EXTENSIONS
 // ============================================================
 
 model QuestNodeReward {
@@ -1083,6 +1157,7 @@ model QuestNodeReward {
   rewardType      String    // "item" | "gold" | "xp" | "npcFavor" | "information"
   rewardValue     String
   conditional     String?
+  payoffNodeId    String?   // ID du nœud où cette récompense porte ses fruits
 
   node QuestNode @relation(fields: [nodeId], references: [id], onDelete: Cascade)
 
@@ -1091,13 +1166,15 @@ model QuestNodeReward {
 }
 
 model QuestThreatTracker {
-  id              String    @id @default(cuid())
-  questId         String
-  name            String
-  currentLevel    Int       @default(0)
-  maxLevel        Int       @default(4)
-  stateLabel      String    // "dormant", "en approche", "en chasse", "attaque"
-  description     String?
+  id                      String    @id @default(cuid())
+  questId                 String
+  name                    String
+  currentLevel            Int       @default(0)
+  maxLevel                Int       @default(4)
+  stateLabel              String    // "dormant", "en approche", "en chasse", "attaque"
+  description             String?
+  thresholds              String?   // JSON: [{ level: 3, effect: "..." }, ...]
+  directApparitionBudget  String?   // JSON: { max: 3, notes: "..." }
 
   quest         Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
   threatEffects QuestNodeThreatEffect[]
@@ -1112,22 +1189,27 @@ model QuestNodeThreatEffect {
   threatId        String
   effect          String    // "increment" | "decrement" | "trigger_attack" | "neutralize"
   effectValue     Int       @default(1)
+  condition       String?   // Condition structurée (ex: "route_longue")
+  notes           String?   // Notes explicatives MJ
 
   node   QuestNode          @relation(fields: [nodeId], references: [id], onDelete: Cascade)
   threat QuestThreatTracker @relation(fields: [threatId], references: [id], onDelete: Cascade)
 
-  @@unique([nodeId, threatId])
   @@index([nodeId])
   @@index([threatId])
   @@map("quest_node_threat_effects")
 }
 
 model QuestFactionProgress {
-  id                 String    @id @default(cuid())
-  questId            String
-  factionName        String
-  progressValue      Int       @default(0) // 0-100
-  lastUpdatedNodeId  String?
+  id                        String    @id @default(cuid())
+  questId                   String
+  factionName               String
+  progressValue             Int       @default(0) // 0-100
+  lastUpdatedNodeId         String?
+  relationshipState         String?   // "hostile" | "neutre" | "allie"
+  relationshipUpdateNodeIds String?   // JSON: ["node_1e", "node_2Ad", ...]
+  relationshipNotes         String?   // Notes explicatives
+  notes                     String?   // Notes générales
 
   quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
 
@@ -1151,3 +1233,47 @@ model QuestCharacterState {
   @@index([characterId])
   @@map("quest_character_states")
 }
+
+// ============================================================
+// QUEST NPC PROFILES (Voice cards for quest-specific NPCs)
+// ============================================================
+
+model QuestNPCProfile {
+  id                  String    @id @default(cuid())
+  questId             String
+  npcId               String    // Clé logique PNJ (ex: "npc_doran_roka")
+  name                String
+  speechPattern       String?   // Façon de parler
+  physicalTic         String?   // Tic physique
+  signatureBehavior   String?   // Comportement signature
+
+  quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
+
+  @@index([questId])
+  @@index([npcId])
+  @@map("quest_npc_profiles")
+}
+
+// ============================================================
+// QUEST MECHANIC NOTES
+// ============================================================
+
+model QuestMechanicNotes {
+  id                            String    @id @default(cuid())
+  questId                       String    @unique
+  scenePoolFramework            String?   // JSON du pool de scènes
+  rivalConvoyEncounterFramework String?   // JSON du cadre de rencontre
+  generativeFailures            String?   // JSON
+  stakesBeforeRoll              String?   // JSON
+  sensoryPresentationVariety    String?   // JSON
+  tableCalibration              String?   // JSON
+  ruleSystemConversion          String?   // JSON
+  floatingEventDrawTable        String?   // JSON
+  postSessionDebrief            String?   // JSON
+  tableMusic                    String?   // JSON
+
+  quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
+
+  @@map("quest_mechanic_notes")
+}
+

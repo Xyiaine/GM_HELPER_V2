@@ -1,0 +1,423 @@
+{
+  "arbre": {
+    "id": "ordre_du_moteur",
+    "nom": "Ordre du Moteur",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Paladin (culte) — Rites sacrés de la Sainte-Vidange, Ferveur sacrée, bénédiction et marteau du Moteur.",
+    "attributs": [
+      "Charisme",
+      "Constitution"
+    ],
+    "classe_5e_ref": "Paladin (culte)",
+    "monnaie": "points",
+    "budget_total": 28,
+    "ressource_propre": {
+      "nom": "Ferveur",
+      "description": "Se régénère au repos court et long via des gestes de dévotion mécanique.",
+      "regeneration": "repos_court_et_long"
+    },
+    "branches": [
+      {
+        "id": "ingenierie_du_culte",
+        "nom": "Ingénierie du Culte",
+        "noeuds": [
+          {
+            "id": "benediction_de_l_outil",
+            "nom": "Bénédiction de l'Outil",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Les armes/outils bénis reçoivent un bonus mineur de fiabilité (jamais d'enrayement) ou de dégâts.",
+            "effet": {
+              "resume": "Armes bénies (jamais d'enrayement)"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -120,
+              "y": 100
+            }
+          },
+          {
+            "id": "exorcisme_mecanique",
+            "nom": "Exorcisme Mécanique",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "benediction_de_l_outil"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Purifie/répare rituellement un dysfonctionnement mineur d'une machine corrompue.",
+            "effet": {
+              "resume": "Purification de panne mécanique",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 à l'Intelligence effective pour tout diagnostic profane.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "benediction_du_convoi",
+            "nom": "Bénédiction du Convoi",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "benediction_de_l_outil"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bénit un véhicule/machine : résistance temporaire à la panne/aux dégâts critiques.",
+            "effet": {
+              "resume": "Protection sacrée pour véhicule",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "rite_d_entretien",
+            "nom": "Rite d'Entretien",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "exorcisme_mecanique",
+              "benediction_du_convoi"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Les machines/véhicules bénis par le porteur tombent deux fois moins souvent en panne sur la durée.",
+            "effet": {
+              "resume": "Pannes mécaniques réduites de 50%"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "main_sacree",
+            "nom": "Main Sacrée",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "exorcisme_mecanique",
+              "benediction_du_convoi"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Répare en urgence, en pleine action, un équipement endommagé d'un allié (arme enrayée, armure brisée).",
+            "effet": {
+              "resume": "Réparation sacrée d'urgence en combat",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "in_nomine_motoris",
+            "nom": "In Nomine Motoris",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "rite_d_entretien",
+              "main_sacree"
+            ],
+            "prerequis_logique": "ou",
+            "description": "La Ferveur se régénère plus vite près d'un Adepte du Dieu-Moteur ou lors d'un rite collectif.",
+            "effet": {
+              "resume": "Régénération de Ferveur accélérée"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "consecration_de_l_arsenal",
+            "nom": "Consécration de l'Arsenal",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "rite_d_entretien",
+              "main_sacree"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bénit toutes les armes du groupe avant un affrontement annoncé : bonus de dégâts partagé pour ce combat.",
+            "effet": {
+              "resume": "Buff collectif de dégâts sacrés",
+              "cooldown_tours": 4,
+              "cout_ressource": {
+                "type": "ferveur",
+                "quantite": 2
+              }
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_souffle_consacre",
+            "nom": "Le Souffle Consacré",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "in_nomine_motoris",
+              "consecration_de_l_arsenal"
+            ],
+            "prerequis_logique": "et",
+            "description": "Libère toute sa Ferveur : dégâts de zone majeurs, immunité temporaire aux pannes pour les alliés proches.",
+            "effet": {
+              "resume": "Onde sacrée AoE + Immunité pannes",
+              "cooldown_tours": 4,
+              "cout_ressource": {
+                "type": "ferveur",
+                "quantite": 3
+              }
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "jugement_du_moteur",
+        "nom": "Jugement du Moteur",
+        "noeuds": [
+          {
+            "id": "oeil_du_profanateur",
+            "nom": "Œil du Profanateur",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Identifie instantanément qui a endommagé, insulté ou trahi une machine/le culte.",
+            "effet": {
+              "resume": "Détection des hérétiques du Moteur"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "jugement_du_moteur_node",
+            "nom": "Jugement du Moteur",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "oeil_du_profanateur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Dégâts supplémentaires contre une cible jugée profanatrice du culte.",
+            "effet": {
+              "resume": "Châtiment sacré sur profanateur",
+              "cooldown_tours": 2,
+              "cout_ressource": {
+                "type": "ferveur",
+                "quantite": 1
+              }
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "aura_de_ferveur",
+            "nom": "Aura de Ferveur",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "oeil_du_profanateur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Les alliés proches gagnent un bonus de moral/défense tant que le porteur reste visible.",
+            "effet": {
+              "resume": "Aura sacrée (+1 Défense alliés proches)"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "colere_consacree",
+            "nom": "Colère Consacrée",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "jugement_du_moteur_node",
+              "aura_de_ferveur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus d'attaque après avoir vu une machine/un allié détruit sous ses yeux.",
+            "effet": {
+              "resume": "+2 Attaque si allié/machine détruit"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "marque_du_profanateur",
+            "nom": "Marque du Profanateur",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "jugement_du_moteur_node",
+              "aura_de_ferveur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Désigne une cible : les alliés gagnent un avantage à l'attaquer tant qu'elle reste marquée.",
+            "effet": {
+              "resume": "Marque d'hérésie (Avantage pour les alliés)",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "marteau_du_jugement",
+            "nom": "Marteau du Jugement",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "colere_consacree",
+              "marque_du_profanateur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Frappe consacrée : dégâts majorés contre machines corrompues ou ennemis du culte.",
+            "effet": {
+              "resume": "Frappe de châtiment lourd",
+              "cooldown_tours": 2,
+              "cout_ressource": {
+                "type": "ferveur",
+                "quantite": 2
+              }
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "zele_inebranlable",
+            "nom": "Zèle Inébranlable",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "colere_consacree",
+              "marque_du_profanateur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance à la peur et au contrôle mental tant que la Ferveur n'est pas épuisée.",
+            "effet": {
+              "resume": "Immunité peur/contrôle si Ferveur active"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_jugement_ultime",
+            "nom": "Le Jugement Ultime",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "marteau_du_jugement",
+              "zele_inebranlable"
+            ],
+            "prerequis_logique": "et",
+            "description": "Frappe consacrée dévastatrice contre le pire profanateur présent, ignorant l'essentiel de son armure.",
+            "effet": {
+              "resume": "Châtiment suprême (ignore l'armure)",
+              "cooldown_tours": 4,
+              "cout_ressource": {
+                "type": "ferveur",
+                "quantite": 3
+              }
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": 120,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

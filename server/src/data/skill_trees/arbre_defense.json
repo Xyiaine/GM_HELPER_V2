@@ -5,125 +5,175 @@
     "type": "commun",
     "cite_origine": null,
     "condition_deblocage": null,
-    "description": "Encaisser les dégâts, protéger le groupe, réduction de dégâts.",
+    "description": "Analogue Guerrier (tank) — Survie personnelle pure, encaissement de dégâts et blindage inamovible.",
+    "attributs": [
+      "Constitution",
+      "Force"
+    ],
+    "classe_5e_ref": "Guerrier (tank)",
+    "monnaie": "points",
+    "budget_total": 28,
     "branches": [
       {
         "id": "resilience",
         "nom": "Résilience",
         "noeuds": [
           {
-            "id": "cuir_tanne",
-            "nom": "Cuir Tanné",
+            "id": "cuir_epais",
+            "nom": "Cuir Épais",
             "tier": 1,
             "type": "passif",
             "cout_points": 1,
             "prerequis": [],
-            "description": "Peau durcie.",
+            "prerequis_logique": "ou",
+            "description": "Réduction mineure de tous les dégâts physiques subis.",
             "effet": {
-              "resume": "+1 CA Naturelle",
-              "valeur": 1
+              "resume": "-1 à tous les dégâts physiques subis"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 0,
+              "x": -120,
               "y": 100
             }
           },
           {
-            "id": "endurance_survivant",
-            "nom": "Endurance de Survivant",
+            "id": "encaissement",
+            "nom": "Encaissement",
             "tier": 2,
             "type": "passif",
             "cout_points": 1,
             "prerequis": [
-              "cuir_tanne"
+              "cuir_epais"
             ],
-            "description": "+15 PV max.",
+            "prerequis_logique": "ou",
+            "description": "Moins affecté par les effets de déséquilibre/étourdissement.",
             "effet": {
-              "resume": "+15 PV Max",
-              "valeur": 15
+              "resume": "Résistance déséquilibre/étourdissement"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -50,
+              "x": -160,
               "y": 200
             }
           },
           {
-            "id": "resistance_radiations",
-            "nom": "Résistance aux Radiations",
-            "tier": 3,
-            "type": "passif",
-            "cout_points": 2,
-            "prerequis": [
-              "endurance_survivant"
-            ],
-            "description": "Prend moins de dégâts radiologiques.",
-            "effet": {
-              "resume": "Résistance aux dégâts de radiation (dégâts divisés par 2)"
-            },
-            "position": {
-              "x": -50,
-              "y": 300
-            }
-          }
-        ]
-      },
-      {
-        "id": "protection_groupe",
-        "nom": "Protection du Groupe",
-        "noeuds": [
-          {
-            "id": "provocation",
-            "nom": "Provocation",
-            "tier": 1,
-            "type": "actif",
-            "cout_points": 1,
-            "prerequis": [],
-            "description": "Force les ennemis proches à vous cibler pendant 1 tour.",
-            "effet": {
-              "resume": "Aggro de zone (5m)",
-              "cooldown_tours": 3
-            },
-            "position": {
-              "x": 100,
-              "y": 100
-            }
-          },
-          {
-            "id": "position_defensive",
-            "nom": "Position Défensive",
+            "id": "second_souffle_defense",
+            "nom": "Second Souffle",
             "tier": 2,
             "type": "actif",
             "cout_points": 1,
             "prerequis": [
-              "provocation"
+              "cuir_epais"
             ],
-            "description": "Vous gagnez la Résistance à tous les dégâts pendant 1 tour, mais votre vitesse tombe à 0.",
+            "prerequis_logique": "ou",
+            "description": "Récupère un peu de PV en pleine garde défensive.",
             "effet": {
-              "resume": "Résistance aux dégâts, Vitesse=0",
+              "resume": "Soin personnel rapide en garde",
               "cooldown_tours": 2
             },
+            "contrepartie": "-1 Initiative au tour suivant.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 100,
+              "x": -80,
               "y": 200
             }
           },
           {
-            "id": "bouclier_humain",
-            "nom": "Bouclier Humain",
+            "id": "inebranlable",
+            "nom": "Inébranlable",
             "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "encaissement",
+              "second_souffle_defense"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Avantage aux jets pour résister à être renversé, repoussé ou étourdi.",
+            "effet": {
+              "resume": "Avantage contre le fait d'être à terre/repoussé"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "ignorer_la_douleur",
+            "nom": "Ignorer la Douleur",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "encaissement",
+              "second_souffle_defense"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Aucune pénalité de dégâts sous la moitié des PV maximum.",
+            "effet": {
+              "resume": "Immunité pénalités si PV < 50%"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "mur_de_chair",
+            "nom": "Mur de Chair",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "inebranlable",
+              "ignorer_la_douleur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance significative contre une seule cible désignée en combat.",
+            "effet": {
+              "resume": "Résistance ciblée contre 1 ennemi désigné"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "regeneration_de_combat",
+            "nom": "Régénération de Combat",
+            "tier": 4,
             "type": "actif",
             "cout_points": 2,
             "prerequis": [
-              "position_defensive"
+              "inebranlable",
+              "ignorer_la_douleur"
             ],
-            "description": "Absorbe les dégâts destinés à un allié adjacent.",
+            "prerequis_logique": "ou",
+            "description": "Récupère des PV significatifs en pleine bataille.",
             "effet": {
-              "resume": "Interception de dégâts",
-              "cooldown_tours": 1
+              "resume": "Restauration PV majeure en combat",
+              "cooldown_tours": 4
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 100,
-              "y": 300
+              "x": -80,
+              "y": 400
             }
           },
           {
@@ -133,19 +183,20 @@
             "type": "actif",
             "cout_points": 3,
             "prerequis": [
-              "bouclier_humain"
+              "mur_de_chair",
+              "regeneration_de_combat"
             ],
-            "description": "Devient quasi-invulnérable et protège la formation.",
+            "prerequis_logique": "et",
+            "description": "Pendant plusieurs tours, quasi insensible aux dégâts d'une seule source.",
             "effet": {
-              "resume": "Invulnérabilité de zone (1 tour)",
-              "cout_ressource": {
-                "type": "adrenaline",
-                "quantite": 2
-              },
-              "cooldown_tours": 10
+              "resume": "Invulnérabilité ciblée temporaire",
+              "cooldown_tours": 4
             },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
             "position": {
-              "x": 50,
+              "x": -120,
               "y": 500
             }
           }
@@ -156,22 +207,186 @@
         "nom": "Blindage",
         "noeuds": [
           {
-            "id": "blindage_improvise",
-            "nom": "Blindage Improvisé",
+            "id": "port_d_armure_optimise",
+            "nom": "Port d'Armure Optimisé",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Aucune pénalité de mobilité liée aux armures lourdes.",
+            "effet": {
+              "resume": "Mobilité maximale en armure lourde"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "bouclier_reactif",
+            "nom": "Bouclier Réactif",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "port_d_armure_optimise"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus de défense contre la première attaque de chaque combat.",
+            "effet": {
+              "resume": "+2 Défense contre le premier coup"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "parade_ferme",
+            "nom": "Parade Ferme",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "port_d_armure_optimise"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bloque totalement une attaque.",
+            "effet": {
+              "resume": "Blocage total d'1 attaque",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 à la Défense au tour suivant.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "renforcement_tactique",
+            "nom": "Renforcement Tactique",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "bouclier_reactif",
+              "parade_ferme"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus de défense supplémentaire tant que le porteur reste immobile.",
+            "effet": {
+              "resume": "+2 Défense si immobile"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "contre_attaque_blindee",
+            "nom": "Contre-Attaque Blindée",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "bouclier_reactif",
+              "parade_ferme"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Après avoir bloqué une attaque, riposte immédiatement.",
+            "effet": {
+              "resume": "Riposte instantanée après blocage",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "armure_vivante",
+            "nom": "Armure Vivante",
             "tier": 4,
             "type": "passif",
             "cout_points": 2,
             "prerequis": [
-              "cuir_tanne"
+              "renforcement_tactique",
+              "contre_attaque_blindee"
             ],
-            "description": "Réduction fixe des dégâts par coup.",
+            "prerequis_logique": "ou",
+            "description": "L'armure encaisse une partie des dégâts sans jamais se dégrader.",
             "effet": {
-              "resume": "-3 Dégâts sur toute attaque subie",
-              "valeur": 3
+              "resume": "Immunité dégradation d'armure"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -100,
+              "x": 80,
               "y": 400
+            }
+          },
+          {
+            "id": "position_imprenable",
+            "nom": "Position Imprenable",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "renforcement_tactique",
+              "contre_attaque_blindee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Devient impossible à déplacer ou contourner pendant plusieurs tours.",
+            "effet": {
+              "resume": "Ancrage au sol inamovible (3 tours)",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "l_inamovible",
+            "nom": "L'Inamovible",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "armure_vivante",
+              "position_imprenable"
+            ],
+            "prerequis_logique": "et",
+            "description": "Devient quasiment impossible à tuer ou déplacer pendant plusieurs tours.",
+            "effet": {
+              "resume": "Blindage absolu inamovible",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": 120,
+              "y": 500
             }
           }
         ]

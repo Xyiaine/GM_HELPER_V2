@@ -1044,9 +1044,29 @@ export default function MapManager() {
                 })()}
               </div>
 
-              {/* Map coordinates */}
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>
-                Map position: {selectedCity.mapX != null ? `(${Math.round(selectedCity.mapX)}, ${Math.round(selectedCity.mapY)})` : 'Not placed'}
+              {/* Map coordinates & GPS */}
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginBottom: 12, backgroundColor: 'rgba(255,255,255,0.05)', padding: '8px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ color: '#38bdf8', fontWeight: 'bold', marginBottom: '2px' }}>
+                  📍 Position GPS : {(() => {
+                    const name = selectedCity.name || selectedCity.location?.name || '';
+                    const match = Object.entries({
+                      "BUNKER OMÉGA": "46.2044° N, 6.1432° E (Genève)",
+                      "CITÉ INDUSTRIELLE": "45.0703° N, 7.6869° E (Turin)",
+                      "CITÉ MÉDICALE": "31.2001° N, 29.9187° E (Alexandrie)",
+                      "CITÉ DE L'ARMEMENT & DÉFENSE": "36.1408° N, 5.3536° O (Gibraltar)",
+                      "CITÉ DE L'EAU & ALIMENTATION": "43.5000° N, 4.6000° E (Camargue/Rhône)",
+                      "CITÉ DES MÉTAUX & RECYCLAGE": "37.9838° N, 23.7275° E (Athènes)",
+                      "CITÉ DU CARBURANT": "36.7538° N, 3.0588° E (Alger)",
+                      "CITÉ DU DIVERTISSEMENT": "41.9028° N, 12.4964° E (Rome)",
+                      "L'ILE DES ANCIENS": "36.0000° N, 8.5000° O (Atlantique Ouest)",
+                      "NUKE CITY": "43.2965° N, 5.3698° E (Marseille)"
+                    }).find(([k]) => name.toUpperCase().includes(k));
+                    return match ? match[1] : 'GPS non renseigné';
+                  })()}
+                </div>
+                <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 10 }}>
+                  Canvas Coords: ({Math.round(selectedCity.mapX)}, {Math.round(selectedCity.mapY)})
+                </div>
               </div>
 
               <button

@@ -1,0 +1,48 @@
+# Exemple de configuration Nginx pour GM Helper sur VPS Linux
+# À placer dans /etc/nginx/sites-available/gm-helper.conf puis lier dans /etc/nginx/sites-enabled/
+
+server {
+    listen 80;
+    server_name votre-domaine.fr www.votre-domaine.fr; # Remplacez par votre domaine ou IP du VPS
+
+    # Redirection automatique vers HTTPS (géré automatiquement par Certbot)
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name votre-domaine.fr www.votre-domaine.fr; # Remplacez par votre domaine
+
+    # SSL Certificats Let's Encrypt (Certbot remplira ces lignes)
+    # ssl_certificate /etc/letsencrypt/live/votre-domaine.fr/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/votre-domaine.fr/privkey.pem;
+
+    # Taille max pour l'upload d'images et de cartes HD
+    client_max_body_size 50M;
+
+    # Backend Node.js / Express & Frontend compilé
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Configuration WebSockets pour Socket.io (indispensable pour le temps réel)
+    location /socket.io/ {
+        proxy_pass http://127.0.0.1:3000/socket.io/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 86400s;
+        proxy_send_timeout 86400s;
+    }
+}

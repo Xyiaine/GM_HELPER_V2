@@ -20,6 +20,7 @@ const gmLocationRoutes = require('./routes/gm/locations');
 const gmCityRoutes = require('./routes/gm/cities');
 const gmQuestRoutes = require('./routes/gm/quests');
 const gmEncounterRoutes = require('./routes/gm/encounters');
+const gmBestiaryRoutes = require('./routes/gm/bestiary');
 const gmItemRoutes = require('./routes/gm/items');
 const gmNoteRoutes = require('./routes/gm/notes');
 const gmDiceRoutes = require('./routes/gm/dice');
@@ -116,6 +117,7 @@ app.use('/api/v1/gm/campaigns/:campaignId/locations', gmLocationRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/cities', gmCityRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/quests', gmQuestRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/encounters', gmEncounterRoutes);
+app.use('/api/v1/gm/campaigns/:campaignId/bestiary', gmBestiaryRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/items', gmItemRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/notes', gmNoteRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/dice', gmDiceRoutes);
@@ -146,10 +148,24 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' });
-});
+// Serve frontend static build in production (SPA fallback)
+const path = require('path');
+const fs = require('fs');
+const clientDistPath = path.join(__dirname, '../../client/dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/socket.io') || req.path.startsWith('/uploads')) {
+      return next();
+    }
+    res.sendFile(path.join(clientDistPath, 'index.html'));
+  });
+} else {
+  // 404 handler for API/unserved routes
+  app.use((req, res) => {
+    res.status(404).json({ error: 'Endpoint not found' });
+  });
+}
 
 // Global error handler
 app.use((err, req, res, next) => {

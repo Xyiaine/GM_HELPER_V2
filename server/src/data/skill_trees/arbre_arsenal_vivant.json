@@ -1,0 +1,397 @@
+{
+  "arbre": {
+    "id": "arsenal_vivant",
+    "nom": "Arsenal Vivant",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Artificier (armement lourd) — Armes lourdes à un coup, mitrailleuses automatiques et puissance de feu brute.",
+    "attributs": [
+      "Force",
+      "Dextérité"
+    ],
+    "classe_5e_ref": "Artificier (armement lourd)",
+    "monnaie": "points",
+    "budget_total": 28,
+    "branches": [
+      {
+        "id": "frappe_lourde",
+        "nom": "Frappe Lourde",
+        "noeuds": [
+          {
+            "id": "calibrage_precis",
+            "nom": "Calibrage Précis",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Dégâts fiables accrus avec les armes à un coup lourdes.",
+            "effet": {
+              "resume": "+1 dégât (rail-gun, bazooka, roquettes)"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -120,
+              "y": 100
+            }
+          },
+          {
+            "id": "chargeur_rapide_lourd",
+            "nom": "Chargeur Rapide",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "calibrage_precis"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Réduit le temps de rechargement d'une arme lourde.",
+            "effet": {
+              "resume": "Rechargement accéléré d'arme lourde"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "tir_perforant",
+            "nom": "Tir Perforant",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "calibrage_precis"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Ignore une part significative de l'armure/couverture de la cible.",
+            "effet": {
+              "resume": "Pénétration d'armure lourde",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 Initiative au tour suivant (recul désorientant).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "visee_assistee",
+            "nom": "Visée Assistée",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "chargeur_rapide_lourd",
+              "tir_perforant"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Avantage contre les cibles immobiles ou de grande taille (véhicules, machines).",
+            "effet": {
+              "resume": "Avantage au tir sur cibles grandes/immobiles"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "detonation_controlee",
+            "nom": "Détonation Contrôlée",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "chargeur_rapide_lourd",
+              "tir_perforant"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Un tir crée une zone d'effet réduite (éclats/onde de choc).",
+            "effet": {
+              "resume": "Création d'une onde de choc d'éclats",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "refroidissement_d_urgence",
+            "nom": "Refroidissement d'Urgence",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "visee_assistee",
+              "detonation_controlee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Évite la surchauffe/l'enrayement même après plusieurs tirs lourds consécutifs.",
+            "effet": {
+              "resume": "Immunité surchauffe/enrayement lourd"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "tir_de_rupture",
+            "nom": "Tir de Rupture",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "visee_assistee",
+              "detonation_controlee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Un tir massif inflige des dégâts bonus et renverse/déstabilise la cible.",
+            "effet": {
+              "resume": "Tir destructeur + Renversement cible",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_poids_du_jugement",
+            "nom": "Le Poids du Jugement",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "refroidissement_d_urgence",
+              "tir_de_rupture"
+            ],
+            "prerequis_logique": "et",
+            "description": "Un tir dévastateur capable de démembrer une structure ou un véhicule léger.",
+            "effet": {
+              "resume": "Tir dévastateur anti-structure/anti-blindé",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "rafale_continue",
+        "nom": "Rafale Continue",
+        "noeuds": [
+          {
+            "id": "doigt_sur_la_gachette",
+            "nom": "Doigt sur la Gâchette",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Dégâts fiables accrus avec les armes automatiques légères.",
+            "effet": {
+              "resume": "+1 dégât armes automatiques/SMG"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "arrosage_controle",
+            "nom": "Arrosage Contrôlé",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "doigt_sur_la_gachette"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Tire en rafale sur une zone, touchant plusieurs cibles proches.",
+            "effet": {
+              "resume": "Rafale de zone multi-cibles",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 Discrétion pendant et après l'utilisation (bruit/lumière).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "munitions_optimisees",
+            "nom": "Munitions Optimisées",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "doigt_sur_la_gachette"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Consomme moins de munitions par rafale.",
+            "effet": {
+              "resume": "Consommation munitions -50%"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "suppression_continue",
+            "nom": "Suppression Continue",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "arrosage_controle",
+              "munitions_optimisees"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Une cible sous le feu continu subit un désavantage à ses actions offensives.",
+            "effet": {
+              "resume": "Tir de suppression (Désavantage ennemi)",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "refroidissement_ameliore",
+            "nom": "Refroidissement Amélioré",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "arrosage_controle",
+              "munitions_optimisees"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Réduit fortement les risques d'enrayement/surchauffe en tir prolongé.",
+            "effet": {
+              "resume": "Réduction risque enrayement tir continu"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "barrage_mobile",
+            "nom": "Barrage Mobile",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "suppression_continue",
+              "refroidissement_ameliore"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Se déplace tout en maintenant un tir de suppression sur une zone.",
+            "effet": {
+              "resume": "Tir de suppression en déplacement",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "cadence_explosive",
+            "nom": "Cadence Explosive",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "suppression_continue",
+              "refroidissement_ameliore"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Chance de dégâts critiques accrue avec les armes automatiques.",
+            "effet": {
+              "resume": "Critique sur 19-20 aux armes automatiques"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "rideau_de_feu",
+            "nom": "Rideau de Feu",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "barrage_mobile",
+              "cadence_explosive"
+            ],
+            "prerequis_logique": "et",
+            "description": "Déluge de tir automatique sur une large zone, touchant tous les ennemis proches.",
+            "effet": {
+              "resume": "Déluge de feu AoE massif",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": 120,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

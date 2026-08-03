@@ -165,13 +165,17 @@ const adjustCityParamSchema = z.object({
 const createQuestSchema = z.object({
   name: z.string().min(1, 'Quest name is required').max(200),
   description: z.string().max(10000).optional(),
-  type: z.enum(['main', 'secondary', 'faction', 'personal']).optional(),
+  type: z.enum(['main', 'secondary', 'faction', 'personal', 'principale']).optional(),
   difficulty: z.string().max(50).optional(),
   level: z.number().int().min(1).max(30).optional(),
   duration: z.string().max(100).optional(),
   visibility: z.enum(['secret', 'known', 'partial']).optional(),
   playerSummary: z.string().max(10000).optional(),
-  gmNotes: z.string().max(10000).optional(),
+  gmNotes: z.string().max(50000).optional(),
+  gmSecrets: z.string().max(50000).optional(),
+  gmChangelog: z.string().max(50000).optional(),
+  isTemplate: z.boolean().optional(),
+  templateQuestId: z.string().optional(),
   questGiverNpcId: z.string().optional(),
   xpReward: z.number().int().min(0).optional(),
   goldReward: z.number().int().min(0).optional(),
@@ -187,6 +191,9 @@ const createQuestObjectiveSchema = z.object({
   isHidden: z.boolean().optional(),
   isOptional: z.boolean().optional(),
   status: z.enum(['pending', 'completed', 'failed']).optional(),
+  notes: z.string().max(5000).optional(),
+  investigationLeads: z.string().optional(),
+  unlockedByNodeId: z.string().optional(),
 });
 
 const createQuestCityImpactSchema = z.object({
@@ -198,12 +205,12 @@ const createQuestCityImpactSchema = z.object({
 
 const createQuestNpcLinkSchema = z.object({
   npcId: z.string(),
-  role: z.enum(['giver', 'ally', 'enemy', 'neutral', 'other']),
+  role: z.string().max(200),
 });
 
 const createQuestLocationLinkSchema = z.object({
   locationId: z.string(),
-  role: z.enum(['start', 'objective', 'end', 'exploration']),
+  role: z.string().max(200).optional(),
 });
 
 const createQuestItemLinkSchema = z.object({
@@ -222,8 +229,8 @@ const resolveQuestSchema = z.object({
 
 const createQuestNodeSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200),
-  mjDescription: z.string().max(5000).optional(),
-  sensoryText: z.string().max(5000).optional(),
+  mjDescription: z.string().max(50000).optional(),
+  sensoryText: z.string().max(50000).optional(),
   nodeType: z.enum(['start', 'intermediate', 'convergence', 'end']).optional(),
   endOutcome: z.enum(['success', 'failure', 'abandoned']).nullable().optional(),
   isTimed: z.boolean().optional(),
@@ -233,6 +240,7 @@ const createQuestNodeSchema = z.object({
   linkedNpcId: z.string().nullable().optional(),
   linkedLocationId: z.string().nullable().optional(),
   linkedEncounterId: z.string().nullable().optional(),
+  combatTemplate: z.string().nullable().optional(),
   positionX: z.number().optional(),
   positionY: z.number().optional(),
   detectionMechanic: z.string().nullable().optional(),
@@ -241,9 +249,15 @@ const createQuestNodeSchema = z.object({
   isOptional: z.boolean().optional(),
   pacingTag: z.string().max(100).nullable().optional(),
   requiredSkillCategory: z.string().max(100).nullable().optional(),
-  sensoryVisual: z.string().max(5000).nullable().optional(),
-  sensorySound: z.string().max(5000).nullable().optional(),
-  sensorySmell: z.string().max(5000).nullable().optional(),
+  sensoryVisual: z.string().max(50000).nullable().optional(),
+  sensorySound: z.string().max(50000).nullable().optional(),
+  sensorySmell: z.string().max(50000).nullable().optional(),
+  isStrategicChoice: z.boolean().optional(),
+  routeChoiceOptions: z.string().optional(),
+  poolNotes: z.string().max(50000).optional(),
+  generativeFailure: z.string().optional(),
+  captainSelection: z.string().optional(),
+  resolutionBranches: z.string().optional(),
 });
 
 const updateQuestNodeSchema = createQuestNodeSchema.partial().extend({
@@ -253,13 +267,109 @@ const updateQuestNodeSchema = createQuestNodeSchema.partial().extend({
 const createQuestNodeConnectionSchema = z.object({
   fromNodeId: z.string(),
   toNodeId: z.string(),
-  label: z.string().max(200).nullable().optional(),
+  label: z.string().max(500).nullable().optional(),
   isTimeoutConnection: z.boolean().optional(),
+  condition: z.string().max(1000).nullable().optional(),
 });
 
 const updateQuestNodeConnectionSchema = createQuestNodeConnectionSchema.partial();
 
+const createQuestThreatSchema = z.object({
+  name: z.string().min(1).max(200),
+  currentLevel: z.number().int().min(0).optional(),
+  maxLevel: z.number().int().min(1).optional(),
+  stateLabel: z.string().max(100).optional().default('dormant'),
+  description: z.string().max(5000).optional(),
+  thresholds: z.string().optional(),
+  directApparitionBudget: z.string().optional(),
+});
 
+const updateQuestThreatSchema = createQuestThreatSchema.partial();
+
+const createQuestFactionProgressSchema = z.object({
+  factionName: z.string().min(1).max(200),
+  progressValue: z.number().int().min(0).max(100).optional(),
+  lastUpdatedNodeId: z.string().nullable().optional(),
+  relationshipState: z.string().max(100).nullable().optional(),
+  relationshipUpdateNodeIds: z.string().nullable().optional(),
+  relationshipNotes: z.string().max(5000).nullable().optional(),
+  notes: z.string().max(5000).nullable().optional(),
+});
+
+const updateQuestFactionProgressSchema = createQuestFactionProgressSchema.partial();
+
+const updateQuestCharacterStateSchema = z.object({
+  characterId: z.string(),
+  stateKey: z.string().min(1).max(200),
+  stateValue: z.string().max(5000),
+});
+
+const createQuestNPCProfileSchema = z.object({
+  npcId: z.string().min(1).max(200),
+  name: z.string().min(1).max(200),
+  speechPattern: z.string().max(5000).optional(),
+  physicalTic: z.string().max(5000).optional(),
+  signatureBehavior: z.string().max(5000).optional(),
+});
+
+const updateQuestNPCProfileSchema = createQuestNPCProfileSchema.partial();
+
+const updateQuestMechanicNotesSchema = z.object({
+  scenePoolFramework: z.string().optional(),
+  rivalConvoyEncounterFramework: z.string().optional(),
+  generativeFailures: z.string().optional(),
+  stakesBeforeRoll: z.string().optional(),
+  sensoryPresentationVariety: z.string().optional(),
+  tableCalibration: z.string().optional(),
+  ruleSystemConversion: z.string().optional(),
+  floatingEventDrawTable: z.string().optional(),
+  postSessionDebrief: z.string().optional(),
+  tableMusic: z.string().optional(),
+});
+
+const createQuestNodeRewardSchema = z.object({
+  rewardType: z.string().min(1).max(100),
+  rewardValue: z.string().min(1).max(5000),
+  conditional: z.string().max(1000).optional(),
+  payoffNodeId: z.string().optional(),
+});
+
+const createQuestNodeThreatEffectSchema = z.object({
+  threatId: z.string(),
+  effect: z.string().min(1).max(100),
+  effectValue: z.number().int().optional(),
+  condition: z.string().max(1000).optional(),
+  notes: z.string().max(5000).optional(),
+});
+
+const unlockSkillSchema = z.object({
+  treeId: z.string().min(1),
+  nodeId: z.string().min(1),
+});
+
+
+
+// ============================================================
+// BESTIARY
+// ============================================================
+
+const createBestiarySchema = z.object({
+  name: z.string().min(1).max(200),
+  category: z.enum(['humanoid', 'beast', 'undead', 'construct', 'aberration', 'other']).optional(),
+  challengeRating: z.number().min(0).max(30).nullable().optional(),
+  armorClass: z.number().int().min(0).optional(),
+  hpMax: z.number().int().min(1).optional(),
+  hpFormula: z.string().max(100).nullable().optional(),
+  speed: z.string().max(100).nullable().optional(),
+  stats: z.string().nullable().optional(),
+  attacks: z.string().nullable().optional(),
+  traits: z.string().nullable().optional(),
+  savingThrows: z.string().nullable().optional(),
+  description: z.string().max(5000).nullable().optional(),
+  isFavorite: z.boolean().optional(),
+});
+
+const updateBestiarySchema = createBestiarySchema.partial();
 
 // ============================================================
 // ENCOUNTERS
@@ -267,30 +377,53 @@ const updateQuestNodeConnectionSchema = createQuestNodeConnectionSchema.partial(
 
 const createEncounterSchema = z.object({
   name: z.string().min(1).max(200),
-  description: z.string().max(5000).optional(),
-  locationId: z.string().optional(),
+  description: z.string().max(5000).optional().nullable(),
+  locationId: z.string().optional().nullable(),
+  phase: z.enum(['planned', 'surprise_check', 'initiative_entry', 'active', 'completed']).optional(),
+  surpriseEnabled: z.boolean().optional(),
+  questNodeId: z.string().optional().nullable(),
 });
 
 const updateEncounterSchema = createEncounterSchema.partial().extend({
   status: z.enum(['planned', 'active', 'completed']).optional(),
+  phase: z.enum(['planned', 'surprise_check', 'initiative_entry', 'active', 'completed']).optional(),
+  surpriseEnabled: z.boolean().optional(),
   currentRound: z.number().int().min(0).optional(),
   currentTurnIndex: z.number().int().min(0).optional(),
+  summary: z.string().optional().nullable(),
 });
 
 const createCombatantSchema = z.object({
   name: z.string().min(1).max(100),
-  type: z.enum(['character', 'npc', 'monster']),
+  type: z.enum(['character', 'npc', 'monster', 'vehicle']),
+  sourceType: z.enum(['character', 'npc', 'bestiary', 'vehicle', 'manual']).optional(),
+  sourceId: z.string().optional().nullable(),
   initiative: z.number().int().optional(),
   hpCurrent: z.number().int().min(0).optional(),
-  hpMax: z.number().int().min(1).optional(),
+  hpMax: z.number().int().min(0).optional(),
   armorClass: z.number().int().min(0).optional(),
-  conditions: z.string().optional(),
-  notes: z.string().max(1000).optional(),
-  characterId: z.string().optional(),
-  npcId: z.string().optional(),
+  conditions: z.string().optional().nullable(),
+  notes: z.string().max(1000).optional().nullable(),
+  characterId: z.string().optional().nullable(),
+  npcId: z.string().optional().nullable(),
+  bestiaryId: z.string().optional().nullable(),
+  vehicleId: z.string().optional().nullable(),
+  isSurprised: z.boolean().optional(),
+  isVisibleToPlayers: z.boolean().optional(),
 });
 
 const updateCombatantSchema = createCombatantSchema.partial();
+
+const bulkAddCombatantsSchema = z.object({
+  combatants: z.array(z.object({
+    sourceType: z.enum(['character', 'npc', 'bestiary', 'vehicle', 'manual']),
+    sourceId: z.string().optional().nullable(),
+    name: z.string().optional().nullable(),
+    armorClass: z.number().int().optional().nullable(),
+    hpMax: z.number().int().optional().nullable(),
+    count: z.number().int().min(1).max(50).optional().default(1),
+  })),
+});
 
 // ============================================================
 // ITEMS
@@ -572,10 +705,24 @@ module.exports = {
   updateQuestNodeSchema,
   createQuestNodeConnectionSchema,
   updateQuestNodeConnectionSchema,
+  createQuestThreatSchema,
+  updateQuestThreatSchema,
+  createQuestFactionProgressSchema,
+  updateQuestFactionProgressSchema,
+  updateQuestCharacterStateSchema,
+  createQuestNPCProfileSchema,
+  updateQuestNPCProfileSchema,
+  updateQuestMechanicNotesSchema,
+  createQuestNodeRewardSchema,
+  createQuestNodeThreatEffectSchema,
+  unlockSkillSchema,
+  createBestiarySchema,
+  updateBestiarySchema,
   createEncounterSchema,
   updateEncounterSchema,
   createCombatantSchema,
   updateCombatantSchema,
+  bulkAddCombatantsSchema,
   createItemSchema,
   updateItemSchema,
   createNoteSchema,

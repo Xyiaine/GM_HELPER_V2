@@ -22,7 +22,15 @@ router.get('/', async (req, res) => {
     const npcs = await prisma.nPC.findMany({
       where,
       include: {
-        location: { select: { id: true, name: true, type: true } },
+        location: {
+          select: {
+            id: true,
+            name: true,
+            type: true,
+            parentLocationId: true,
+            parentLocation: { select: { id: true, name: true, type: true } }
+          }
+        },
         questLinks: { include: { quest: { select: { id: true, name: true } } } },
       },
       orderBy: { name: 'asc' },

@@ -6,6 +6,7 @@ import CitiesManager from '../components/gm/CitiesManager';
 import QuestManager from '../components/gm/QuestManager';
 import QuestDetail from '../components/gm/QuestDetail';
 import CombatTracker from '../components/gm/CombatTracker';
+import BestiaryManager from '../components/gm/BestiaryManager';
 import CharactersList from '../components/gm/CharactersList';
 import NpcsList from '../components/gm/NpcsList';
 import NotesManager from '../components/gm/NotesManager';
@@ -74,7 +75,8 @@ export default function GmApp() {
               <Link to={`/gm/campaigns/${activeCampaignId}/npcs`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>NPCs</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/locations`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Locations & Cities</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/quests`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Quests</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/encounters`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Encounters</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/encounters`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/encounters') ? 'bold' : 'normal' }}>⚔️ Combat</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/bestiary`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/bestiary') ? 'bold' : 'normal' }}>🐺 Bestiaire</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/items`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Items</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/tags`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Tags</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/convoys`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/convoys') ? 'bold' : 'normal' }}>🚛 Convois</Link>
@@ -107,6 +109,7 @@ export default function GmApp() {
             <Route path="/campaigns/:campaignId/quests" element={<QuestManager />} />
             <Route path="/campaigns/:campaignId/quests/:questId" element={<QuestDetail />} />
             <Route path="/campaigns/:campaignId/encounters" element={<CombatTracker />} />
+            <Route path="/campaigns/:campaignId/bestiary" element={<BestiaryManager />} />
             <Route path="/campaigns/:campaignId/items" element={<ItemsManager />} />
             <Route path="/campaigns/:campaignId/tags" element={<TagManager />} />
             <Route path="/campaigns/:campaignId/convoys" element={<ConvoyManager />} />

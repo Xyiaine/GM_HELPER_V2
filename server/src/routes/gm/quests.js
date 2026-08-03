@@ -9,14 +9,24 @@ const {
   createQuestNodeSchema, updateQuestNodeSchema, createQuestNodeConnectionSchema,
   updateQuestNodeConnectionSchema,
   createQuestItemLinkSchema, createQuestDependencySchema,
+  createQuestThreatSchema, updateQuestThreatSchema,
+  createQuestFactionProgressSchema, updateQuestFactionProgressSchema,
+  updateQuestCharacterStateSchema, createQuestNPCProfileSchema,
+  updateQuestNPCProfileSchema, updateQuestMechanicNotesSchema,
+  createQuestNodeRewardSchema, createQuestNodeThreatEffectSchema,
 } = require('../../validators/schemas');
-const { startNodeTimer, cancelNodeTimer, handleNodeTimeout, cancelParentTimers } = require('../../services/questTimers');
+const { startNodeTimer, cancelNodeTimer, handleNodeTimeout, cancelParentTimers, executeQuestResolution } = require('../../services/questTimers');
+
+// Architecture Review Utilities (BE-1 to BE-10)
+const { evaluateCondition } = require('../../utils/conditionEvaluator');
+const { convertRuleSystem } = require('../../utils/ruleConverter');
+const { auditQuestIntegrity } = require('../../utils/integrityVerifier');
 
 const router = express.Router({ mergeParams: true });
 
 router.use(verifyToken, requireCampaignAccess, requireGM);
 
-// GET / — List quests
+// GET / — List quests (lightweight list query M5)
 router.get('/', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
@@ -27,17 +37,27 @@ router.get('/', async (req, res) => {
 
     let quests = await prisma.quest.findMany({
       where,
-      include: {
-        objectives: { orderBy: { orderIndex: 'asc' } },
-        cityImpacts: { include: { city: { include: { location: { select: { name: true } } } } } },
-        npcLinks: { include: { npc: { select: { id: true, name: true } } } },
-        locationLinks: { include: { location: { select: { id: true, name: true } } } },
-        itemLinks: { include: { item: { select: { id: true, name: true } } } },
-        dependencies: { include: { dependsOnQuest: { select: { id: true, name: true } } } },
-        nodes: { include: { connectionsFrom: true, connectionsTo: true, rewards: true, threatEffects: true }, orderBy: { createdAt: 'asc' } },
-        threats: true,
-        factionProgress: true,
-        characterStates: true,
+      select: {
+        id: true,
+        campaignId: true,
+        name: true,
+        description: true,
+        type: true,
+        difficulty: true,
+        level: true,
+        duration: true,
+        visibility: true,
+        playerSummary: true,
+        status: true,
+        progress: true,
+        xpReward: true,
+        goldReward: true,
+        createdAt: true,
+        updatedAt: true,
+        locationLinks: { select: { id: true, locationId: true } },
+        npcLinks: { select: { id: true, npcId: true } },
+        cityImpacts: { select: { cityId: true } },
+        _count: { select: { nodes: true } },
       },
       orderBy: { updatedAt: 'desc' },
     });
@@ -85,6 +105,8 @@ router.get('/:id', async (req, res) => {
         threats: true,
         factionProgress: true,
         characterStates: true,
+        npcProfiles: true,
+        mechanicNotes: true,
       },
     });
     if (!quest) return res.status(404).json({ error: 'Quest not found' });
@@ -125,6 +147,14 @@ router.put('/:id', validate(updateQuestSchema), async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    
+    // Cancel in-memory timers for nodes belonging to this quest
+    const nodes = await prisma.questNode.findMany({
+      where: { questId: req.params.id, quest: { campaignId: req.campaignId } },
+      select: { id: true }
+    });
+    nodes.forEach(n => cancelNodeTimer(n.id));
+
     const result = await prisma.quest.deleteMany({
       where: { id: req.params.id, campaignId: req.campaignId },
     });
@@ -273,57 +303,15 @@ router.post('/:id/resolve', validate(resolveQuestSchema), async (req, res) => {
 
     const quest = await prisma.quest.findFirst({
       where: { id: req.params.id, campaignId: req.campaignId },
-      include: {
-        cityImpacts: {
-          where: { outcome },
-          include: { city: { include: { location: { select: { name: true } } } } },
-        },
-      },
     });
 
     if (!quest) return res.status(404).json({ error: 'Quest not found' });
 
-    // Apply each city impact within a transaction
-    const appliedImpacts = [];
-    await prisma.$transaction(async (tx) => {
-      for (const impact of quest.cityImpacts) {
-        const city = await tx.city.findUnique({ where: { id: impact.cityId } });
-        if (!city) continue;
+    if (['completed', 'failed', 'abandoned'].includes(quest.status)) {
+      return res.status(400).json({ error: `Quest is already ${quest.status} and cannot be re-resolved` });
+    }
 
-        const oldValue = city[impact.parameter];
-        const newValue = Math.max(0, Math.min(100, oldValue + impact.modifier));
-
-        await tx.city.update({
-          where: { id: impact.cityId },
-          data: { [impact.parameter]: newValue },
-        });
-
-        await tx.cityParameterHistory.create({
-          data: {
-            cityId: impact.cityId,
-            parameter: impact.parameter,
-            oldValue,
-            newValue,
-            cause: `Quest "${quest.name}" — ${outcome}`,
-            questId: quest.id,
-          },
-        });
-
-        appliedImpacts.push({
-          cityName: impact.city.location.name,
-          parameter: impact.parameter,
-          oldValue,
-          newValue,
-          modifier: impact.modifier,
-        });
-      }
-
-      // Update quest status
-      await tx.quest.update({
-        where: { id: quest.id },
-        data: { status, progress: status === 'completed' ? 100 : quest.progress },
-      });
-    });
+    const { appliedImpacts } = await executeQuestResolution(prisma, quest.id, req.campaignId, outcome, status);
 
     res.json({
       message: `Quest resolved: ${outcome}`,
@@ -393,6 +381,11 @@ router.post('/:id/nodes', validate(createQuestNodeSchema), async (req, res) => {
 router.put('/:id/nodes/:nodeId', validate(updateQuestNodeSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const existing = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!existing) return res.status(404).json({ error: 'Node not found' });
+
     const node = await prisma.questNode.update({
       where: { id: req.params.nodeId },
       data: req.body
@@ -406,6 +399,11 @@ router.put('/:id/nodes/:nodeId', validate(updateQuestNodeSchema), async (req, re
 router.delete('/:id/nodes/:nodeId', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const existing = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!existing) return res.status(404).json({ error: 'Node not found' });
+
     await prisma.questNode.delete({
       where: { id: req.params.nodeId }
     });
@@ -419,6 +417,11 @@ router.delete('/:id/nodes/:nodeId', async (req, res) => {
 router.post('/:id/nodes/:nodeId/connections', validate(createQuestNodeConnectionSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const existing = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!existing) return res.status(404).json({ error: 'Node not found' });
+
     const conn = await prisma.questNodeConnection.create({
       data: req.body
     });
@@ -431,6 +434,11 @@ router.post('/:id/nodes/:nodeId/connections', validate(createQuestNodeConnection
 router.delete('/:id/nodes/:nodeId/connections/:connId', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const existingConn = await prisma.questNodeConnection.findFirst({
+      where: { id: req.params.connId, fromNodeId: req.params.nodeId, fromNode: { questId: req.params.id, quest: { campaignId: req.campaignId } } }
+    });
+    if (!existingConn) return res.status(404).json({ error: 'Connection not found' });
+
     await prisma.questNodeConnection.delete({
       where: { id: req.params.connId }
     });
@@ -443,6 +451,11 @@ router.delete('/:id/nodes/:nodeId/connections/:connId', async (req, res) => {
 router.put('/:id/nodes/:nodeId/connections/:connId', validate(updateQuestNodeConnectionSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const existingConn = await prisma.questNodeConnection.findFirst({
+      where: { id: req.params.connId, fromNodeId: req.params.nodeId, fromNode: { questId: req.params.id, quest: { campaignId: req.campaignId } } }
+    });
+    if (!existingConn) return res.status(404).json({ error: 'Connection not found' });
+
     const conn = await prisma.questNodeConnection.update({
       where: { id: req.params.connId },
       data: req.body
@@ -457,7 +470,9 @@ router.post('/:id/nodes/:nodeId/reach', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
     const io = req.app.get('io');
-    const node = await prisma.questNode.findUnique({ where: { id: req.params.nodeId } });
+    const node = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
     if (!node) return res.status(404).json({ error: 'Node not found' });
     
     // If the node was already reached, don't re-emit sensory text
@@ -523,7 +538,9 @@ router.post('/:id/nodes/:nodeId/start-timer', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
     const io = req.app.get('io');
-    const node = await prisma.questNode.findUnique({ where: { id: req.params.nodeId } });
+    const node = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
     if (!node) return res.status(404).json({ error: 'Node not found' });
     if (!node.isTimed || !node.timerDurationSeconds) {
       return res.status(400).json({ error: 'Node is not timed' });
@@ -563,6 +580,11 @@ router.post('/:id/nodes/:nodeId/unreach', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
     const io = req.app.get('io');
+    const node = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!node) return res.status(404).json({ error: 'Node not found' });
+
     const updated = await prisma.questNode.update({
       where: { id: req.params.nodeId },
       data: { status: 'not_reached', reachedAt: null }
@@ -585,6 +607,191 @@ router.post('/:id/nodes/:nodeId/unreach', async (req, res) => {
     res.json({ node: updated });
   } catch (err) {
     res.status(500).json({ error: 'Failed to unreach node' });
+  }
+});
+
+// POST /:id/nodes/:nodeId/spawn-encounter — Create encounter automatically from quest node template
+router.post('/:id/nodes/:nodeId/spawn-encounter', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const node = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } },
+      include: { quest: true },
+    });
+
+    if (!node) return res.status(404).json({ error: 'Quest node not found' });
+
+    // If already linked to an encounter, check if it exists
+    if (node.linkedEncounterId) {
+      const existing = await prisma.encounter.findUnique({
+        where: { id: node.linkedEncounterId },
+        include: { combatants: true },
+      });
+      if (existing) {
+        return res.json({ encounterId: existing.id, encounter: existing, isExisting: true });
+      }
+    }
+
+    // Parse combatTemplate JSON
+    let templateItems = [];
+    if (node.combatTemplate) {
+      try {
+        templateItems = JSON.parse(node.combatTemplate);
+      } catch (e) {
+        console.error('Failed to parse combatTemplate JSON:', e);
+      }
+    }
+
+    // Create encounter
+    const encounter = await prisma.encounter.create({
+      data: {
+        campaignId: req.campaignId,
+        name: `Combat: ${node.title}`,
+        description: `Rencontre déclenchée par la quête "${node.quest.name}" (Nœud: ${node.title})`,
+        locationId: node.linkedLocationId || null,
+        questNodeId: node.id,
+        phase: 'planned',
+        status: 'planned',
+      },
+    });
+
+    // Populate combatants if template items exist
+    if (Array.isArray(templateItems) && templateItems.length > 0) {
+      const combatantsData = [];
+      let maxOrder = 0;
+
+      for (const item of templateItems) {
+        const count = item.count || 1;
+        for (let i = 0; i < count; i++) {
+          maxOrder += 1;
+          let cName = item.name;
+          let cType = 'monster';
+          let cSourceType = item.sourceType || 'manual';
+          let cSourceId = item.sourceId;
+          let cArmorClass = item.armorClass ?? 10;
+          let cHpMax = item.hpMax ?? 10;
+          let cHpCurrent = cHpMax;
+          let cCharacterId = null;
+          let cNpcId = null;
+          let cBestiaryId = null;
+          let cVehicleId = null;
+          let cVisibleToPlayers = false;
+
+          if (cSourceType === 'character' && cSourceId) {
+            const char = await prisma.character.findFirst({ where: { id: cSourceId } });
+            if (char) {
+              cName = cName || char.name;
+              cType = 'character';
+              cArmorClass = char.armorClass || 10;
+              cHpMax = char.hpMax || 10;
+              cHpCurrent = char.hpCurrent || 10;
+              cCharacterId = char.id;
+              cVisibleToPlayers = true;
+            }
+          } else if (cSourceType === 'npc' && cSourceId) {
+            const npc = await prisma.npc.findFirst({ where: { id: cSourceId }, include: { bestiary: true } });
+            if (npc) {
+              cName = cName || npc.name;
+              cType = 'npc';
+              cNpcId = npc.id;
+              if (npc.armorClass !== null && npc.armorClass !== undefined) cArmorClass = npc.armorClass;
+              else if (npc.bestiary) cArmorClass = npc.bestiary.armorClass;
+
+              if (npc.hpMax !== null && npc.hpMax !== undefined) {
+                cHpMax = npc.hpMax;
+                cHpCurrent = npc.hpCurrent ?? npc.hpMax;
+              } else if (npc.bestiary) {
+                cHpMax = npc.bestiary.hpMax;
+                cHpCurrent = npc.bestiary.hpMax;
+              }
+            }
+          } else if (cSourceType === 'bestiary' && cSourceId) {
+            const beast = await prisma.bestiary.findFirst({ where: { id: cSourceId } });
+            if (beast) {
+              const suffix = count > 1 ? ` ${i + 1}` : '';
+              cName = (cName || beast.name) + suffix;
+              cType = 'monster';
+              cBestiaryId = beast.id;
+              cArmorClass = beast.armorClass || 10;
+              cHpMax = beast.hpMax || 10;
+              cHpCurrent = beast.hpMax || 10;
+            }
+          } else if (cSourceType === 'vehicle' && cSourceId) {
+            const vehicle = await prisma.vehicle.findFirst({
+              where: { id: cSourceId },
+              include: { crewSlots: { include: { character: true } } },
+            });
+            if (vehicle) {
+              cName = cName || vehicle.name;
+              cType = 'vehicle';
+              cVehicleId = vehicle.id;
+              cArmorClass = vehicle.acBase || 10;
+              cHpMax = vehicle.hpMaxBase || 50;
+              cHpCurrent = vehicle.hpCurrent || 50;
+
+              // Auto add vehicle crew
+              if (vehicle.crewSlots) {
+                for (const slot of vehicle.crewSlots) {
+                  if (slot.character) {
+                    maxOrder += 1;
+                    combatantsData.push({
+                      encounterId: encounter.id,
+                      name: `${slot.character.name} (${slot.role || 'Équipage'})`,
+                      type: 'character',
+                      sourceType: 'character',
+                      sourceId: slot.character.id,
+                      characterId: slot.character.id,
+                      armorClass: slot.character.armorClass || 10,
+                      hpMax: slot.character.hpMax || 10,
+                      hpCurrent: slot.character.hpCurrent || 10,
+                      isVisibleToPlayers: true,
+                      orderIndex: maxOrder,
+                    });
+                  }
+                }
+              }
+            }
+          }
+
+          combatantsData.push({
+            encounterId: encounter.id,
+            name: cName || 'Inconnu',
+            type: cType,
+            sourceType: cSourceType,
+            sourceId: cSourceId,
+            armorClass: cArmorClass,
+            hpMax: cHpMax,
+            hpCurrent: cHpCurrent,
+            characterId: cCharacterId,
+            npcId: cNpcId,
+            bestiaryId: cBestiaryId,
+            vehicleId: cVehicleId,
+            isVisibleToPlayers: cVisibleToPlayers,
+            orderIndex: maxOrder,
+          });
+        }
+      }
+
+      if (combatantsData.length > 0) {
+        await prisma.encounterCombatant.createMany({ data: combatantsData });
+      }
+    }
+
+    // Link node to encounter
+    await prisma.questNode.update({
+      where: { id: node.id },
+      data: { linkedEncounterId: encounter.id },
+    });
+
+    const fullEncounter = await prisma.encounter.findUnique({
+      where: { id: encounter.id },
+      include: { combatants: true },
+    });
+
+    res.status(201).json({ encounterId: encounter.id, encounter: fullEncounter });
+  } catch (err) {
+    console.error('Spawn encounter error:', err);
+    res.status(500).json({ error: 'Failed to spawn encounter' });
   }
 });
 // POST /:id/duplicate
@@ -738,12 +945,18 @@ router.delete('/:id/dependencies/:dependsOnId', async (req, res) => {
 });
 
 // ============================================================
+// ============================================================
 // v2 Extensions (Threats, Rewards, Factions, Characters)
 // ============================================================
 
-router.post('/:id/threats', async (req, res) => {
+router.post('/:id/threats', validate(createQuestThreatSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const quest = await prisma.quest.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId }
+    });
+    if (!quest) return res.status(404).json({ error: 'Quest not found' });
+
     const threat = await prisma.questThreatTracker.create({
       data: { ...req.body, questId: req.params.id }
     });
@@ -753,22 +966,32 @@ router.post('/:id/threats', async (req, res) => {
   }
 });
 
-router.put('/:id/threats/:threatId', async (req, res) => {
+router.put('/:id/threats/:threatId', validate(updateQuestThreatSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
-    const threat = await prisma.questThreatTracker.update({
+    const threat = await prisma.questThreatTracker.findFirst({
+      where: { id: req.params.threatId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!threat) return res.status(404).json({ error: 'Threat not found' });
+
+    const updated = await prisma.questThreatTracker.update({
       where: { id: req.params.threatId },
       data: req.body
     });
-    res.json({ threat });
+    res.json({ threat: updated });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update threat' });
   }
 });
 
-router.post('/:id/nodes/:nodeId/rewards', async (req, res) => {
+router.post('/:id/nodes/:nodeId/rewards', validate(createQuestNodeRewardSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const node = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!node) return res.status(404).json({ error: 'Node not found' });
+
     const reward = await prisma.questNodeReward.create({
       data: { ...req.body, nodeId: req.params.nodeId }
     });
@@ -778,9 +1001,14 @@ router.post('/:id/nodes/:nodeId/rewards', async (req, res) => {
   }
 });
 
-router.post('/:id/nodes/:nodeId/threat-effects', async (req, res) => {
+router.post('/:id/nodes/:nodeId/threat-effects', validate(createQuestNodeThreatEffectSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const node = await prisma.questNode.findFirst({
+      where: { id: req.params.nodeId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!node) return res.status(404).json({ error: 'Node not found' });
+
     const effect = await prisma.questNodeThreatEffect.create({
       data: { ...req.body, nodeId: req.params.nodeId }
     });
@@ -790,9 +1018,14 @@ router.post('/:id/nodes/:nodeId/threat-effects', async (req, res) => {
   }
 });
 
-router.post('/:id/factions', async (req, res) => {
+router.post('/:id/factions', validate(createQuestFactionProgressSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
+    const quest = await prisma.quest.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId }
+    });
+    if (!quest) return res.status(404).json({ error: 'Quest not found' });
+
     const faction = await prisma.questFactionProgress.create({
       data: { ...req.body, questId: req.params.id }
     });
@@ -802,10 +1035,16 @@ router.post('/:id/factions', async (req, res) => {
   }
 });
 
-router.post('/:id/characters/state', async (req, res) => {
+router.post('/:id/characters/state', validate(updateQuestCharacterStateSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
     const { characterId, stateKey, stateValue } = req.body;
+
+    const quest = await prisma.quest.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId }
+    });
+    if (!quest) return res.status(404).json({ error: 'Quest not found' });
+
     const state = await prisma.questCharacterState.upsert({
       where: { questId_characterId_stateKey: { questId: req.params.id, characterId, stateKey } },
       update: { stateValue },
@@ -817,4 +1056,666 @@ router.post('/:id/characters/state', async (req, res) => {
   }
 });
 
+// POST /:id/threats/:threatId/advance — Avancer l'horloge de 1 et vérifier les seuils
+router.post('/:id/threats/:threatId/advance', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const io = req.app.get('io');
+    const { direction } = req.body; // "increment" ou "decrement"
+    
+    const threat = await prisma.questThreatTracker.findFirst({
+      where: { id: req.params.threatId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!threat) return res.status(404).json({ error: 'Threat not found' });
+
+    const delta = (direction === 'decrement') ? -1 : 1;
+    const newLevel = Math.max(0, Math.min(threat.maxLevel, threat.currentLevel + delta));
+    
+    // Check thresholds
+    let thresholds = [];
+    try { thresholds = JSON.parse(threat.thresholds || '[]'); } catch(e) {}
+    
+    const triggeredThreshold = thresholds.find(t => t.level === newLevel);
+    
+    const updated = await prisma.questThreatTracker.update({
+      where: { id: req.params.threatId },
+      data: { currentLevel: newLevel }
+    });
+
+    if (triggeredThreshold && io) {
+      io.to(`campaign:${req.campaignId}:gm`).emit('threat_threshold_reached', {
+        questId: req.params.id,
+        threatId: threat.id,
+        threatName: threat.name,
+        level: newLevel,
+        maxLevel: threat.maxLevel,
+        effect: triggeredThreshold.effect
+      });
+    }
+
+    res.json({ threat: updated, triggeredThreshold: triggeredThreshold || null });
+  } catch (err) {
+    console.error('Advance threat error:', err);
+    res.status(500).json({ error: 'Failed to advance threat' });
+  }
+});
+
+// PATCH /:id/factions/:factionId — Mettre à jour l'état de relation
+router.patch('/:id/factions/:factionId', validate(updateQuestFactionProgressSchema), async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const { relationshipState, notes, progressValue } = req.body;
+
+    const existing = await prisma.questFactionProgress.findFirst({
+      where: { id: req.params.factionId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!existing) return res.status(404).json({ error: 'Faction progress not found' });
+
+    const faction = await prisma.questFactionProgress.update({
+      where: { id: req.params.factionId },
+      data: {
+        ...(relationshipState !== undefined && { relationshipState }),
+        ...(notes !== undefined && { notes }),
+        ...(progressValue !== undefined && { progressValue }),
+      }
+    });
+    res.json({ faction });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update faction' });
+  }
+});
+
+// POST /:id/draw-event — Tirer un événement aléatoire du floatingEventDrawTable
+router.post('/:id/draw-event', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const io = req.app.get('io');
+    
+    const mechanicNotes = await prisma.questMechanicNotes.findFirst({
+      where: { questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!mechanicNotes || !mechanicNotes.floatingEventDrawTable) {
+      return res.status(404).json({ error: 'No draw table found for this quest' });
+    }
+    
+    let drawTable;
+    try { drawTable = JSON.parse(mechanicNotes.floatingEventDrawTable); } catch(e) {
+      return res.status(500).json({ error: 'Invalid draw table JSON' });
+    }
+    
+    const keys = Object.keys(drawTable.table || {});
+    if (keys.length === 0) return res.status(400).json({ error: 'Draw table is empty' });
+    
+    // Pick uniformly from table keys
+    const selectedKey = keys[Math.floor(Math.random() * keys.length)];
+    const result = drawTable.table[selectedKey];
+    const roll = parseInt(selectedKey, 10) || selectedKey;
+    
+    if (io) {
+      io.to(`campaign:${req.campaignId}:gm`).emit('random_event_drawn', {
+        questId: req.params.id,
+        roll,
+        result
+      });
+    }
+    
+    res.json({ roll, result });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to draw event' });
+  }
+});
+
+// --- NPC Profiles ---
+router.get('/:id/npc-profiles', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const profiles = await prisma.questNPCProfile.findMany({
+      where: { questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    res.json({ profiles });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to list NPC profiles' });
+  }
+});
+
+router.post('/:id/npc-profiles', validate(createQuestNPCProfileSchema), async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const quest = await prisma.quest.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId }
+    });
+    if (!quest) return res.status(404).json({ error: 'Quest not found' });
+
+    const profile = await prisma.questNPCProfile.create({
+      data: { ...req.body, questId: req.params.id }
+    });
+    res.json({ profile });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create NPC profile' });
+  }
+});
+
+router.put('/:id/npc-profiles/:profileId', validate(updateQuestNPCProfileSchema), async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const existing = await prisma.questNPCProfile.findFirst({
+      where: { id: req.params.profileId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!existing) return res.status(404).json({ error: 'NPC profile not found' });
+
+    const profile = await prisma.questNPCProfile.update({
+      where: { id: req.params.profileId },
+      data: req.body
+    });
+    res.json({ profile });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update NPC profile' });
+  }
+});
+
+router.delete('/:id/npc-profiles/:profileId', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const existing = await prisma.questNPCProfile.findFirst({
+      where: { id: req.params.profileId, questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    if (!existing) return res.status(404).json({ error: 'NPC profile not found' });
+
+    await prisma.questNPCProfile.delete({ where: { id: req.params.profileId } });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete NPC profile' });
+  }
+});
+
+// --- Mechanic Notes ---
+router.get('/:id/mechanic-notes', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const notes = await prisma.questMechanicNotes.findFirst({
+      where: { questId: req.params.id, quest: { campaignId: req.campaignId } }
+    });
+    res.json({ mechanicNotes: notes });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to get mechanic notes' });
+  }
+});
+
+router.put('/:id/mechanic-notes', validate(updateQuestMechanicNotesSchema), async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const quest = await prisma.quest.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId }
+    });
+    if (!quest) return res.status(404).json({ error: 'Quest not found' });
+
+    const notes = await prisma.questMechanicNotes.upsert({
+      where: { questId: req.params.id },
+      update: req.body,
+      create: { ...req.body, questId: req.params.id }
+    });
+    res.json({ mechanicNotes: notes });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update mechanic notes' });
+  }
+});
+
+// ============================================================
+// ARCHITECTURE REVIEW ADVANCED ENDPOINTS (BE-1 to BE-10)
+// ============================================================
+
+/**
+ * BE-1: POST /:id/instantiate — Instancier un modèle de quête (QuestTemplate -> QuestInstance)
+ * Duplique la structure statique d'une quête tout en réinitialisant l'état dynamique de la partie.
+ */
+router.post('/:id/instantiate', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+
+    // Fetch full source template quest
+    const templateQuest = await prisma.quest.findFirst({
+      where: { id: req.params.id },
+      include: {
+        objectives: true,
+        cityImpacts: true,
+        npcLinks: true,
+        locationLinks: true,
+        itemLinks: true,
+        nodes: { include: { connectionsFrom: true, rewards: true, threatEffects: true } },
+        threats: true,
+        factionProgress: true,
+        npcProfiles: true,
+        mechanicNotes: true,
+      }
+    });
+
+    if (!templateQuest) {
+      return res.status(404).json({ error: 'Source quest template not found' });
+    }
+
+    // Create instantiated quest copy
+    const newQuest = await prisma.quest.create({
+      data: {
+        campaignId: req.campaignId,
+        name: `${templateQuest.name} (Instance Table)`,
+        description: templateQuest.description,
+        type: templateQuest.type,
+        difficulty: templateQuest.difficulty,
+        level: templateQuest.level,
+        duration: templateQuest.duration,
+        imageUrl: templateQuest.imageUrl,
+        visibility: templateQuest.visibility,
+        playerSummary: templateQuest.playerSummary,
+        gmNotes: templateQuest.gmNotes,
+        gmSecrets: templateQuest.gmSecrets,
+        gmChangelog: templateQuest.gmChangelog,
+        questGiverNpcId: templateQuest.questGiverNpcId,
+        xpReward: templateQuest.xpReward,
+        goldReward: templateQuest.goldReward,
+        itemRewards: templateQuest.itemRewards,
+        status: 'not_started',
+        progress: 0,
+        isTemplate: false,
+        templateQuestId: templateQuest.id,
+      }
+    });
+
+    // Map old node IDs to newly created node IDs
+    const nodeIdMap = new Map();
+
+    for (const n of templateQuest.nodes) {
+      const createdNode = await prisma.questNode.create({
+        data: {
+          questId: newQuest.id,
+          title: n.title,
+          mjDescription: n.mjDescription,
+          sensoryText: n.sensoryText,
+          sensoryVisual: n.sensoryVisual,
+          sensorySound: n.sensorySound,
+          sensorySmell: n.sensorySmell,
+          nodeType: n.nodeType,
+          endOutcome: n.endOutcome,
+          isTimed: n.isTimed,
+          timerDurationSeconds: n.timerDurationSeconds,
+          timerVisibleToPlayers: n.timerVisibleToPlayers,
+          linkedNpcId: n.linkedNpcId,
+          linkedLocationId: n.linkedLocationId,
+          linkedEncounterId: n.linkedEncounterId,
+          positionX: n.positionX,
+          positionY: n.positionY,
+          status: 'not_reached', // Reset runtime state
+          reachedAt: null,
+          detectionMechanic: n.detectionMechanic,
+          pathGroup: n.pathGroup,
+          displayCode: n.displayCode,
+          isOptional: n.isOptional,
+          pacingTag: n.pacingTag,
+          requiredSkillCategory: n.requiredSkillCategory,
+          isStrategicChoice: n.isStrategicChoice,
+          routeChoiceOptions: n.routeChoiceOptions,
+          poolNotes: n.poolNotes,
+          generativeFailure: n.generativeFailure,
+          captainSelection: n.captainSelection,
+          resolutionBranches: n.resolutionBranches,
+        }
+      });
+      nodeIdMap.set(n.id, createdNode.id);
+    }
+
+    // Re-create node connections with mapped IDs
+    for (const n of templateQuest.nodes) {
+      const newFromId = nodeIdMap.get(n.id);
+      for (const conn of n.connectionsFrom) {
+        const newToId = nodeIdMap.get(conn.toNodeId);
+        if (newFromId && newToId) {
+          await prisma.questNodeConnection.create({
+            data: {
+              fromNodeId: newFromId,
+              toNodeId: newToId,
+              label: conn.label,
+              isTimeoutConnection: conn.isTimeoutConnection,
+              condition: conn.condition,
+            }
+          });
+        }
+      }
+
+      // Re-create rewards
+      for (const rew of n.rewards) {
+        await prisma.questNodeReward.create({
+          data: {
+            nodeId: newFromId,
+            rewardType: rew.rewardType,
+            rewardValue: rew.rewardValue,
+            conditional: rew.conditional,
+            payoffNodeId: rew.payoffNodeId ? nodeIdMap.get(rew.payoffNodeId) || rew.payoffNodeId : null
+          }
+        });
+      }
+    }
+
+    // Duplicate Threat Trackers
+    const threatIdMap = new Map();
+    for (const threat of templateQuest.threats) {
+      const createdThreat = await prisma.questThreatTracker.create({
+        data: {
+          questId: newQuest.id,
+          name: threat.name,
+          currentLevel: 0, // Reset clock level
+          maxLevel: threat.maxLevel,
+          stateLabel: threat.stateLabel,
+          description: threat.description,
+          thresholds: threat.thresholds,
+          directApparitionBudget: threat.directApparitionBudget,
+        }
+      });
+      threatIdMap.set(threat.id, createdThreat.id);
+    }
+
+    // Duplicate Threat Effects
+    for (const n of templateQuest.nodes) {
+      const newFromId = nodeIdMap.get(n.id);
+      for (const eff of n.threatEffects) {
+        const newThreatId = threatIdMap.get(eff.threatId);
+        if (newFromId && newThreatId) {
+          await prisma.questNodeThreatEffect.create({
+            data: {
+              nodeId: newFromId,
+              threatId: newThreatId,
+              effect: eff.effect,
+              effectValue: eff.effectValue,
+              condition: eff.condition,
+              notes: eff.notes,
+            }
+          });
+        }
+      }
+    }
+
+    // Duplicate Objectives (reset status to pending)
+    for (const obj of templateQuest.objectives) {
+      await prisma.questObjective.create({
+        data: {
+          questId: newQuest.id,
+          description: obj.description,
+          orderIndex: obj.orderIndex,
+          isHidden: obj.isHidden,
+          isOptional: obj.isOptional,
+          status: 'pending',
+          notes: obj.notes,
+          investigationLeads: obj.investigationLeads,
+          unlockedByNodeId: obj.unlockedByNodeId ? nodeIdMap.get(obj.unlockedByNodeId) || obj.unlockedByNodeId : null,
+        }
+      });
+    }
+
+    // Duplicate Faction Progress (reset to neutral/0)
+    for (const f of templateQuest.factionProgress) {
+      await prisma.questFactionProgress.create({
+        data: {
+          questId: newQuest.id,
+          factionName: f.factionName,
+          progressValue: 0,
+          relationshipState: 'neutre',
+          notes: f.notes,
+        }
+      });
+    }
+
+    // Duplicate NPC Profiles
+    for (const prof of templateQuest.npcProfiles) {
+      await prisma.questNPCProfile.create({
+        data: {
+          questId: newQuest.id,
+          npcId: prof.npcId,
+          name: prof.name,
+          speechPattern: prof.speechPattern,
+          physicalTic: prof.physicalTic,
+          signatureBehavior: prof.signatureBehavior,
+        }
+      });
+    }
+
+    // Duplicate Mechanic Notes
+    if (templateQuest.mechanicNotes) {
+      const mn = templateQuest.mechanicNotes;
+      await prisma.questMechanicNotes.create({
+        data: {
+          questId: newQuest.id,
+          scenePoolFramework: mn.scenePoolFramework,
+          rivalConvoyEncounterFramework: mn.rivalConvoyEncounterFramework,
+          generativeFailures: mn.generativeFailures,
+          stakesBeforeRoll: mn.stakesBeforeRoll,
+          sensoryPresentationVariety: mn.sensoryPresentationVariety,
+          tableCalibration: mn.tableCalibration,
+          ruleSystemConversion: mn.ruleSystemConversion,
+          floatingEventDrawTable: mn.floatingEventDrawTable,
+          postSessionDebrief: mn.postSessionDebrief,
+          tableMusic: mn.tableMusic,
+        }
+      });
+    }
+
+    res.status(201).json({ quest: newQuest });
+  } catch (err) {
+    console.error('Instantiate quest error:', err);
+    res.status(500).json({ error: 'Failed to instantiate quest' });
+  }
+});
+
+/**
+ * BE-1: POST /:id/reset-instance — Réinitialiser l'état d'une partie en cours
+ */
+router.post('/:id/reset-instance', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const questId = req.params.id;
+
+    // Reset quest status
+    await prisma.quest.update({
+      where: { id: questId },
+      data: { status: 'not_started', progress: 0 }
+    });
+
+    // Reset all node statuses
+    await prisma.questNode.updateMany({
+      where: { questId },
+      data: { status: 'not_reached', reachedAt: null }
+    });
+
+    // Reset threat trackers
+    await prisma.questThreatTracker.updateMany({
+      where: { questId },
+      data: { currentLevel: 0 }
+    });
+
+    // Reset objectives
+    await prisma.questObjective.updateMany({
+      where: { questId },
+      data: { status: 'pending' }
+    });
+
+    // Reset faction progress
+    await prisma.questFactionProgress.updateMany({
+      where: { questId },
+      data: { progressValue: 0, relationshipState: 'neutre' }
+    });
+
+    // Clear character states
+    await prisma.questCharacterState.deleteMany({ where: { questId } });
+
+    res.json({ success: true, message: 'Partie réinitialisée à l\'état vierge.' });
+  } catch (err) {
+    console.error('Reset quest instance error:', err);
+    res.status(500).json({ error: 'Failed to reset quest instance' });
+  }
+});
+
+/**
+ * BE-4: POST /:id/evaluate-conditions — Évaluer la validité des branches conditionnelles du graphe
+ */
+router.post('/:id/evaluate-conditions', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const questId = req.params.id;
+    const { route } = req.body;
+
+    const quest = await prisma.quest.findFirst({
+      where: { id: questId, campaignId: req.campaignId },
+      include: {
+        nodes: { include: { connectionsFrom: true } },
+        threats: true,
+        factionProgress: true,
+        characterStates: true,
+      }
+    });
+
+    if (!quest) return res.status(404).json({ error: 'Quest not found' });
+
+    // Build playthrough context
+    const threatsMap = {};
+    (quest.threats || []).forEach(t => { threatsMap[t.name] = t; threatsMap[t.id] = t; });
+
+    const factionsMap = {};
+    (quest.factionProgress || []).forEach(f => { factionsMap[f.factionName] = f; });
+
+    const charStatesMap = {};
+    (quest.characterStates || []).forEach(cs => { charStatesMap[cs.stateKey] = cs.stateValue; });
+
+    const reachedNodeIds = (quest.nodes || []).filter(n => n.status === 'reached').map(n => n.id);
+
+    const context = {
+      route: route || 'longue',
+      threats: threatsMap,
+      factions: factionsMap,
+      characterStates: charStatesMap,
+      reachedNodeIds
+    };
+
+    // Evaluate connections
+    const evaluatedConnections = [];
+    for (const node of quest.nodes) {
+      for (const conn of node.connectionsFrom) {
+        const evalResult = evaluateCondition(conn.condition, context);
+        evaluatedConnections.push({
+          connectionId: conn.id,
+          fromNodeId: conn.fromNodeId,
+          toNodeId: conn.toNodeId,
+          condition: conn.condition,
+          isAvailable: evalResult.isMet,
+          reason: evalResult.reason
+        });
+      }
+    }
+
+    res.json({ context, evaluatedConnections });
+  } catch (err) {
+    console.error('Evaluate conditions error:', err);
+    res.status(500).json({ error: 'Failed to evaluate conditions' });
+  }
+});
+
+/**
+ * BE-5: POST /:id/scene-pool/draw — Tirage procédural du pool de scènes
+ */
+router.post('/:id/scene-pool/draw', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const questId = req.params.id;
+
+    const notes = await prisma.questMechanicNotes.findFirst({
+      where: { questId }
+    });
+
+    if (!notes || !notes.scenePoolFramework) {
+      return res.status(404).json({ error: 'No scene pool framework defined for this quest' });
+    }
+
+    let framework;
+    try { framework = JSON.parse(notes.scenePoolFramework); } catch (e) {
+      return res.status(500).json({ error: 'Invalid scene pool JSON framework' });
+    }
+
+    const availableNodes = framework.availableNodeIds || [];
+    const drawn = framework.drawnNodeIds || [];
+    const remaining = availableNodes.filter(id => !drawn.includes(id));
+
+    if (remaining.length === 0) {
+      return res.json({
+        completed: true,
+        message: 'Toutes les scènes du pool ont déjà été tirées.',
+        mandatoryClosureNodeId: framework.mandatoryClosureNodeId
+      });
+    }
+
+    // Pick random node from remaining pool
+    const selectedNodeId = remaining[Math.floor(Math.random() * remaining.length)];
+    const updatedDrawn = [...drawn, selectedNodeId];
+
+    framework.drawnNodeIds = updatedDrawn;
+
+    // Update mechanic notes
+    await prisma.questMechanicNotes.update({
+      where: { id: notes.id },
+      data: { scenePoolFramework: JSON.stringify(framework) }
+    });
+
+    // Mark selected node as reached or available
+    const node = await prisma.questNode.findUnique({ where: { id: selectedNodeId } });
+
+    res.json({
+      selectedNode: node,
+      drawnCount: updatedDrawn.length,
+      requiredCount: framework.requiredCount || 3,
+      remainingCount: availableNodes.length - updatedDrawn.length,
+      isPoolComplete: updatedDrawn.length >= (framework.requiredCount || 3)
+    });
+  } catch (err) {
+    console.error('Scene pool draw error:', err);
+    res.status(500).json({ error: 'Failed to draw scene from pool' });
+  }
+});
+
+/**
+ * BE-7: GET /:id/audit-integrity — Contrôle d'intégrité référentielle du graphe
+ */
+router.get('/:id/audit-integrity', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const quest = await prisma.quest.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId },
+      include: {
+        nodes: { include: { connectionsFrom: true, rewards: true, threatEffects: true } },
+        objectives: true,
+        threats: true,
+        factionProgress: true,
+        npcProfiles: true,
+      }
+    });
+
+    if (!quest) return res.status(404).json({ error: 'Quest not found' });
+
+    const report = auditQuestIntegrity(quest);
+    res.json({ report });
+  } catch (err) {
+    console.error('Audit integrity error:', err);
+    res.status(500).json({ error: 'Failed to audit quest integrity' });
+  }
+});
+
+/**
+ * BE-10: POST /:id/convert-rules — Module de conversion du système de règles
+ */
+router.post('/:id/convert-rules', async (req, res) => {
+  try {
+    const { text, targetSystem } = req.body;
+    const conversion = convertRuleSystem(text || '', targetSystem || 'dnd5e');
+    res.json({ conversion });
+  } catch (err) {
+    console.error('Convert rules error:', err);
+    res.status(500).json({ error: 'Failed to convert rules' });
+  }
+});
+
 module.exports = router;
+

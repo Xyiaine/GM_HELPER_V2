@@ -1,0 +1,365 @@
+{
+  "arbre": {
+    "id": "symbiose_sauvage",
+    "nom": "Symbiose Sauvage",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Druide — Mutations bio-chimiques, prothèses bestiales et transe de combat.",
+    "attributs": [
+      "Sagesse",
+      "Constitution"
+    ],
+    "classe_5e_ref": "Druide",
+    "monnaie": "points",
+    "budget_total": 27,
+    "branches": [
+      {
+        "id": "drogues_de_combat",
+        "nom": "Drogues de Combat",
+        "noeuds": [
+          {
+            "id": "stimulant_de_combat",
+            "nom": "Stimulant de Combat",
+            "tier": 1,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Injecte un stimulant : bonus temporaire de dégâts ou de vitesse ce tour.",
+            "effet": {
+              "resume": "Boost temporaire dégâts/vitesse",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 100
+            }
+          },
+          {
+            "id": "tolerance_chimique",
+            "nom": "Tolérance Chimique",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "stimulant_de_combat"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance aux effets secondaires négatifs des drogues de combat.",
+            "effet": {
+              "resume": "Immunité contrecoups drogues"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "cocktail_berserk",
+            "nom": "Cocktail Berserk",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "tolerance_chimique"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Stimulant puissant : bonus majeur d'attaque, désavantage en défense ce tour.",
+            "effet": {
+              "resume": "Gros boost d'attaque (-Défense)",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "overdrive_controle",
+            "nom": "Overdrive Contrôlé",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "cocktail_berserk"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Peut cumuler un second stimulant sans effet secondaire supplémentaire, une fois par combat.",
+            "effet": {
+              "resume": "Cumul de 2 stimulants 1x/combat"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "transe_chimique_totale",
+            "nom": "Transe Chimique Totale",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "overdrive_controle"
+            ],
+            "prerequis_logique": "ou",
+            "description": "État combatif extrême, bonus cumulés sur plusieurs tours.",
+            "effet": {
+              "resume": "Transe Berserk ultime",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation une fois l'effet terminé.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -160,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "augmentations_bestiales_visibles",
+        "nom": "Augmentations Bestiales Visibles",
+        "noeuds": [
+          {
+            "id": "griffes_de_combat",
+            "nom": "Griffes de Combat",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Greffe visible : dégâts de mêlée naturels améliorés (griffes/lames rétractables).",
+            "effet": {
+              "resume": "Griffes naturelles (1d8 dégâts)"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 0,
+              "y": 100
+            }
+          },
+          {
+            "id": "marque_de_la_bete",
+            "nom": "Marque de la Bête",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "griffes_de_combat"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Apparence clairement non-humaine : bonus d'intimidation.",
+            "effet": {
+              "resume": "+2 Intimidation (greffes visuelles)"
+            },
+            "contrepartie": "-1 Charisme dans les interactions formelles/cités méfiantes.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 0,
+              "y": 200
+            }
+          },
+          {
+            "id": "reflexes_predateurs",
+            "nom": "Réflexes Prédateurs",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "marque_de_la_bete"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus d'initiative/esquive grâce aux greffes sensorielles bestiales.",
+            "effet": {
+              "resume": "+2 Initiative et Esquive bestiale"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 0,
+              "y": 300
+            }
+          },
+          {
+            "id": "machoires_augmentees",
+            "nom": "Mâchoires Augmentées",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "reflexes_predateurs"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Attaque secondaire de morsure en plus des griffes.",
+            "effet": {
+              "resume": "Attaque bonus de morsure"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 0,
+              "y": 400
+            }
+          },
+          {
+            "id": "forme_predatrice_totale",
+            "nom": "Forme Prédatrice Totale",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "machoires_augmentees"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Transformation temporaire quasi-bestiale : bonus majeurs offensifs/défensifs.",
+            "effet": {
+              "resume": "Métamorphose hybride bestiale",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "L'apparence devient irréversiblement plus inhumaine à chaque usage prolongé.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 0,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "mutation_corporelle",
+        "nom": "Mutation Corporelle",
+        "noeuds": [
+          {
+            "id": "peau_resiliente",
+            "nom": "Peau Résiliente",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Résistance légère aux radiations, mutation cutanée superficielle et visible.",
+            "effet": {
+              "resume": "Résistance radiations légère"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 100
+            }
+          },
+          {
+            "id": "metabolisme_radique",
+            "nom": "Métabolisme Radique",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "peau_resiliente"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Peut se nourrir partiellement de sources faiblement radioactives en cas de disette.",
+            "effet": {
+              "resume": "Nutrition par radiations légères"
+            },
+            "contrepartie": "Dépendance mineure — sevrage sans dose stabilisante.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "excroissance_utile",
+            "nom": "Excroissance Utile",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "metabolisme_radique"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Développe un membre/organe mutant mineur (vision nocturne, membre préhensile).",
+            "effet": {
+              "resume": "Organe mutant au choix (vision nocturne/membre bonus)"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "adaptation_extreme",
+            "nom": "Adaptation Extrême",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "excroissance_utile"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance significative aux radiations et poisons.",
+            "effet": {
+              "resume": "Résistance forte radiations & poisons"
+            },
+            "contrepartie": "Malus social cumulatif mineur (mutations très visibles).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "symbiose_totale_avec_le_sel",
+            "nom": "Symbiose Totale avec le Sel",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "adaptation_extreme"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Quasi-immunité aux radiations.",
+            "effet": {
+              "resume": "Immunité totale aux radiations"
+            },
+            "contrepartie": "Apparence définitivement et fortement altérée.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

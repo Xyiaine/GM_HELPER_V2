@@ -10,6 +10,7 @@ export default function TableScreenView() {
   const [activeSpotlight, setActiveSpotlight] = useState(null);
   const [gallery, setGallery] = useState([]);
   const [timers, setTimers] = useState([]);
+  const [combatState, setCombatState] = useState(null);
   const [error, setError] = useState(null);
 
   // Timer countdown effect
@@ -71,16 +72,26 @@ export default function TableScreenView() {
       setTimers(prev => prev.filter(t => t.nodeId !== data.nodeId));
     };
 
+    const handleEncounterState = (data) => {
+      if (data && data.encounter) {
+        setCombatState(data.encounter);
+      }
+    };
+
     socket.on('spotlight_update', handleSpotlight);
     socket.on('spotlight_clear', handleClearSpotlight);
     socket.on('quest_node_timer_started', handleTimerStarted);
     socket.on('quest_node_timer_cleared', handleTimerCleared);
+    socket.on('encounter_state_changed', handleEncounterState);
+    socket.on('encounter_state_changed_public', handleEncounterState);
 
     return () => {
       socket.off('spotlight_update', handleSpotlight);
       socket.off('spotlight_clear', handleClearSpotlight);
       socket.off('quest_node_timer_started', handleTimerStarted);
       socket.off('quest_node_timer_cleared', handleTimerCleared);
+      socket.off('encounter_state_changed', handleEncounterState);
+      socket.off('encounter_state_changed_public', handleEncounterState);
       socket.disconnect();
     };
   }, [token]);
@@ -133,6 +144,61 @@ export default function TableScreenView() {
               }} 
             />
           )}
+        </div>
+      )}
+
+      {combatState && (combatState.phase === 'active' || combatState.status === 'active') && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            borderBottom: '2px solid var(--color-primary, #7850ff)',
+            padding: '12px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justify: 'space-between',
+            zIndex: 200,
+            backdropFilter: 'blur(10px)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <span style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#7850ff' }}>
+              ⚔️ Round {combatState.currentRound || 1}
+            </span>
+            <span style={{ fontSize: '0.9rem', color: '#aaa' }}>Ordre d'initiative :</span>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflowX: 'auto' }}>
+            {(combatState.combatants || []).map((c, idx) => {
+              const isCurrent = idx === combatState.currentTurnIndex;
+              const isPlayer = c.isVisibleToPlayers;
+              return (
+                <div
+                  key={c.id || idx}
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: '20px',
+                    fontSize: '0.85rem',
+                    fontWeight: isCurrent ? 'bold' : 'normal',
+                    backgroundColor: isCurrent ? '#7850ff' : 'rgba(255, 255, 255, 0.1)',
+                    color: '#fff',
+                    border: isCurrent ? '2px solid #fff' : '1px solid rgba(255, 255, 255, 0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <span>#{idx + 1} {c.name}</span>
+                  {isPlayer && c.hpCurrent !== undefined && (
+                    <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>({c.hpCurrent}/{c.hpMax} PV)</span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 

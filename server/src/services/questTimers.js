@@ -68,16 +68,68 @@ async function handleNodeTimeout(prisma, io, campaignId, questId, nodeId) {
     // Check if consequence node is "end" node
     if (consequenceNode.nodeType === 'end' && consequenceNode.endOutcome) {
       const outcome = consequenceNode.endOutcome;
-      // We'd ideally call the same logic as the resolve endpoint here.
-      // For now, update quest status
-      await prisma.quest.update({
-        where: { id: questId },
-        data: { status: outcome === 'success' ? 'completed' : outcome === 'failure' ? 'failed' : 'abandoned' },
-      });
+      const status = outcome === 'success' ? 'completed' : outcome === 'failure' ? 'failed' : 'abandoned';
+      await executeQuestResolution(prisma, questId, campaignId, outcome, status);
     }
   } catch (err) {
     console.error('Error handling node timeout:', err);
   }
+}
+
+async function executeQuestResolution(prisma, questId, campaignId, outcome, status) {
+  const quest = await prisma.quest.findFirst({
+    where: { id: questId, ...(campaignId ? { campaignId } : {}) },
+    include: {
+      cityImpacts: {
+        where: { outcome },
+        include: { city: { include: { location: { select: { name: true } } } } },
+      },
+    },
+  });
+
+  if (!quest) throw new Error('Quest not found');
+
+  const appliedImpacts = [];
+  await prisma.$transaction(async (tx) => {
+    for (const impact of quest.cityImpacts) {
+      const city = await tx.city.findUnique({ where: { id: impact.cityId } });
+      if (!city) continue;
+
+      const oldValue = city[impact.parameter];
+      const newValue = Math.max(0, Math.min(100, oldValue + impact.modifier));
+
+      await tx.city.update({
+        where: { id: impact.cityId },
+        data: { [impact.parameter]: newValue },
+      });
+
+      await tx.cityParameterHistory.create({
+        data: {
+          cityId: impact.cityId,
+          parameter: impact.parameter,
+          oldValue,
+          newValue,
+          cause: `Quest "${quest.name}" — ${outcome}`,
+          questId: quest.id,
+        },
+      });
+
+      appliedImpacts.push({
+        cityName: impact.city?.location?.name || 'Unknown',
+        parameter: impact.parameter,
+        oldValue,
+        newValue,
+        modifier: impact.modifier,
+      });
+    }
+
+    await tx.quest.update({
+      where: { id: quest.id },
+      data: { status, progress: status === 'completed' ? 100 : quest.progress },
+    });
+  });
+
+  return { quest, appliedImpacts };
 }
 
 async function restoreTimersFromDB(prisma, io) {
@@ -150,4 +202,5 @@ module.exports = {
   restoreTimersFromDB,
   handleNodeTimeout,
   cancelParentTimers,
+  executeQuestResolution,
 };

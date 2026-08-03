@@ -1,0 +1,396 @@
+{
+  "arbre": {
+    "id": "discipline_du_souffle",
+    "nom": "Discipline du Souffle",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Moine — Maitrise mentale et physique pure, sans drogues ni prothèses.",
+    "attributs": [
+      "Dextérité",
+      "Constitution"
+    ],
+    "classe_5e_ref": "Moine",
+    "monnaie": "points",
+    "budget_total": 28,
+    "branches": [
+      {
+        "id": "corps_inebranlable",
+        "nom": "Corps Inébranlable",
+        "noeuds": [
+          {
+            "id": "poings_disciplines",
+            "nom": "Poings Disciplinés",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Les frappes à mains nues sont fiables et comptent comme une arme naturelle correcte.",
+            "effet": {
+              "resume": "Attaques mains nues 1d6 contondant"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -120,
+              "y": 100
+            }
+          },
+          {
+            "id": "esquive_instinctive",
+            "nom": "Esquive Instinctive",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "poings_disciplines"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus d'esquive tant qu'aucune armure lourde n'est portée.",
+            "effet": {
+              "resume": "+2 Esquive sans armure lourde"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "frappe_enchainee",
+            "nom": "Frappe Enchaînée",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "poings_disciplines"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Après avoir touché, effectue immédiatement une seconde frappe à mains nues.",
+            "effet": {
+              "resume": "Attaque bonus rapide à mains nues",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 à la Défense pendant le tour utilisé.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "percee_fluide",
+            "nom": "Percée Fluide",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "esquive_instinctive",
+              "frappe_enchainee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Se déplace à travers/autour des ennemis sans provoquer d'attaque d'opportunité.",
+            "effet": {
+              "resume": "Déplacement fluide anti-opportunité",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "callosites_d_acier",
+            "nom": "Callosités d'Acier",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "esquive_instinctive",
+              "frappe_enchainee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance mineure aux dégâts contondants/tranchants.",
+            "effet": {
+              "resume": "Réduction des dégâts physiques légers"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "riposte_foudroyante",
+            "nom": "Riposte Foudroyante",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "percee_fluide",
+              "callosites_d_acier"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Une fois par tour, riposte automatiquement contre un ennemi qui rate une attaque de mêlée.",
+            "effet": {
+              "resume": "Riposte automatique 1x/tour sur raté ennemi"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "concentration_de_combat",
+            "nom": "Concentration de Combat",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "percee_fluide",
+              "callosites_d_acier"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Pendant plusieurs tours, chaque frappe à mains nues bénéficie d'un léger avantage.",
+            "effet": {
+              "resume": "Avantage permanent aux poings (3 tours)",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_point_de_rupture",
+            "nom": "Le Point de Rupture",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "riposte_foudroyante",
+              "concentration_de_combat"
+            ],
+            "prerequis_logique": "et",
+            "description": "Une série de frappes ciblées désactive temporairement un membre ou désarme la cible.",
+            "effet": {
+              "resume": "Neutralisation d'un membre/Désarmement cible",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation (concentration extrême).",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "souffle_maitrise",
+        "nom": "Souffle Maîtrisé",
+        "noeuds": [
+          {
+            "id": "apnee_controlee",
+            "nom": "Apnée Contrôlée",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Peut retenir sa respiration bien plus longtemps que la normale.",
+            "effet": {
+              "resume": "Apnée prolongée (gaz/eau/radiations)"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "calme_interieur",
+            "nom": "Calme Intérieur",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "apnee_controlee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance à la peur, à la panique et aux effets mentaux mineurs.",
+            "effet": {
+              "resume": "Immunité panique & peur légère"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "souffle_purifiant",
+            "nom": "Souffle Purifiant",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "apnee_controlee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Filtre une partie d'un poison ou d'un gaz inhalé juste après exposition.",
+            "effet": {
+              "resume": "Purification immédiate des toxines inhalées",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "Exige silence total et pleine action (-1 Initiative tour suivant).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "meditation_de_combat",
+            "nom": "Méditation de Combat",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "calme_interieur",
+              "souffle_purifiant"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Récupère un peu d'endurance entre deux échanges, 1x par combat.",
+            "effet": {
+              "resume": "Restauration d'endurance 1x/combat"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "voix_posee",
+            "nom": "Voix Posée",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "calme_interieur",
+              "souffle_purifiant"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résiste à l'intimidation et aux effets de terreur ; difficile à déstabiliser verbalement.",
+            "effet": {
+              "resume": "Immunité Intimidation & provocations"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "resistance_radique_par_le_souffle",
+            "nom": "Résistance Radique par le Souffle",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "meditation_de_combat",
+              "voix_posee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Réduction significative des effets de radiation par un contrôle respiratoire extrême.",
+            "effet": {
+              "resume": "Réduction drastique des radiations par le souffle"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "serenite_absolue",
+            "nom": "Sérénité Absolue",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "meditation_de_combat",
+              "voix_posee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Immunité temporaire à la peur et au contrôle mental pour soi et un allié proche.",
+            "effet": {
+              "resume": "Aura d'immunité mentale (Soi + 1 allié)",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_souffle_eternel",
+            "nom": "Le Souffle Éternel",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "resistance_radique_par_le_souffle",
+              "serenite_absolue"
+            ],
+            "prerequis_logique": "et",
+            "description": "Suspend quasiment tous ses besoins vitaux pendant plusieurs tours : résistance presque totale aux poisons/gaz/radiations.",
+            "effet": {
+              "resume": "Suspension biologique totale & Invulnérabilité environnementale",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation une fois l'effet terminé.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": 120,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

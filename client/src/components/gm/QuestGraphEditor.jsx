@@ -12,13 +12,19 @@ import ReactFlow, {
   MarkerType
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { Radio, Eye, Flag, AlertCircle, Clock, X, Play } from 'lucide-react';
+import { Radio, Eye, Flag, Clock, X } from 'lucide-react';
 
-export default function QuestGraphEditor({ quest, campaignId }) {
+import { useNavigate } from 'react-router-dom';
+import NpcVoiceProfileCard from './NpcVoiceProfileCard';
+import CaptainNominationPanel from './CaptainNominationPanel';
+
+export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' }) {
+  const navigate = useNavigate();
   const { 
     createQuestNode, updateQuestNode, deleteQuestNode, 
     createQuestNodeConnection, deleteQuestNodeConnection, 
-    reachQuestNode, unreachQuestNode, startNodeTimer,
+    updateQuestNodeConnection, reachQuestNode, unreachQuestNode, startNodeTimer,
+    spawnEncounterFromNode,
     npcs, locations, encounters,
     fetchNpcs, fetchLocations, fetchEncounters
   } = useGmStore();
@@ -27,8 +33,15 @@ export default function QuestGraphEditor({ quest, campaignId }) {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [selectedNode, setSelectedNode] = useState(null);
   const [selectedEdge, setSelectedEdge] = useState(null);
+  const [edgeLabelInput, setEdgeLabelInput] = useState('');
   const [hideResolved, setHideResolved] = useState(false);
   const [timers, setTimers] = useState([]);
+
+  useEffect(() => {
+    if (selectedEdge) {
+      setEdgeLabelInput(selectedEdge.label || '');
+    }
+  }, [selectedEdge]);
 
   useEffect(() => {
     const handleTimerStart = (data) => {
@@ -302,12 +315,13 @@ export default function QuestGraphEditor({ quest, campaignId }) {
             <input 
               type="text" 
               className="form-control"
-              value={selectedEdge.label || ''} 
-              onChange={async (e) => {
-                const newLabel = e.target.value;
-                setSelectedEdge({ ...selectedEdge, label: newLabel });
+              value={edgeLabelInput} 
+              onChange={(e) => setEdgeLabelInput(e.target.value)}
+              onBlur={async () => {
+                if (!selectedEdge || edgeLabelInput === selectedEdge.label) return;
+                const newLabel = edgeLabelInput;
+                setSelectedEdge(prev => prev ? { ...prev, label: newLabel } : null);
                 try {
-                  const { updateQuestNodeConnection } = useGmStore.getState();
                   await updateQuestNodeConnection(campaignId, quest.id, selectedEdge.fromNodeId, selectedEdge.id, { label: newLabel });
                   setEdges(eds => eds.map(edge => {
                     if (edge.id === selectedEdge.id) {
@@ -396,16 +410,23 @@ export default function QuestGraphEditor({ quest, campaignId }) {
               </label>
             </div>
 
-            <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <span style={{ fontWeight: 'bold', color: 'var(--warning, #f59e0b)' }}>Éléments Scénaristiques (Notes MJ)</span>
-              <textarea 
-                defaultValue={selectedNode.mjDescription || ''} 
-                onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { mjDescription: e.target.value })}
-                placeholder="Décrivez ce qui se passe ici pour le MJ (PNJ présents, dialogues, indices...)"
-                style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--warning, #f59e0b)', borderRadius: '4px', fontSize: '1rem', lineHeight: '1.4' }}
-                rows={6}
-              />
-            </label>
+            {/* MJ Description — GM Mode Only (FE-1) */}
+            {viewMode === 'gm' ? (
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <span style={{ fontWeight: 'bold', color: 'var(--warning, #f59e0b)' }}>Éléments Scénaristiques (Notes MJ)</span>
+                <textarea 
+                  defaultValue={selectedNode.mjDescription || ''} 
+                  onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { mjDescription: e.target.value })}
+                  placeholder="Décrivez ce qui se passe ici pour le MJ (PNJ présents, dialogues, indices...)"
+                  style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--warning, #f59e0b)', borderRadius: '4px', fontSize: '1rem', lineHeight: '1.4' }}
+                  rows={6}
+                />
+              </label>
+            ) : (
+              <div style={{ padding: '10px', backgroundColor: 'rgba(245, 158, 11, 0.1)', border: '1px solid var(--warning)', borderRadius: '4px', fontSize: '0.85rem', color: '#fcd34d' }}>
+                🔒 <strong>Notes MJ :</strong> Masquées en mode écran joueurs
+              </div>
+            )}
 
             <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <span style={{ fontWeight: 'bold', color: '#10b981' }}>Description Sensorielle (Ce que voient les joueurs)</span>
@@ -415,6 +436,7 @@ export default function QuestGraphEditor({ quest, campaignId }) {
                 placeholder="Décrivez les éléments visuels, sonores, odeurs..."
                 style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #10b981', borderRadius: '4px', fontSize: '1rem', lineHeight: '1.4' }}
                 rows={8}
+                readOnly={viewMode === 'player'}
               />
 
               <button 
@@ -435,16 +457,24 @@ export default function QuestGraphEditor({ quest, campaignId }) {
               </button>
             </label>
 
-            <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <span style={{ fontWeight: 'bold', color: '#8b5cf6' }}>Mécanique d'Indice (Detection Mechanic - JSON)</span>
-              <textarea 
-                defaultValue={selectedNode.detectionMechanic || ''} 
-                onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { detectionMechanic: e.target.value })}
-                placeholder='{"indiceText": "...", "jetSkill": "Perception", ...}'
-                style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #8b5cf6', borderRadius: '4px', fontSize: '0.9rem', fontFamily: 'monospace' }}
-                rows={3}
-              />
-            </label>
+            {/* Detection Mechanic — GM Mode Only (FE-1) */}
+            {viewMode === 'gm' && (
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <span style={{ fontWeight: 'bold', color: '#8b5cf6' }}>Mécanique d'Indice (Detection Mechanic - JSON)</span>
+                <textarea 
+                  defaultValue={selectedNode.detectionMechanic || ''} 
+                  onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { detectionMechanic: e.target.value })}
+                  placeholder='{"indiceText": "...", "jetSkill": "Perception", ...}'
+                  style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #8b5cf6', borderRadius: '4px', fontSize: '0.9rem', fontFamily: 'monospace' }}
+                  rows={3}
+                />
+              </label>
+            )}
+
+            {/* FE-8: Captain Nomination Interactive Panel */}
+            {selectedNode.captainSelection && (
+              <CaptainNominationPanel captainData={selectedNode.captainSelection} />
+            )}
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -491,8 +521,8 @@ export default function QuestGraphEditor({ quest, campaignId }) {
                   style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 >
                   <option value="">-- Sélectionner un nœud --</option>
-                  {quest.nodes.filter(n => n.id !== selectedNode.id).map(n => (
-                    <option key={n.id} value={n.id}>{n.title}</option>
+                  {nodes.filter(n => n.id !== selectedNode.id).map(n => (
+                    <option key={n.id} value={n.id}>{n.data.node?.title || n.data.label?.props?.children?.[1]?.props?.children?.[1] || n.id}</option>
                   ))}
                 </select>
               </label>
@@ -565,6 +595,13 @@ export default function QuestGraphEditor({ quest, campaignId }) {
                   </button>
                 )}
               </div>
+              {/* FE-4: Automatic Voice Sheet Popover/Card */}
+              {selectedNode.linkedNpcId && quest.npcProfiles && (
+                (() => {
+                  const prof = quest.npcProfiles.find(p => p.npcId === selectedNode.linkedNpcId || p.id === selectedNode.linkedNpcId);
+                  return prof ? <div style={{ marginTop: '8px' }}><NpcVoiceProfileCard profile={prof} /></div> : null;
+                })()
+              )}
             </label>
 
             <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -604,15 +641,34 @@ export default function QuestGraphEditor({ quest, campaignId }) {
             </label>
 
             <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <span style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Rencontre Liée</span>
-              <select 
-                defaultValue={selectedNode.linkedEncounterId || ''}
-                onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { linkedEncounterId: e.target.value || null })}
-                style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
-              >
-                <option value="">-- Aucune Rencontre --</option>
-                {encounters && encounters.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
-              </select>
+              <span style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Rencontre / Combat Lié</span>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <select 
+                  defaultValue={selectedNode.linkedEncounterId || ''}
+                  onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { linkedEncounterId: e.target.value || null })}
+                  style={{ flex: 1, padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                >
+                  <option value="">-- Aucune Rencontre --</option>
+                  {encounters && encounters.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
+                </select>
+                <button
+                  className="btn-primary"
+                  title="Déclencher et ouvrir le combat dans l'onglet Combat"
+                  style={{ padding: '8px 12px', fontSize: '0.85rem', whiteSpace: 'nowrap' }}
+                  onClick={async () => {
+                    try {
+                      const res = await spawnEncounterFromNode(campaignId, quest.id, selectedNode.id);
+                      if (res?.encounterId) {
+                        navigate(`/gm/campaigns/${campaignId}/encounters`);
+                      }
+                    } catch (err) {
+                      alert('Erreur lors du déclenchement du combat');
+                    }
+                  }}
+                >
+                  ⚔️ Lancer Combat
+                </button>
+              </div>
             </label>
 
             <hr style={{ borderColor: 'var(--color-border)', margin: '8px 0' }} />

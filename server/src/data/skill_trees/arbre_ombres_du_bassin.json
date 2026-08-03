@@ -1,0 +1,397 @@
+{
+  "arbre": {
+    "id": "ombres_du_bassin",
+    "nom": "Ombres du Bassin",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Roublard — Infiltration, discrétion urbaine et attaques sournoises de précision.",
+    "attributs": [
+      "Dextérité",
+      "Intelligence"
+    ],
+    "classe_5e_ref": "Roublard",
+    "monnaie": "points",
+    "budget_total": 28,
+    "branches": [
+      {
+        "id": "ombre_et_silence",
+        "nom": "Ombre et Silence",
+        "noeuds": [
+          {
+            "id": "pas_de_loup",
+            "nom": "Pas de Loup",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Avantage aux tests de discrétion en mouvement lent.",
+            "effet": {
+              "resume": "Avantage discrétion en mouvement lent"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -120,
+              "y": 100
+            }
+          },
+          {
+            "id": "fondu_dans_la_foule",
+            "nom": "Fondu dans la Foule",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "pas_de_loup"
+            ],
+            "prerequis_logique": "ou",
+            "description": "En zone urbaine, quasi indétectable sans action suspecte.",
+            "effet": {
+              "resume": "Camouflage social parfait en cité"
+            },
+            "contrepartie": "-1 à la Perception passive en se fondant dans la foule.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "evasion_rapide",
+            "nom": "Évasion Rapide",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "pas_de_loup"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Se dégage d'une immobilisation sans subir d'attaque d'opportunité.",
+            "effet": {
+              "resume": "Libération instantanée d'entraves sans opportunité",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "sens_du_danger",
+            "nom": "Sens du Danger",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "fondu_dans_la_foule",
+              "evasion_rapide"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Ne peut jamais être totalement pris au dépourvu.",
+            "effet": {
+              "resume": "Immunité aux attaques surprises totales"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "ombre_vivante",
+            "nom": "Ombre Vivante",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "fondu_dans_la_foule",
+              "evasion_rapide"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Devient indétectable un court instant, même en plein combat.",
+            "effet": {
+              "resume": "Disparition furtive en plein combat",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "fantome_des_ruelles",
+            "nom": "Fantôme des Ruelles",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "sens_du_danger",
+              "ombre_vivante"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Aucune pénalité de vitesse en discrétion.",
+            "effet": {
+              "resume": "Vitesse maximale conservée en Furtivité"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "double_jeu",
+            "nom": "Double Jeu",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "sens_du_danger",
+              "ombre_vivante"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Feint la mort/l'incapacité pendant un tour.",
+            "effet": {
+              "resume": "Fausse mort pendant 1 tour pour tromper l'ennemi",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_point_de_non_retour",
+            "nom": "Le Point de Non-Retour",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "fantome_des_ruelles",
+              "double_jeu"
+            ],
+            "prerequis_logique": "et",
+            "description": "Disparaît de la perception ennemie un instant, ressort avec un avantage garanti.",
+            "effet": {
+              "resume": "Furtivité absolue instantanée + Avantage garanti",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation (tension nerveuse extrême).",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "lame_sournoise",
+        "nom": "Lame Sournoise",
+        "noeuds": [
+          {
+            "id": "frappe_opportuniste",
+            "nom": "Frappe Opportuniste",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Dégâts bonus contre une cible n'ayant pas agi ou prise au dépourvu.",
+            "effet": {
+              "resume": "+1d6 dégâts sur cible surprise ou lente"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "coup_bas",
+            "nom": "Coup Bas",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "frappe_opportuniste"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Inflige un désavantage temporaire sur la prochaine action de la cible.",
+            "effet": {
+              "resume": "Malus/désavantage infligé à la cible",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "poche_habile",
+            "nom": "Poche Habile",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "frappe_opportuniste"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Une attaque de mêlée réussie permet de dérober un objet discrètement.",
+            "effet": {
+              "resume": "Vol à la tire en attaquant"
+            },
+            "contrepartie": "Si repéré, -1 aux jets sociaux avec ce PNJ/faction par la suite.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "frappe_precise",
+            "nom": "Frappe Précise",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "coup_bas",
+              "poche_habile"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Ignore une partie de l'armure en visant un point faible.",
+            "effet": {
+              "resume": "Pénétration d'armure ciblée",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "reflexes_de_rue",
+            "nom": "Réflexes de Rue",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "coup_bas",
+              "poche_habile"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus de défense contre attaques d'opportunité et ripostes ; permet en plus un dégagement sans provoquer d'attaque, 1x/combat.",
+            "effet": {
+              "resume": "Défense d'opportunité + Désengagement gratuit 1x/combat"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "trahison_programmee",
+            "nom": "Trahison Programmée",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "frappe_precise",
+              "reflexes_de_rue"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Dégâts bonus si la cible est piégée/empoisonnée/distraite.",
+            "effet": {
+              "resume": "Dégâts majorés sur cible altérée/piégée"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "second_souffle_sournois",
+            "nom": "Second Souffle Sournois",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "frappe_precise",
+              "reflexes_de_rue"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Toucher une cible surprise octroie une action bonus.",
+            "effet": {
+              "resume": "Action bonus offerte sur frappe surprise",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_coup_de_grace",
+            "nom": "Le Coup de Grâce",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "trahison_programmee",
+              "second_souffle_sournois"
+            ],
+            "prerequis_logique": "et",
+            "description": "Contre une cible très affaiblie/surprise : tentative d'exécution instantanée.",
+            "effet": {
+              "resume": "Tentative d'exécution létale instantanée",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 1 niveau d'Exténuation (décharge nerveuse post-exécution).",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 1,
+            "position": {
+              "x": 120,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

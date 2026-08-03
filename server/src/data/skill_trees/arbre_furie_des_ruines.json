@@ -1,0 +1,395 @@
+{
+  "arbre": {
+    "id": "furie_des_ruines",
+    "nom": "Furie des Ruines",
+    "type": "commun",
+    "cite_origine": null,
+    "condition_deblocage": null,
+    "description": "Analogue Barbare — Rage dévastatrice, encaissement extrême et bio-augmentations musculaires.",
+    "attributs": [
+      "Force",
+      "Constitution"
+    ],
+    "classe_5e_ref": "Barbare",
+    "monnaie": "points",
+    "budget_total": 28,
+    "branches": [
+      {
+        "id": "rage_et_encaissement",
+        "nom": "Rage et Encaissement",
+        "noeuds": [
+          {
+            "id": "sang_bouillant",
+            "nom": "Sang Bouillant",
+            "tier": 1,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Entre en rage : bonus de dégâts en mêlée, malus de défense ce tour.",
+            "effet": {
+              "resume": "Entrée en Rage (+dégâts mêlée, -défense)",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -120,
+              "y": 100
+            }
+          },
+          {
+            "id": "cuir_tanne",
+            "nom": "Cuir Tanné",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "sang_bouillant"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance mineure aux dégâts tranchants/perforants.",
+            "effet": {
+              "resume": "Réduction dégâts tranchants/perforants"
+            },
+            "contrepartie": "-1 Charisme en interactions formelles (callosités visibles).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 200
+            }
+          },
+          {
+            "id": "fureur_contagieuse",
+            "nom": "Fureur Contagieuse",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "sang_bouillant"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Un allié proche gagne un bonus d'attaque temporaire en voyant la rage.",
+            "effet": {
+              "resume": "Buff attaque pour un allié proche",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "tolerance_radique",
+            "nom": "Tolérance Radique",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "cuir_tanne",
+              "fureur_contagieuse"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Réduit les effets des radiations légères à moyennes.",
+            "effet": {
+              "resume": "Résistance passive aux radiations"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 300
+            }
+          },
+          {
+            "id": "increvable",
+            "nom": "Increvable",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "cuir_tanne",
+              "fureur_contagieuse"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Ne tombe pas inconscient immédiatement à 0 PV — un round de sursis.",
+            "effet": {
+              "resume": "1 round de sursis à 0 PV"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "deuxieme_souffle_sauvage",
+            "nom": "Deuxième Souffle Sauvage",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "tolerance_radique",
+              "increvable"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Récupère des PV en plein combat en rugissant.",
+            "effet": {
+              "resume": "Soin personnel en combat (Rugissement)",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "peau_de_fer",
+            "nom": "Peau de Fer",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "tolerance_radique",
+              "increvable"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Callosité renforcée par l'exposition combinée drogues/radiations : réduction de dégâts supplémentaire.",
+            "effet": {
+              "resume": "Réduction des dégâts physique accrue"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "rage_increvable",
+            "nom": "Rage Increvable",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "deuxieme_souffle_sauvage",
+              "peau_de_fer"
+            ],
+            "prerequis_logique": "et",
+            "description": "Pendant plusieurs tours : résistance à tous les types de dégâts, quasi impossible à mettre hors combat sauf dégâts massifs.",
+            "effet": {
+              "resume": "Invulnérabilité relative temporaire",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation une fois l'effet terminé.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": -120,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "augmentations_discretes",
+        "nom": "Augmentations Discrètes",
+        "noeuds": [
+          {
+            "id": "greffe_sous_cutanee",
+            "nom": "Greffe Sous-Cutanée",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Bonus mineur de dégâts en mêlée, invisible à l'œil nu.",
+            "effet": {
+              "resume": "+1 dégât mêlée invisible"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 100
+            }
+          },
+          {
+            "id": "reflexes_amplifies",
+            "nom": "Réflexes Amplifiés",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "greffe_sous_cutanee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus discret d'esquive/initiative, sans trace visible.",
+            "effet": {
+              "resume": "+1 Initiative et Esquive"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 200
+            }
+          },
+          {
+            "id": "adrenaline_programmee",
+            "nom": "Adrénaline Programmée",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "greffe_sous_cutanee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Poussée d'adrénaline artificielle : action bonus ce tour.",
+            "effet": {
+              "resume": "Action bonus instantanée",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 à tous les jets pendant le tour suivant (contrecoup).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "ossature_renforcee",
+            "nom": "Ossature Renforcée",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "reflexes_amplifies",
+              "adrenaline_programmee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Réduction des dégâts de chute/impact ; avantage aux jets pour résister à être renversé ou agrippé.",
+            "effet": {
+              "resume": "Résistance chutes + Avantage anti-renversement/agrippement"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 300
+            }
+          },
+          {
+            "id": "filtrage_toxique",
+            "nom": "Filtrage Toxique",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "reflexes_amplifies",
+              "adrenaline_programmee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance aux poisons/toxines.",
+            "effet": {
+              "resume": "Résistance innée aux poisons"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "surcharge_musculaire",
+            "nom": "Surcharge Musculaire",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "ossature_renforcee",
+              "filtrage_toxique"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus de Force massif temporaire, une fois par repos long.",
+            "effet": {
+              "resume": "Boost de Force massif (+4 Force)",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "camouflage_biologique",
+            "nom": "Camouflage Biologique",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "ossature_renforcee",
+              "filtrage_toxique"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Les scanners/détecteurs ne repèrent aucune anomalie — les greffes restent totalement indétectables.",
+            "effet": {
+              "resume": "Greffes indétectables aux scanners"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_corps_parfait",
+            "nom": "Le Corps Parfait",
+            "tier": 5,
+            "type": "passif",
+            "cout_points": 3,
+            "prerequis": [
+              "surcharge_musculaire",
+              "camouflage_biologique"
+            ],
+            "prerequis_logique": "et",
+            "description": "Bonus cumulé permanent de Force/Constitution, entièrement invisible et indétectable.",
+            "effet": {
+              "resume": "Bonus permanent +2 Force et +2 Con (indétectable)"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 120,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

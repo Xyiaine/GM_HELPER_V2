@@ -77,6 +77,10 @@ export default function ConvoyManager() {
   const [proposedRewards, setProposedRewards] = useState([]);
   const [selectedRewardIds, setSelectedRewardIds] = useState(new Set());
 
+  // Vehicle Inspection Modal
+  const [vehiclesRegistry, setVehiclesRegistry] = useState([]);
+  const [inspectVehicle, setInspectVehicle] = useState(null);
+
   // ─── Fetch ────────────────────────────────────────────────
   const fetchConvoys = useCallback(async () => {
     if (!campaignId) return;
@@ -98,10 +102,20 @@ export default function ConvoyManager() {
     }
   }, [campaignId]);
 
+  const fetchVehiclesRegistry = useCallback(async () => {
+    if (!campaignId) return;
+    try {
+      const data = await api.get(`/api/v1/gm/campaigns/${campaignId}/vehicles`);
+      setVehiclesRegistry(data.vehicles || []);
+    } catch (err) {
+      console.error('Fetch vehicles error:', err);
+    }
+  }, [campaignId]);
+
   useEffect(() => {
     setIsLoading(true);
-    Promise.all([fetchConvoys(), fetchCities()]).finally(() => setIsLoading(false));
-  }, [fetchConvoys, fetchCities]);
+    Promise.all([fetchConvoys(), fetchCities(), fetchVehiclesRegistry()]).finally(() => setIsLoading(false));
+  }, [fetchConvoys, fetchCities, fetchVehiclesRegistry]);
 
   // ─── Create Convoy ────────────────────────────────────────
   const handleCreate = async () => {
@@ -525,19 +539,32 @@ export default function ConvoyManager() {
                   {(selectedConvoy.vehicles || []).map(v => {
                     const VIcon = VEHICLE_ICONS[v.type] || Car;
                     const hpPct = v.hpMax > 0 ? (v.hpCurrent / v.hpMax) * 100 : 0;
+                    const regMatch = vehiclesRegistry.find(rv => rv.name.toLowerCase().includes(v.name.toLowerCase()) || v.name.toLowerCase().includes(rv.name.toLowerCase()));
+
                     return (
-                      <div key={v.id} style={{
-                        flex: '1 1 200px', maxWidth: 280, background: 'var(--color-surface)', borderRadius: 8,
-                        padding: 12, border: `1px solid ${v.isDestroyed ? '#ef4444' : 'var(--color-border)'}`,
-                        opacity: v.isDestroyed ? 0.5 : 1,
-                      }}>
+                      <div
+                        key={v.id}
+                        onClick={() => setInspectVehicle({ convoyVeh: v, regVeh: regMatch })}
+                        style={{
+                          flex: '1 1 200px', maxWidth: 280, background: 'var(--color-surface)', borderRadius: 8,
+                          padding: 12, border: `1px solid ${v.isDestroyed ? '#ef4444' : 'var(--color-border)'}`,
+                          opacity: v.isDestroyed ? 0.5 : 1,
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease-in-out',
+                          boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+                        }}
+                        className="vehicle-fleet-card"
+                        title="Cliquer pour afficher la Fiche Stat-Block D&D 5e"
+                      >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600 }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, color: 'var(--color-primary-light)' }}>
                             <VIcon size={16} /> {v.name}
                           </span>
-                          <button onClick={() => handleDeleteVehicle(v.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}>
-                            <Trash2 size={14} />
-                          </button>
+                          <div style={{ display: 'flex', gap: 4 }} onClick={e => e.stopPropagation()}>
+                            <button onClick={() => handleDeleteVehicle(v.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}>
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
                         </div>
                         <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 6 }}>
                           {VEHICLE_LABELS[v.type]} • {v.isDestroyed ? '💥 DÉTRUIT' : `${v.hpCurrent}/${v.hpMax} PV`}
@@ -551,7 +578,7 @@ export default function ConvoyManager() {
                                 background: hpPct < 25 ? '#ef4444' : hpPct < 50 ? '#f59e0b' : '#22c55e',
                               }} />
                             </div>
-                            <div style={{ display: 'flex', gap: 4 }}>
+                            <div style={{ display: 'flex', gap: 4, marginBottom: 8 }} onClick={e => e.stopPropagation()}>
                               <button onClick={() => handleVehicleHpChange(v.id, -20)} style={smallBtn}>-20</button>
                               <button onClick={() => handleVehicleHpChange(v.id, -10)} style={smallBtn}>-10</button>
                               <button onClick={() => handleVehicleHpChange(v.id, 10)} style={{ ...smallBtn, background: 'rgba(34,197,94,0.2)' }}>+10</button>
@@ -559,6 +586,9 @@ export default function ConvoyManager() {
                             </div>
                           </>
                         )}
+                        <div style={{ fontSize: '0.75rem', color: '#a78bfa', display: 'flex', alignItems: 'center', gap: 4, fontStyle: 'italic' }}>
+                          📜 Voir Fiche Stat-Block D&D 5e
+                        </div>
                       </div>
                     );
                   })}
@@ -779,6 +809,130 @@ export default function ConvoyManager() {
                 </div>
               </div>
             )}
+            {/* ─── Vehicle Stat-Block D&D 5e Modal ─── */}
+            {inspectVehicle && (() => {
+              const { convoyVeh, regVeh } = inspectVehicle;
+              let notes = {};
+              if (regVeh && regVeh.notes) {
+                try { notes = JSON.parse(regVeh.notes); } catch (e) {}
+              }
+
+              const ac = regVeh?.acBase || (convoyVeh.passengers?.match(/CA (\d+)/)?.[1]) || (convoyVeh.type === 'moto' ? 13 : convoyVeh.type === 'car' ? 16 : convoyVeh.name.includes("Forteresse") ? 20 : 18);
+              const hpMax = regVeh?.hpMaxBase || convoyVeh.hpMax || 100;
+              const hpCurrent = convoyVeh.hpCurrent;
+
+              // Speed resolution based on size rule: Moto=24m, Voiture=16m, Camion=12m, Mastodonte=8m
+              let rawSpeed = regVeh?.speedBase;
+              if (!rawSpeed && convoyVeh.passengers) {
+                const match = convoyVeh.passengers.match(/Vitesse (\d+)m/);
+                if (match) rawSpeed = parseInt(match[1]);
+              }
+
+              let speedText = "12m (8 cases)";
+              if (rawSpeed === 24 || convoyVeh.type === 'moto') speedText = "24m (16 cases)";
+              else if (rawSpeed === 16 || (convoyVeh.type === 'car' && !convoyVeh.name.includes("Molosse"))) speedText = "16m (10 cases)";
+              else if (rawSpeed === 8 || convoyVeh.name.includes("Forteresse")) speedText = "8m (5 cases)";
+              else if (rawSpeed === 12 || convoyVeh.type === 'truck') speedText = "12m (8 cases)";
+              else if (rawSpeed) speedText = `${rawSpeed}m`;
+
+              const init = notes.initiative || (convoyVeh.passengers?.match(/Init ([\+\-\d]+)/)?.[1]) || (convoyVeh.type === 'moto' ? "+5" : convoyVeh.type === 'car' ? "+3" : convoyVeh.name.includes("Forteresse") ? "-2" : "+1");
+              const pilote = notes.pilote || convoyVeh.passengers || "Équipage standard";
+
+              return (
+                <div style={{
+                  position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center', zIndex: 1100, backdropFilter: 'blur(3px)'
+                }} onClick={() => setInspectVehicle(null)}>
+                  <div style={{
+                    background: '#18181b', borderRadius: 12, padding: 24, width: 560, maxHeight: '85vh',
+                    overflowY: 'auto', border: '2px solid #b91c1c', boxShadow: '0 10px 30px rgba(0,0,0,0.8)',
+                    fontFamily: 'system-ui, sans-serif'
+                  }} onClick={e => e.stopPropagation()}>
+                    
+                    {/* Header */}
+                    <div style={{ borderBottom: '2px solid #b91c1c', paddingBottom: 12, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <div>
+                        <h2 style={{ margin: 0, color: '#fca5a5', fontSize: '1.4rem' }}>{convoyVeh.name}</h2>
+                        <div style={{ fontSize: '0.85rem', color: '#9ca3af', fontStyle: 'italic' }}>
+                          {regVeh?.modelType || VEHICLE_LABELS[convoyVeh.type]} • {selectedConvoy?.name}
+                        </div>
+                      </div>
+                      <button onClick={() => setInspectVehicle(null)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer' }}>
+                        <X size={22} />
+                      </button>
+                    </div>
+
+                    {/* D&D 5e Stat Grid */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 10, marginBottom: 16, backgroundColor: '#27272a', padding: 12, borderRadius: 8, textAlign: 'center' }}>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>CA (Armure)</div>
+                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#f59e0b' }}>🛡️ {ac}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>PV</div>
+                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: hpCurrent < hpMax * 0.3 ? '#ef4444' : '#10b981' }}>❤️ {hpCurrent}/{hpMax}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>Vitesse</div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#60a5fa' }}>🏎️ {speedText}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>Initiative</div>
+                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#a78bfa' }}>⚡ {init}</div>
+                      </div>
+                    </div>
+
+                    {/* Pilote & Résistances */}
+                    <div style={{ fontSize: '0.85rem', marginBottom: 14, lineHeight: 1.5, borderBottom: '1px solid #3f3f46', paddingBottom: 12 }}>
+                      <div><strong>👨‍✈️ Pilote & Équipage :</strong> {pilote}</div>
+                      {notes.resistances && <div style={{ color: '#fbbf24', marginTop: 4 }}><strong>🛡️ Résistances :</strong> {notes.resistances}</div>}
+                    </div>
+
+                    {/* Capacités Spéciales */}
+                    {notes.specialAbilities && notes.specialAbilities.length > 0 && (
+                      <div style={{ marginBottom: 16, borderBottom: '1px solid #3f3f46', paddingBottom: 12 }}>
+                        <h4 style={{ margin: '0 0 8px 0', color: '#fcd34d', fontSize: '0.95rem' }}>✨ Capacités Spéciales</h4>
+                        {notes.specialAbilities.map((ab, idx) => (
+                          <div key={idx} style={{ fontSize: '0.85rem', marginBottom: 6, lineHeight: 1.4 }}>
+                            <strong style={{ color: '#fef08a' }}>• {ab.name} :</strong> {ab.description}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Actions & Armement */}
+                    {notes.actions && notes.actions.length > 0 && (
+                      <div style={{ marginBottom: 16 }}>
+                        <h4 style={{ margin: '0 0 8px 0', color: '#ef4444', fontSize: '0.95rem' }}>⚔️ Armement & Actions D&D 5e</h4>
+                        {notes.actions.map((act, idx) => (
+                          <div key={idx} style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', borderLeft: '3px solid #ef4444', padding: '8px 12px', borderRadius: 4, marginBottom: 8, fontSize: '0.85rem' }}>
+                            <div style={{ fontWeight: 'bold', color: '#fca5a5', display: 'flex', justifyContent: 'space-between' }}>
+                              <span>{act.name}</span>
+                              <span style={{ fontSize: '0.75rem', color: '#f87171' }}>{act.type} • Portée : {act.range}</span>
+                            </div>
+                            <div style={{ color: '#fecaca', marginTop: 2 }}>
+                              <strong>Toucher :</strong> {act.attackBonus} | <strong>Dégâts :</strong> {act.damage}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* HP Adjustment Controls */}
+                    <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid #3f3f46', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '0.85rem', color: '#9ca3af' }}>Ajuster PV en direct :</span>
+                      <div style={{ display: 'flex', gap: 6 }}>
+                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, -20)} style={{ ...smallBtn, background: '#ef4444' }}>-20 PV</button>
+                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, -10)} style={{ ...smallBtn, background: '#ef4444' }}>-10 PV</button>
+                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, 10)} style={{ ...smallBtn, background: '#10b981' }}>+10 PV</button>
+                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, 20)} style={{ ...smallBtn, background: '#10b981' }}>+20 PV</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              );
+            })()}
           </>
         )}
       </div>

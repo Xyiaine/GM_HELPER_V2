@@ -5,164 +5,389 @@
     "type": "commun",
     "cite_origine": null,
     "condition_deblocage": null,
-    "description": "Construire, réparer, hacker et bidouiller les reliques mécaniques.",
+    "description": "Analogue Magicien/Artificier (séculier) — Bricolage, réparation mécanique, piratage d'IA et contrôle de réseaux.",
+    "attributs": [
+      "Intelligence",
+      "Dextérité"
+    ],
+    "classe_5e_ref": "Magicien/Artificier (séculier)",
+    "monnaie": "points",
+    "budget_total": 28,
     "branches": [
       {
-        "id": "mecanique_lourde",
-        "nom": "Mécanique Lourde",
+        "id": "mecanique_et_fabrication",
+        "nom": "Mécanique & Fabrication",
         "noeuds": [
           {
-            "id": "oeil_du_mecano",
-            "nom": "Œil du Mécano",
+            "id": "bricolage_efficace",
+            "nom": "Bricolage Efficace",
             "tier": 1,
             "type": "passif",
             "cout_points": 1,
             "prerequis": [],
-            "description": "Identifie instantanément une panne.",
+            "prerequis_logique": "ou",
+            "description": "Répare rapidement un équipement/véhicule endommagé avec des moyens limités.",
             "effet": {
-              "resume": "Diagnostic mécanique instantané"
+              "resume": "+2 aux réparations improvisées"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -50,
+              "x": -120,
               "y": 100
             }
           },
           {
-            "id": "reparation_urgence",
-            "nom": "Réparation d'Urgence",
+            "id": "pieces_de_recup",
+            "nom": "Pièces de Récup",
             "tier": 2,
-            "type": "actif",
+            "type": "passif",
             "cout_points": 1,
             "prerequis": [
-              "oeil_du_mecano"
+              "bricolage_efficace"
             ],
-            "description": "Répare partiellement un véhicule en plein combat.",
+            "prerequis_logique": "ou",
+            "description": "Fabrique des pièces de remplacement fonctionnelles à partir de matériaux de récupération.",
             "effet": {
-              "resume": "Soin de véhicule",
-              "cout_ressource": {
-                "type": "piece_detachee",
-                "quantite": 5
-              },
-              "cooldown_tours": 3
+              "resume": "Craft de pièces détachées avec ferraille"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -50,
+              "x": -160,
               "y": 200
             }
           },
           {
-            "id": "overclocking",
-            "nom": "Overclocking",
+            "id": "reparation_en_urgence",
+            "nom": "Réparation en Urgence",
+            "tier": 2,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [
+              "bricolage_efficace"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Répare en plein combat un équipement/véhicule allié endommagé.",
+            "effet": {
+              "resume": "Réparation instantanée en combat",
+              "cooldown_tours": 2
+            },
+            "contrepartie": "-1 Discrétion pendant la réparation (bruit/étincelles).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "ingenierie_robuste",
+            "nom": "Ingénierie Robuste",
             "tier": 3,
             "type": "passif",
             "cout_points": 2,
             "prerequis": [
-              "reparation_urgence"
+              "pieces_de_recup",
+              "reparation_en_urgence"
             ],
-            "description": "Les machines réparées gagnent un bonus de performance.",
+            "prerequis_logique": "ou",
+            "description": "Les équipements/véhicules réparés par le porteur tombent moins souvent en panne.",
             "effet": {
-              "resume": "+5 Vitesse, +2 Dégâts pour la machine réparée pendant 3 tours"
+              "resume": "Taux de panne réduit sur objets réparés"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -50,
+              "x": -160,
               "y": 300
             }
           },
           {
-            "id": "souffle_dieu_moteur",
-            "nom": "Le Souffle du Dieu-Moteur",
+            "id": "modification_imprisee",
+            "nom": "Modification Improvisée",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "pieces_de_recup",
+              "reparation_en_urgence"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bricole une amélioration temporaire significative sur une arme ou un véhicule.",
+            "effet": {
+              "resume": "Buff temporaire sur arme/véhicule (+2 stats)",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "maitre_mecanicien",
+            "nom": "Maître Mécanicien",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "ingenierie_robuste",
+              "modification_imprisee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Répare des dégâts bien plus importants en une seule intervention.",
+            "effet": {
+              "resume": "+50% PV restaurés sur réparations"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
+              "y": 400
+            }
+          },
+          {
+            "id": "fabrication_express",
+            "nom": "Fabrication Express",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "ingenierie_robuste",
+              "modification_imprisee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Fabrique un objet/outil utile à partir de presque rien en quelques minutes.",
+            "effet": {
+              "resume": "Craft d'outil spécifique en quelques minutes",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_grand_redemarrage",
+            "nom": "Le Grand Redémarrage",
             "tier": 5,
             "type": "actif",
             "cout_points": 3,
             "prerequis": [
-              "overclocking"
+              "maitre_mecanicien",
+              "fabrication_express"
             ],
-            "description": "Relance instantanément un moteur en panne totale.",
+            "prerequis_logique": "et",
+            "description": "Relance et répare intégralement une machine ou un véhicule complexe donné pour mort.",
             "effet": {
-              "resume": "Résurrection de véhicule",
-              "cooldown_tours": 99
+              "resume": "Remise en état totale d'une machine/véhicule détruit",
+              "cooldown_tours": 4
             },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
             "position": {
-              "x": -50,
+              "x": -120,
               "y": 500
             }
           }
         ]
       },
       {
-        "id": "electronique",
+        "id": "electronique_et_ia",
         "nom": "Électronique & IA",
         "noeuds": [
           {
-            "id": "recyclage_habile",
-            "nom": "Recyclage Habile",
+            "id": "lecture_de_systemes",
+            "nom": "Lecture de Systèmes",
             "tier": 1,
             "type": "passif",
             "cout_points": 1,
             "prerequis": [],
-            "description": "Plus efficace pour démonter.",
+            "prerequis_logique": "ou",
+            "description": "Comprend rapidement le fonctionnement d'un système électronique inconnu.",
             "effet": {
-              "resume": "Avantage aux jets de récupération de pièces"
+              "resume": "Analyse instantanée de terminaux/drones"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": 120,
               "y": 100
             }
           },
           {
-            "id": "cablage_fortune",
-            "nom": "Câblage de Fortune",
+            "id": "piratage_basique",
+            "nom": "Piratage Basique",
             "tier": 2,
-            "type": "passif",
+            "type": "actif",
             "cout_points": 1,
             "prerequis": [
-              "recyclage_habile"
+              "lecture_de_systemes"
             ],
-            "description": "Répare très rapidement.",
+            "prerequis_logique": "ou",
+            "description": "Contourne une sécurité électronique simple (serrure, terminal).",
             "effet": {
-              "resume": "Avantage aux jets de réparation rapide"
+              "resume": "Piratage de serrures/terminaux simples",
+              "cooldown_tours": 2
             },
+            "contrepartie": "-1 Discrétion pendant l'opération (risques de logs).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": 80,
               "y": 200
             }
           },
           {
-            "id": "decryptage_pre_guerre",
-            "nom": "Décryptage Pré-Guerre",
+            "id": "diagnostic_reseau",
+            "nom": "Diagnostic Réseau",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "lecture_de_systemes"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Repère les failles/vulnérabilités d'un système connecté.",
+            "effet": {
+              "resume": "Détection des failles de sécurité"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "controle_a_distance",
+            "nom": "Contrôle à Distance",
             "tier": 3,
             "type": "actif",
             "cout_points": 2,
             "prerequis": [
-              "cablage_fortune"
+              "piratage_basique",
+              "diagnostic_reseau"
             ],
-            "description": "Débloque un terminal électronique ancien.",
+            "prerequis_logique": "ou",
+            "description": "Prend temporairement le contrôle d'une machine/drone simple.",
             "effet": {
-              "resume": "Piratage informatique automatique",
-              "cooldown_tours": 10
+              "resume": "Piratage & contrôle d'1 drone/tourelle",
+              "cooldown_tours": 2
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": 80,
               "y": 300
             }
           },
           {
-            "id": "sabotage_silencieux",
+            "id": "pare_feu_personnel",
+            "nom": "Pare-Feu Personnel",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "piratage_basique",
+              "diagnostic_reseau"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Résistance aux tentatives de piratage/sabotage électronique visant le porteur.",
+            "effet": {
+              "resume": "Immunité aux piratages personnels"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "maitre_du_reseau",
+            "nom": "Maître du Réseau",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "controle_a_distance",
+              "pare_feu_personnel"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Accès facilité aux systèmes du Registre et aux réseaux de cité.",
+            "effet": {
+              "resume": "Accès réseau prioritaire au Registre"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "sabotage_silencieux_tech",
             "nom": "Sabotage Silencieux",
             "tier": 4,
             "type": "actif",
             "cout_points": 2,
             "prerequis": [
-              "decryptage_pre_guerre"
+              "controle_a_distance",
+              "pare_feu_personnel"
             ],
-            "description": "Désactive à distance un piège ou une tourelle.",
+            "prerequis_logique": "ou",
+            "description": "Désactive discrètement un système électronique complexe sans déclencher d'alerte.",
             "effet": {
-              "resume": "Désactivation électronique (Portée: 20m)",
-              "cooldown_tours": 5
+              "resume": "Extinction de système sans alerte",
+              "cooldown_tours": 4
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": 160,
               "y": 400
+            }
+          },
+          {
+            "id": "l_esprit_dans_la_machine",
+            "nom": "L'Esprit dans la Machine",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "maitre_du_reseau",
+              "sabotage_silencieux_tech"
+            ],
+            "prerequis_logique": "et",
+            "description": "Prend le contrôle total d'un système complexe (véhicule, installation, réseau) pendant plusieurs tours.",
+            "effet": {
+              "resume": "Prise de contrôle informatique globale",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": 120,
+              "y": 500
             }
           }
         ]

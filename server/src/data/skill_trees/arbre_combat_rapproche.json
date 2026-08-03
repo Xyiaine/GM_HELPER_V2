@@ -5,25 +5,36 @@
     "type": "commun",
     "cite_origine": null,
     "condition_deblocage": null,
-    "description": "Armes de mêlée et armes automatiques courte portée.",
+    "description": "Analogue Guerrier (mêlée) — Maître d'arme au contact direct, exécutions et domination du terrain.",
+    "attributs": [
+      "Force",
+      "Constitution"
+    ],
+    "classe_5e_ref": "Guerrier (mêlée)",
+    "monnaie": "points",
+    "budget_total": 28,
     "branches": [
       {
         "id": "melee_brutale",
         "nom": "Mêlée Brutale",
         "noeuds": [
           {
-            "id": "frappe_vicieuse",
-            "nom": "Frappe Vicieuse",
+            "id": "frappe_assuree",
+            "nom": "Frappe Assurée",
             "tier": 1,
             "type": "passif",
             "cout_points": 1,
             "prerequis": [],
-            "description": "Coups plus précis.",
+            "prerequis_logique": "ou",
+            "description": "+1 dégât fiable avec les armes de mêlée.",
             "effet": {
-              "resume": "Critique sur 19-20 en mêlée"
+              "resume": "+1 dégât armes de mêlée"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -50,
+              "x": -120,
               "y": 100
             }
           },
@@ -34,76 +45,159 @@
             "type": "actif",
             "cout_points": 1,
             "prerequis": [
-              "frappe_vicieuse"
+              "frappe_assuree"
             ],
-            "description": "Attaque supplémentaire gratuite après un critique.",
+            "prerequis_logique": "ou",
+            "description": "Après un coup réussi, chance d'attaque bonus immédiate.",
             "effet": {
-              "resume": "Attaque bonus sur Critique",
-              "cooldown_tours": 1
+              "resume": "Attaque bonus rapide de mêlée",
+              "cooldown_tours": 2
             },
+            "contrepartie": "-1 à la Défense pendant le tour (position découverte).",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -50,
+              "x": -160,
               "y": 200
             }
           },
           {
-            "id": "frenesie_du_sang",
-            "nom": "Frénésie du Sang",
+            "id": "poigne_ferme",
+            "nom": "Poigne Ferme",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "frappe_assuree"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Avantage pour ne pas se faire désarmer.",
+            "effet": {
+              "resume": "Immunité désarmement"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 200
+            }
+          },
+          {
+            "id": "coup_puissant",
+            "nom": "Coup Puissant",
             "tier": 3,
             "type": "actif",
             "cout_points": 2,
             "prerequis": [
-              "enchainement"
+              "enchainement",
+              "poigne_ferme"
             ],
-            "description": "Attaques téméraires.",
+            "prerequis_logique": "ou",
+            "description": "Sacrifice de précision pour un gros bonus de dégâts sur une attaque.",
             "effet": {
-              "resume": "Avantage aux attaques de mêlée, mais les ennemis ont l'Avantage pour vous toucher (2 tours)",
-              "cooldown_tours": 5
+              "resume": "-2 Précision / +2d6 Dégâts sur le coup",
+              "cooldown_tours": 2
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -50,
+              "x": -160,
               "y": 300
             }
           },
           {
-            "id": "coup_fatal",
-            "nom": "Coup Fatal",
-            "tier": 4,
-            "type": "actif",
+            "id": "sens_du_combat",
+            "nom": "Sens du Combat",
+            "tier": 3,
+            "type": "passif",
             "cout_points": 2,
             "prerequis": [
-              "frenesie_du_sang"
+              "enchainement",
+              "poigne_ferme"
             ],
-            "description": "Garantit un coup critique sur cible affaiblie.",
+            "prerequis_logique": "ou",
+            "description": "Avantage à repérer le point faible d'un adversaire après l'avoir touché une première fois.",
             "effet": {
-              "resume": "Critique garanti si PV cible < 30%",
-              "cooldown_tours": 3
+              "resume": "Avantage aux tirs/coups suivants sur la même cible"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": -50,
+              "x": -80,
+              "y": 300
+            }
+          },
+          {
+            "id": "frappe_decisive",
+            "nom": "Frappe Décisive",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "coup_puissant",
+              "sens_du_combat"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Chance de coup critique augmentée avec les armes de mêlée.",
+            "effet": {
+              "resume": "Critique sur 19-20 en mêlée"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -160,
               "y": 400
             }
           },
           {
-            "id": "tornade_acier",
-            "nom": "Tornade d'Acier",
+            "id": "acharnement",
+            "nom": "Acharnement",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "coup_puissant",
+              "sens_du_combat"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Enchaîne deux grosses attaques d'affilée sur la même cible.",
+            "effet": {
+              "resume": "Double frappe lourde instantanée",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -80,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_coup_qui_tue",
+            "nom": "Le Coup qui Tue",
             "tier": 5,
             "type": "actif",
             "cout_points": 3,
             "prerequis": [
-              "coup_fatal"
+              "frappe_decisive",
+              "acharnement"
             ],
-            "description": "Attaque tous les ennemis adjacents en un tour.",
+            "prerequis_logique": "et",
+            "description": "Attaque unique visant à achever une cible déjà affaiblie : dégâts maximisés, quasi-garantis.",
             "effet": {
-              "resume": "Attaque AoE mêlée",
-              "cout_ressource": {
-                "type": "adrenaline",
-                "quantite": 1
-              },
-              "cooldown_tours": 5
+              "resume": "Frappe d'exécution maximale",
+              "cooldown_tours": 4
             },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
             "position": {
-              "x": 0,
+              "x": -120,
               "y": 500
             }
           }
@@ -114,56 +208,185 @@
         "nom": "Close-Quarters",
         "noeuds": [
           {
-            "id": "rafale_courte",
-            "nom": "Rafale Courte",
+            "id": "garde_rapprochee",
+            "nom": "Garde Rapprochée",
             "tier": 1,
             "type": "passif",
             "cout_points": 1,
             "prerequis": [],
-            "description": "Réduit la dispersion des mitraillettes à bout portant.",
+            "prerequis_logique": "ou",
+            "description": "Bonus de défense contre les attaques au contact rapproché.",
             "effet": {
-              "resume": "+2 Précision au SMG (<10m)",
-              "valeur": 2
+              "resume": "+1 Défense au contact direct"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": 120,
               "y": 100
             }
           },
           {
-            "id": "chargeur_rapide",
-            "nom": "Chargeur Rapide",
+            "id": "percee",
+            "nom": "Percée",
             "tier": 2,
-            "type": "passif",
+            "type": "actif",
             "cout_points": 1,
             "prerequis": [
-              "rafale_courte"
+              "garde_rapprochee"
             ],
-            "description": "Rechargement deux fois plus rapide.",
+            "prerequis_logique": "ou",
+            "description": "Traverse la ligne ennemie pour atteindre une cible derrière, sans provoquer d'attaque d'opportunité.",
             "effet": {
-              "resume": "Rechargement coûte une action libre"
+              "resume": "Traversée de ligne ennemie sans opportunité",
+              "cooldown_tours": 2
             },
+            "contrepartie": "-1 à la Défense au tour suivant.",
+            "contrepartie_type": "legere",
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": 80,
               "y": 200
             }
           },
           {
-            "id": "tir_en_mouvement",
-            "nom": "Tir en Mouvement",
+            "id": "desequilibre",
+            "nom": "Déséquilibre",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "garde_rapprochee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Une attaque réussie a une chance de faire trébucher la cible.",
+            "effet": {
+              "resume": "Chance de faire trébucher la cible"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 200
+            }
+          },
+          {
+            "id": "corps_a_corps_etouffant",
+            "nom": "Corps à Corps Étouffant",
             "tier": 3,
             "type": "passif",
             "cout_points": 2,
             "prerequis": [
-              "chargeur_rapide"
+              "percee",
+              "desequilibre"
             ],
-            "description": "Aucun malus de précision en se déplaçant avec un SMG.",
+            "prerequis_logique": "ou",
+            "description": "Avantage contre les cibles adjacentes multiples en mêlée serrée.",
             "effet": {
-              "resume": "Tir en courant sans malus"
+              "resume": "Avantage en combat contre cibles multiples"
             },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
             "position": {
-              "x": 50,
+              "x": 80,
               "y": 300
+            }
+          },
+          {
+            "id": "reaction_vive",
+            "nom": "Réaction Vive",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "percee",
+              "desequilibre"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Attaque d'opportunité automatique si un ennemi tente de fuir le contact rapproché.",
+            "effet": {
+              "resume": "Opportunité automatique sur fuite ennemie"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 300
+            }
+          },
+          {
+            "id": "maitrise_du_terrain",
+            "nom": "Maîtrise du Terrain",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "corps_a_corps_etouffant",
+              "reaction_vive"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Aucune pénalité en terrain encombré/exigu.",
+            "effet": {
+              "resume": "Immunité pénalités terrain exigu"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 80,
+              "y": 400
+            }
+          },
+          {
+            "id": "tourbillon",
+            "nom": "Tourbillon",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "corps_a_corps_etouffant",
+              "reaction_vive"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Attaque tous les ennemis adjacents en un seul mouvement.",
+            "effet": {
+              "resume": "Attaque AoE sur tous les ennemis adjacents",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 160,
+              "y": 400
+            }
+          },
+          {
+            "id": "le_coeur_de_la_melee",
+            "nom": "Le Cœur de la Mêlée",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "maitrise_du_terrain",
+              "tourbillon"
+            ],
+            "prerequis_logique": "et",
+            "description": "Devient temporairement quasi increvable au contact direct, enchaînant les attaques contre tous les adversaires proches.",
+            "effet": {
+              "resume": "Fureur de mêlée déchaînée invincible",
+              "cooldown_tours": 4
+            },
+            "contrepartie": "Inflige 2 niveaux d'Exténuation.",
+            "contrepartie_type": "severe",
+            "extenuation_niveaux": 2,
+            "position": {
+              "x": 120,
+              "y": 500
             }
           }
         ]

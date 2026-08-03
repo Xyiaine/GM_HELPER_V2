@@ -344,3 +344,62 @@ L'IA doit produire sa génération de contenu dans ce format, exploitable direct
 | 8 | Cité du Divertissement — "Les Faiseurs de Rêves" | Arènes, spectacles, cinéma, propagande | Influence culturelle et morale énorme | Dépend des autres pour survivre matériellement |
 | 9 | L'Île des Anciens — "Le Paradis Perdu" | Technologie pré-apocalyptique intacte, agriculture abondante | Autosuffisante, riche, civilisée | Isolée, difficile à atteindre |
 | 10 | Nuke City — "Le Réacteur à Ciel Ouvert" | Unique cité nucléaire de surface | Énergie colossale, défenses électrifiées, armes avancées | Rayonnements, accidents, paranoïa des habitants |
+
+---
+
+## 13. MÉCANISME DE FONCTIONNEMENT ACTUEL ET ARBRES IMPLANTÉS
+
+### 13.1 Mécanisme de Fonctionnement Technique
+Le système d'arbres de compétences dans l'application GM Helper repose sur l'architecture suivante :
+
+1. **Stockage et API Server** :
+   - Les 16 arbres de compétences sont sérialisés sous forme de fichiers JSON situés dans `server/src/data/skill_trees/arbre_<id>.json`.
+   - Le serveur Express expose la route `/api/v1/gm/campaigns/:campaignId/skill-trees` (`server/src/routes/gm/skillTrees.js`) permettant au MJ de charger l'intégralité des arbres de compétences.
+
+2. **Moteur de Progression Hybride (5e Hybride)** :
+   - L'application utilise un module de progression hybride (`server/src/utils/hybridProgression.js`) basé sur la fonction `calculateHybridProgression(unlockedSkills)`.
+   - **Formule de Niveau par Classe** : Chaque nœud débloqué consomme ses `cout_points` (généralement 1 à 3 points). Pour chaque arbre dans lequel un personnage a investi des points, son niveau dans cette classe/spécialité est calculé dynamiquement :
+     $$ \text{Niveau de classe} = \lceil \frac{\text{Points investis}}{2} \rceil $$
+     *(Soit 1 niveau de classe pour chaque tranche de 2 points de compétence investis dans l'arbre concerné).*
+   - **Niveau Total du Personnage** : Le niveau global du personnage (`totalLevel`) est la somme de ses niveaux dans toutes ses classes issues des arbres. Le niveau minimum est de 1.
+   - **Synchronisation dynamique** : Lors de la modification ou du chargement de la fiche de personnage (`server/src/routes/player/character.js` et `server/src/routes/gm/characters.js`), la liste des identifiants de nœuds débloqués (`unlockedSkills`) est soumise au calculateur pour déduire la progression et les classes obtenues.
+
+3. **Représentation Graphique et Coordonnées** :
+   - Chaque nœud dans les fichiers JSON intègre un objet `position: { x, y }` spécifiant ses coordonnées spatiales relatives.
+   - Cela permet à l'interface client (React / HTML5 canvas ou SVG) d'afficher les arbres sous forme de constellation interactive type *Skyrim*, avec support de zoom, de panoramique (pan) et de sélection tactile.
+
+4. **Gestion des Effets et Coûts de Ressources** :
+   - Les nœuds actifs intègrent un objet `effet` précisant le `cooldown_tours` ainsi que le coût en ressources (`cout_ressource`).
+   - Les ressources requises (`dose_medicament`, `piece_detachee`, `adrenaline`, `munitions_lourdes`, `carburant`, `eau`, `pile`, `medicament_rare`, `piece_rare`, etc.) sont directement déduites de l'inventaire du personnage ou des réserves de la Cité-État lors de leur activation.
+
+---
+
+### 13.2 Inventaire des 16 Arbres de Compétences Implantés
+
+Le système comprend actuellement **16 arbres au total** (6 arbres communs et 10 arbres cachés de spécialisation) stockés dans `server/src/data/skill_trees/`.
+
+#### A. Les 6 Arbres Communs
+
+| Arbre (`id`) | Nom | Branches | Nb Nœuds | Description / Thématique |
+|---|---|---|---|---|
+| `medecine` | **Médecine** | Soins de Terrain, Pharmacologie, Chirurgie | 10 | Soins d'urgence, gestion des poisons, détoxification et chirurgies lourdes de terrain. Capstones : *Résurrection de Fortune*, *Chirurgien de l'Apocalypse*. |
+| `technologie` | **Technologie** | Mécanique Lourde, Électronique & IA | 8 | Réparation de véhicules/générateurs, overclocking, piratage de terminaux pré-guerre et sabotage. Capstone : *Le Souffle du Dieu-Moteur*. |
+| `defense` | **Défense** | Résilience, Protection du Groupe, Blindage | 8 | Encaissement des dégâts, redirection d'attaques, réduction fixe des blessures et provocation. Capstone : *Rempart Inébranlable*. |
+| `combat_rapproche` | **Combat Rapproché** | Mêlée Brutale, Close-Quarters | 8 | Attaques critiques en mêlée, enchaînements et tir instinctif aux armes automatiques/mitraillettes. Capstone : *Tornade d'Acier*. |
+| `combat_distance` | **Combat à Distance** | Précision, Puissance de Feu | 8 | Visée longue portée pour snipers, tirs de suppression aux armes lourdes et létalité accrue. Capstone : *Le Jugement*. |
+| `beau_parleur` | **Beau Parleur** | Négociation, Intimidation, Charisme de Groupe | 8 | Négociation marchande, chantage, contrôle des PNJ et motivation de groupe. Capstone : *Le Verbe qui Plie les Rois*. |
+
+#### B. Les 10 Arbres Cachés de Spécialisation (Cités-États)
+
+| Arbre (`id`) | Nom | Cité-État d'Origine (`cite_origine`) | Condition de Déblocage | Branches | Nb Nœuds | Thème Central & Capstone |
+|---|---|---|---|---|---|---|
+| `voile_acier` | **Voile d'Acier** | Bunker Oméga (`bunker_omega`) | Originaire du Bunker Oméga ou approbation du Fantôme-Chef. | Infiltration, Renseignement | 9 | Espionnage, dissimulation, réseau d'informateurs. Capstone : *Le Fantôme Ultime*. |
+| `chaine_montage` | **Chaîne de Montage** | Cité Industrielle (`cite_industrielle`) | Respect des Forgerons. | La Forge | 5 | Production mécanique, renforcement de véhicules et surcharge. Capstone : *Le Titan d'Acier*. |
+| `serment_blouses_blanches` | **Serment des Blouses Blanches** | Cité Médicale (`cite_medicale`) | Respect des Blouses Blanches. | Médecine de Pointe | 5 | Transfusions d'urgence, vaccins et régénération de zone. Capstone : *Le Dieu de la Vie*. |
+| `doctrine_arsenaux` | **Doctrine des Arsenaux** | Cité de l'Armement & Défense (`armement`) | Grade chez les Arsenaux. | Destruction Lourde | 5 | Pénétration d'armure, explosifs et tirs de couverture massifs. Capstone : *La Fureur de l'Arsenal*. |
+| `benediction_source` | **Bénédiction de la Source** | Cité de l'Eau & Alimentation (`eau`) | Ami des Gardiens de la Source. | Survie Hydrique | 5 | Autonomie en eau, purification et création de havres de paix. Capstone : *Maître de l'Oasis*. |
+| `rites_fossoyeurs` | **Rites des Fossoyeurs** | Cité des Métaux & Recyclage (`metaux`) | Initié Fossoyeur. | Fouille des Ruines | 5 | Récupération de ferraille rare, absorption de radiations et effondrement. Capstone : *Le Seigneur des Ruines*. |
+| `flamme_raffineurs` | **Flamme des Raffineurs** | Cité du Carburant (`carburant`) | Allié des Raffineurs. | Chimie de Combustion | 5 | Carburants synthétiques, vitesse extrême et armes incendiaires. Capstone : *L'Holocauste Mobile*. |
+| `masque_faiseurs_reves` | **Masque des Faiseurs de Rêves** | Cité du Divertissement (`divertissement`) | Idole de la Cité. | Illusion | 5 | Charisme de foule, ruses du spectacle et manipulation sociale. Capstone : *Le Grand Spectacle*. |
+| `heritage_anciens` | **Héritage des Anciens** | L'Île des Anciens (`ile_anciens`) | Élu du Paradis Perdu. | Savoir Perdu | 5 | High-tech d'avant-guerre, drones de reconnaissance, boucliers et lasers orbitaux. Capstone : *L'Œil des Dieux Anciens*. |
+| `communion_reacteur` | **Communion du Réacteur** | Nuke City (`nuke_city`) | A survécu au cœur de Nuke City. | Énergie Atomique | 5 | Manipulation de l'énergie nucléaire, régénération radiologique et décharge ionisante. Capstone : *La Supernova*. |

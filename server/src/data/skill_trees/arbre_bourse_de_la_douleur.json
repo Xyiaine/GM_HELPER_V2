@@ -1,0 +1,250 @@
+{
+  "arbre": {
+    "id": "bourse_de_la_douleur",
+    "nom": "Bourse de la Douleur",
+    "type": "cache",
+    "cite_origine": null,
+    "condition_deblocage": "Affiliation / Dette envers les Collecteurs de la Bourse de la Douleur",
+    "description": "Arbre caché transversal — Collecte de dettes, saisies et intimidation financière (rattaché au Barde).",
+    "attributs": [
+      "Charisme",
+      "Constitution"
+    ],
+    "classe_5e_ref": "Barde (Collecteur)",
+    "monnaie": "faveur",
+    "budget_total": 15,
+    "branches": [
+      {
+        "id": "traque_de_la_dette",
+        "nom": "Traque de la Dette",
+        "noeuds": [
+          {
+            "id": "registre_en_tete",
+            "nom": "Registre en Tête",
+            "tier": 1,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Accès facilité aux informations du Registre sur les dettes d'une cible.",
+            "effet": {
+              "resume": "Connaissance immédiate des dettes d'une cible"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -100,
+              "y": 100
+            }
+          },
+          {
+            "id": "oeil_du_collecteur",
+            "nom": "Œil du Collecteur",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "registre_en_tete"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Repère instantanément les signes de richesse ou d'actifs dissimulés d'une cible.",
+            "effet": {
+              "resume": "Détection des biens et trésors cachés"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -100,
+              "y": 200
+            }
+          },
+          {
+            "id": "menace_calculee",
+            "nom": "Menace Calculée",
+            "tier": 3,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "oeil_du_collecteur"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Intimidation ciblée basée sur la dette réelle de la cible.",
+            "effet": {
+              "resume": "Intimidation par le Registre des dettes",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -100,
+              "y": 300
+            }
+          },
+          {
+            "id": "reseau_d_indics",
+            "nom": "Réseau d'Indics",
+            "tier": 4,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "menace_calculee"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Accès à des informateurs locaux dans n'importe quelle cité pour localiser un débiteur.",
+            "effet": {
+              "resume": "Informateurs urbains dans toutes les cités"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -100,
+              "y": 400
+            }
+          },
+          {
+            "id": "sentence_inscrite",
+            "nom": "Sentence Inscrite",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "reseau_d_indics"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Marque une cible comme débiteur prioritaire au Registre : bonus permanent contre elle.",
+            "effet": {
+              "resume": "Marquage officiel au Registre des Collecteurs"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": -100,
+              "y": 500
+            }
+          }
+        ]
+      },
+      {
+        "id": "application_de_la_sentence",
+        "nom": "Application de la Sentence",
+        "noeuds": [
+          {
+            "id": "saisie_rapide",
+            "nom": "Saisie Rapide",
+            "tier": 1,
+            "type": "actif",
+            "cout_points": 1,
+            "prerequis": [],
+            "prerequis_logique": "ou",
+            "description": "Confisque un objet/arme à une cible désarmée ou vaincue, sans résistance.",
+            "effet": {
+              "resume": "Saisie d'équipement instantanée",
+              "cooldown_tours": 2
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 100,
+              "y": 100
+            }
+          },
+          {
+            "id": "poigne_du_contrat",
+            "nom": "Poigne du Contrat",
+            "tier": 2,
+            "type": "passif",
+            "cout_points": 1,
+            "prerequis": [
+              "saisie_rapide"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Bonus aux tests de contrainte physique (immobiliser, entraver un débiteur).",
+            "effet": {
+              "resume": "+2 aux jets pour entraver/immobiliser"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 100,
+              "y": 200
+            }
+          },
+          {
+            "id": "garantie_corporelle",
+            "nom": "Garantie Corporelle",
+            "tier": 3,
+            "type": "passif",
+            "cout_points": 2,
+            "prerequis": [
+              "poigne_du_contrat"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Quand un débiteur ne peut payer, une contrepartie physique peut être exigée immédiatement.",
+            "effet": {
+              "resume": "Exécution de gage corporel/travail forcé"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 100,
+              "y": 300
+            }
+          },
+          {
+            "id": "escorte_de_la_bourse",
+            "nom": "Escorte de la Bourse",
+            "tier": 4,
+            "type": "actif",
+            "cout_points": 2,
+            "prerequis": [
+              "garantie_corporelle"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Appelle un renfort mineur (autre Collecteur) dans une cité influente.",
+            "effet": {
+              "resume": "Appel de renfort d'un Collecteur local",
+              "cooldown_tours": 4
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 100,
+              "y": 400
+            }
+          },
+          {
+            "id": "dette_de_sang",
+            "nom": "Dette de Sang",
+            "tier": 5,
+            "type": "actif",
+            "cout_points": 3,
+            "prerequis": [
+              "escorte_de_la_bourse"
+            ],
+            "prerequis_logique": "ou",
+            "description": "Convertit une dette impayée en obligation de service direct envers le porteur.",
+            "effet": {
+              "resume": "Servitude de dette imposée à la cible"
+            },
+            "contrepartie": null,
+            "contrepartie_type": null,
+            "extenuation_niveaux": 0,
+            "position": {
+              "x": 100,
+              "y": 500
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
