@@ -44,6 +44,10 @@ const tableScreenRoutes = require('./routes/tableScreen');
 
 const prisma = new PrismaClient();
 const app = express();
+
+// Trust reverse proxy (Nginx)
+app.set('trust proxy', 1);
+
 const server = http.createServer(app);
 
 // Socket.IO setup
