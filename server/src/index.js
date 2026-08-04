@@ -65,6 +65,7 @@ app.set('io', io);
 // Security headers
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: false,
 }));
 
 // CORS

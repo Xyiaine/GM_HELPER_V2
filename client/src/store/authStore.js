@@ -65,13 +65,20 @@ const useAuthStore = create((set, get) => ({
     }
   },
 
-  register: async (email, password, displayName) => {
+  register: async (firstNameOrData, lastNameParam, pseudoParam) => {
     try {
       set({ isLoading: true, error: null });
+      let payload = {};
+      if (typeof firstNameOrData === 'object' && firstNameOrData !== null) {
+        payload = firstNameOrData;
+      } else {
+        payload = { firstName: firstNameOrData, lastName: lastNameParam, pseudo: pseudoParam };
+      }
+
       const res = await fetch('/api/v1/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, displayName }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       

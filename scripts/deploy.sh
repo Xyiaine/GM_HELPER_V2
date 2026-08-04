@@ -9,9 +9,11 @@ APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 echo "🚀 Début du déploiement GM Helper dans : $APP_DIR"
 cd "$APP_DIR"
 
-# 1. Récupération du code Git
-echo "📥 Récupération des dernières modifications sur Git..."
-git pull origin main
+# 1. Récupération du code Git (si dépôt git présent)
+if [ -d ".git" ]; then
+  echo "📥 Récupération des dernières modifications sur Git..."
+  git pull origin main || true
+fi
 
 # 2. Mise à jour du Backend
 echo "📦 Installation des dépendances Backend..."

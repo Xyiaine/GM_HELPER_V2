@@ -15,7 +15,13 @@ const SALT_ROUNDS = 12;
 
 function generateAccessToken(user) {
   return jwt.sign(
-    { userId: user.id, email: user.email, displayName: user.displayName },
+    {
+      userId: user.id,
+      email: user.email,
+      displayName: user.displayName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN || '15m' }
   );
@@ -31,30 +37,52 @@ function generateRefreshToken() {
 router.post('/register', validate(registerSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
-    const { email, password, displayName } = req.body;
+    const { firstName, lastName, pseudo, displayName, email, password } = req.body;
 
-    // Check if user already exists
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return res.status(409).json({ error: 'Email already registered' });
+    const userDisplayName = pseudo || displayName;
+    if (!userDisplayName) {
+      return res.status(400).json({ error: 'Le pseudo est requis' });
     }
 
-    // Hash password
-    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+    const userEmail = email || `${userDisplayName.toLowerCase().replace(/[^a-z0-9]/g, '')}_${Date.now()}@gmhelper.local`;
 
-    // Create user
+    const existing = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: userEmail },
+          { displayName: userDisplayName },
+        ],
+      },
+    });
+    if (existing) {
+      return res.status(409).json({ error: 'Ce pseudo est déjà utilisé' });
+    }
+
+    const passwordHash = password ? await bcrypt.hash(password, SALT_ROUNDS) : null;
+
     const user = await prisma.user.create({
-      data: { email, passwordHash, displayName },
-      select: { id: true, email: true, displayName: true, createdAt: true },
+      data: {
+        email: userEmail,
+        passwordHash,
+        displayName: userDisplayName,
+        firstName: firstName || null,
+        lastName: lastName || null,
+      },
+      select: {
+        id: true,
+        email: true,
+        displayName: true,
+        firstName: true,
+        lastName: true,
+        createdAt: true,
+      },
     });
 
-    // Generate tokens
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken();
 
-    // Store refresh token
     const refreshExpiry = new Date();
-    refreshExpiry.setDate(refreshExpiry.getDate() + 7); // 7 days
+    refreshExpiry.setDate(refreshExpiry.getDate() + 7);
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,
@@ -63,12 +91,11 @@ router.post('/register', validate(registerSchema), async (req, res) => {
       },
     });
 
-    // Set refresh token as httpOnly cookie
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       path: '/api/v1/auth',
     });
 
@@ -88,35 +115,46 @@ router.post('/register', validate(registerSchema), async (req, res) => {
 router.post('/login', validate(loginSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
-    const { email, password } = req.body;
+    const { email, pseudo, password } = req.body;
+    const identifier = pseudo || email;
 
-    // Find user
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+    if (!identifier) {
+      return res.status(400).json({ error: 'Identifiant (pseudo ou email) requis' });
     }
 
-    // Verify password
-    const valid = await bcrypt.compare(password, user.passwordHash);
-    if (!valid) {
-      return res.status(401).json({ error: 'Invalid email or password' });
-    }
-
-    // Generate tokens
-    const accessToken = generateAccessToken({
-      id: user.id,
-      email: user.email,
-      displayName: user.displayName,
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: identifier },
+          { displayName: identifier },
+        ],
+      },
     });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Utilisateur introuvable' });
+    }
+
+    if (user.passwordHash) {
+      if (!password) {
+        return res.status(401).json({ error: 'Mot de passe requis pour ce compte' });
+      }
+      const valid = await bcrypt.compare(password, user.passwordHash);
+      if (!valid) {
+        return res.status(401).json({ error: 'Mot de passe incorrect' });
+      }
+    }
+
+    const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken();
 
-    // Store refresh token (clean up old ones first)
     await prisma.refreshToken.deleteMany({
       where: {
         userId: user.id,
         expiresAt: { lt: new Date() },
       },
     });
+
     const refreshExpiry = new Date();
     refreshExpiry.setDate(refreshExpiry.getDate() + 7);
     await prisma.refreshToken.create({
@@ -127,7 +165,6 @@ router.post('/login', validate(loginSchema), async (req, res) => {
       },
     });
 
-    // Set refresh token cookie
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -141,6 +178,8 @@ router.post('/login', validate(loginSchema), async (req, res) => {
         id: user.id,
         email: user.email,
         displayName: user.displayName,
+        firstName: user.firstName,
+        lastName: user.lastName,
       },
       accessToken,
     });
@@ -246,6 +285,8 @@ router.get('/me', verifyToken, async (req, res) => {
         id: true,
         email: true,
         displayName: true,
+        firstName: true,
+        lastName: true,
         createdAt: true,
         memberships: {
           select: {

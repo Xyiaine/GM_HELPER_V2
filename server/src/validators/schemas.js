@@ -6,14 +6,18 @@ const { z } = require('zod');
 // ============================================================
 
 const registerSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  displayName: z.string().min(1, 'Display name is required').max(50),
+  firstName: z.string().min(1, 'Le prénom est requis').max(50),
+  lastName: z.string().min(1, 'Le nom est requis').max(50),
+  pseudo: z.string().min(1).max(50).optional(),
+  displayName: z.string().min(1).max(50).optional(),
+  email: z.string().email('Invalid email address').optional(),
+  password: z.string().optional(),
 });
 
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
+  email: z.string().optional(),
+  pseudo: z.string().optional(),
+  password: z.string().optional(),
 });
 
 // ============================================================
