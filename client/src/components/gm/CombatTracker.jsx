@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useGmStore } from '../../store/gmStore';
 import {
   Swords,
@@ -16,6 +17,10 @@ import {
   CheckCircle2,
   Trash2,
   ChevronRight,
+  RefreshCw,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 
 const CONDITIONS_DND5E = [
@@ -36,6 +41,9 @@ const CONDITIONS_DND5E = [
 ];
 
 export default function CombatTracker() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     activeCampaignId,
     encounters = [],
@@ -46,6 +54,8 @@ export default function CombatTracker() {
     vehicles = [],
     fetchEncounters,
     fetchEncounterDetail,
+    syncPcsInEncounter,
+    resetEncounter,
     createEncounter,
     addCombatantsBulk,
     updateCombatantInCombat,
@@ -64,6 +74,60 @@ export default function CombatTracker() {
   const [selectedEncounterId, setSelectedEncounterId] = useState(null);
   const [newEncounterName, setNewEncounterName] = useState('');
   const [isCreatingEncounter, setIsCreatingEncounter] = useState(false);
+  const [isSyncingPcs, setIsSyncingPcs] = useState(false);
+  const [expandedStatBlocks, setExpandedStatBlocks] = useState(new Set());
+
+  const toggleStatBlock = (id) => {
+    setExpandedStatBlocks((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const getEntityStatBlock = (combatant) => {
+    const rawName = combatant.name ? combatant.name.replace(/\s+#\d+$/, '').trim() : '';
+
+    if (combatant.sourceType === 'bestiary' || combatant.type === 'monster') {
+      let found = bestiary.find((b) => b.id === combatant.sourceId || b.id === combatant.bestiaryId);
+      if (!found && rawName) {
+        found = bestiary.find((b) => b.name.toLowerCase() === rawName.toLowerCase());
+      }
+      if (found) return found;
+    }
+
+    if (combatant.sourceType === 'npc' || combatant.type === 'npc') {
+      let found = npcs.find((n) => n.id === combatant.sourceId || n.id === combatant.npcId);
+      if (!found && rawName) {
+        found = npcs.find((n) => n.name.toLowerCase() === rawName.toLowerCase());
+      }
+      if (found) return found;
+    }
+
+    // General fallback: try matching by name in bestiary, then npcs
+    if (rawName) {
+      const bMatch = bestiary.find((b) => b.name.toLowerCase() === rawName.toLowerCase());
+      if (bMatch) return bMatch;
+      const nMatch = npcs.find((n) => n.name.toLowerCase() === rawName.toLowerCase());
+      if (nMatch) return nMatch;
+    }
+
+    return null;
+  };
+
+  const tryParseJSON = (data, fallback = null) => {
+    if (!data) return fallback;
+    if (typeof data === 'object') return data;
+    try {
+      return JSON.parse(data);
+    } catch (e) {
+      return fallback;
+    }
+  };
 
   // Participant selection state for Phase 1
   const [selectedSourceType, setSelectedSourceType] = useState('character');
@@ -90,7 +154,19 @@ export default function CombatTracker() {
     }
   }, [activeCampaignId, fetchEncounters, fetchCharacters, fetchNpcs, fetchBestiary, fetchVehicles]);
 
-  // Select active or first encounter when list loads
+  // Deep linking: read encounterId from URL query params
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const urlEncounterId = searchParams.get('encounterId');
+    if (urlEncounterId && activeCampaignId) {
+      setSelectedEncounterId(urlEncounterId);
+      fetchEncounterDetail(activeCampaignId, urlEncounterId);
+      // Clean up URL query param
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.search, activeCampaignId, fetchEncounterDetail, navigate, location.pathname]);
+
+  // Select active or first encounter when list loads if no encounter selected
   useEffect(() => {
     const list = encounters || [];
     if (list.length > 0 && !selectedEncounterId) {
@@ -222,8 +298,58 @@ export default function CombatTracker() {
     return <Skull size={16} color="#ef4444" />;
   };
 
+  const handleSyncPcs = async () => {
+    if (!activeEncounter || !activeCampaignId) return;
+    try {
+      setIsSyncingPcs(true);
+      await syncPcsInEncounter(activeCampaignId, activeEncounter.id);
+    } catch (err) {
+      console.error('Failed to sync PCs:', err);
+    } finally {
+      setIsSyncingPcs(false);
+    }
+  };
+
+  const handleResetEncounter = async () => {
+    if (!activeEncounter || !activeCampaignId) return;
+    const confirmReset = window.confirm(
+      "Voulez-vous vraiment recommencer ce combat depuis le début ?\n\n- Tous les combattants récupéreront leurs PV maximum.\n- Les initiatives et conditions seront réinitialisées.\n- Le combat repassera à l'étape 1 (Préparation)."
+    );
+    if (!confirmReset) return;
+
+    try {
+      await resetEncounter(activeCampaignId, activeEncounter.id);
+    } catch (err) {
+      console.error('Failed to reset encounter:', err);
+    }
+  };
+
   const encountersList = encounters || [];
   const currentPhase = activeEncounter ? (activeEncounter.phase || activeEncounter.status || 'planned') : 'planned';
+
+  // Group encounters
+  const activeQuestEncounters = encountersList.filter(
+    (e) => e.status !== 'completed' && e.questNode?.quest?.status === 'active'
+  );
+  const otherQuestEncounters = encountersList.filter(
+    (e) => e.status !== 'completed' && e.questNode && e.questNode?.quest?.status !== 'active'
+  );
+  const freeEncounters = encountersList.filter(
+    (e) => e.status !== 'completed' && !e.questNode
+  );
+  const completedEncounters = encountersList.filter(
+    (e) => e.status === 'completed'
+  );
+
+  const renderOption = (enc) => {
+    const pStr = (enc.phase || enc.status || 'planned').toUpperCase();
+    const count = enc._count?.combatants || enc.combatants?.length || 0;
+    return (
+      <option key={enc.id} value={enc.id}>
+        {enc.name} [{pStr}] ({count} combattants)
+      </option>
+    );
+  };
 
   return (
     <div style={{ padding: '24px', maxWidth: '1400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -253,15 +379,30 @@ export default function CombatTracker() {
             }}
           >
             {encountersList.length === 0 && <option value="">Aucune rencontre enregistrée</option>}
-            {encountersList.map((enc) => {
-              const pStr = (enc.phase || enc.status || 'planned').toUpperCase();
-              const count = enc._count?.combatants || enc.combatants?.length || 0;
-              return (
-                <option key={enc.id} value={enc.id}>
-                  {enc.name} [{pStr}] ({count} combattants)
-                </option>
-              );
-            })}
+
+            {activeQuestEncounters.length > 0 && (
+              <optgroup label="⚡ Quêtes Actives">
+                {activeQuestEncounters.map(renderOption)}
+              </optgroup>
+            )}
+
+            {otherQuestEncounters.length > 0 && (
+              <optgroup label="📜 Autres Quêtes">
+                {otherQuestEncounters.map(renderOption)}
+              </optgroup>
+            )}
+
+            {freeEncounters.length > 0 && (
+              <optgroup label="⚔️ Rencontres Libres">
+                {freeEncounters.map(renderOption)}
+              </optgroup>
+            )}
+
+            {completedEncounters.length > 0 && (
+              <optgroup label="✅ Combats Terminés">
+                {completedEncounters.map(renderOption)}
+              </optgroup>
+            )}
           </select>
 
           <button
@@ -273,6 +414,70 @@ export default function CombatTracker() {
           </button>
         </div>
       </header>
+
+      {/* Quest Context Banner */}
+      {activeEncounter?.questNode && (
+        <div style={{
+          padding: '12px 16px',
+          borderRadius: '8px',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          border: '1px solid rgba(59, 130, 246, 0.3)',
+          display: 'flex',
+          justify: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
+          <div>
+            <span style={{ fontSize: '0.85rem', color: '#60a5fa', fontWeight: 'bold', textTransform: 'uppercase' }}>
+              📜 Quête liée : {activeEncounter.questNode.quest?.name || 'Quête active'}
+            </span>
+            <div style={{ fontSize: '1rem', fontWeight: '500', marginTop: '2px', color: 'var(--color-text)' }}>
+              Nœud : {activeEncounter.questNode.displayCode ? `${activeEncounter.questNode.displayCode} — ` : ''}{activeEncounter.questNode.title}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={handleSyncPcs}
+              disabled={isSyncingPcs}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '6px',
+                backgroundColor: 'var(--color-surface)',
+                border: '1px solid var(--color-border)',
+                color: 'var(--color-text)',
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <RefreshCw size={14} className={isSyncingPcs ? 'spin' : ''} />
+              {isSyncingPcs ? 'Synchronisation...' : 'Resynchroniser les PJ'}
+            </button>
+
+            <button
+              onClick={handleResetEncounter}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '6px',
+                backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                border: '1px solid #ef4444',
+                color: '#ef4444',
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <RefreshCw size={14} /> Recommencer le combat
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Modal create encounter */}
       {isCreatingEncounter && (
@@ -576,7 +781,23 @@ export default function CombatTracker() {
               </div>
 
               {/* Action buttons to proceed */}
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', flexWrap: 'wrap' }}>
+                <button
+                  onClick={handleResetEncounter}
+                  style={{
+                    padding: '10px 18px',
+                    borderRadius: '6px',
+                    border: '1px solid #ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    color: '#ef4444',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <RefreshCw size={16} /> Recommencer le combat
+                </button>
                 <button
                   onClick={() => startSurpriseCheck(activeCampaignId, activeEncounter.id)}
                   style={{
@@ -749,6 +970,22 @@ export default function CombatTracker() {
 
                 <div style={{ display: 'flex', gap: '12px' }}>
                   <button
+                    onClick={handleResetEncounter}
+                    style={{
+                      padding: '8px 16px',
+                      borderRadius: '6px',
+                      border: '1px solid #ef4444',
+                      backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                      color: '#ef4444',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <RefreshCw size={16} /> Recommencer le Combat
+                  </button>
+                  <button
                     onClick={() => nextTurnInCombat(activeCampaignId, activeEncounter.id)}
                     className="btn-primary"
                     style={{ padding: '8px 18px', display: 'flex', alignItems: 'center', gap: '8px' }}
@@ -760,9 +997,9 @@ export default function CombatTracker() {
                     style={{
                       padding: '8px 16px',
                       borderRadius: '6px',
-                      border: '1px solid #ef4444',
-                      backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                      color: '#ef4444',
+                      border: '1px solid var(--color-border)',
+                      backgroundColor: 'var(--color-surface)',
+                      color: 'var(--color-text)',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -888,7 +1125,138 @@ export default function CombatTracker() {
                             </button>
                           );
                         })}
+
+                        {/* Stat Block Toggle Button */}
+                        {(c.sourceType === 'bestiary' || c.sourceType === 'npc') && (
+                          <button
+                            onClick={() => toggleStatBlock(c.id)}
+                            style={{
+                              marginLeft: 'auto',
+                              padding: '4px 10px',
+                              borderRadius: '6px',
+                              border: '1px solid var(--color-border)',
+                              backgroundColor: expandedStatBlocks.has(c.id) ? 'rgba(59, 130, 246, 0.2)' : 'transparent',
+                              color: expandedStatBlocks.has(c.id) ? '#60a5fa' : 'var(--color-text-muted)',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontSize: '0.8rem',
+                            }}
+                          >
+                            <BookOpen size={14} />
+                            Stats
+                            {expandedStatBlocks.has(c.id) ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                          </button>
+                        )}
                       </div>
+
+                      {/* Expanded Stat Block Panel */}
+                      {expandedStatBlocks.has(c.id) && (() => {
+                        const entity = getEntityStatBlock(c);
+                        if (!entity) {
+                          return (
+                            <div style={{ padding: '8px 12px', borderRadius: '6px', backgroundColor: 'var(--color-background)', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
+                              Aucune donnée de statistiques disponible pour cette entité.
+                            </div>
+                          );
+                        }
+
+                        const stats = tryParseJSON(entity.stats, { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 });
+                        const attacks = tryParseJSON(entity.attacks, []);
+                        const traits = tryParseJSON(entity.traits, []);
+
+                        return (
+                          <div style={{
+                            marginTop: '8px',
+                            padding: '12px',
+                            borderRadius: '6px',
+                            backgroundColor: 'var(--color-background)',
+                            border: '1px solid var(--color-border)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '10px',
+                            fontSize: '0.85rem',
+                          }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--color-border)', paddingBottom: '4px' }}>
+                              <strong>{entity.name} ({entity.category || 'Créature'})</strong>
+                              <span>Vitesse: {entity.speed || '9m'} | FP: {entity.challengeRating ?? 'N/A'}</span>
+                            </div>
+
+                            {/* Attributes table */}
+                            {stats && (
+                              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '6px', textAlign: 'center', backgroundColor: 'var(--color-surface)', padding: '6px', borderRadius: '4px' }}>
+                                <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>FOR</div><strong>{stats.str ?? 10}</strong></div>
+                                <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>DEX</div><strong>{stats.dex ?? 10}</strong></div>
+                                <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>CON</div><strong>{stats.con ?? 10}</strong></div>
+                                <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>INT</div><strong>{stats.int ?? 10}</strong></div>
+                                <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>SAG</div><strong>{stats.wis ?? 10}</strong></div>
+                                <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>CHA</div><strong>{stats.cha ?? 10}</strong></div>
+                              </div>
+                            )}
+
+                            {/* Traits */}
+                            {traits && (
+                              <div>
+                                <span style={{ fontWeight: 'bold', color: 'var(--color-primary)' }}>Capacités Spéciales / Traits :</span>
+                                {Array.isArray(traits) ? (
+                                  <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+                                    {traits.map((t, idx) => (
+                                      <li key={idx}><strong>{t.name || `Trait ${idx + 1}`}:</strong> {t.description || t.text || (typeof t === 'object' ? JSON.stringify(t) : String(t))}</li>
+                                    ))}
+                                  </ul>
+                                ) : typeof traits === 'object' && traits !== null ? (
+                                  <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+                                    {Object.entries(traits).map(([key, val]) => (
+                                      <li key={key}>
+                                        <strong style={{ textTransform: 'capitalize' }}>{key} : </strong>
+                                        {Array.isArray(val) ? (
+                                          <ul style={{ margin: '2px 0 0 16px', padding: 0 }}>
+                                            {val.map((item, i) => (
+                                              <li key={i}>{typeof item === 'object' ? JSON.stringify(item) : String(item)}</li>
+                                            ))}
+                                          </ul>
+                                        ) : typeof val === 'object' && val !== null ? (
+                                          JSON.stringify(val)
+                                        ) : (
+                                          String(val)
+                                        )}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <div style={{ margin: '4px 0 0 0' }}>{String(traits)}</div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Attacks */}
+                            {attacks && (Array.isArray(attacks) ? attacks.length > 0 : true) && (
+                              <div>
+                                <span style={{ fontWeight: 'bold', color: '#ef4444' }}>Attaques / Actions :</span>
+                                {Array.isArray(attacks) ? (
+                                  <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+                                    {attacks.map((att, idx) => (
+                                      <li key={idx}>
+                                        <strong>{att.name}</strong> {att.bonus ? `(+${att.bonus} à tout)` : ''} : {att.damage ? `Dégâts ${att.damage}` : ''} {att.range ? `(Portée ${att.range})` : ''} {att.description ? `- ${att.description}` : ''}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <div style={{ margin: '4px 0 0 0' }}>{typeof attacks === 'string' ? attacks : JSON.stringify(attacks)}</div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Description */}
+                            {entity.description && (
+                              <div style={{ fontStyle: 'italic', color: 'var(--color-text-muted)', marginTop: '4px' }}>
+                                {entity.description}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </div>
                   );
                 })}
@@ -919,7 +1287,23 @@ export default function CombatTracker() {
                 ))}
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '16px' }}>
+                <button
+                  onClick={handleResetEncounter}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '6px',
+                    border: '1px solid #ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    color: '#ef4444',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <RefreshCw size={16} /> Recommencer ce Combat
+                </button>
                 <button
                   className="btn-primary"
                   onClick={() => setIsCreatingEncounter(true)}

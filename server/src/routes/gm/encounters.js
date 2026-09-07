@@ -77,6 +77,14 @@ router.get('/', async (req, res) => {
       where: { campaignId: req.campaignId },
       include: {
         location: { select: { id: true, name: true } },
+        questNode: {
+          select: {
+            id: true,
+            title: true,
+            displayCode: true,
+            quest: { select: { id: true, name: true, status: true } },
+          },
+        },
         _count: { select: { combatants: true } },
       },
       orderBy: { updatedAt: 'desc' },
@@ -229,17 +237,48 @@ router.post('/:id/combatants/bulk', validate(bulkAddCombatantsSchema), async (re
             cCharacterId = char.id;
             cVisibleToPlayers = true;
           }
-        } else if (item.sourceType === 'npc' && item.sourceId) {
-          const npc = await prisma.npc.findFirst({
-            where: { id: item.sourceId, campaignId: req.campaignId },
-            include: { bestiary: true },
-          });
+        } else if (item.sourceType === 'bestiary') {
+          let beast = null;
+          if (item.sourceId) {
+            beast = await prisma.bestiary.findFirst({
+              where: { id: item.sourceId, campaignId: req.campaignId },
+            });
+          }
+          if (!beast && (item.name || item.sourceId)) {
+            beast = await prisma.bestiary.findFirst({
+              where: { campaignId: req.campaignId, name: item.name || item.sourceId },
+            });
+          }
+          if (beast) {
+            const suffix = count > 1 ? ` ${i + 1}` : '';
+            cName = (item.name || beast.name) + suffix;
+            cType = 'monster';
+            cBestiaryId = beast.id;
+            cSourceId = beast.id;
+            cArmorClass = beast.armorClass || 10;
+            cHpMax = beast.hpMax || 10;
+            cHpCurrent = beast.hpMax || 10;
+          }
+        } else if (item.sourceType === 'npc') {
+          let npc = null;
+          if (item.sourceId) {
+            npc = await prisma.npc.findFirst({
+              where: { id: item.sourceId, campaignId: req.campaignId },
+              include: { bestiary: true },
+            });
+          }
+          if (!npc && (item.name || item.sourceId)) {
+            npc = await prisma.npc.findFirst({
+              where: { campaignId: req.campaignId, name: item.name || item.sourceId },
+              include: { bestiary: true },
+            });
+          }
           if (npc) {
-            cName = cName || npc.name;
+            cName = item.name || npc.name;
             cType = 'npc';
             cNpcId = npc.id;
-            
-            // Priority resolution: NPC proper stats > Linked Bestiary > NPC JSON stats > Default
+            cSourceId = npc.id;
+
             if (npc.armorClass !== null && npc.armorClass !== undefined) {
               cArmorClass = npc.armorClass;
             } else if (npc.bestiary && npc.bestiary.armorClass) {
@@ -258,19 +297,6 @@ router.post('/:id/combatants/bulk', validate(bulkAddCombatantsSchema), async (re
               cHpMax = 10;
               cHpCurrent = 10;
             }
-          }
-        } else if (item.sourceType === 'bestiary' && item.sourceId) {
-          const beast = await prisma.bestiary.findFirst({
-            where: { id: item.sourceId, campaignId: req.campaignId },
-          });
-          if (beast) {
-            const suffix = count > 1 ? ` ${i + 1}` : '';
-            cName = (cName || beast.name) + suffix;
-            cType = 'monster';
-            cBestiaryId = beast.id;
-            cArmorClass = beast.armorClass || 10;
-            cHpMax = beast.hpMax || 10;
-            cHpCurrent = beast.hpMax || 10;
           }
         } else if (item.sourceType === 'vehicle' && item.sourceId) {
           const vehicle = await prisma.vehicle.findFirst({
@@ -617,6 +643,152 @@ router.post('/:id/end-combat', async (req, res) => {
   } catch (err) {
     console.error('End combat error:', err);
     res.status(500).json({ error: 'Failed to end combat' });
+  }
+});
+
+// POST /:id/sync-pcs — Sync PCs HP/AC from Character table into combatants
+router.post('/:id/sync-pcs', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const encounter = await prisma.encounter.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId },
+      include: { combatants: true },
+    });
+    if (!encounter) return res.status(404).json({ error: 'Encounter not found' });
+
+    const pcs = await prisma.character.findMany({
+      where: { campaignId: req.campaignId },
+      select: { id: true, name: true, hpCurrent: true, hpMax: true, armorClass: true },
+    });
+
+    for (const pc of pcs) {
+      const existing = encounter.combatants.find(
+        c => c.characterId === pc.id || (c.type === 'character' && c.name === pc.name)
+      );
+
+      if (existing) {
+        await prisma.encounterCombatant.update({
+          where: { id: existing.id },
+          data: {
+            hpCurrent: pc.hpCurrent || existing.hpCurrent,
+            hpMax: pc.hpMax || existing.hpMax,
+            armorClass: pc.armorClass || existing.armorClass,
+          },
+        });
+      } else {
+        await prisma.encounterCombatant.create({
+          data: {
+            encounterId: encounter.id,
+            name: pc.name,
+            type: 'character',
+            sourceType: 'character',
+            characterId: pc.id,
+            hpCurrent: pc.hpCurrent || 10,
+            hpMax: pc.hpMax || 10,
+            armorClass: pc.armorClass || 10,
+            isVisibleToPlayers: true,
+          },
+        });
+      }
+    }
+
+    const updatedEncounter = await prisma.encounter.findFirst({
+      where: { id: req.params.id },
+      include: {
+        location: { select: { id: true, name: true } },
+        questNode: {
+          select: {
+            id: true,
+            title: true,
+            displayCode: true,
+            quest: { select: { id: true, name: true, status: true } },
+          },
+        },
+        combatants: {
+          orderBy: [{ initiative: 'desc' }, { orderIndex: 'asc' }],
+          include: {
+            character: { select: { id: true, name: true, armorClass: true, hpCurrent: true, hpMax: true } },
+            npc: { select: { id: true, name: true, armorClass: true, hpMax: true, hpCurrent: true } },
+            bestiary: { select: { id: true, name: true, armorClass: true, hpMax: true } },
+          },
+        },
+      },
+    });
+
+    const io = req.app.get('io');
+    emitEncounterState(io, req.campaignId, updatedEncounter);
+
+    res.json({ encounter: updatedEncounter });
+  } catch (err) {
+    console.error('Sync PCs error:', err);
+    res.status(500).json({ error: 'Failed to sync PCs' });
+  }
+});
+
+// POST /:id/reset — Reset encounter back to preparation phase with full HP and cleared statuses
+router.post('/:id/reset', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const encounter = await prisma.encounter.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId },
+      include: { combatants: true },
+    });
+    if (!encounter) return res.status(404).json({ error: 'Encounter not found' });
+
+    // Reset encounter state
+    await prisma.encounter.update({
+      where: { id: encounter.id },
+      data: {
+        status: 'planned',
+        phase: 'planned',
+        currentRound: 0,
+        currentTurnIndex: 0,
+      },
+    });
+
+    // Reset combatants (Full HP, 0 initiative, no surprise, no conditions)
+    for (const c of encounter.combatants) {
+      await prisma.encounterCombatant.update({
+        where: { id: c.id },
+        data: {
+          hpCurrent: c.hpMax,
+          initiative: 0,
+          isSurprised: false,
+          conditions: '[]',
+        },
+      });
+    }
+
+    const updatedEncounter = await prisma.encounter.findFirst({
+      where: { id: req.params.id },
+      include: {
+        location: { select: { id: true, name: true } },
+        questNode: {
+          select: {
+            id: true,
+            title: true,
+            displayCode: true,
+            quest: { select: { id: true, name: true, status: true } },
+          },
+        },
+        combatants: {
+          orderBy: [{ initiative: 'desc' }, { orderIndex: 'asc' }],
+          include: {
+            character: { select: { id: true, name: true, armorClass: true, hpCurrent: true, hpMax: true } },
+            npc: { select: { id: true, name: true, armorClass: true, hpMax: true, hpCurrent: true } },
+            bestiary: { select: { id: true, name: true, armorClass: true, hpMax: true } },
+          },
+        },
+      },
+    });
+
+    const io = req.app.get('io');
+    emitEncounterState(io, req.campaignId, updatedEncounter);
+
+    res.json({ encounter: updatedEncounter });
+  } catch (err) {
+    console.error('Reset encounter error:', err);
+    res.status(500).json({ error: 'Failed to reset encounter' });
   }
 });
 

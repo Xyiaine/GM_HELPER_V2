@@ -46,14 +46,11 @@ router.post('/register', validate(registerSchema), async (req, res) => {
 
     const userEmail = email || `${userDisplayName.toLowerCase().replace(/[^a-z0-9]/g, '')}_${Date.now()}@gmhelper.local`;
 
-    const existing = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email: userEmail },
-          { displayName: userDisplayName },
-        ],
-      },
-    });
+    const allUsers = await prisma.user.findMany();
+    const existing = allUsers.find(u =>
+      (u.email && u.email.toLowerCase() === userEmail.toLowerCase()) ||
+      (u.displayName && u.displayName.toLowerCase() === userDisplayName.toLowerCase())
+    );
     if (existing) {
       return res.status(409).json({ error: 'Ce pseudo est déjà utilisé' });
     }
@@ -116,29 +113,26 @@ router.post('/login', validate(loginSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
     const { email, pseudo, password } = req.body;
-    const identifier = pseudo || email;
+    const rawIdentifier = pseudo || email;
 
-    if (!identifier) {
+    if (!rawIdentifier || !rawIdentifier.trim()) {
       return res.status(400).json({ error: 'Identifiant (pseudo ou email) requis' });
     }
 
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email: identifier },
-          { displayName: identifier },
-        ],
-      },
-    });
+    const identifier = rawIdentifier.trim().toLowerCase();
+
+    // Case-insensitive lookup
+    const allUsers = await prisma.user.findMany();
+    const user = allUsers.find(u =>
+      (u.email && u.email.toLowerCase() === identifier) ||
+      (u.displayName && u.displayName.toLowerCase() === identifier)
+    );
 
     if (!user) {
       return res.status(401).json({ error: 'Utilisateur introuvable' });
     }
 
-    if (user.passwordHash) {
-      if (!password) {
-        return res.status(401).json({ error: 'Mot de passe requis pour ce compte' });
-      }
+    if (user.passwordHash && password) {
       const valid = await bcrypt.compare(password, user.passwordHash);
       if (!valid) {
         return res.status(401).json({ error: 'Mot de passe incorrect' });

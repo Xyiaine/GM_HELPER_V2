@@ -2,200 +2,219 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('--- Initialisation de la Bibliothèque de Véhicules et Personnages ---');
+  console.log('--- Initialisation de la Bibliothèque d\'Armes, Armures et Véhicules ---');
 
-  // Trouver un utilisateur (le premier GM) pour être propriétaire
   const user = await prisma.user.findFirst();
   if (!user) {
-    console.error('Aucun utilisateur trouvé. Veuillez créer un compte via l\'interface d\'abord.');
+    console.error('Aucun utilisateur trouvé.');
     process.exit(1);
   }
 
-  // Trouver ou créer une campagne pour stocker ces éléments
   let campaign = await prisma.campaign.findFirst({
-    where: { name: 'Campagne de Démonstration' }
+    where: { name: "Chroniques de l'Apocalypse" }
   });
 
   if (!campaign) {
-    campaign = await prisma.campaign.create({
-      data: {
-        name: 'Campagne de Démonstration',
-        description: 'Campagne générée automatiquement pour tester les véhicules et les personnages.',
-        gameSystem: '5e Hybrid',
-        gmUserId: user.id,
-        memberships: {
-          create: {
-            userId: user.id,
-            role: 'GM',
-            status: 'active'
-          }
-        }
-      }
+    campaign = await prisma.campaign.findFirst();
+  }
+
+  if (!campaign) {
+    console.error("Aucune campagne trouvée.");
+    process.exit(1);
+  }
+
+  // --- ARMES ET ARMURES (Manuel Armes & Armures v2) ---
+  const items = [
+    // Mêlée
+    {
+      name: "Lame courte",
+      type: "weapon",
+      rarity: "common",
+      description: "Couteau de poche, lame de survie, tournevis affûté.",
+      value: 15,
+      weight: 0.5,
+      properties: JSON.stringify({
+        category: "mêlée simple",
+        damage: "1d4 perforant",
+        properties: ["légère", "finesse", "lancer (6/18m)"],
+        etat: 0, // Fonctionnel
+        plafondEtat: "+2"
+      })
+    },
+    {
+      name: "Lame longue",
+      type: "weapon",
+      rarity: "common",
+      description: "Épée récupérée, machette de récolte reforgée.",
+      value: 30,
+      weight: 1.5,
+      properties: JSON.stringify({
+        category: "mêlée martiale",
+        damage: "1d8 tranchant (1d10 à 2 mains)",
+        properties: ["polyvalente"],
+        etat: 0,
+        plafondEtat: "+2"
+      })
+    },
+    {
+      name: "Masse de forge",
+      type: "weapon",
+      rarity: "uncommon",
+      description: "Marteau-piqueur reconverti, masse de démolition.",
+      value: 50,
+      weight: 5.0,
+      properties: JSON.stringify({
+        category: "mêlée martiale lourde",
+        damage: "2d6 contondant",
+        properties: ["lourde", "deux mains"],
+        etat: 0,
+        plafondEtat: "+2"
+      })
+    },
+    // Armes à distance & Automatiques
+    {
+      name: "Pistolet léger",
+      type: "weapon",
+      rarity: "common",
+      description: "Arme de poing 9mm ou .38 récupérée ou assemblée.",
+      value: 60,
+      weight: 1.0,
+      properties: JSON.stringify({
+        category: "distance simple",
+        damage: "1d6 perforant",
+        range: "12/36m",
+        chargeur: 12,
+        munitionsPortees: 36,
+        properties: ["légère", "munitions"],
+        etat: 0,
+        plafondEtat: "+2"
+      })
+    },
+    {
+      name: "Mitrailleuse légère",
+      type: "weapon",
+      rarity: "rare",
+      description: "Arme automatique à forte cadence de tir.",
+      value: 200,
+      weight: 7.0,
+      properties: JSON.stringify({
+        category: "distance automatique",
+        damage: "6d4 perforant",
+        range: "24/72m",
+        chargeur: 30,
+        munitionsPortees: 120,
+        properties: ["lourde", "deux mains", "rafale"],
+        noteAbsorption: "Dégâts étalés sur 6d4 - fortement réduits par l'Absorption des armures lourdes",
+        etat: 0,
+        plafondEtat: "+2"
+      })
+    },
+    {
+      name: "Fusil de précision antimatériel",
+      type: "weapon",
+      rarity: "very_rare",
+      description: "Fusil de précision lourd perçant le blindage des véhicules et armures.",
+      value: 400,
+      weight: 9.0,
+      properties: JSON.stringify({
+        category: "distance précision",
+        damage: "1d20 perforant",
+        range: "60/180m",
+        chargeur: 5,
+        munitionsPortees: 20,
+        properties: ["lourde", "deux mains", "chargement", "critique 19-20"],
+        noteAbsorption: "Dégâts concentrés sur 1d20 - peu impacté par l'Absorption",
+        etat: 0,
+        plafondEtat: "+3"
+      })
+    },
+    // Armures avec mécanique d'Absorption
+    {
+      name: "Gilet en cuir renforcé",
+      type: "armor",
+      rarity: "common",
+      description: "Protections en cuir bouilli et bandes de caoutchouc.",
+      value: 45,
+      weight: 4.0,
+      properties: JSON.stringify({
+        armorClass: 12,
+        dexBonus: "complet",
+        absorption: 0,
+        etat: 0,
+        plafondEtat: "+1"
+      })
+    },
+    {
+      name: "Kevlar tactique d'avant-guerre",
+      type: "armor",
+      rarity: "uncommon",
+      description: "Gilet tactique léger d'unités d'intervention pré-guerre.",
+      value: 120,
+      weight: 6.0,
+      properties: JSON.stringify({
+        armorClass: 14,
+        dexBonus: "max 2",
+        absorption: 1, // Réduit chaque dé de dégâts subis de 1
+        noteAbsorption: "Soustrait 1 à chaque dé de dégâts subis (min 0)",
+        etat: 0,
+        plafondEtat: "+2"
+      })
+    },
+    {
+      name: "Harnais de Plaques de Titan",
+      type: "armor",
+      rarity: "rare",
+      description: "Armure lourde assemblée à partir de plaques de blindage de chars.",
+      value: 350,
+      weight: 20.0,
+      properties: JSON.stringify({
+        armorClass: 18,
+        dexBonus: "aucun",
+        absorption: 3, // Réduit chaque dé de dégâts subis de 3
+        stealthDisadvantage: true,
+        strRequirement: 15,
+        noteAbsorption: "Soustrait 3 à chaque dé de dégâts subis (min 0) - bloque quasi-totalement les tir automatiques",
+        etat: 0,
+        plafondEtat: "+3"
+      })
+    }
+  ];
+
+  console.log("Seeding Items, Weapons & Armors...");
+  for (const item of items) {
+    const existing = await prisma.item.findFirst({
+      where: { campaignId: campaign.id, name: item.name }
     });
-    console.log(`Campagne créée: ${campaign.name}`);
-  } else {
-    console.log(`Campagne trouvée: ${campaign.name}`);
-  }
 
-  // --- VÉHICULES ---
-  const vehicles = [
-    {
-      name: 'Interceptor V8',
-      modelType: 'Voiture',
-      description: 'Un muscle car lourdement modifié pour le combat sur route.',
-      speedBase: 120,
-      acBase: 16,
-      hpMaxBase: 60,
-      hpCurrent: 60,
-      fuelMax: 80,
-      fuelCurrent: 80,
-      exhaustionLevel: 0,
-      tags: 'Rapide, Blindé'
-    },
-    {
-      name: 'Dune Buggy',
-      modelType: 'Voiture',
-      description: 'Léger et agile, idéal pour le hors-piste.',
-      speedBase: 90,
-      acBase: 12,
-      hpMaxBase: 35,
-      hpCurrent: 35,
-      fuelMax: 50,
-      fuelCurrent: 50,
-      exhaustionLevel: 0,
-      tags: 'Tout-terrain, Fragile'
-    },
-    {
-      name: 'Chasseur de Poussière',
-      modelType: 'Moto',
-      description: 'Une moto cross modifiée avec des pointes et un moteur suralimenté.',
-      speedBase: 140,
-      acBase: 14,
-      hpMaxBase: 25,
-      hpCurrent: 25,
-      fuelMax: 30,
-      fuelCurrent: 30,
-      exhaustionLevel: 0,
-      tags: 'Extrême, Dangereux'
-    },
-    {
-      name: 'Chopper Nomade',
-      modelType: 'Moto',
-      description: 'Lourde et stable, conçue pour les longs trajets sur les autoroutes désertes.',
-      speedBase: 110,
-      acBase: 15,
-      hpMaxBase: 40,
-      hpCurrent: 40,
-      fuelMax: 45,
-      fuelCurrent: 45,
-      exhaustionLevel: 0,
-      tags: 'Voyage, Robuste'
-    },
-    {
-      name: 'Béhémoth Cuirassé',
-      modelType: 'Camion',
-      description: 'Un camion blindé de transport lourd. Lent mais quasi-indestructible.',
-      speedBase: 60,
-      acBase: 19,
-      hpMaxBase: 150,
-      hpCurrent: 150,
-      fuelMax: 300,
-      fuelCurrent: 300,
-      exhaustionLevel: 0,
-      tags: 'Lent, Transport'
-    },
-    {
-      name: 'Camion-Citerne',
-      modelType: 'Camion',
-      description: 'Transporte de l\'eau ou du carburant. Une cible de choix pour les pillards.',
-      speedBase: 70,
-      acBase: 13,
-      hpMaxBase: 100,
-      hpCurrent: 100,
-      fuelMax: 200,
-      fuelCurrent: 200,
-      exhaustionLevel: 0,
-      tags: 'Précieux, Dangereux'
-    }
-  ];
-
-  for (const v of vehicles) {
-    // Vérifier si le véhicule existe déjà dans la campagne
-    const exists = await prisma.vehicle.findFirst({ where: { campaignId: campaign.id, name: v.name } });
-    if (!exists) {
-      await prisma.vehicle.create({
+    if (existing) {
+      await prisma.item.update({
+        where: { id: existing.id },
         data: {
-          ...v,
-          campaignId: campaign.id
+          type: item.type,
+          rarity: item.rarity,
+          description: item.description,
+          value: item.value,
+          weight: item.weight,
+          properties: item.properties
         }
       });
-    }
-  }
-  console.log('Véhicules ajoutés.');
-
-  // --- PERSONNAGES EXEMPLES ---
-  const characters = [
-    {
-      name: 'Rook le Mécano',
-      background: 'Ancien technicien de l\'Abri 42.',
-      strength: 14, dexterity: 12, constitution: 15, intelligence: 18, wisdom: 10, charisma: 8,
-      hpCurrent: 24, hpMax: 24, armorClass: 13, speed: 30,
-      level: 3, proficiencyBonus: 2,
-      class: JSON.stringify([{"id":"technologie","name":"Technologie","level":3,"pointsInvested":6}]),
-      unlockedSkills: JSON.stringify(["reparation_improviser", "bricolage_genial", "surcharge_moteur", "blindage_renforce", "piratage_basique", "drone_compagnon"]),
-      skills: JSON.stringify({ "investigation": 1, "sleight_of_hand": 1 }),
-      savingThrows: JSON.stringify({ "intelligence": true, "constitution": true })
-    },
-    {
-      name: 'Kael le Tireur',
-      background: 'Chasseur de primes solitaire.',
-      strength: 12, dexterity: 18, constitution: 14, intelligence: 10, wisdom: 16, charisma: 10,
-      hpCurrent: 52, hpMax: 52, armorClass: 16, speed: 40,
-      level: 6, proficiencyBonus: 3,
-      class: JSON.stringify([{"id":"combat_distance","name":"Combat à Distance","level":4,"pointsInvested":8}, {"id":"survie","name":"Survie","level":2,"pointsInvested":4}]),
-      unlockedSkills: JSON.stringify(["tir_precis", "rechargement_rapide", "sniper", "tir_couverture", "oeil_de_lynx", "pistolero", "double_tir", "munitions_perforantes", "pisteur", "chasseur", "resistance_froid", "endurance_desert"]),
-      skills: JSON.stringify({ "perception": 2, "stealth": 1, "survival": 1 }),
-      savingThrows: JSON.stringify({ "dexterity": true, "wisdom": true })
-    },
-    {
-      name: 'Doc',
-      background: 'Médecin de terrain de l\'Ancien Monde.',
-      strength: 8, dexterity: 14, constitution: 10, intelligence: 16, wisdom: 18, charisma: 14,
-      hpCurrent: 12, hpMax: 12, armorClass: 12, speed: 30,
-      level: 1, proficiencyBonus: 2,
-      class: JSON.stringify([{"id":"medecine","name":"Médecine","level":1,"pointsInvested":2}]),
-      unlockedSkills: JSON.stringify(["trousse_de_fortune", "sang_froid_rafistoleur"]),
-      skills: JSON.stringify({ "medicine": 2, "insight": 1 }),
-      savingThrows: JSON.stringify({ "wisdom": true, "intelligence": true })
-    },
-    {
-      name: 'Goliath',
-      background: 'Colosse génétiquement modifié pour la guerre.',
-      strength: 20, dexterity: 10, constitution: 18, intelligence: 8, wisdom: 10, charisma: 12,
-      hpCurrent: 105, hpMax: 105, armorClass: 18, speed: 25,
-      level: 10, proficiencyBonus: 4,
-      class: JSON.stringify([{"id":"combat_rapproche","name":"Combat Rapproché","level":7,"pointsInvested":14}, {"id":"defense","name":"Défense","level":3,"pointsInvested":6}]),
-      unlockedSkills: JSON.stringify(["frappe_lourde", "balayage", "charge_brutale", "coup_etourdissant", "brise_armure", "fureur_berserker", "tourbillon_lames", "peau_cuir", "blocage_parfait", "rempart_vivant", "provocation", "mur_acier", "infatigable", "titan_acier", "coup_critique", "saignement", "maitrise_masse", "frappe_tellurique", "soif_de_sang", "increvable"]),
-      skills: JSON.stringify({ "athletics": 2, "intimidation": 1 }),
-      savingThrows: JSON.stringify({ "strength": true, "constitution": true })
-    }
-  ];
-
-  for (const c of characters) {
-    const exists = await prisma.character.findFirst({ where: { campaignId: campaign.id, name: c.name } });
-    if (!exists) {
-      await prisma.character.create({
+    } else {
+      await prisma.item.create({
         data: {
-          ...c,
           campaignId: campaign.id,
-          ownerUserId: user.id
+          name: item.name,
+          type: item.type,
+          rarity: item.rarity,
+          description: item.description,
+          value: item.value,
+          weight: item.weight,
+          properties: item.properties
         }
       });
     }
   }
-  console.log('Personnages exemples ajoutés.');
 
-  console.log('--- Terminé ! ---');
+  console.log('--- Initialisation terminée avec succès ! ---');
 }
 
 main()

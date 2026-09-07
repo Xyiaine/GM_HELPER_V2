@@ -55,6 +55,7 @@ model Campaign {
   description String?
   coverImage  String?
   gameSystem  String   @default("Custom")
+  joinPassword String?
   gmUserId    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

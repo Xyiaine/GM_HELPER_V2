@@ -56,13 +56,14 @@ router.get('/', async (req, res) => {
 router.post('/', validate(createCampaignSchema), async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
-    const { name, description, gameSystem } = req.body;
+    const { name, description, gameSystem, joinPassword } = req.body;
 
     const campaign = await prisma.campaign.create({
       data: {
         name,
         description,
         gameSystem: gameSystem || 'Custom',
+        joinPassword: joinPassword || null,
         gmUserId: req.user.id,
         memberships: {
           create: {

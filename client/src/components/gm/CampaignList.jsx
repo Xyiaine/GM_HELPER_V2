@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGmStore } from '../../store/gmStore';
+import JoinCampaignModal from '../player/JoinCampaignModal';
+import { LogIn, Plus } from 'lucide-react';
 
 export default function CampaignList() {
   const { campaigns, isLoading, error, fetchCampaigns, setActiveCampaign } = useGmStore();
   const navigate = useNavigate();
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
 
   useEffect(() => {
     fetchCampaigns();
@@ -15,17 +18,48 @@ export default function CampaignList() {
     navigate(`/gm/campaigns/${campaignId}`);
   };
 
+  const handleJoinedSuccess = (joinedCampaign) => {
+    fetchCampaigns();
+    if (joinedCampaign?.id) {
+      handleSelect(joinedCampaign.id);
+    }
+  };
+
   if (isLoading) return <div className="loading-screen">Loading campaigns...</div>;
   if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
     <div style={{ padding: '24px' }}>
-      <h1 style={{ marginBottom: '24px' }}>My Campaigns</h1>
-      
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <h1 style={{ margin: 0 }}>My Campaigns</h1>
+        <button
+          onClick={() => setIsJoinModalOpen(true)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '10px 18px',
+            backgroundColor: 'var(--color-primary, #6366f1)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '6px',
+            fontWeight: 600,
+            cursor: 'pointer'
+          }}
+        >
+          <LogIn size={18} />
+          Join Campaign
+        </button>
+      </div>
+
       {campaigns.length === 0 ? (
-        <div style={{ padding: '24px', backgroundColor: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>You haven't created any campaigns yet.</p>
-          <button className="btn-primary">Create Campaign</button>
+        <div style={{ padding: '32px', backgroundColor: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', textAlign: 'center', border: '1px dashed var(--color-border)' }}>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '20px', fontSize: '1rem' }}>You haven't created or joined any campaigns yet.</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
+            <button className="btn-primary" onClick={() => setIsJoinModalOpen(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <LogIn size={16} /> Join Campaign
+            </button>
+          </div>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
@@ -62,6 +96,12 @@ export default function CampaignList() {
           ))}
         </div>
       )}
+
+      <JoinCampaignModal
+        isOpen={isJoinModalOpen}
+        onClose={() => setIsJoinModalOpen(false)}
+        onSuccess={handleJoinedSuccess}
+      />
     </div>
   );
 }

@@ -98,11 +98,33 @@ const NODE_POSITIONS = {
   "node_end_alt": { x: 550, y: 2660 }
 };
 
+const COMBAT_TEMPLATES = {
+  "node_2Ad": [
+    { sourceType: "bestiary", name: "Loup du Désert / Meute du Bassin", count: 3 }
+  ],
+  "node_2Ae": [
+    { sourceType: "bestiary", name: "Jeune Ver des Sables", count: 1 }
+  ],
+  "node_2Bb": [
+    { sourceType: "bestiary", name: "Scorpion de Verre", count: 2 }
+  ],
+  "node_3c": [
+    { sourceType: "bestiary", name: "Essaim de Criquets-Blindés", count: 2 }
+  ],
+  "node_3e": [
+    { sourceType: "bestiary", name: "Ver de Ferraille", count: 3 }
+  ]
+};
+
 async function main() {
   console.log("=== Updating Main Quest with Campagne_v4_QuestData.json ===");
 
   // Read JSON v4
-  const jsonPath = path.join(__dirname, '..', 'Campagne_v4_QuestData.json');
+  let jsonPath = path.join(__dirname, '..', 'Cahier des charges', 'Campagne_v4_QuestData.json');
+  if (!fs.existsSync(jsonPath)) {
+    jsonPath = path.join(__dirname, '..', 'Campagne_v4_QuestData.json');
+  }
+  console.log(`Loading quest data from: ${jsonPath}`);
   const rawData = fs.readFileSync(jsonPath, 'utf-8');
   const questData = JSON.parse(rawData);
 
@@ -429,6 +451,12 @@ async function main() {
     const isTimed = jsonNode.timer ? jsonNode.timer.enabled : false;
     const detectionMechanicStr = jsonNode.detectionMechanic ? JSON.stringify(jsonNode.detectionMechanic) : null;
 
+    // Define combat template if provided in JSON or mapped defaults
+    let combatTemplateStr = jsonNode.combatTemplate ? JSON.stringify(jsonNode.combatTemplate) : null;
+    if (!combatTemplateStr && COMBAT_TEMPLATES[jsonNode.id]) {
+      combatTemplateStr = JSON.stringify(COMBAT_TEMPLATES[jsonNode.id]);
+    }
+
     const createdNode = await prisma.questNode.create({
       data: {
         questId: quest.id,
@@ -456,7 +484,8 @@ async function main() {
         poolNotes: jsonNode.poolNotes || null,
         generativeFailure: jsonNode.generativeFailure ? JSON.stringify(jsonNode.generativeFailure) : null,
         captainSelection: jsonNode.captainSelection ? JSON.stringify(jsonNode.captainSelection) : null,
-        resolutionBranches: jsonNode.resolutionBranches ? JSON.stringify(jsonNode.resolutionBranches) : null
+        resolutionBranches: jsonNode.resolutionBranches ? JSON.stringify(jsonNode.resolutionBranches) : null,
+        combatTemplate: combatTemplateStr
       }
     });
 
@@ -537,6 +566,10 @@ async function main() {
     }
   }
 
+  const { instantiateQuestEncounters } = require('./src/services/questCombatService');
+  console.log("Instantiating quest combat encounters...");
+  const encounters = await instantiateQuestEncounters(prisma, campaign.id, quest.id);
+
   console.log(`\nSUCCESS! Main quest "${quest.name}" updated cleanly with all v4 QuestData!`);
   console.log(`- Nodes created: ${Object.keys(nodeMap).length}`);
   console.log(`- Connections created: ${questData.QuestNodeConnection.length}`);
@@ -544,6 +577,7 @@ async function main() {
   console.log(`- Threat Trackers: ${questData.QuestThreatTracker.length}`);
   console.log(`- Faction Progress entries: ${questData.QuestFactionProgress.length}`);
   console.log(`- NPC Profiles created: ${(questData.QuestNPCProfile || []).length}`);
+  console.log(`- Encounters instantiated: ${encounters.length}`);
 }
 
 main()

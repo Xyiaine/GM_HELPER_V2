@@ -28,16 +28,23 @@ const createCampaignSchema = z.object({
   name: z.string().min(1, 'Campaign name is required').max(100),
   description: z.string().max(5000).optional(),
   gameSystem: z.string().max(50).optional(),
+  joinPassword: z.string().max(100).optional(),
 });
 
 const updateCampaignSchema = z.object({
   name: z.string().min(1).max(100).optional(),
   description: z.string().max(5000).optional(),
   gameSystem: z.string().max(50).optional(),
+  joinPassword: z.string().max(100).optional(),
 });
 
 const invitePlayerSchema = z.object({
   email: z.string().email('Invalid email address'),
+});
+
+const joinCampaignSchema = z.object({
+  campaignId: z.string().min(1, 'ID de la campagne requis'),
+  password: z.string().min(1, 'Mot de passe requis'),
 });
 
 // ============================================================
@@ -686,6 +693,7 @@ module.exports = {
   createCampaignSchema,
   updateCampaignSchema,
   invitePlayerSchema,
+  joinCampaignSchema,
   createCharacterSchema,
   updateCharacterSchema,
   playerUpdateCharacterSchema,

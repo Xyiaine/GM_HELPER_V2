@@ -16,6 +16,7 @@ const {
   createQuestNodeRewardSchema, createQuestNodeThreatEffectSchema,
 } = require('../../validators/schemas');
 const { startNodeTimer, cancelNodeTimer, handleNodeTimeout, cancelParentTimers, executeQuestResolution } = require('../../services/questTimers');
+const { instantiateQuestEncounters } = require('../../services/questCombatService');
 
 // Architecture Review Utilities (BE-1 to BE-10)
 const { evaluateCondition } = require('../../utils/conditionEvaluator');
@@ -134,8 +135,17 @@ router.put('/:id', validate(updateQuestSchema), async (req, res) => {
       where: { id: req.params.id, campaignId: req.campaignId },
       data: req.body,
     });
-    if (result.count === 0) return res.status(404).json({ error: 'Quest not found' });
+    if (result.count === 0) return res.status(400).json({ error: 'Quest not found' });
     const quest = await prisma.quest.findUnique({ where: { id: req.params.id } });
+
+    if (req.body.status === 'active') {
+      try {
+        await instantiateQuestEncounters(prisma, req.campaignId, quest.id);
+      } catch (e) {
+        console.error('Failed to auto-instantiate quest encounters:', e);
+      }
+    }
+
     res.json({ quest });
   } catch (err) {
     console.error('Update quest error:', err);
@@ -390,6 +400,18 @@ router.put('/:id/nodes/:nodeId', validate(updateQuestNodeSchema), async (req, re
       where: { id: req.params.nodeId },
       data: req.body
     });
+
+    if (req.body.combatTemplate !== undefined) {
+      const quest = await prisma.quest.findUnique({ where: { id: req.params.id } });
+      if (quest && quest.status === 'active') {
+        try {
+          await instantiateQuestEncounters(prisma, req.campaignId, quest.id);
+        } catch (e) {
+          console.error('Failed to auto-instantiate quest encounters for node:', e);
+        }
+      }
+    }
+
     res.json({ node });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update node' });

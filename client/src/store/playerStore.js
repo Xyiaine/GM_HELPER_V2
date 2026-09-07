@@ -26,6 +26,20 @@ export const usePlayerStore = create((set, get) => ({
     }
   },
 
+  joinCampaign: async (campaignId, password) => {
+    try {
+      const res = await api.post('/api/v1/player/campaigns/join', { campaignId, password });
+      await get().fetchCampaigns();
+      if (res.campaign?.id) {
+        set({ activeCampaignId: res.campaign.id });
+      }
+      return res;
+    } catch (err) {
+      console.error('Join campaign error:', err);
+      throw err;
+    }
+  },
+
   fetchCharacter: async (campaignId) => {
     set({ isLoading: true, error: null });
     try {

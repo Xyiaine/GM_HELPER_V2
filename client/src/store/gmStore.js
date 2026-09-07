@@ -34,6 +34,19 @@ export const useGmStore = create((set, get) => ({
     }
   },
 
+  updateCampaign: async (campaignId, payload) => {
+    try {
+      const data = await api.put(`/api/v1/gm/campaigns/${campaignId}`, payload);
+      set((state) => ({
+        campaigns: state.campaigns.map(c => c.id === campaignId ? { ...c, ...data.campaign } : c)
+      }));
+      return data;
+    } catch (err) {
+      console.error('Update campaign error:', err);
+      throw err;
+    }
+  },
+
   fetchCharacters: async (campaignId) => {
     try {
       const data = await api.get(`/api/v1/gm/campaigns/${campaignId}/characters`);
@@ -144,6 +157,56 @@ export const useGmStore = create((set, get) => ({
       const data = await api.get(`/api/v1/gm/campaigns/${campaignId}/encounters/${encounterId}`);
       set({ activeEncounter: data.encounter });
       return data.encounter;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  },
+
+  syncPcsInEncounter: async (campaignId, encounterId) => {
+    try {
+      const data = await api.post(`/api/v1/gm/campaigns/${campaignId}/encounters/${encounterId}/sync-pcs`);
+      set({ activeEncounter: data.encounter });
+      get().fetchEncounters(campaignId);
+      return data.encounter;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  },
+
+  resetEncounter: async (campaignId, encounterId) => {
+    try {
+      try {
+        const data = await api.post(`/api/v1/gm/campaigns/${campaignId}/encounters/${encounterId}/reset`);
+        set({ activeEncounter: data.encounter });
+        get().fetchEncounters(campaignId);
+        return data.encounter;
+      } catch (err) {
+        console.warn('Reset endpoint fallback engaged:', err);
+        const encData = await api.put(`/api/v1/gm/campaigns/${campaignId}/encounters/${encounterId}`, {
+          status: 'planned',
+          phase: 'planned',
+          currentRound: 0,
+          currentTurnIndex: 0,
+        });
+        const currentEncounter = encData.encounter || get().activeEncounter;
+        if (currentEncounter && currentEncounter.combatants) {
+          for (const c of currentEncounter.combatants) {
+            try {
+              await api.patch(`/api/v1/gm/campaigns/${campaignId}/encounters/${encounterId}/combatants/${c.id}`, {
+                hpCurrent: c.hpMax,
+                initiative: 0,
+                isSurprised: false,
+                conditions: '[]',
+              });
+            } catch (e) {
+              console.error('Failed to reset combatant in fallback:', e);
+            }
+          }
+        }
+        return await get().fetchEncounterDetail(campaignId, encounterId);
+      }
     } catch (err) {
       console.error(err);
       throw err;

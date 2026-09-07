@@ -4,7 +4,7 @@ const useAuthStore = create((set, get) => ({
   user: null,
   accessToken: localStorage.getItem('accessToken') || null,
   isAuthenticated: !!localStorage.getItem('accessToken'),
-  isLoading: true,
+  isLoading: !!localStorage.getItem('accessToken'),
   error: null,
 
   setAuth: (user, token) => {
@@ -42,13 +42,16 @@ const useAuthStore = create((set, get) => ({
     }
   },
 
-  login: async (email, password) => {
+  login: async (pseudoOrEmail, password) => {
     try {
       set({ isLoading: true, error: null });
+      const payload = typeof pseudoOrEmail === 'object' 
+        ? pseudoOrEmail 
+        : { pseudo: pseudoOrEmail, email: pseudoOrEmail, password };
       const res = await fetch('/api/v1/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       

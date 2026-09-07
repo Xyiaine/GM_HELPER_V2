@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
 import './Auth.css';
@@ -9,6 +9,10 @@ function Register() {
   const [pseudo, setPseudo] = useState('');
   const { register, error, isLoading } = useAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    useAuthStore.setState({ error: null, isLoading: false });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

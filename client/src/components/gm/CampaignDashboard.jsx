@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useGmStore } from '../../store/gmStore';
-import { Users, Map, BookOpen, Swords, Flag, Search, Dices, Truck } from 'lucide-react';
+import { Users, Map, BookOpen, Swords, Flag, Search, Dices, Truck, Share2, Copy, Check, Save } from 'lucide-react';
 import GMDicePanel from './GMDicePanel';
 
 export default function CampaignDashboard() {
   const { campaignId } = useParams();
-  const { campaigns, setActiveCampaign, isLoading, error } = useGmStore();
+  const { campaigns, setActiveCampaign, updateCampaign, isLoading, error } = useGmStore();
   const [showDice, setShowDice] = useState(false);
+  const [copiedId, setCopiedId] = useState(false);
+  const [copiedPass, setCopiedPass] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [savingPass, setSavingPass] = useState(false);
+  const [passSavedMessage, setPassSavedMessage] = useState(false);
 
   useEffect(() => {
     if (campaignId) {
@@ -17,9 +22,28 @@ export default function CampaignDashboard() {
 
   const selectedCampaign = campaigns.find(c => c.id === campaignId);
 
+  useEffect(() => {
+    if (selectedCampaign) {
+      setPasswordInput(selectedCampaign.joinPassword || '');
+    }
+  }, [selectedCampaign]);
+
   if (isLoading && campaigns.length === 0) return <div className="loading-screen">Loading campaign dashboard...</div>;
   if (error) return <div className="error-message">Error: {error}</div>;
   if (!selectedCampaign) return <div className="empty-state">No campaign selected or campaign not found.</div>;
+
+  const handleSavePassword = async () => {
+    setSavingPass(true);
+    try {
+      await updateCampaign(campaignId, { joinPassword: passwordInput.trim() });
+      setSavingPass(false);
+      setPassSavedMessage(true);
+      setTimeout(() => setPassSavedMessage(false), 2500);
+    } catch (err) {
+      setSavingPass(false);
+      alert('Erreur lors de la sauvegarde du mot de passe');
+    }
+  };
 
   const stats = [
     { label: 'Characters', count: selectedCampaign._count?.characters || 0, icon: <Users size={20} />, link: `/gm/campaigns/${campaignId}/characters` },
@@ -98,6 +122,136 @@ export default function CampaignDashboard() {
             <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                <Search size={16} /> Global Search
             </button>
+          </div>
+
+          <hr style={{ margin: '20px 0', border: 'none', borderTop: '1px solid var(--color-border)' }} />
+
+          <h3 style={{ fontSize: '1rem', margin: '0 0 12px 0', color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Share2 size={18} color="var(--color-primary)" /> Partage & Accès Joueurs
+          </h3>
+          <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: '12px' }}>
+            Partagez cet ID et ce mot de passe avec vos joueurs pour qu'ils puissent rejoindre la campagne.
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '4px', fontWeight: 600 }}>
+                ID unique de la Campagne (Généré)
+              </div>
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <input
+                  type="text"
+                  readOnly
+                  value={selectedCampaign.id}
+                  style={{
+                    flex: 1,
+                    padding: '8px 10px',
+                    borderRadius: '6px',
+                    border: '1px solid var(--color-border)',
+                    backgroundColor: 'var(--color-background)',
+                    color: 'var(--color-text)',
+                    fontSize: '0.85rem',
+                    fontFamily: 'monospace'
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(selectedCampaign.id);
+                    setCopiedId(true);
+                    setTimeout(() => setCopiedId(false), 2000);
+                  }}
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid var(--color-border)',
+                    backgroundColor: 'var(--color-surface)',
+                    color: 'var(--color-text)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontSize: '0.8rem',
+                    fontWeight: 500
+                  }}
+                >
+                  {copiedId ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
+                  {copiedId ? 'Copié !' : 'Copier'}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', fontWeight: 600 }}>
+                  Mot de passe d'accès (Éditable)
+                </span>
+                {passSavedMessage && (
+                  <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 600 }}>
+                    ✓ Enregistré !
+                  </span>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <input
+                  type="text"
+                  placeholder="Saisissez un mot de passe..."
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  style={{
+                    flex: 1,
+                    padding: '8px 10px',
+                    borderRadius: '6px',
+                    border: '1px solid var(--color-border)',
+                    backgroundColor: 'var(--color-background)',
+                    color: 'var(--color-text)',
+                    fontSize: '0.85rem'
+                  }}
+                />
+                <button
+                  onClick={handleSavePassword}
+                  disabled={savingPass}
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    backgroundColor: 'var(--color-primary, #6366f1)',
+                    color: '#ffffff',
+                    cursor: savingPass ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontSize: '0.8rem',
+                    fontWeight: 600
+                  }}
+                >
+                  <Save size={14} />
+                  {savingPass ? '...' : 'Sauvegarder'}
+                </button>
+                {passwordInput.trim() && (
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(passwordInput.trim());
+                      setCopiedPass(true);
+                      setTimeout(() => setCopiedPass(false), 2000);
+                    }}
+                    style={{
+                      padding: '8px 10px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--color-border)',
+                      backgroundColor: 'var(--color-surface)',
+                      color: 'var(--color-text)',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      fontSize: '0.8rem'
+                    }}
+                  >
+                    {copiedPass ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </section>
       </div>

@@ -1,67 +1,96 @@
 # coding: utf-8
+import os
 import re
 import json
 
 def parse_lore():
-    with open('Universe Lore.txt', 'r', encoding='utf-8') as f:
+    lore_path = os.path.join('Lore et univers', 'Universe_Lore_v9.txt')
+    with open(lore_path, 'r', encoding='utf-8') as f:
         text = f.read()
 
-    city_matches = list(re.finditer(r'(\d+)\.\s+([^\n]+)\nSpécialité\s*:\s*([^\n]+)\nForce\s*:\s*([^\n]+)\nFaiblesse\s*:\s*([^\n]+)\nParticularité\s*:\s*([^\n]+)\nPosition géographique\s*:\s*([^\n]+)\nParamètres initiaux\s*:\s*([^\n]+)', text, re.IGNORECASE))
-    
+    # Find headers for each city
+    header_regex = re.compile(r'^([0-9]+)\.\s+((?:CITÉ|NUKE CITY|BUNKER|L\'ÎLE|LE BUNKER)[^\n]+)', re.IGNORECASE | re.MULTILINE)
+    matches = list(header_regex.finditer(text))
+
     lore_data = {"cities": {}}
-    
-    for i in range(len(city_matches)):
-        match = city_matches[i]
-        city_name = match.group(2).strip()
-        
+
+    for i in range(len(matches)):
+        m = matches[i]
+        city_num = m.group(1)
+        full_title = m.group(2).strip()
+
+        start_idx = m.end()
+        end_idx = matches[i+1].start() if i + 1 < len(matches) else len(text)
+        city_text = text[start_idx:end_idx]
+
+        # Extract main fields
+        def extract_field(pattern):
+            res = re.search(pattern, city_text, re.IGNORECASE)
+            return res.group(1).strip().replace('\n', ' ') if res else ""
+
+        specialty = extract_field(r'Spécialité\s*:\s*([^\n]+(?:\n[^\n]+)?)')
+        strength = extract_field(r'Force\s*:\s*([^\n]+(?:\n[^\n]+)?)')
+        weakness = extract_field(r'Faiblesse\s*:\s*([^\n]+(?:\n[^\n]+)?)')
+        particularity = extract_field(r'Particularité\s*:\s*([^\n]+(?:\n[^\n]+)?)')
+        geo = extract_field(r'Position géographique\s*:\s*([^\n]+)')
+        params = extract_field(r'Paramètres initiaux\s*:\s*([^\n]+)')
+
         city_data = {
-            "name": city_name,
-            "specialty": match.group(3).strip(),
-            "strength": match.group(4).strip(),
-            "weakness": match.group(5).strip(),
-            "particularity": match.group(6).strip(),
+            "num": city_num,
+            "name": full_title,
+            "specialty": specialty,
+            "strength": strength,
+            "weakness": weakness,
+            "particularity": particularity,
+            "geo": geo,
+            "params": params,
             "buildings": {}
         }
-        
-        start_idx = match.end()
-        end_idx = city_matches[i+1].start() if i + 1 < len(city_matches) else len(text)
-        city_text = text[start_idx:end_idx]
-        
+
+        # Find buildings under Lieux et Personnages Notables
         b_matches = list(re.finditer(r'>>\s+([^\n]+)', city_text))
         for j in range(len(b_matches)):
-            b_match = b_matches[j]
-            b_name = b_match.group(1).strip()
-            
-            b_start = b_match.end()
+            b_m = b_matches[j]
+            b_name = b_m.group(1).strip()
+            b_start = b_m.end()
             b_end = b_matches[j+1].start() if j + 1 < len(b_matches) else len(city_text)
             b_text = city_text[b_start:b_end]
-            
-            # Simple line-by-line parsing for bullets
+
             points = []
             lines = b_text.split('\n')
             current_char = ""
             current_desc = ""
             for line in lines:
-                if line.startswith('     - '):
+                sline = line.strip()
+                if sline.startswith('- '):
                     if current_char:
                         points.append(f"{current_char} : {current_desc.strip()}")
-                    current_char = line[7:].strip()
-                    current_desc = ""
-                elif line.startswith('       - '):
-                    current_desc += line[9:].strip() + " "
+                    parts = sline[2:].split(':', 1)
+                    if len(parts) == 2:
+                        current_char = parts[0].strip()
+                        current_desc = parts[1].strip() + " "
+                    else:
+                        current_char = sline[2:].strip()
+                        current_desc = ""
+                elif sline.startswith('[Description du lieu'):
+                    desc_text = sline.strip('[]').replace('Description du lieu :', '').strip()
+                    points.append(f"Description : {desc_text}")
+                elif current_char and sline:
+                    current_desc += sline + " "
+
             if current_char:
                 points.append(f"{current_char} : {current_desc.strip()}")
-                
+
             if not points:
                 points.append("Lieu emblématique de la cité.")
-                
+
             city_data["buildings"][b_name.lower().strip()] = points
-            
-        lore_data["cities"][city_name.lower().strip()] = city_data
-        
-    js_content = "export const loreData = " + json.dumps(lore_data, indent=2, ensure_ascii=False) + ";\n"
-    js_content += """
-export function getCityLore(cityName) {
+
+        norm_key = full_title.lower().strip()
+        lore_data["cities"][norm_key] = city_data
+
+    js_content = "export const loreData = " + json.dumps(lore_data, indent=2, ensure_ascii=False) + ";\n\n"
+    js_content += """export function getCityLore(cityName) {
   if (!cityName) return null;
   const normalized = cityName.toLowerCase().trim();
   for (const [key, data] of Object.entries(loreData.cities)) {
@@ -81,11 +110,15 @@ export function getBuildingLore(cityName, buildingName) {
       return points;
     }
   }
-  return null; // Return null to fallback to custom description if needed
+  return null;
 }
 """
-    with open('client/src/utils/loreData.js', 'w', encoding='utf-8') as out:
+
+    out_path = os.path.join('client', 'src', 'utils', 'loreData.js')
+    with open(out_path, 'w', encoding='utf-8') as out:
         out.write(js_content)
+
+    print(f"Successfully generated {out_path} with {len(lore_data['cities'])} cities.")
 
 if __name__ == '__main__':
     parse_lore()

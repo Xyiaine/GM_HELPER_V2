@@ -657,8 +657,18 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                   style={{ padding: '8px 12px', fontSize: '0.85rem', whiteSpace: 'nowrap' }}
                   onClick={async () => {
                     try {
-                      const res = await spawnEncounterFromNode(campaignId, quest.id, selectedNode.id);
-                      if (res?.encounterId) {
+                      // 1. Auto-generated encounter from combatTemplate
+                      let encounterId = encounters?.find(e => e.questNodeId === selectedNode.id)?.id;
+                      // 2. Manually linked encounter fallback
+                      if (!encounterId) encounterId = selectedNode.linkedEncounterId;
+                      // 3. Dynamic spawn fallback
+                      if (!encounterId) {
+                        const res = await spawnEncounterFromNode(campaignId, quest.id, selectedNode.id);
+                        encounterId = res?.encounterId;
+                      }
+                      if (encounterId) {
+                        navigate(`/gm/campaigns/${campaignId}/encounters?encounterId=${encounterId}`);
+                      } else {
                         navigate(`/gm/campaigns/${campaignId}/encounters`);
                       }
                     } catch (err) {
@@ -666,7 +676,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                     }
                   }}
                 >
-                  ⚔️ Lancer Combat
+                  ⚔️ Aller au combat
                 </button>
               </div>
             </label>
