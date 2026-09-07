@@ -86,6 +86,20 @@ router.put('/:id', validate(updateNpcSchema), async (req, res) => {
     });
     if (result.count === 0) return res.status(404).json({ error: 'NPC not found' });
     const npc = await prisma.nPC.findUnique({ where: { id: req.params.id } });
+
+    // Sync HP or AC changes to any linked encounter combatants
+    if (req.body.hpCurrent !== undefined || req.body.hpMax !== undefined || req.body.armorClass !== undefined) {
+      const combatantUpdates = {};
+      if (req.body.hpCurrent !== undefined) combatantUpdates.hpCurrent = req.body.hpCurrent;
+      if (req.body.hpMax !== undefined) combatantUpdates.hpMax = req.body.hpMax;
+      if (req.body.armorClass !== undefined) combatantUpdates.armorClass = req.body.armorClass;
+
+      await prisma.encounterCombatant.updateMany({
+        where: { npcId: req.params.id },
+        data: combatantUpdates,
+      }).catch(e => console.error('Error syncing NPC updates to encounter combatants:', e));
+    }
+
     res.json({ npc });
   } catch (err) {
     console.error('Update NPC error:', err);

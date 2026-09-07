@@ -19,18 +19,46 @@ import LocalMapManager from '../components/gm/LocalMapManager';
 import ConvoyManager from '../components/gm/ConvoyManager';
 import VehiclesList from '../components/gm/VehiclesList';
 import VehicleSheet from '../components/gm/VehicleSheet';
+import GmDeckDrawer from '../components/gm/deck/GmDeckDrawer';
+import ActiveComplicationsBanner from '../components/gm/deck/ActiveComplicationsBanner';
 import { useGmStore } from '../store/gmStore';
 import useAuthStore from '../store/authStore';
+import { Flame } from 'lucide-react';
 
 export default function GmApp() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { campaigns, activeCampaignId, fetchCampaigns } = useGmStore();
+  const {
+    campaigns,
+    activeCampaignId,
+    fetchCampaigns,
+    doomPool,
+    isDeckDrawerOpen,
+    toggleDeckDrawer
+  } = useGmStore();
   const { user, logout } = useAuthStore();
 
   useEffect(() => {
     fetchCampaigns();
   }, [fetchCampaigns]);
+
+  // Global Keyboard shortcut 'M' to toggle the universal deck drawer
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) {
+        return;
+      }
+      if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        toggleDeckDrawer();
+      }
+      if (e.key === 'Escape' && isDeckDrawerOpen) {
+        toggleDeckDrawer(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toggleDeckDrawer, isDeckDrawerOpen]);
 
   const handleLogout = async () => {
     await logout();
@@ -91,9 +119,46 @@ export default function GmApp() {
       
       <main className="gm-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: 'var(--color-background)' }}>
         {activeCampaignId && (
-          <header style={{ padding: '16px 24px', borderBottom: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface)', display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
-            <GlobalSearch />
-          </header>
+          <>
+            <header style={{ padding: '12px 24px', borderBottom: '1px solid var(--color-border)', backgroundColor: 'var(--color-surface)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+              {/* Doom Pool Trigger in Header */}
+              <button
+                onClick={() => toggleDeckDrawer()}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '6px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(239, 68, 68, 0.4)',
+                  backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                  color: '#ef4444',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  boxShadow: '0 2px 8px rgba(239, 68, 68, 0.2)',
+                  transition: 'all 0.15s ease'
+                }}
+                title="Ouvrir le Cockpit MJ & Decks (Raccourci : Touche M)"
+              >
+                <Flame size={18} />
+                <span>Menace : <strong>{doomPool}</strong></span>
+                <span style={{
+                  fontSize: '0.7rem',
+                  backgroundColor: 'rgba(239, 68, 68, 0.25)',
+                  padding: '1px 5px',
+                  borderRadius: '4px',
+                  marginLeft: '2px',
+                  fontFamily: 'monospace'
+                }}>
+                  [M]
+                </span>
+              </button>
+
+              <GlobalSearch />
+            </header>
+            <ActiveComplicationsBanner />
+          </>
         )}
         <div style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
           <Routes>
@@ -118,6 +183,9 @@ export default function GmApp() {
           </Routes>
         </div>
       </main>
+
+      {/* Universal Drawer */}
+      <GmDeckDrawer />
     </div>
   );
 }

@@ -438,6 +438,14 @@ router.patch('/:id/combatants/:combatantId', validate(updateCombatantSchema), as
       }
     }
 
+    // If HP changed and combatant is an NPC, keep the NPC record synced
+    if (req.body.hpCurrent !== undefined && combatant.npcId) {
+      await prisma.nPC.update({
+        where: { id: combatant.npcId },
+        data: { hpCurrent: combatant.hpCurrent },
+      }).catch(e => console.error('Error syncing combatant HP to NPC:', e));
+    }
+
     res.json({ combatant, encounter: updatedEncounter });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update combatant' });

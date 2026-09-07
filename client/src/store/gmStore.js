@@ -18,7 +18,34 @@ export const useGmStore = create((set, get) => ({
   isLoading: false,
   error: null,
 
-  setActiveCampaign: (id) => set({ activeCampaignId: id }),
+  // Doom Pool & MJ Deck System
+  doomPool: 3,
+  isDeckDrawerOpen: false,
+  activeDeckTab: 'hazard',
+  activeComplications: [],
+  customHazardCards: [],
+
+  setActiveCampaign: (id) => {
+    set({ activeCampaignId: id });
+    if (id) {
+      try {
+        const savedDoom = localStorage.getItem(`gm_doom_${id}`);
+        if (savedDoom !== null) {
+          set({ doomPool: parseInt(savedDoom, 10) || 0 });
+        }
+        const savedComps = localStorage.getItem(`gm_comps_${id}`);
+        if (savedComps) {
+          set({ activeComplications: JSON.parse(savedComps) });
+        }
+        const savedCustomCards = localStorage.getItem(`gm_custom_hazard_${id}`);
+        if (savedCustomCards) {
+          set({ customHazardCards: JSON.parse(savedCustomCards) });
+        }
+      } catch (e) {
+        console.error('Error loading doom pool from storage', e);
+      }
+    }
+  },
 
   fetchCampaigns: async () => {
     set({ isLoading: true, error: null });
@@ -752,5 +779,93 @@ export const useGmStore = create((set, get) => ({
       console.error(err);
       throw err;
     }
+  },
+
+  // ─── DOOM POOL & MJ DECK ACTIONS ───────────────────────────
+  toggleDeckDrawer: (force) => {
+    set((state) => ({
+      isDeckDrawerOpen: typeof force === 'boolean' ? force : !state.isDeckDrawerOpen
+    }));
+  },
+
+  setActiveDeckTab: (tab) => {
+    set({ activeDeckTab: tab });
+  },
+
+  setDoomPool: (val) => {
+    const cid = get().activeCampaignId;
+    const newVal = Math.max(0, val);
+    set({ doomPool: newVal });
+    if (cid) {
+      try { localStorage.setItem(`gm_doom_${cid}`, String(newVal)); } catch (e) {}
+    }
+  },
+
+  incrementDoomPool: (delta) => {
+    const cid = get().activeCampaignId;
+    set((state) => {
+      const newVal = Math.max(0, state.doomPool + delta);
+      if (cid) {
+        try { localStorage.setItem(`gm_doom_${cid}`, String(newVal)); } catch (e) {}
+      }
+      return { doomPool: newVal };
+    });
+  },
+
+  spendDoomPool: (amount) => {
+    const cid = get().activeCampaignId;
+    const current = get().doomPool;
+    if (current < amount) return false;
+    const newVal = current - amount;
+    set({ doomPool: newVal });
+    if (cid) {
+      try { localStorage.setItem(`gm_doom_${cid}`, String(newVal)); } catch (e) {}
+    }
+    return true;
+  },
+
+  addActiveComplication: (card) => {
+    const cid = get().activeCampaignId;
+    const item = {
+      ...card,
+      uid: 'comp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+      activatedAt: Date.now()
+    };
+    set((state) => {
+      const next = [item, ...state.activeComplications];
+      if (cid) {
+        try { localStorage.setItem(`gm_comps_${cid}`, JSON.stringify(next)); } catch (e) {}
+      }
+      return { activeComplications: next };
+    });
+    return item;
+  },
+
+  dismissActiveComplication: (uid) => {
+    const cid = get().activeCampaignId;
+    set((state) => {
+      const next = state.activeComplications.filter(c => c.uid !== uid);
+      if (cid) {
+        try { localStorage.setItem(`gm_comps_${cid}`, JSON.stringify(next)); } catch (e) {}
+      }
+      return { activeComplications: next };
+    });
+  },
+
+  addCustomHazardCard: (card) => {
+    const cid = get().activeCampaignId;
+    const newCard = {
+      ...card,
+      id: 'custom_hz_' + Date.now(),
+      isCustom: true
+    };
+    set((state) => {
+      const next = [newCard, ...state.customHazardCards];
+      if (cid) {
+        try { localStorage.setItem(`gm_custom_hazard_${cid}`, JSON.stringify(next)); } catch (e) {}
+      }
+      return { customHazardCards: next };
+    });
+    return newCard;
   }
 }));
