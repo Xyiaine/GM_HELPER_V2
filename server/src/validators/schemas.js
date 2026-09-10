@@ -81,7 +81,10 @@ const createCharacterSchema = z.object({
   skillPoints: z.number().int().min(0).optional(),
   unlockedSkills: z.string().optional(),
   notes: z.string().max(10000).optional(),
+  gmNotes: z.string().max(10000).optional(),
   portraitUrl: z.string().optional(),
+  currency: z.string().optional(),
+  attacks: z.string().optional(),
   canBeEditedByPlayer: z.boolean().optional(),
 });
 
@@ -89,7 +92,19 @@ const updateCharacterSchema = createCharacterSchema.partial();
 
 // Player character update — more restricted
 const playerUpdateCharacterSchema = z.object({
+  name: z.string().min(1).max(100).optional(),
+  race: z.string().max(50).optional(),
+  alignment: z.string().max(50).optional(),
+  background: z.string().max(5000).optional(),
   hpCurrent: z.number().int().min(0).optional(),
+  hpMax: z.number().int().min(1).optional(),
+  temporaryHp: z.number().int().min(0).optional(),
+  armorClass: z.number().int().min(0).optional(),
+  speed: z.number().int().min(0).optional(),
+  initiative: z.number().int().optional(),
+  hitDice: z.string().optional(),
+  deathSaves: z.string().optional(),
+  heroicInspiration: z.boolean().optional(),
   level: z.number().int().min(1).max(30).optional(),
   strength: z.number().int().min(1).max(30).optional(),
   dexterity: z.number().int().min(1).max(30).optional(),
@@ -103,6 +118,9 @@ const playerUpdateCharacterSchema = z.object({
   skillPoints: z.number().int().min(0).optional(),
   unlockedSkills: z.string().optional(),
   notes: z.string().max(10000).optional(),
+  currency: z.string().optional(),
+  attacks: z.string().optional(),
+  portraitUrl: z.string().optional(),
 });
 
 // ============================================================

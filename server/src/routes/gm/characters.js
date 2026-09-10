@@ -166,11 +166,27 @@ router.patch('/:id/toggle-edit', async (req, res) => {
 router.post('/:id/inventory', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
-    const { itemId, quantity = 1 } = req.body;
+    let { itemId, name, type, weight, value, description, quantity = 1 } = req.body;
     const character = await prisma.character.findFirst({
       where: { id: req.params.id, campaignId: req.campaignId },
     });
     if (!character) return res.status(404).json({ error: 'Character not found' });
+
+    if (!itemId && name) {
+      const createdItem = await prisma.item.create({
+        data: {
+          campaignId: req.campaignId,
+          name: name.trim(),
+          type: type || 'misc',
+          weight: weight ? parseFloat(weight) : 0,
+          value: value ? parseInt(value) : 0,
+          description: description || '',
+        },
+      });
+      itemId = createdItem.id;
+    }
+
+    if (!itemId) return res.status(400).json({ error: 'itemId or name is required' });
 
     const inventoryItem = await prisma.characterInventoryItem.upsert({
       where: { characterId_itemId: { characterId: req.params.id, itemId } },
@@ -195,8 +211,52 @@ router.delete('/:id/inventory/:itemId', async (req, res) => {
     });
     res.json({ message: 'Item removed from inventory' });
   } catch (err) {
-    console.error('Remove inventory error:', err);
-    res.status(500).json({ error: 'Failed to remove item from inventory' });
+// PATCH /:id/inventory/:itemId/toggle-equip — Toggle equipped state
+router.patch('/:id/inventory/:itemId/toggle-equip', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const existing = await prisma.characterInventoryItem.findUnique({
+      where: { characterId_itemId: { characterId: req.params.id, itemId: req.params.itemId } },
+    });
+    if (!existing) return res.status(404).json({ error: 'Item not found in inventory' });
+
+    const updated = await prisma.characterInventoryItem.update({
+      where: { characterId_itemId: { characterId: req.params.id, itemId: req.params.itemId } },
+      data: { equipped: !existing.equipped },
+      include: { item: true },
+    });
+
+    res.json({ inventoryItem: updated });
+  } catch (err) {
+    console.error('Toggle equip error:', err);
+    res.status(500).json({ error: 'Failed to toggle equip state' });
+  }
+});
+
+// PATCH /:id/inventory/:itemId/quantity — Update item quantity
+router.patch('/:id/inventory/:itemId/quantity', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const { quantity } = req.body;
+    if (typeof quantity !== 'number') return res.status(400).json({ error: 'Invalid quantity' });
+
+    if (quantity <= 0) {
+      await prisma.characterInventoryItem.delete({
+        where: { characterId_itemId: { characterId: req.params.id, itemId: req.params.itemId } },
+      });
+      return res.json({ message: 'Item deleted', removed: true });
+    }
+
+    const updated = await prisma.characterInventoryItem.update({
+      where: { characterId_itemId: { characterId: req.params.id, itemId: req.params.itemId } },
+      data: { quantity },
+      include: { item: true },
+    });
+
+    res.json({ inventoryItem: updated });
+  } catch (err) {
+    console.error('Update quantity error:', err);
+    res.status(500).json({ error: 'Failed to update quantity' });
   }
 });
 

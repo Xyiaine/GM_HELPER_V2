@@ -149,7 +149,10 @@ model Character {
   unlockedSkills String? // JSON array of unlocked skill IDs (e.g. ["trousse_de_fortune", "sang_froid"])
 
   notes       String?
+  gmNotes     String?
   portraitUrl String?
+  currency    String? @default("{\"cp\":0,\"sp\":0,\"gp\":0,\"pp\":0}") // JSON: { cp: 0, sp: 0, gp: 0, pp: 0 }
+  attacks     String? @default("[]") // JSON: [{ id, name, type, attackBonus, damage, damageType, range, notes }]
 
   // Edit permission
   canBeEditedByPlayer Boolean @default(false)

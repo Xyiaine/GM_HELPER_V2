@@ -31,7 +31,7 @@ export default function CharactersList() {
   return (
     <div style={{ padding: '24px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h1 style={{ margin: 0, color: 'var(--color-primary)' }}>Characters</h1>
+        <h1 style={{ margin: 0, color: 'var(--color-primary)' }}>Personnages (PJ)</h1>
         <button className="btn-primary" onClick={handleCreateCharacter} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Plus size={16} /> Nouveau PJ
         </button>
@@ -39,7 +39,7 @@ export default function CharactersList() {
       
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
         {characters.length === 0 ? (
-          <div className="empty-state" style={{ gridColumn: '1 / -1' }}>No characters found.</div>
+          <div className="empty-state" style={{ gridColumn: '1 / -1' }}>Aucun personnage trouvé.</div>
         ) : (
           characters.map(char => (
             <div key={char.id} style={{ 
@@ -49,10 +49,10 @@ export default function CharactersList() {
               border: '1px solid var(--color-border)'
             }}>
               <h3 style={{ margin: '0 0 8px 0', color: 'var(--color-text)' }}>{char.name}</h3>
-              <p style={{ margin: '0 0 4px 0', fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>Level {char.level || 1} {char.race} {formatClasses(char.class)}</p>
+              <p style={{ margin: '0 0 4px 0', fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>Niveau {char.level || 1} {char.race} {formatClasses(char.class)}</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginTop: '12px', borderTop: '1px solid var(--color-border)', paddingTop: '8px' }}>
-                <span>HP: {char.hpCurrent}/{char.hpMax}</span>
-                <span>AC: {char.armorClass || 10}</span>
+                <span>PV : {char.hpCurrent}/{char.hpMax}</span>
+                <span>CA : {char.armorClass || 10}</span>
               </div>
               
               <div style={{ marginTop: '12px', padding: '8px', backgroundColor: 'var(--color-bg)', borderRadius: '4px', fontSize: '0.8rem' }}>

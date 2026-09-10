@@ -80,33 +80,33 @@ export default function GmApp() {
         
         {user && (
           <div style={{ padding: '16px', fontSize: '0.9rem', color: 'var(--color-text-muted)', borderBottom: '1px solid var(--color-border)' }}>
-            Logged in as {user.displayName}
+            Connecté en tant que {user.displayName}
             <button onClick={handleLogout} style={{ display: 'block', marginTop: '8px', padding: '4px 8px', background: 'transparent', border: '1px solid var(--color-border)', color: 'var(--color-text)', borderRadius: '4px', cursor: 'pointer' }}>
-              Logout
+              Déconnexion
             </button>
           </div>
         )}
 
         <nav style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', flex: 1, overflowY: 'auto' }}>
           <Link to="/gm/campaigns" style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: location.pathname === '/gm/campaigns' ? 'var(--color-primary)' : 'var(--color-text)' }}>
-            My Campaigns
+            🏰 Mes Campagnes
           </Link>
           <hr style={{ border: 'none', borderTop: '1px solid var(--color-border)', margin: '8px 0' }} />
           
           {activeCampaignId && (
             <>
-              <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', padding: '0 8px' }}>Current Campaign</div>
-              <Link to={`/gm/campaigns/${activeCampaignId}`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Dashboard</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/map`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Map</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/notes`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Notes</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/characters`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Characters</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/npcs`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>NPCs</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/locations`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Locations & Cities</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/quests`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Quests</Link>
+              <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', padding: '0 8px' }}>Campagne Active</div>
+              <Link to={`/gm/campaigns/${activeCampaignId}`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>📊 Tableau de Bord</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/map`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>🗺️ Carte du Monde</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/notes`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>📜 Notes & Lore</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/characters`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>👤 Personnages (PJ)</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/npcs`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>👥 PNJ</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/locations`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>🏙️ Cités & Lieux</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/quests`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>🎯 Quêtes</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/encounters`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/encounters') ? 'bold' : 'normal' }}>⚔️ Combat</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/bestiary`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/bestiary') ? 'bold' : 'normal' }}>🐺 Bestiaire</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/items`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Items</Link>
-              <Link to={`/gm/campaigns/${activeCampaignId}/tags`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>Tags</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/items`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>🎒 Objets & Équipement</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/tags`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>🏷️ Tags</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/convoys`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/convoys') ? 'bold' : 'normal' }}>🚛 Convois</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/vehicles`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/vehicles') ? 'bold' : 'normal' }}>🚚 Véhicules</Link>
             </>

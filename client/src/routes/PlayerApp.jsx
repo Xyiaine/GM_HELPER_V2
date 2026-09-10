@@ -25,13 +25,13 @@ export default function PlayerApp() {
   }, [fetchCampaigns]);
 
   if (isLoading && campaigns.length === 0) {
-    return <div className="loading-screen">Loading Player App...</div>;
+    return <div className="loading-screen">Chargement de l'application Joueur...</div>;
   }
 
   if (campaigns.length === 0) {
     return (
       <div className="empty-state" style={{ padding: '40px', textAlign: 'center' }}>
-        <p style={{ marginBottom: '20px', fontSize: '1.1rem' }}>You are not a player in any campaigns yet.</p>
+        <p style={{ marginBottom: '20px', fontSize: '1.1rem' }}>Vous ne participez à aucune campagne pour le moment.</p>
         <button 
           onClick={() => setIsJoinModalOpen(true)}
           style={{
@@ -47,7 +47,7 @@ export default function PlayerApp() {
             gap: '8px'
           }}
         >
-          <LogIn size={18} /> Join Campaign
+          <LogIn size={18} /> Rejoindre une Campagne
         </button>
         <JoinCampaignModal 
           isOpen={isJoinModalOpen} 
@@ -85,7 +85,7 @@ export default function PlayerApp() {
             fontSize: '0.875rem'
           }}
         >
-          <LogIn size={14} /> Join Campaign
+          <LogIn size={14} /> Rejoindre une Campagne
         </button>
       </header>
 
@@ -100,7 +100,7 @@ export default function PlayerApp() {
             <Route path="/convoys" element={<ConvoyDashboard campaignId={activeCampaignId} />} />
           </Routes>
         ) : (
-          <div className="empty-state">Select a campaign to continue.</div>
+          <div className="empty-state">Sélectionnez une campagne pour continuer.</div>
         )}
       </main>
 
@@ -111,7 +111,7 @@ export default function PlayerApp() {
             color: location.pathname.includes('character') ? 'var(--color-primary)' : 'var(--color-text-muted)'
           }}
         >
-          My Sheet
+          Ma Fiche
         </Link>
         <Link 
           to="dice"
@@ -119,7 +119,7 @@ export default function PlayerApp() {
             color: location.pathname.includes('dice') ? 'var(--color-primary)' : 'var(--color-text-muted)'
           }}
         >
-          Dice
+          Dés
         </Link>
         <Link 
           to="session"
@@ -127,7 +127,7 @@ export default function PlayerApp() {
             color: location.pathname.includes('session') ? 'var(--color-primary)' : 'var(--color-text-muted)'
           }}
         >
-          Session
+          Session Live
         </Link>
         <Link 
           to="map"
@@ -135,7 +135,7 @@ export default function PlayerApp() {
             color: location.pathname.includes('map') ? 'var(--color-primary)' : 'var(--color-text-muted)'
           }}
         >
-          Map
+          Carte
         </Link>
         <Link 
           to="convoys"
@@ -143,7 +143,7 @@ export default function PlayerApp() {
             color: location.pathname.includes('convoys') ? 'var(--color-primary)' : 'var(--color-text-muted)'
           }}
         >
-          Convoi
+          Convois
         </Link>
       </nav>
 

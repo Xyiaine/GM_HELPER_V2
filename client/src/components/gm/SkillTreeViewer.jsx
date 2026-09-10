@@ -12,7 +12,7 @@ const TIER_COLORS = {
 
 const SPACING = 2.0;
 
-export default function SkillTreeViewer({ campaignId, character, onUpdateCharacter, onClose, isGm }) {
+export default function SkillTreeViewer({ campaignId, character, onUpdateCharacter, onClose, isGm, embedded = false }) {
   const [trees, setTrees] = useState([]);
   const [selectedTreeId, setSelectedTreeId] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
@@ -137,8 +137,18 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)',
-      display: 'flex', zIndex: 9999, color: 'white', fontFamily: 'sans-serif'
+      position: embedded ? 'relative' : 'fixed',
+      inset: embedded ? undefined : 0,
+      height: embedded ? '650px' : '100%',
+      width: '100%',
+      background: 'rgba(10, 15, 25, 0.95)',
+      borderRadius: embedded ? '12px' : 0,
+      border: embedded ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+      overflow: 'hidden',
+      display: 'flex',
+      zIndex: embedded ? 1 : 9999,
+      color: 'white',
+      fontFamily: 'sans-serif'
     }}>
       {/* Sidebar - Tree Selection */}
       <div style={{
@@ -146,8 +156,10 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
         display: 'flex', flexDirection: 'column'
       }}>
         <div style={{ padding: 16, borderBottom: '1px solid #374151', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 'bold' }}>Arbres de Compétences</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer' }}><X size={20} /></button>
+          <h2 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 'bold' }}>Arbres de Talents</h2>
+          {onClose && (
+            <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer' }}><X size={20} /></button>
+          )}
         </div>
         
         <div style={{ padding: 16, borderBottom: '1px solid #374151', background: '#1f2937' }}>
