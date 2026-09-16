@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GM Helper — Analyse et propositions pour le plaisir de jeu</title>
+<style>
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:#F7F5F2;color:#1F1D1A;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 32px 112px}
+
+  header.top{background:#1F1D1A;color:#F7F5F2;padding:56px 0 48px;margin-bottom:56px}
+  header.top .wrap{padding-bottom:0}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C9A227;margin:0 0 14px}
+  header.top h1{font-size:34px;line-height:1.2;margin:0 0 14px;font-weight:600;letter-spacing:-.01em}
+  header.top p.lede{font-size:17px;line-height:1.6;color:#C7C2B8;margin:0;max-width:660px}
+  .meta{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px}
+  .meta span{font-size:12px;padding:4px 11px;border:1px solid #3A362F;border-radius:999px;color:#A9A399}
+
+  h2{font-size:23px;margin:64px 0 6px;font-weight:600;letter-spacing:-.01em;padding-top:22px;border-top:2px solid #1F1D1A}
+  h2 .num{color:#B45309;font-variant-numeric:tabular-nums;margin-right:10px}
+  h2+.sub{color:#6B665E;font-size:14px;margin:0 0 28px}
+  h3{font-size:17px;margin:38px 0 10px;font-weight:600}
+  h4{font-size:15px;margin:24px 0 8px;font-weight:600;color:#3A362F}
+  p{margin:0 0 14px}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{font-weight:600}
+  em{font-style:italic;color:#4A453D}
+
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;background:#EDEAE4;border:1px solid #E0DCD4;border-radius:4px;padding:1px 5px;color:#5A3E1B;white-space:nowrap}
+
+  .card{background:#fff;border:1px solid #E5E1D9;border-radius:12px;padding:22px 24px;margin:18px 0}
+  .card.tight{padding:16px 18px}
+
+  .verdict{background:#fff;border:1px solid #E5E1D9;border-left:4px solid #B45309;border-radius:0 12px 12px 0;padding:22px 26px;margin:26px 0}
+
+  .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:26px 0}
+  .metric{background:#fff;border:1px solid #E5E1D9;border-radius:10px;padding:16px 18px}
+  .metric .v{font-size:30px;font-weight:600;line-height:1.1;color:#B45309;font-variant-numeric:tabular-nums}
+  .metric .v.bad{color:#B91C1C}
+  .metric .l{font-size:12.5px;color:#6B665E;margin-top:6px;line-height:1.45}
+
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th{text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#6B665E;padding:0 12px 9px 0;border-bottom:1.5px solid #1F1D1A}
+  td{padding:11px 12px 11px 0;border-bottom:1px solid #E8E4DC;vertical-align:top}
+  td:last-child,th:last-child{padding-right:0}
+  tbody tr:last-child td{border-bottom:none}
+
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;line-height:1.6}
+  .p-s{background:#EAF3DE;color:#3B6D11;border:1px solid #C0DD97}
+  .p-m{background:#FAEEDA;color:#854F0B;border:1px solid #FAC775}
+  .p-l{background:#FCEBEB;color:#A32D2D;border:1px solid #F7C1C1}
+  .p-crit{background:#FCEBEB;color:#A32D2D;border:1px solid #F7C1C1}
+  .p-high{background:#FAEEDA;color:#854F0B;border:1px solid #FAC775}
+  .p-mid{background:#F1EFE8;color:#5F5E5A;border:1px solid #D3D1C7}
+  .p-ok{background:#EAF3DE;color:#3B6D11;border:1px solid #C0DD97}
+  .p-no{background:#FCEBEB;color:#A32D2D;border:1px solid #F7C1C1}
+
+  .fracture{background:#fff;border:1px solid #E5E1D9;border-radius:12px;padding:0;margin:20px 0;overflow:hidden}
+  .fracture .head{padding:16px 24px;background:#FBF2F2;border-bottom:1px solid #F0DCDC}
+  .fracture .head .n{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#A32D2D;font-weight:600}
+  .fracture .head h3{margin:5px 0 0;font-size:17px;color:#5A1A1A}
+  .fracture .body{padding:18px 24px 22px}
+  .fracture .body ul{margin-bottom:0}
+  .fracture .body li{margin-bottom:9px}
+  .fracture .cost{font-size:12.5px;color:#6B665E;margin-top:14px;padding-top:12px;border-top:1px dashed #E5E1D9}
+
+  .callout{background:#FDFBF6;border:1px solid #EFE6D2;border-radius:10px;padding:16px 20px;margin:20px 0;font-size:14px}
+  .callout .t{font-weight:600;color:#854F0B;font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+  @media(max-width:720px){.two{grid-template-columns:1fr}.wrap{padding:0 20px 72px}header.top{padding:40px 0 34px}header.top h1{font-size:26px}}
+
+  .coin{border-radius:12px;padding:20px 22px;border:1px solid}
+  .coin.threat{background:#FDF3F2;border-color:#F0D4D0}
+  .coin.shine{background:#FBF8EE;border-color:#EEE2C4}
+  .coin .name{font-size:16px;font-weight:600;margin-bottom:8px}
+  .coin.threat .name{color:#A32D2D}
+  .coin.shine .name{color:#854F0B}
+  .coin p{font-size:13.5px;margin:0;color:#4A453D}
+
+  .step{display:flex;gap:16px;margin:0 0 18px}
+  .step .n{flex:0 0 30px;height:30px;border-radius:50%;background:#1F1D1A;color:#F7F5F2;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;margin-top:2px}
+  .step .c{flex:1}
+  .step .c h4{margin:4px 0 5px;font-size:15px}
+  .step .c p{margin:0 0 6px;font-size:14px;color:#3A362F}
+  .step .c .gain{font-size:12.5px;color:#854F0B;font-weight:600}
+
+  .wave{border:1px solid #E5E1D9;border-radius:12px;overflow:hidden;margin:20px 0;background:#fff}
+  .wave .h{padding:14px 22px;border-bottom:1px solid #E8E4DC;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .wave .h h3{margin:0;font-size:16px}
+  .wave .h .d{font-size:12.5px;color:#6B665E}
+  .wave ol{margin:16px 22px 20px;padding-left:20px}
+  .wave li{margin-bottom:9px;font-size:14px}
+
+  .quote{font-size:15px;color:#4A453D;border-left:3px solid #C9A227;padding-left:18px;margin:22px 0;font-style:italic}
+
+  footer{margin-top:72px;padding-top:26px;border-top:1px solid #E5E1D9;font-size:13px;color:#6B665E}
+  @media print{
+    body{background:#fff}
+    header.top{background:#fff;color:#1F1D1A;padding:0 0 24px}
+    header.top p.lede{color:#4A453D}
+    header.top .kicker{color:#B45309}
+    .meta span{color:#6B665E;border-color:#E5E1D9}
+    h2{page-break-after:avoid}
+    .card,.fracture,.wave{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="kicker">GM Helper V2 — La Course du Sel</p>
+    <h1>Analyse complète et propositions pour le plaisir de jeu</h1>
+    <p class="lede">Ce que l'application fait déjà très bien, les cinq fractures qui empêchent la table de partager quoi que ce soit, et un système de jeu complet pour transformer la maîtrise du jeu en jeu à part entière.</p>
+    <div class="meta">
+      <span>16 septembre 2026</span>
+      <span>Analyse statique du dépôt</span>
+      <span>≈ 28 000 lignes de code</span>
+      <span>3 interfaces, 50 modèles de données</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2 style="border-top:none;padding-top:0"><span class="num">§</span>Synthèse</h2>
+<p class="sub">Le verdict en une page.</p>
+
+<div class="verdict">
+  <p style="margin-bottom:12px"><strong>GM Helper est un excellent outil de préparation et un référentiel de lore remarquable.</strong> Le modèle de données est d'une richesse rare pour un projet de cette taille : graphe narratif, horloges de menace, progression de factions, impacts historisés sur les cités, états individuels par personnage. La matière narrative est là, structurée, exploitable.</p>
+  <p style="margin-bottom:12px"><strong>C'est en revanche, aujourd'hui, un outil de session fragile.</strong> Le temps réel n'atteint pas la table, l'état de partie vit dans le navigateur du MJ, et la boucle de récompense ne se referme jamais vers les joueurs. Le MJ passe la séance à naviguer dans une interface au lieu de mener une partie.</p>
+  <p style="margin:0"><strong>La bonne nouvelle : la gamification que vous voulez n'est pas à inventer.</strong> Le doom pool, les trois decks de cartes, les complications actives, l'horloge du Ver, l'arène tactique et le co-pilote en quatre phases existent déjà dans le code. Ils ne sont simplement jamais reliés entre eux, jamais persistés, et jamais montrés à la table. Le travail restant consiste à les relier, les nommer et les scorer.</p>
+</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="v bad">2 / 3</div>
+    <div class="l">interfaces qui ne reçoivent <strong>aucun</strong> événement temps réel, à cause de noms d'événements socket désalignés</div>
+  </div>
+  <div class="metric">
+    <div class="v bad">0</div>
+    <div class="l">récompense jamais distribuée, alors que 5 types existent en base (<code>item</code>, <code>gold</code>, <code>xp</code>, <code>npcFavor</code>, <code>information</code>)</div>
+  </div>
+  <div class="metric">
+    <div class="v bad">100 %</div>
+    <div class="l">de la gamification existante (Menace, decks, complications) qui vit dans le <code>localStorage</code> du navigateur du MJ</div>
+  </div>
+</div>
+
+<h2><span class="num">1</span>Cartographie de l'application</h2>
+<p class="sub">Ce qui existe réellement, module par module.</p>
+
+<p>L'application est un monolithe fullstack : React 18 + Vite + Zustand + ReactFlow côté client, Express + Prisma/SQLite + Socket.IO côté serveur. Elle se déploie en trois interfaces distinctes, ce qui est le bon découpage pour une table de jeu.</p>
+
+<table>
+  <thead><tr><th style="width:150px">Interface</th><th style="width:230px">Route</th><th>État réel</th></tr></thead>
+  <tbody>
+    <tr><td><strong>MJ</strong></td><td><code>/gm/campaigns/:id/…</code><br>14 vues</td><td>Riche et fonctionnelle, mais surchargée : tout est au même niveau dans le sidebar, aucune vue « en séance ».</td></tr>
+    <tr><td><strong>Joueur</strong></td><td><code>/player/campaigns/:id/…</code><br>5 onglets</td><td>Présente mais trois briques cœur sont cassées : le lanceur de dés, les notes privées et le recalcul de niveau.</td></tr>
+    <tr><td><strong>Écran de table</strong></td><td><code>/table/:token</code></td><td>Conçue pour la TV, mais ne s'authentifie jamais auprès du serveur. En l'état, elle affiche un écran noir permanent.</td></tr>
+  </tbody>
+</table>
+
+<h3>Contenu déjà produit</h3>
+<ul>
+  <li><strong>24 arbres de compétences</strong> au format JSON (<code>server/src/data/skill_trees/</code>), avec prérequis et coûts en points.</li>
+  <li><strong>Graphe narratif de 43 nœuds</strong> pour la quête principale, avec secrets MJ, descriptions sensorielles, minuteurs, conditions de transition.</li>
+  <li><strong>10 cités-états</strong> positionnées par coordonnées GPS réelles, 7 paramètres dynamiques chacune, historique complet des variations.</li>
+  <li><strong>Bestiaire, véhicules modulaires</strong> (moteur, blindage, armes, réservoirs) et <strong>générateur procédural de convois</strong> sur plus de 100 biomes.</li>
+  <li><strong>Trois decks de cartes</strong> : 15 cartes de Danger avec coût en Menace, un générateur de PNJ express, 5 cartes d'Intrigue.</li>
+</ul>
+
+<h3>Ce qui est déjà de la gamification, sans être nommé comme telle</h3>
+<p>C'est le point le plus important de ce rapport. Le système de jeu que vous cherchez est à 60 % écrit. Voici l'inventaire exact.</p>
+
+<table>
+  <thead><tr><th style="width:220px">Brique de jeu</th><th style="width:250px">Fichier</th><th>Ce qui manque pour en faire un jeu</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Réserve de Menace</strong> (doom pool)</td><td><code>deck/DoomPoolWidget.jsx</code></td><td>Persistance serveur, visibilité par les joueurs, historique des dépenses.</td></tr>
+    <tr><td><strong>Deck de Dangers</strong> — 15 cartes, coût 1 à 4</td><td><code>deck/HazardCardsTab.jsx</code><br><code>deck/deckData.js</code></td><td>Sortir du tiroir, journaliser ce qui a été joué, alimenter un score.</td></tr>
+    <tr><td><strong>PNJ Express</strong> — générateur 1 clic</td><td><code>deck/NpcCardsTab.jsx</code></td><td>Compter les PNJ improvisés et utilisés en scène.</td></tr>
+    <tr><td><strong>Deck d'Intrigues</strong> — 5 accroches avec secret</td><td><code>deck/IntrigueCardsTab.jsx</code></td><td>Relier au graphe narratif et au journal de campagne.</td></tr>
+    <tr><td><strong>Complications actives</strong></td><td><code>deck/ActiveComplicationsBanner.jsx</code></td><td>Persistance, diffusion à la table, résolution horodatée.</td></tr>
+    <tr><td><strong>Horloge du Ver</strong> — 6 crans, 3 seuils narratifs</td><td><code>ThreatClockWidget.jsx</code><br><code>courseDuSel/saltRaceData.js</code></td><td>Relier au score de séance et à l'écran de table.</td></tr>
+    <tr><td><strong>Co-pilote en 4 phases</strong> (immersion, enjeu, PNJ, branchement)</td><td><code>SaltRaceTabletop.jsx:15-20</code></td><td>Scorer les phases jouées, enregistrer le combo, alimenter le rythme.</td></tr>
+    <tr><td><strong>Arène tactique</strong> en cartes à jouer</td><td><code>courseDuSel/TacticalCombatArena.jsx</code></td><td>La relier au CombatTracker (aujourd'hui deux outils concurrents).</td></tr>
+    <tr><td><strong>Course des 5 convois</strong> rivaux</td><td><code>saltRaceData.js</code> — <code>INITIAL_CONVOYS</code></td><td>Sortir du <code>localStorage</code>, projeter sur l'écran de table.</td></tr>
+    <tr><td><strong>Débrief post-session</strong></td><td><code>mechanicNotes.postSessionDebrief</code></td><td>Capturer les réponses des joueurs au lieu d'afficher des questions statiques.</td></tr>
+    <tr><td><strong>Titres, succès, score du MJ</strong></td><td>—</td><td>À créer. C'est la couche qui manque.</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="t">Conséquence stratégique</div>
+  Le chantier « transformer le MJ en jeu » n'est pas un développement lourd. C'est un <strong>raccordement</strong> : brancher ce qui existe, le persister, le scorer, et l'afficher sur l'écran de table. La partie coûteuse est déjà payée.
+</div>
+
+<h2><span class="num">2</span>Diagnostic — les cinq fractures</h2>
+<p class="sub">Pourquoi l'application, malgré sa richesse, ne procure pas encore de plaisir de session.</p>
+
+<div class="fracture">
+  <div class="head">
+    <div class="n">Fracture 1 — la plus grave</div>
+    <h3>La table ne partage rien</h3>
+  </div>
+  <div class="body">
+    <p>Les clients et le serveur ne parlent pas le même vocabulaire. Le serveur n'écoute que l'événement <code>join_campaign</code> (trait de souligné, <code>server/src/sockets.js:57</code>). Or deux composants joueurs émettent <code>join:campaign</code> (deux-points) : <code>LiveSession.jsx:41</code> et <code>PlayerMapView.jsx:35</code>. Le troisième émet <code>join:table_screen</code> (<code>TableScreenView.jsx:53</code>). Aucun de ces deux noms n'a d'écouteur côté serveur.</p>
+    <p>Résultat : les joueurs ne rejoignent jamais la room <code>campaign:{id}</code>. Ils ne reçoivent ni les messages du MJ, ni les spotlight, ni les jets partagés, ni les minuteurs de nœud. Seul le tableau de bord de convoi, qui utilise par accident le bon nom, fonctionne.</p>
+    <p>S'y ajoute un problème d'authentification sur l'écran de table : le client transmet le jeton via <code>socket.auth = { tableScreenToken }</code>, alors que le serveur lit <code>handshake.auth.token</code> et <code>handshake.auth.isTableScreen</code> (<code>sockets.js:8-9</code>). Le jeton est donc <code>undefined</code> et la connexion est refusée. L'écran de table — la pièce maîtresse du jeu en présentiel — ne peut pas fonctionner.</p>
+    <ul>
+      <li><code>encounter_state_changed_public</code> est diffusé par <code>io.emit()</code> (<code>encounters.js:69</code>), c'est-à-dire vers <strong>toutes les campagnes du serveur</strong>. Fuite de données entre tables.</li>
+      <li>Aucun client n'écoute <code>dice:rolled</code> : les jets lancés ne sont visibles par personne, y compris par celui qui les lance.</li>
+      <li>L'événement <code>encounter:your-turn</code> est bien émis vers le joueur concerné (<code>encounters.js:604</code>) mais aucun composant ne l'écoute.</li>
+    </ul>
+    <p class="cost"><strong>Coût du correctif :</strong> quelques lignes. Trois noms d'événements à aligner, un handshake à mettre en cohérence, un <code>io.emit</code> à remplacer par une émission ciblée. C'est le meilleur rapport impact/effort de tout ce rapport.</p>
+  </div>
+</div>
+
+<div class="fracture">
+  <div class="head">
+    <div class="n">Fracture 2</div>
+    <h3>L'état de partie vit dans le navigateur du MJ</h3>
+  </div>
+  <div class="body">
+    <p>La Réserve de Menace, les complications actives et les cartes personnalisées sont stockées dans le <code>localStorage</code> (<code>gmStore.js:795-870</code>), sous des clés dérivées de l'identifiant de campagne. La progression de la Course du Sel suit le même chemin (<code>SaltRaceTabletop.jsx:41-149</code>). Les messages diffusés en séance ne sont pas enregistrés non plus (<code>sessions.js:146</code>).</p>
+    <ul>
+      <li>Un vidage de cache et la partie perd sa tension accumulée.</li>
+      <li>Changer d'appareil, ou passer du bureau à la tablette, donne un état différent.</li>
+      <li>Les joueurs ne voient rien de cette tension : elle n'existe que sur l'écran du MJ.</li>
+      <li>Aucune donnée exploitable pour un score, un historique ou un récapitulatif.</li>
+    </ul>
+    <p>L'ironie est que le champ <code>Session.summary</code> existe déjà dans le schéma Prisma et n'est jamais écrit par aucune route. La place est réservée, personne ne l'occupe.</p>
+    <p class="cost"><strong>Coût du correctif :</strong> un modèle <code>SessionState</code> et trois actions de store à rediriger vers l'API.</p>
+  </div>
+</div>
+
+<div class="fracture">
+  <div class="head">
+    <div class="n">Fracture 3</div>
+    <h3>La boucle de gratification est ouverte</h3>
+  </div>
+  <div class="body">
+    <p>Le schéma de données prévoit tout ce qu'il faut pour récompenser les joueurs. Rien n'est jamais versé.</p>
+    <ul>
+      <li><code>QuestNodeReward</code> définit cinq types de récompense (<code>item</code>, <code>gold</code>, <code>xp</code>, <code>npcFavor</code>, <code>information</code>) avec un nœud de versement. Une seule route de création existe (<code>gm/quests.js:1009</code>) ; aucune route ne distribue.</li>
+      <li><code>Quest.xpReward</code>, <code>goldReward</code> et <code>itemRewards</code> ne sont jamais appliqués aux personnages.</li>
+      <li>Le déblocage d'un nœud d'arbre de compétence met à jour les points mais <strong>ne recalcule ni le niveau ni le bonus de maîtrise</strong> (<code>gm/skillTrees.js:42-48</code>). Le joueur dépense ses points et son niveau affiché ne bouge pas.</li>
+      <li>Les points de vie modifiés pendant un combat ne redescendent pas dans la fiche de personnage (<code>encounters.js:430-439</code>). Seul l'état de la rencontre est mis à jour.</li>
+      <li>Le résumé de fin de combat est bien écrit en base (<code>encounters.js:629-643</code>) et n'est jamais relu par l'interface.</li>
+    </ul>
+    <p>C'est la définition exacte d'un jeu sans récompense : le joueur agit, rien ne redescend. Aucun habillage graphique ne compensera cela.</p>
+    <p class="cost"><strong>Coût du correctif :</strong> une route de distribution et un écran de notification côté joueur. Le plus gros gain de plaisir par heure de développement.</p>
+  </div>
+</div>
+
+<div class="fracture">
+  <div class="head">
+    <div class="n">Fracture 4</div>
+    <h3>Le MJ est un opérateur de base de données</h3>
+  </div>
+  <div class="body">
+    <p>Pendant une partie, le MJ ne devrait jamais quitter l'écran de la scène en cours. Aujourd'hui, chaque action lui coûte une navigation.</p>
+    <ul>
+      <li>14 entrées dans le sidebar, toutes au même niveau hiérarchique. Aucune vue « je suis en séance ».</li>
+      <li>Créer une rencontre demande 4 clics, plus un formulaire à trois sélections <em>par combattant</em>, puis la saisie manuelle de chaque initiative (<code>CombatTracker.jsx:592-931</code>). Le tirage automatique n'existe que dans l'Arène tactique, et seulement pour les PNJ.</li>
+      <li>Lancer un dé oblige à quitter la vue : le lanceur est un composant séparé, <code>GMDicePanel.jsx</code>.</li>
+      <li><strong>Ajouter un combattant en cours de combat est impossible</strong> : le formulaire n'existe qu'en phase de préparation. Un renfort imprévu ne peut pas être saisi.</li>
+      <li>Jouer une complication demande : touche <code>M</code>, choix de l'onglet, défilement, clic sur la carte.</li>
+      <li><code>alert()</code> et <code>window.confirm()</code> sont utilisés dans 27 composants. Les erreurs sont avalées en <code>console.error</code>. Aucun système de notification.</li>
+      <li>La propriété CSS <code>justify:</code> est écrite au lieu de <code>justifyContent:</code> à neuf endroits (<code>CombatTracker.jsx</code> lignes 426, 736, 842, 898, 957 ; <code>BestiaryManager.jsx</code> lignes 165, 424, 481 ; <code>QuestManager.jsx:140</code> ; <code>SessionDashboard.jsx:110</code>). React l'ignore silencieusement et les mises en page sont cassées.</li>
+    </ul>
+    <p class="cost"><strong>Coût du correctif :</strong> c'est le poste le plus lourd, mais il se traite par un écran unique plutôt que par une réécriture.</p>
+  </div>
+</div>
+
+<div class="fracture">
+  <div class="head">
+    <div class="n">Fracture 5</div>
+    <h3>Aucune mémoire de session</h3>
+  </div>
+  <div class="body">
+    <p>Une campagne de jeu de rôle vit de son récit cumulatif. L'application ne conserve aucun récit.</p>
+    <ul>
+      <li>Pas de journal de campagne, pas de résumé de séance, pas de « précédemment ».</li>
+      <li>Les messages diffusés ne sont pas stockés : impossible de reconstituer une séance.</li>
+      <li>Le débrief post-session existe sous forme de questions statiques stockées dans la quête, sans capture de réponse.</li>
+      <li>Le résumé de fin de combat est en base et jamais affiché.</li>
+    </ul>
+    <p>Conséquence : le MJ reprend chaque séance à froid et doit reconstituer de mémoire, et la campagne ne laisse aucune trace consultable. C'est aussi ce qui rend impossible tout système de score ou de progression longue, pour le MJ comme pour les joueurs.</p>
+  </div>
+</div>
+
+<h3>Bugs bloquants à corriger au passage</h3>
+<table>
+  <thead><tr><th style="width:250px">Problème</th><th style="width:200px">Emplacement</th><th>Effet</th></tr></thead>
+  <tbody>
+    <tr><td><code>useState</code> appelé dans un <code>useEffect</code></td><td><code>LiveSession.jsx:74</code></td><td>Violation des règles des hooks : l'onglet Session Live plante au montage.</td></tr>
+    <tr><td><code>req.user.userId</code> au lieu de <code>req.user.id</code></td><td><code>player/privateNotes.js</code></td><td>Fuite entre joueurs (le GET renvoie la première fiche de la campagne) et notes privées inutilisables (403 systématique).</td></tr>
+    <tr><td>Schéma de validation incompatible</td><td><code>DiceRoller.jsx</code> vs <code>validators/schemas.js</code></td><td>Le lanceur de dés joueur renvoie systématiquement une erreur 400. Le mode « secret » est ignoré.</td></tr>
+    <tr><td>Route de déblocage sans contrôle</td><td><code>gm/skillTrees.js:9</code></td><td>Aucun <code>requireGM</code>, aucun contrôle de propriété : un joueur peut dépenser les points d'un autre personnage.</td></tr>
+    <tr><td>Copie de quête non transactionnelle</td><td><code>gm/quests.js:857-906</code></td><td>Une instanciation interrompue laisse un graphe à moitié copié.</td></tr>
+    <tr><td><code>deleteQuest</code> défini deux fois</td><td><code>gmStore.js:454</code> et <code>:547</code></td><td>La seconde définition masque la première.</td></tr>
+    <tr><td>Listes de conditions divergentes</td><td><code>CombatTracker.jsx</code> (14) vs <code>CombatantCard.jsx</code> (11)</td><td>Trois états manquent dans l'Arène : Charmé, Assourdi, Incapable d'agir.</td></tr>
+    <tr><td>Texte narratif codé en dur</td><td><code>QuestNodeCard.jsx:553</code></td><td>Une phrase spécifique au nœud 0.a s'affiche dans toutes les épreuves progressives.</td></tr>
+    <tr><td>Aucun thème clair</td><td><code>index.css:2</code> et de nombreux fonds en dur</td><td>Toute la palette est sombre et de nombreux composants codent <code>#222</code>, <code>#1e1e1e</code> ou <code>rgba(23,23,23,.95)</code> en dur. Aucun basculement possible.</td></tr>
+  </tbody>
+</table>
+
+<h2><span class="num">3</span>Plaisir du Maître du Jeu</h2>
+<p class="sub">Douze propositions, classées par ratio impact sur effort.</p>
+
+<p>Cinq principes guident ces propositions. Le MJ ne doit jamais saisir deux fois la même information. Toute action de séance doit être atteignable sans quitter l'écran. La charge de calcul doit être portée par la machine, pas par la tête. Le MJ doit pouvoir être surpris par son propre jeu. Et le MJ doit pouvoir déléguer.</p>
+
+<table>
+  <thead><tr><th style="width:32px">#</th><th style="width:210px">Proposition</th><th>Ce que ça résout</th><th style="width:62px">Effort</th><th style="width:74px">Impact</th></tr></thead>
+  <tbody>
+    <tr><td>A</td><td><strong>Un cockpit de session plein écran</strong><br><em>route <code>/run</code> sans sidebar</em></td><td>Une vue unique avec panneaux dockables : nœud courant en grand, lanceur de dés, Menace, horloges, initiative, PNJ de la scène, complications, spotlight, chronomètre. Le MJ cesse de naviguer et se met à mener.</td><td><span class="pill p-m">M</span></td><td><span class="pill p-high">Élevé</span></td></tr>
+    <tr><td>B</td><td><strong>Palette de commandes universelle</strong><br><em>Ctrl+K, avec verbes</em></td><td>Étend la recherche globale existante en palette d'actions : « ouvrir le nœud 2A.d », « +2 Menace », « jouer la carte Embuscade », « révéler Ines », « lancer 1d20+3 pour Doran ». Objectif : 90 % des actions de séance en moins de deux secondes.</td><td><span class="pill p-m">M</span></td><td><span class="pill p-high">Élevé</span></td></tr>
+    <tr><td>C</td><td><strong>La règle des trois secondes</strong></td><td>Tirage d'initiative automatique pour tous les combattants, ajout de renforts en cours de combat, et une barre de dés contextuelle qui pré-calcule les jets du nœud courant — les champs <code>jetSkill</code> et <code>jetDifficulty</code> sont déjà en base, il suffit de les lire.</td><td><span class="pill p-l">L</span></td><td><span class="pill p-high">Élevé</span></td></tr>
+    <tr><td>D</td><td><strong>Bouton « Résoudre la scène »</strong></td><td>Enchaîne en un geste : jet de dé, comparaison au DD, narration du résultat, application des effets (PV, menace, faction, récompense), puis avancée du nœud dans le graphe.</td><td><span class="pill p-m">M</span></td><td><span class="pill p-high">Élevé</span></td></tr>
+    <tr><td>E</td><td><strong>Bouton « Distribuer » les récompenses</strong></td><td>Ferme la boucle de gratification. Sur un nœud atteint, une modale propose les récompenses prévues, les applique réellement (or, objet, XP, faveur, information) et notifie le joueur.</td><td><span class="pill p-m">M</span></td><td><span class="pill p-crit">Critique</span></td></tr>
+    <tr><td>F</td><td><strong>« Précédemment » automatique</strong></td><td>À la clôture d'une séance, un récapitulatif est composé depuis les faits déjà en base : nœuds atteints, jets critiques, combats, récompenses, horloges, cités modifiées. Aucune génération de texte nécessaire, seulement une mise en forme de données existantes.</td><td><span class="pill p-s">S/M</span></td><td><span class="pill p-crit">Critique</span></td></tr>
+    <tr><td>G</td><td><strong>Persister l'état de séance en base</strong></td><td>Menace, complications et cartes personnalisées quittent le <code>localStorage</code>. L'état survit au rafraîchissement, se synchronise entre appareils, et peut être diffusé à la table.</td><td><span class="pill p-s">S/M</span></td><td><span class="pill p-crit">Critique</span></td></tr>
+    <tr><td>H</td><td><strong>Notifications et annulation</strong></td><td>Remplacer les <code>alert()</code> et <code>window.confirm()</code> par des notifications discrètes avec possibilité d'annuler. Supprimer une quête de 43 nœuds ne devrait pas dépendre d'une boîte de dialogue native.</td><td><span class="pill p-s">S</span></td><td><span class="pill p-mid">Moyen</span></td></tr>
+    <tr><td>I</td><td><strong>Éditeur de graphe outillé</strong></td><td>Annuler/refaire (absent aujourd'hui), duplication de branche, vue « courbe de tension » exploitant le champ <code>pacingTag</code> déjà en base, et audit d'intégrité proactif affiché en badge plutôt que caché derrière un bouton.</td><td><span class="pill p-m">M</span></td><td><span class="pill p-mid">Moyen</span></td></tr>
+    <tr><td>J</td><td><strong>Spotlight depuis la bibliothèque</strong></td><td>Aujourd'hui le MJ doit saisir une URL d'image à la main. Proposer les illustrations déjà en base (PNJ, lieux, cités, bestiaire) en un clic, avec révélation progressive pour les indices.</td><td><span class="pill p-s">S/M</span></td><td><span class="pill p-high">Élevé</span></td></tr>
+    <tr><td>K</td><td><strong>Bande son d'ambiance</strong></td><td>Il n'existe aujourd'hui aucun lecteur audio. Un panneau d'ambiance (nappe du désert, bourrasque, moteur, cri du Ver) diffusé sur l'écran de table est le meilleur ratio immersion sur effort du projet.</td><td><span class="pill p-m">M</span></td><td><span class="pill p-high">Élevé</span></td></tr>
+    <tr><td>L</td><td><strong>Assainir les fondations</strong></td><td>Sockets, transactions sur les copies de quête, tests, migrations propres, contrôle d'accès sur les routes d'écriture. Sans fiabilité, le MJ n'ose pas s'appuyer sur l'outil pendant une partie.</td><td><span class="pill p-s">S/M</span></td><td><span class="pill p-crit">Critique</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="t">Le geste qui change tout</div>
+  Si une seule chose devait être faite cette semaine, ce serait la proposition <strong>E</strong> combinée à la <strong>Fracture 1</strong>. Réparer les sockets rend le partage possible ; distribuer les récompenses rend ce partage désirable. Ces deux correctifs représentent quelques jours de travail et transforment la perception de l'application par toute la table.
+</div>
+
+<h2><span class="num">4</span>Plaisir des joueurs</h2>
+<p class="sub">Dix propositions, dont la première est un prérequis absolu.</p>
+
+<p>Le constat est net : côté joueur, presque rien de ce qui fait le plaisir d'une partie n'est branché. Le joueur consulte une fiche. Il ne reçoit rien de la table, il ne peut pas agir sur la table, et rien ne redescend vers lui.</p>
+
+<table>
+  <thead><tr><th style="width:32px">#</th><th style="width:210px">Proposition</th><th>Détail</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><strong>Réparer la table</strong><br><em>prérequis absolu</em></td><td>Tant que les trois liaisons temps réel sont rompues, aucune autre proposition de cette liste n'a d'effet mesurable. À traiter en premier.</td></tr>
+    <tr><td>2</td><td><strong>Un lanceur de dés qui donne envie</strong></td><td>Aujourd'hui le composant ne fonctionne même pas. Au-delà du correctif : animation de dé, détection et célébration du 20 naturel et du 1 critique, son, et surtout un <strong>flux de jets partagé</strong> affiché sur l'écran de table — aucun client n'écoute <code>dice:rolled</code> actuellement.</td></tr>
+    <tr><td>3</td><td><strong>Avantage et désavantage en un bouton</strong></td><td>Le serveur les gère déjà (<code>services/dice.js:204-210</code>) et le schéma de validation les accepte. Aucun bouton n'existe dans l'interface : la fonctionnalité est inatteignable depuis l'interface joueur.</td></tr>
+    <tr><td>4</td><td><strong>Le téléphone comme télécommande</strong></td><td>Un bouton « C'est mon tour » pendant le combat — l'événement <code>encounter:your-turn</code> est déjà émis vers le bon joueur et personne ne l'écoute. Plus les jets de sauvegarde et les jets de mort, déclenchables depuis le téléphone.</td></tr>
+    <tr><td>5</td><td><strong>Recevoir ses récompenses</strong></td><td>Notification sur le téléphone, animation d'acquisition, entrée automatique dans le carnet de bord. Voir la Fracture 3 : aujourd'hui rien n'est jamais versé.</td></tr>
+    <tr><td>6</td><td><strong>Célébrer la progression</strong></td><td>Une montée de niveau doit être un moment. Aujourd'hui le niveau ne se recalcule même pas lors d'un déblocage de compétence. Ajouter une animation de déblocage de nœud d'arbre et un écran de passage de palier.</td></tr>
+    <tr><td>7</td><td><strong>Donner de l'agence</strong></td><td>L'inspiration héroïque est un booléen avec un bouton qui n'a <em>aucun effet mécanique</em>. Lui donner un vrai pouvoir (relancer un d20, forcer un résultat) et le rendre dépensable par le joueur. Ajouter un pool de destin de groupe, des jets de groupe, et la possibilité de s'entraider — trois mécaniques absentes qui créent de la coopération.</td></tr>
+    <tr><td>8</td><td><strong>Visibilité narrative</strong></td><td>Aucune route joueur n'expose les quêtes. Le joueur ne connaît ni ses objectifs, ni les rumeurs, ni ce qu'il a découvert. Un onglet « ce que vous savez » construit la sensation de progression.</td></tr>
+    <tr><td>9</td><td><strong>Carnet de bord auto-rempli</strong></td><td>Les notes privées existent mais sont cassées et vides. Un carnet qui se remplit tout seul (jets mémorables, PNJ rencontrés, lieux découverts, récompenses, citations de la séance) donne au joueur le récit de sa propre campagne.</td></tr>
+    <tr><td>10</td><td><strong>Mobile-first réel</strong></td><td>L'intention est là (mise en page à 600 px, navigation fixe), mais la visionneuse d'arbres de compétences utilise un panneau latéral fixe de 270 px, une hauteur figée à 650 px et des gestionnaires de souris uniquement. Elle est inutilisable au doigt, donc en séance.</td></tr>
+  </tbody>
+</table>
+
+<h3>L'écran de table mérite mieux</h3>
+<p>Aujourd'hui il n'affiche qu'une image de spotlight, et il ne s'authentifie même pas. Or c'est l'objet que toute la table regarde. Il devrait porter la carte du monde vivante, l'horloge du Ver en grand, la position des convois rivaux — la Course du Sel est un excellent ressort de tension collective — et les récompenses qui tombent au moment où elles sont distribuées.</p>
+
+<h2><span class="num">5</span>Transformer la maîtrise du jeu en jeu</h2>
+<p class="sub">Le système complet : deux monnaies, une boucle en cinq temps, des succès, des défis et des titres.</p>
+
+<h3>Les trois pièges à éviter</h3>
+<p>Gamifier le rôle de MJ est séduisant mais dangereux. Trois dérives doivent être écartées dès la conception, sinon le jeu détruit la table qu'il prétend améliorer.</p>
+<ol>
+  <li><strong>Le MJ adversaire.</strong> Si le score récompense la défaite des joueurs, le MJ se met à jouer contre eux. Toute la conception doit l'empêcher.</li>
+  <li><strong>Le score de quantité.</strong> Compter les jets, les combats ou les dés lancés pousse au remplissage et punit les meilleures séances — celles d'introspection lente où rien ne se passe et où tout se joue.</li>
+  <li><strong>L'écran de plus.</strong> Un tableau de score qu'il faut penser à consulter est une charge mentale, pas un plaisir. Le score doit vivre dans le cockpit, jamais à côté.</li>
+</ol>
+
+<h3>La réponse : deux monnaies séparées, un score certifié par les joueurs</h3>
+
+<div class="two">
+  <div class="coin threat">
+    <div class="name">La Menace</div>
+    <p><strong>Elle existe déjà.</strong> C'est la Réserve de Menace du code actuel. Elle appartient à la fiction : elle monte quand les PJ échouent, font du bruit, prennent des risques ou se reposent imprudemment. Elle se dépense pour jouer des cartes de Danger.</p>
+    <p style="margin-top:10px">Le MJ ne marque <em>aucun point</em> en l'accumulant. Il marque des points en la dépensant bien.</p>
+  </div>
+  <div class="coin shine">
+    <div class="name">L'Éclat</div>
+    <p><strong>À créer.</strong> Il appartient à la table et mesure le plaisir effectivement produit. Il ne peut pas être auto-attribué : ce sont les joueurs qui le décernent, à la fin de la séance.</p>
+    <p style="margin-top:10px">C'est ce qui rend le jeu honnête. Le MJ joue littéralement à faire passer la meilleure soirée possible.</p>
+  </div>
+</div>
+
+<p>Le lien entre les deux est le point central du système. Jouer une carte de Danger coûte de la Menace et rapporte de l'Éclat <strong>uniquement si la table rebondit bien</strong>. Le MJ est donc récompensé pour avoir rendu les choses difficiles de manière juste et stimulante — jamais pour avoir écrasé le groupe. C'est ce mécanisme qui neutralise le premier piège.</p>
+
+<h3>La boucle en cinq temps</h3>
+
+<div class="step">
+  <div class="n">1</div>
+  <div class="c">
+    <h4>Le rappel — 2 minutes</h4>
+    <p>Le récapitulatif de la séance précédente est composé depuis les faits déjà en base. Le MJ le lit sans rien ressaisir. Replonger la table dans l'histoire devient un geste, pas un effort de mémoire.</p>
+    <div class="gain">+1 Éclat</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="n">2</div>
+  <div class="c">
+    <h4>Le tour — une scène</h4>
+    <p>Le co-pilote en quatre phases qui existe déjà (<code>SaltRaceTabletop.jsx:15-20</code>) devient un compteur de combo : immersion sensorielle, puis enjeu et jet, puis PNJ et roleplay, puis branchement. Les quatre phases enchaînées dans la même scène déclenchent un sans-faute.</p>
+    <div class="gain">+1 Éclat par phase · +2 pour un sans-faute</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="n">3</div>
+  <div class="c">
+    <h4>L'escalade — en continu</h4>
+    <p>La courbe de tension préparée dans le graphe — les tags <code>climax</code>, <code>respiration</code>, <code>transition</code>, <code>filler</code> — cesse d'être décorative et devient un objectif de jeu mesuré en direct. Une respiration placée juste après un climax vaut double : l'application valorise les meilleures pratiques de rythme, celles qu'un MJ débutant ne connaît pas encore.</p>
+    <div class="gain">+1 à +2 Éclats</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="n">4</div>
+  <div class="c">
+    <h4>La récompense — 1 clic</h4>
+    <p>Un bouton distribue l'or, les objets, l'XP, les faveurs et les informations prévus sur le nœud. Le joueur reçoit une notification sur son téléphone et peut marquer la récompense comme aimée. Une récompense aimée vaut double : le MJ apprend ce que sa table aime vraiment.</p>
+    <div class="gain">+1 Éclat · +2 si la récompense est aimée</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="n">5</div>
+  <div class="c">
+    <h4>Le débrief — 5 minutes</h4>
+    <p>Trois questions sur le téléphone des joueurs, puis chacun décerne un Éclat sur un axe : immersion, tension, justice, rythme, incarnation des PNJ. La somme devient le score de la séance. Le MJ découvre enfin ce que ses joueurs valorisent — et l'axe qui reçoit le moins d'Éclats lui indique précisément quoi travailler.</p>
+    <div class="gain">Le score de la séance</div>
+  </div>
+</div>
+
+<h3>Les succès du MJ</h3>
+<p>Ils ne récompensent pas le volume, mais les bonnes pratiques. Chacun est déclenché par un fait que l'application peut déjà observer.</p>
+
+<table>
+  <thead><tr><th style="width:190px">Succès</th><th>Condition de déclenchement</th><th style="width:150px">Ce qu'il encourage</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Le Triptyque</strong></td><td>Jouer les trois canaux sensoriels d'un nœud dans la même scène</td><td>Immersion</td></tr>
+    <tr><td><strong>Voix d'Or</strong></td><td>Incarner trois PNJ différents au cours d'une même séance</td><td>Incarnation</td></tr>
+    <tr><td><strong>Chef d'orchestre</strong></td><td>Respecter la courbe de tension préparée sur cinq nœuds consécutifs</td><td>Rythme</td></tr>
+    <tr><td><strong>L'Impartial</strong></td><td>Infliger une complication coûteuse et distribuer une récompense dans la même séance</td><td>Équité</td></tr>
+    <tr><td><strong>Le Conteur économe</strong></td><td>Vingt minutes sans quitter l'écran de session</td><td>Fluidité</td></tr>
+    <tr><td><strong>Improvisateur</strong></td><td>Créer un PNJ en moins de quinze secondes et l'utiliser dans la scène</td><td>Réactivité</td></tr>
+    <tr><td><strong>Gardien du lore</strong></td><td>Terminer une séance avec un audit d'intégrité vierge</td><td>Cohérence</td></tr>
+    <tr><td><strong>La main juste</strong></td><td>Unanimité des joueurs sur l'axe justice</td><td>Confiance</td></tr>
+    <tr><td><strong>Sans filet</strong></td><td>Mener une séance entière sans dépenser un seul point de Menace</td><td>Tension</td></tr>
+  </tbody>
+</table>
+
+<h3>Les défis de séance</h3>
+<p>Le MJ choisit une contrainte en début de séance. Elle double son gain d'Éclat. C'est du contenu de jeu, et surtout : chaque défi change concrètement la façon dont la table joue.</p>
+
+<table>
+  <thead><tr><th style="width:170px">Défi</th><th>Contrainte imposée au MJ</th><th style="width:180px">Effet ressenti par les joueurs</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Sel pur</strong></td><td>Aucun jet de dé de toute la séance</td><td>Narration pure, tout se joue au dialogue</td></tr>
+    <tr><td><strong>Sans mémoire</strong></td><td>Interdiction de relire les secrets du nœud avant de le jouer</td><td>Le MJ improvise vraiment, la table le sent</td></tr>
+    <tr><td><strong>Le Ver veille</strong></td><td>L'Horloge du Ver monte d'un cran toutes les vingt minutes réelles</td><td>Urgence permanente, le temps devient une menace</td></tr>
+    <tr><td><strong>Impitoyable</strong></td><td>Les complications ne peuvent pas être retirées avant la fin de la scène</td><td>Les conséquences pèsent, les choix coûtent</td></tr>
+    <tr><td><strong>Le convoi fantôme</strong></td><td>Un convoi rival doit arriver avant les PJ, quoi qu'ils fassent</td><td>Une course réelle, mesurable sur l'écran de table</td></tr>
+    <tr><td><strong>Foi aveugle</strong></td><td>Les points de vie exacts sont masqués aux joueurs</td><td>Tension maximale, un bandeau de statut remplace les chiffres</td></tr>
+  </tbody>
+</table>
+
+<h3>Le contre-pouvoir des joueurs — la carte « Non »</h3>
+<p>Un jeu du MJ qui ne serait pas contestable deviendrait arbitraire. Une fois par séance, le groupe peut annuler une complication active. Cela coûte deux Éclats au MJ, qui perd le bénéfice de sa carte, mais rend chaque carte réellement tendue : le MJ sait qu'on peut lui dire non, et les joueurs savent qu'ils ont un recours. C'est ce qui transforme une mécanique de score en relation de jeu.</p>
+
+<h3>Les titres — la progression longue</h3>
+<p>Le MJ progresse comme un personnage, mais les paliers débloquent des <strong>outils</strong>, jamais des badges décoratifs.</p>
+
+<table>
+  <thead><tr><th style="width:190px">Titre</th><th style="width:90px">Seuil</th><th>Déblocage</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Chroniqueur</strong></td><td>0 Éclat</td><td>Accès aux trois decks de cartes</td></tr>
+    <tr><td><strong>Conteur</strong></td><td>15 Éclats</td><td>Les cartes de Danger critiques (coût 4) deviennent jouables</td></tr>
+    <tr><td><strong>Maître du Bassin</strong></td><td>40 Éclats</td><td>Oracle narratif : une table de rebondissement à tirer quand les joueurs sont bloqués</td></tr>
+    <tr><td><strong>Oracle du Sel</strong></td><td>80 Éclats</td><td>La scène secrète : le droit de révéler un secret de lore majeur hors du graphe prévu</td></tr>
+    <tr><td><strong>Légende du Bassin</strong></td><td>150 Éclats</td><td>Mode campagne mythique et création de cartes entièrement personnalisées</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="t">Règle de conception</div>
+  Ne jamais placer de contenu indispensable derrière le score. Les paliers doivent débloquer du confort, du cosmétique et de l'autorité narrative — jamais le cœur du jeu. Un MJ qui ne peut pas mener sa partie parce qu'il n'a pas assez de points abandonnera le système, et il aura raison.
+</div>
+
+<h3>Le contrat de table</h3>
+<p>Un système qui gamifie la maîtrise du jeu doit intégrer la sécurité émotionnelle de la table, sinon il optimise le plaisir au détriment des personnes. Une carte X et un signal de pause, configurables par le MJ, visibles par tous, qui interrompent la fiction sans justification. Ce n'est pas un gadget : c'est ce qui permet d'explorer des thèmes durs — et cet univers post-apocalyptique en contient — sans casser la confiance.</p>
+
+<h3>Ce qu'il reste à construire</h3>
+<table>
+  <thead><tr><th style="width:250px">Brique du jeu</th><th style="width:120px">Existe déjà</th><th>Reste à faire</th></tr></thead>
+  <tbody>
+    <tr><td>Réserve de Menace</td><td><span class="pill p-ok">Oui</span></td><td>Persister en base, afficher aux joueurs</td></tr>
+    <tr><td>Cartes de Danger avec coût</td><td><span class="pill p-ok">Oui, 15 cartes</span></td><td>Sortir du tiroir, journaliser les cartes jouées</td></tr>
+    <tr><td>Générateur de PNJ express</td><td><span class="pill p-ok">Oui</span></td><td>Compter les PNJ improvisés puis utilisés en scène</td></tr>
+    <tr><td>Horloges de menace</td><td><span class="pill p-ok">Oui</span></td><td>Relier au score et à l'écran de table</td></tr>
+    <tr><td>Co-pilote en quatre phases</td><td><span class="pill p-ok">Oui</span></td><td>Scorer les phases, enregistrer les combos</td></tr>
+    <tr><td>Débrief post-session</td><td><span class="pill p-ok">Questions statiques</span></td><td>Capturer les réponses, transformer en vote</td></tr>
+    <tr><td>Récapitulatif de séance</td><td><span class="pill p-no">Non</span></td><td>Générer depuis les faits déjà en base</td></tr>
+    <tr><td>Éclat et score du MJ</td><td><span class="pill p-no">Non</span></td><td>Créer le modèle, l'interface et le vote</td></tr>
+    <tr><td>Succès</td><td><span class="pill p-no">Non</span></td><td>Créer — les déclencheurs sont déjà instrumentables</td></tr>
+    <tr><td>Défis de séance</td><td><span class="pill p-no">Non</span></td><td>Créer — purement déclaratif</td></tr>
+    <tr><td>Titres et paliers</td><td><span class="pill p-no">Non</span></td><td>Créer — dépend du score</td></tr>
+  </tbody>
+</table>
+
+<p class="quote">Six briques sur onze existent déjà. Le système de jeu du MJ n'est pas un projet à part : c'est la couche qui donne enfin une raison d'être à ce qui a été construit.</p>
+
+<h2><span class="num">6</span>Feuille de route</h2>
+<p class="sub">Trois vagues, dans cet ordre.</p>
+
+<div class="wave">
+  <div class="h"><h3>Vague 1 — Réparer la table</h3><span class="d">quelques jours · débloque tout le reste</span></div>
+  <ol>
+    <li>Aligner les noms d'événements socket et le handshake de l'écran de table.</li>
+    <li>Retirer le <code>useState</code> du <code>useEffect</code> dans <code>LiveSession.jsx</code>.</li>
+    <li>Corriger <code>req.user.userId</code> en <code>req.user.id</code> dans les notes privées.</li>
+    <li>Réparer le lanceur de dés joueur et brancher l'écoute de <code>dice:rolled</code>.</li>
+    <li>Remplacer <code>io.emit</code> par une émission ciblée sur la room de campagne.</li>
+    <li>Ajouter <code>requireGM</code> et un contrôle de propriété sur le déblocage de compétence.</li>
+  </ol>
+  <p style="margin:0 22px 20px;font-size:13.5px;color:#6B665E">Résultat mesurable : le spotlight, les messages, les jets et les minuteurs atteignent réellement la table.</p>
+</div>
+
+<div class="wave">
+  <div class="h"><h3>Vague 2 — Fermer la boucle</h3><span class="d">1 à 2 semaines · rend le jeu désirable</span></div>
+  <ol start="7">
+    <li>Persister Menace, complications et cartes personnalisées en base.</li>
+    <li>Bouton « Distribuer les récompenses » avec notification joueur.</li>
+    <li>Recalcul du niveau et du bonus de maîtrise au déblocage d'une compétence.</li>
+    <li>« Précédemment » généré depuis les faits en base.</li>
+    <li>Notifications et annulation à la place des <code>alert()</code> et <code>confirm()</code>.</li>
+  </ol>
+</div>
+
+<div class="wave">
+  <div class="h"><h3>Vague 3 — Le jeu</h3><span class="d">3 à 5 semaines · le MJ devient joueur</span></div>
+  <ol start="12">
+    <li>Cockpit de session plein écran.</li>
+    <li>Palette de commandes universelle.</li>
+    <li>Barre de dés contextuelle et bouton « Résoudre la scène ».</li>
+    <li>Éclat, succès, défis, titres et débrief voté.</li>
+    <li>Écran de table enrichi et bande son d'ambiance.</li>
+  </ol>
+</div>
+
+<h2><span class="num">7</span>Indicateurs de succès</h2>
+<p class="sub">Ce qu'il faut mesurer pour savoir si le plaisir a réellement augmenté.</p>
+
+<table>
+  <thead><tr><th>Indicateur</th><th style="width:150px">Aujourd'hui</th><th style="width:190px">Cible</th></tr></thead>
+  <tbody>
+    <tr><td>Événements temps réel reçus par un joueur en séance</td><td>0</td><td>plus de 20 par séance</td></tr>
+    <tr><td>Récompenses distribuées par séance</td><td>0</td><td>au moins 1 par joueur</td></tr>
+    <tr><td>Séances avec un récapitulatif écrit</td><td>0 %</td><td>100 %</td></tr>
+    <tr><td>Débriefs collectés</td><td>aucun</td><td>100 % des séances</td></tr>
+    <tr><td>Temps de préparation d'une rencontre</td><td>environ 3 minutes</td><td>moins de 30 secondes</td></tr>
+    <tr><td>Navigations du MJ par scène jouée</td><td>élevé, non mesuré</td><td>moins de 3</td></tr>
+  </tbody>
+</table>
+
+<p>Trois indicateurs de plaisir, plus subjectifs mais plus importants que les précédents : le <strong>taux de retour des joueurs</strong> d'une séance à l'autre, l'<strong>axe le plus faible du débrief</strong> — qui indique au MJ ce qu'il doit travailler, ce qu'aucun outil ne lui dit aujourd'hui — et le <strong>nombre de séances menées par campagne</strong>, qui est la seule mesure fiable de la santé d'une table.</p>
+
+<footer>
+  <p>Rapport produit par analyse statique du dépôt <code>GM_Helper</code> — client React, serveur Express, schéma Prisma, scripts de données. Toutes les références de fichiers et de lignes sont vérifiables dans l'état actuel du dépôt.</p>
+  <p>Le backlog exécutable correspondant se trouve dans <code>Cahier des charges/Backlog_priorise_v1.md</code>.</p>
+</footer>
+
+</div>
+</body>
+</html>

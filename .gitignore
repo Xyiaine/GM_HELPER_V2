@@ -3,3 +3,6 @@ dist/
 .env
 server/uploads/
 .DS_Store
+
+# Agent workspace (memoire projet, non versionnee)
+.workbuddy-ai/
