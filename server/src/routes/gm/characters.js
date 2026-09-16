@@ -211,6 +211,11 @@ router.delete('/:id/inventory/:itemId', async (req, res) => {
     });
     res.json({ message: 'Item removed from inventory' });
   } catch (err) {
+    console.error('Remove inventory item error:', err);
+    res.status(500).json({ error: 'Failed to remove item from inventory' });
+  }
+});
+
 // PATCH /:id/inventory/:itemId/toggle-equip — Toggle equipped state
 router.patch('/:id/inventory/:itemId/toggle-equip', async (req, res) => {
   try {
