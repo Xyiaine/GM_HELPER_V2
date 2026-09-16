@@ -4,6 +4,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { getProficiencyBonus } = require('./dnd5eMath');
 
 let skillTreesCache = null;
 
@@ -74,11 +75,9 @@ function calculateHybridProgression(unlockedSkills) {
   const POINTS_PER_LEVEL = 2;
 
   for (const [treeId, points] of Object.entries(pointsPerTree)) {
-    // Level = 1 for the first point, +1 for every POINTS_PER_LEVEL points.
-    const classLevel = Math.max(1, Math.floor(points / POINTS_PER_LEVEL) + (points % POINTS_PER_LEVEL !== 0 || points === 0 ? 1 : 0) - (points % POINTS_PER_LEVEL === 0 ? 0 : 0));
-    // Actually simpler: Math.ceil(points / POINTS_PER_LEVEL)
+    // One level for the first point, then one more every POINTS_PER_LEVEL points.
     const level = Math.ceil(points / POINTS_PER_LEVEL);
-    
+
     if (level > 0) {
       classes.push({
         id: treeId,
@@ -98,7 +97,28 @@ function calculateHybridProgression(unlockedSkills) {
   return { classes, totalLevel };
 }
 
+/**
+ * Derive every character statistic that depends on the unlocked skill trees.
+ *
+ * Unlocking a node used to update `unlockedSkills` and `skillPoints` but leave
+ * `level` and `proficiencyBonus` untouched, so a player could spend points and
+ * see no progression at all. Any write to `unlockedSkills` must go through this
+ * helper so the derived values stay in sync.
+ *
+ * @param {Array<string>} unlockedSkills Array of unlocked node ids
+ * @returns {{ level: number, proficiencyBonus: number, classes: Array }}
+ */
+function deriveProgression(unlockedSkills) {
+  const { classes, totalLevel } = calculateHybridProgression(unlockedSkills);
+  return {
+    level: totalLevel,
+    proficiencyBonus: getProficiencyBonus(totalLevel),
+    classes,
+  };
+}
+
 module.exports = {
   loadSkillTrees,
-  calculateHybridProgression
+  calculateHybridProgression,
+  deriveProgression,
 };
