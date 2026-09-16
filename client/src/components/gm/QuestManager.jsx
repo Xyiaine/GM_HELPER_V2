@@ -296,7 +296,7 @@ export default function QuestManager() {
       {showCreateModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'var(--paper-inset)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
+          backgroundColor: 'var(--scrim)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
         }}>
           <div style={{ 
             backgroundColor: 'var(--color-background)', padding: '24px', borderRadius: '8px',

@@ -16,7 +16,7 @@ export default function DoomPoolWidget() {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(23, 23, 23, 0.95)',
+      backgroundColor: 'var(--paper-raised)',
       border: `1px solid ${currentColor}40`,
       borderRadius: '12px',
       padding: '16px',

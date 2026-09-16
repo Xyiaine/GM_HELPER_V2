@@ -766,7 +766,7 @@ export default function ConvoyManager() {
             {/* ─── Rewards Modal ─── */}
             {showRewards && (
               <div style={{
-                position: 'fixed', inset: 0, background: 'var(--paper-inset)', display: 'flex',
+                position: 'fixed', inset: 0, background: 'var(--scrim)', display: 'flex',
                 alignItems: 'center', justifyContent: 'center', zIndex: 1000,
               }} onClick={() => setShowRewards(false)}>
                 <div style={{
@@ -840,7 +840,7 @@ export default function ConvoyManager() {
 
               return (
                 <div style={{
-                  position: 'fixed', inset: 0, background: 'var(--paper-inset)', display: 'flex',
+                  position: 'fixed', inset: 0, background: 'var(--scrim)', display: 'flex',
                   alignItems: 'center', justifyContent: 'center', zIndex: 1100, backdropFilter: 'blur(3px)'
                 }} onClick={() => setInspectVehicle(null)}>
                   <div style={{

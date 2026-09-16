@@ -14,3 +14,6 @@ vite.config.js.timestamp-*.mjs
 # schema.prisma est la source de verite, la base se recree avec `npx prisma db push`
 server/prisma/dev.db
 server/prisma/dev.db.backup-*
+
+# Dossier de build de verification (contournement du blocage de dist)
+client/.build-check/

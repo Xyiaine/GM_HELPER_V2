@@ -475,7 +475,7 @@ export default function BestiaryManager() {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'var(--paper-inset)',
+            backgroundColor: 'var(--scrim)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

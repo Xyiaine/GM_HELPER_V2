@@ -291,8 +291,24 @@ input, textarea, select {
   border: 1px solid var(--rule);
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
-  width: 100%;
   transition: border-color var(--motion-fast);
+}
+
+/* Les champs de saisie occupent toute la largeur de leur conteneur. Les cases à
+   cocher et les boutons radio, non : étirés à 100 %, ils écrasaient le texte
+   posé à côté d'eux. Le défaut existait dans toute l'application. */
+input:not([type='checkbox']):not([type='radio']),
+textarea,
+select {
+  width: 100%;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  width: auto;
+  flex-shrink: 0;
+  padding: 0;
+  accent-color: var(--rust);
 }
 
 input::placeholder, textarea::placeholder {
@@ -341,7 +357,10 @@ input:focus, textarea:focus, select:focus {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  /* Encre atténuée et non effacée : ces étiquettes structurent la navigation,
+     elles doivent rester lisibles. L'encre effacée ne donne qu'un rapport de
+     contraste de 2,6 pour 1, sous le seuil de lisibilité. */
+  color: var(--ink-muted);
 }
 
 /* Donnée technique : code de nœud, coordonnée, difficulté, expression de dés. */

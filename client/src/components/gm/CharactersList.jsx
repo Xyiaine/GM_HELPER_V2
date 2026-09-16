@@ -119,7 +119,7 @@ export default function CharactersList() {
       )}
 
       {viewingSheetFor && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--paper-inset)', zIndex: 50, display: 'flex', justifyContent: 'center', overflowY: 'auto', padding: '24px' }}>
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--scrim)', zIndex: 50, display: 'flex', justifyContent: 'center', overflowY: 'auto', padding: '24px' }}>
           <div style={{ backgroundColor: 'var(--color-bg)', width: '100%', maxWidth: '800px', borderRadius: '8px', position: 'relative', minHeight: '80vh', border: '1px solid var(--color-border)' }}>
             <button onClick={() => setViewingSheetFor(null)} style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer' }}>
               <X size={24} />

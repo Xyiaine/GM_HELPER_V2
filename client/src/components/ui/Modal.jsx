@@ -11,7 +11,7 @@ export default function Modal({ isOpen, onClose, title, children, maxWidth = '50
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'var(--paper-inset)',
+      backgroundColor: 'var(--scrim)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

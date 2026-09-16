@@ -466,7 +466,7 @@ export default function CombatTracker() {
 
       {/* Modal create encounter */}
       {isCreatingEncounter && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--paper-inset)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--scrim)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ backgroundColor: 'var(--color-surface)', padding: '24px', borderRadius: '8px', border: '1px solid var(--color-border)', width: '420px' }}>
             <h3 style={{ margin: '0 0 16px 0', color: 'var(--color-primary)' }}>Créer une Rencontre de Zéro</h3>
             <form onSubmit={handleCreateNewEncounter} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>

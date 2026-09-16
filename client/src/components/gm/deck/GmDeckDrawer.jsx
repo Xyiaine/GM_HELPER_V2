@@ -26,7 +26,7 @@ export default function GmDeckDrawer() {
         style={{
           position: 'fixed',
           inset: 0,
-          backgroundColor: 'var(--paper-inset)',
+          backgroundColor: 'var(--scrim)',
           backdropFilter: 'blur(3px)',
           zIndex: 9998,
           transition: 'opacity 0.25s ease'
@@ -63,7 +63,7 @@ export default function GmDeckDrawer() {
         <div style={{
           padding: '16px 20px',
           borderBottom: '1px solid var(--color-border)',
-          backgroundColor: 'rgba(15, 15, 15, 0.95)',
+          backgroundColor: 'var(--paper-sunken)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
