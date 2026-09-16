@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
     const character = await prisma.character.findFirst({
-      where: { campaignId: req.campaignId, ownerUserId: req.user.userId }
+      where: { campaignId: req.campaignId, ownerUserId: req.user.id }
     });
     if (!character) return res.status(404).json({ error: 'Character not found' });
 
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
     if (!content) return res.status(400).json({ error: 'content is required' });
 
     const character = await prisma.character.findFirst({
-      where: { campaignId: req.campaignId, ownerUserId: req.user.userId }
+      where: { campaignId: req.campaignId, ownerUserId: req.user.id }
     });
     if (!character) return res.status(404).json({ error: 'Character not found' });
 
@@ -59,7 +59,7 @@ router.put('/:id', async (req, res) => {
       include: { character: true }
     });
     
-    if (!note || note.character.ownerUserId !== req.user.userId || note.character.campaignId !== req.campaignId) {
+    if (!note || note.character.ownerUserId !== req.user.id || note.character.campaignId !== req.campaignId) {
       return res.status(403).json({ error: 'Unauthorized' });
     }
 
@@ -83,7 +83,7 @@ router.delete('/:id', async (req, res) => {
       include: { character: true }
     });
     
-    if (!note || note.character.ownerUserId !== req.user.userId || note.character.campaignId !== req.campaignId) {
+    if (!note || note.character.ownerUserId !== req.user.id || note.character.campaignId !== req.campaignId) {
       return res.status(403).json({ error: 'Unauthorized' });
     }
 
