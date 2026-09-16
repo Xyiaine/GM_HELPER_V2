@@ -735,6 +735,19 @@ const updateCampaignStateSchema = z.object({
   wormClock: z.number().int().min(0).max(20).optional(),
 });
 
+// Jet caché : le MJ lance pour un personnage, hors de la vue des joueurs.
+const hiddenRollSchema = z.object({
+  characterId: z.string().min(1),
+  type: z.enum(['ability_check', 'saving_throw', 'skill_check', 'initiative', 'free']),
+  ability: z.string().optional(),
+  skill: z.string().optional(),
+  expression: z.string().max(50).optional(),
+  label: z.string().max(200).optional(),
+  advantage: z.boolean().optional(),
+  disadvantage: z.boolean().optional(),
+  dc: z.number().int().min(1).max(40).optional(),
+});
+
 const createSessionLogEntrySchema = z.object({
   kind: z.enum(['message', 'spotlight', 'complication', 'reward', 'dice', 'node', 'state']),
   payload: z.record(z.any()),
@@ -827,4 +840,5 @@ module.exports = {
   // Campain session state
   updateCampaignStateSchema,
   createSessionLogEntrySchema,
+  hiddenRollSchema,
 };

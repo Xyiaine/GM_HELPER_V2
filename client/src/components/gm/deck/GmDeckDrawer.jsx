@@ -4,7 +4,8 @@ import DoomPoolWidget from './DoomPoolWidget';
 import HazardCardsTab from './HazardCardsTab';
 import NpcCardsTab from './NpcCardsTab';
 import IntrigueCardsTab from './IntrigueCardsTab';
-import { X, Flame, Users, Scroll, Layers } from 'lucide-react';
+import HiddenRollsTab from './HiddenRollsTab';
+import { X, Flame, Users, Scroll, Layers, Eye } from 'lucide-react';
 
 export default function GmDeckDrawer() {
   const {
@@ -117,9 +118,10 @@ export default function GmDeckDrawer() {
           {/* Always Visible Doom Pool Widget */}
           <DoomPoolWidget />
 
-          {/* Tab Navigation */}
+          {/* Tab Navigation — deux colonnes, quatre onglets */}
           <div style={{
-            display: 'flex',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
             backgroundColor: 'var(--color-background)',
             padding: '4px',
             borderRadius: '8px',
@@ -192,6 +194,27 @@ export default function GmDeckDrawer() {
             >
               <Scroll size={14} /> Intrigues & Rumeurs
             </button>
+
+            <button
+              onClick={() => setActiveDeckTab('hidden')}
+              style={{
+                padding: '8px 6px',
+                borderRadius: '6px',
+                border: 'none',
+                backgroundColor: activeDeckTab === 'hidden' ? 'var(--color-primary)' : 'transparent',
+                color: activeDeckTab === 'hidden' ? '#fff' : 'var(--color-text-muted)',
+                fontWeight: activeDeckTab === 'hidden' ? 600 : 400,
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '5px',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <Eye size={14} /> Jets cachés
+            </button>
           </div>
 
           {/* Active Tab Content */}
@@ -199,6 +222,7 @@ export default function GmDeckDrawer() {
             {activeDeckTab === 'hazard' && <HazardCardsTab />}
             {activeDeckTab === 'npc' && <NpcCardsTab />}
             {activeDeckTab === 'intrigue' && <IntrigueCardsTab />}
+            {activeDeckTab === 'hidden' && <HiddenRollsTab />}
           </div>
         </div>
       </aside>
