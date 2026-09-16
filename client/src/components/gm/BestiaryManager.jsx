@@ -162,7 +162,7 @@ export default function BestiaryManager() {
       <header
         style={{
           display: 'flex',
-          justify: 'space-between',
+          justifyContent: 'space-between',
           alignItems: 'center',
           marginBottom: '24px',
           flexWrap: 'wrap',
@@ -421,7 +421,7 @@ export default function BestiaryManager() {
                 <div
                   style={{
                     display: 'flex',
-                    justify: 'flex-end',
+                    justifyContent: 'flex-end',
                     gap: '8px',
                     marginTop: 'auto',
                     borderTop: '1px solid var(--color-border)',
@@ -478,7 +478,7 @@ export default function BestiaryManager() {
             backgroundColor: 'rgba(0,0,0,0.7)',
             display: 'flex',
             alignItems: 'center',
-            justify: 'center',
+            justifyContent: 'center',
             zIndex: 1000,
             padding: '20px',
           }}

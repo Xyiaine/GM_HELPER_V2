@@ -373,6 +373,16 @@ export default function QuestNodeCard({
                 const outcomeKey = `${challenge.id}_t${progressiveTurn}`;
                 const currentOutcome = challengeOutcomes[outcomeKey];
 
+                // This note used to be hardcoded and therefore displayed on every
+                // progressive challenge, including nodes it had nothing to do with.
+                // It is now driven by the challenge data, with the original node 0.a
+                // wording kept as a fallback so nothing is lost.
+                const narrativeNote = challenge.narrativeNote || (
+                  (node.displayCode === '0.a' || node.id === 'node_0a')
+                    ? "Même en cas de réussite totale, les souvenirs de leur passé et du tir sur le Convoi 5 restent effacés. C'est l'acuité visuelle et la motricité qui sont rétablies."
+                    : null
+                );
+
                 return (
                   <div
                     key={challenge.id}
@@ -549,9 +559,11 @@ export default function QuestNodeCard({
                         </div>
                       </div>
 
-                      <div style={{ fontSize: '0.74rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-                        💡 <strong>Note narrative :</strong> Même en cas de réussite totale, les souvenirs de leur passé et du tir sur le Convoi 5 restent effacés. C'est l'acuité visuelle et la motricité qui sont rétablies.
-                      </div>
+                      {narrativeNote && (
+                        <div style={{ fontSize: '0.74rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+                          💡 <strong>Note narrative :</strong> {narrativeNote}
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

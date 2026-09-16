@@ -107,7 +107,7 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
         padding: '16px 20px',
         borderBottom: '1px solid var(--color-border)',
         display: 'flex',
-        justify: 'space-between',
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'var(--color-background)'
       }}>

@@ -137,7 +137,7 @@ export default function QuestManager() {
       {/* Quest Sorting Bar */}
       <div style={{
         display: 'flex',
-        justify: 'space-between',
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'var(--color-surface)',
         padding: '12px 16px',

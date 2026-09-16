@@ -544,17 +544,10 @@ export const useGmStore = create((set, get) => ({
     }
   },
 
-  deleteQuest: async (campaignId, questId) => {
-    try {
-      await api.delete(`/api/v1/gm/campaigns/${campaignId}/quests/${questId}`);
-      set((state) => ({
-        quests: state.quests.filter(q => q.id !== questId)
-      }));
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  },
+  // Note: a second `deleteQuest` used to be defined here, shadowing the one above.
+  // It removed the quest from the local list only, leaving the server response
+  // (node counts, related entities) unreflected. The surviving definition above
+  // refetches the list instead.
 
   deleteQuestNodeConnection: async (campaignId, questId, nodeId, connId) => {
     try {

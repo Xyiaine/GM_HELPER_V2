@@ -158,7 +158,7 @@ export default function TableScreenView() {
             padding: '12px 24px',
             display: 'flex',
             alignItems: 'center',
-            justify: 'space-between',
+            justifyContent: 'space-between',
             zIndex: 200,
             backdropFilter: 'blur(10px)',
           }}
