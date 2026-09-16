@@ -9,6 +9,55 @@ const router = express.Router({ mergeParams: true });
 
 router.use(verifyToken, requireCampaignAccess, requireGM);
 
+/**
+ * Applique les conséquences d'un changement de statut de session.
+ *
+ * Partagé par la création et la mise à jour, pour que démarrer une séance en un
+ * seul appel se comporte exactement comme la démarrer en deux temps.
+ *
+ * @returns {Promise<{error?: string, nodes?: Array, updates?: object}>}
+ */
+async function applySessionStatusTransition(prisma, campaignId, session, updates) {
+  if (updates.status === 'live' && session.status !== 'live') {
+    const incompleteTimed = await prisma.questNode.findMany({
+      where: {
+        quest: { campaignId, status: 'active' },
+        isTimed: true,
+        timeoutNodeId: null,
+      },
+    });
+    if (incompleteTimed.length > 0) {
+      return {
+        error: 'Cannot start session: timed nodes without timeout target',
+        nodes: incompleteTimed.map((n) => ({ id: n.id, title: n.title })),
+      };
+    }
+    if (!session.startedAt) updates.startedAt = new Date();
+  }
+
+  if (updates.status === 'ended' && !session.endedAt) {
+    updates.endedAt = new Date();
+  }
+
+  return { updates };
+}
+
+/** Diffuse le changement de statut aux clients de la campagne. */
+function emitSessionStatus(io, campaignId, session) {
+  if (!io) return;
+  if (session.status === 'live') {
+    io.to(`campaign:${campaignId}`).emit('session:started', {
+      sessionId: session.id,
+      campaignId,
+    });
+  } else if (session.status === 'ended') {
+    io.to(`campaign:${campaignId}`).emit('session:ended', {
+      sessionId: session.id,
+      campaignId,
+    });
+  }
+}
+
 router.get('/', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
@@ -27,16 +76,30 @@ router.post('/', validate(createSessionSchema), async (req, res) => {
     const prisma = req.app.get('prisma');
     const { mode, ...rest } = req.body;
     let data = { ...rest, campaignId: req.campaignId };
-    
+
     if (mode) data.mode = mode;
-    
+
     if (data.mode === 'in_person') {
       data.tableScreenToken = crypto.randomBytes(32).toString('hex');
     }
-    
+
+    // Démarrer directement une séance depuis la création doit passer par les
+    // mêmes garde-fous que la mise à jour, sinon les minuteurs sans cible de
+    // dépassement passeraient au travers.
+    if (data.status === 'live') {
+      const transition = await applySessionStatusTransition(prisma, req.campaignId, {}, data);
+      if (transition.error) {
+        return res.status(400).json({ error: transition.error, nodes: transition.nodes });
+      }
+    }
+
     const session = await prisma.session.create({ data });
+
+    emitSessionStatus(req.app.get('io'), req.campaignId, session);
+
     res.status(201).json({ session });
   } catch (err) {
+    console.error('Create session error:', err);
     res.status(500).json({ error: 'Failed to create session' });
   }
 });
@@ -87,49 +150,22 @@ router.put('/:id', validate(updateSessionSchema), async (req, res) => {
     if (!session) return res.status(404).json({ error: 'Session not found' });
 
     const updates = { ...req.body };
-    if (updates.status === 'live' && session.status !== 'live') {
-      const incompleteTimed = await prisma.questNode.findMany({
-        where: {
-          quest: { campaignId: req.campaignId, status: 'active' },
-          isTimed: true,
-          timeoutNodeId: null,
-        },
-      });
-      if (incompleteTimed.length > 0) {
-        return res.status(400).json({
-          error: 'Cannot start session: timed nodes without timeout target',
-          nodes: incompleteTimed.map(n => ({ id: n.id, title: n.title })),
-        });
-      }
-      if (!session.startedAt) updates.startedAt = new Date();
-    }
-    if (updates.status === 'ended' && !session.endedAt) {
-      updates.endedAt = new Date();
+
+    const transition = await applySessionStatusTransition(prisma, req.campaignId, session, updates);
+    if (transition.error) {
+      return res.status(400).json({ error: transition.error, nodes: transition.nodes });
     }
 
     const updated = await prisma.session.update({
       where: { id: req.params.id },
-      data: updates,
+      data: transition.updates,
     });
 
-    // Notify players of session status change
-    const io = req.app.get('io');
-    if (io) {
-      if (updated.status === 'live') {
-        io.to(`campaign:${req.campaignId}`).emit('session:started', {
-          sessionId: updated.id,
-          campaignId: req.campaignId,
-        });
-      } else if (updated.status === 'ended') {
-        io.to(`campaign:${req.campaignId}`).emit('session:ended', {
-          sessionId: updated.id,
-          campaignId: req.campaignId,
-        });
-      }
-    }
+    emitSessionStatus(req.app.get('io'), req.campaignId, updated);
 
     res.json({ session: updated });
   } catch (err) {
+    console.error('Update session error:', err);
     res.status(500).json({ error: 'Failed to update session' });
   }
 });
