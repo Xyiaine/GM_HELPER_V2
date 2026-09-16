@@ -18,7 +18,7 @@ router.post('/', validate(playerDiceRollSchema), async (req, res) => {
     const prisma = req.app.get('prisma');
     const io = req.app.get('io');
     
-    const { type, ability, skill, expression, label, advantage, disadvantage } = req.body;
+    const { type, ability, skill, expression, label, advantage, disadvantage, secret } = req.body;
 
     const character = await prisma.character.findFirst({
       where: {
@@ -50,15 +50,14 @@ router.post('/', validate(playerDiceRollSchema), async (req, res) => {
         result: result.total,
         details: result.details,
         label: result.label,
-        visibleToAll: true,
+        visibleToAll: !secret,
       },
       include: {
         character: { select: { name: true } },
       }
     });
 
-    // Broadcast roll to everyone in the campaign
-    io.to(`campaign:${req.campaignId}`).emit('dice:rolled', {
+    const payload = {
       id: savedRoll.id,
       expression: result.expression,
       result: result.total,
@@ -67,7 +66,16 @@ router.post('/', validate(playerDiceRollSchema), async (req, res) => {
       rolledBy: req.user.displayName,
       rolledByRole: 'PLAYER',
       timestamp: savedRoll.createdAt,
-    });
+    };
+
+    // A secret roll stays between the GM and the player who rolled it. Everyone
+    // else in the campaign is left out.
+    if (secret) {
+      io.to(`campaign:${req.campaignId}:gm`).emit('dice:rolled', { ...payload, secret: true });
+      io.to(`user:${req.user.id}`).emit('dice:rolled', { ...payload, secret: true });
+    } else {
+      io.to(`campaign:${req.campaignId}`).emit('dice:rolled', payload);
+    }
 
     res.json(savedRoll);
   } catch (err) {

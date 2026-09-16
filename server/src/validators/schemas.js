@@ -531,6 +531,10 @@ const playerDiceRollSchema = z.object({
   label: z.string().max(200).optional(),
   advantage: z.boolean().optional(),
   disadvantage: z.boolean().optional(),
+  // A secret roll is kept between the GM and the player who rolled it. The
+  // client already exposed the toggle, but the field was absent from the schema
+  // so it was silently dropped and every roll ended up public.
+  secret: z.boolean().optional(),
 });
 
 // ============================================================

@@ -72,8 +72,15 @@ export const usePlayerStore = create((set, get) => ({
     try {
       const newRoll = await api.post(`/api/v1/player/campaigns/${campaignId}/dice`, payload);
       set(state => ({ diceHistory: [newRoll, ...state.diceHistory] }));
+      return { success: true, roll: newRoll };
     } catch (err) {
+      // The failure used to be swallowed: the player pressed "Lancer", nothing
+      // happened, and no reason was shown.
       console.error(err);
+      return {
+        success: false,
+        error: err.response?.data?.error || 'Le jet a échoué. Réessayez.',
+      };
     }
   },
 
