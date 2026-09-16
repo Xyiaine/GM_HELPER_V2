@@ -80,9 +80,57 @@ model Campaign {
   vehicles    Vehicle[]            @relation("CampaignVehicles")
   vehicleParts VehiclePart[]       @relation("CampaignVehicleParts")
   bestiary    Bestiary[]
+  state       CampaignState?
+  sessionLog  SessionLog[]
 
   @@index([gmUserId])
   @@map("campaigns")
+}
+
+/// État de séance côté MJ : réserve de Menace, complications actives, cartes
+/// personnalisées, horloge du Ver.
+///
+/// Ces valeurs vivaient dans le localStorage du navigateur du MJ. Elles
+/// disparaissaient au moindre vidage de cache, différaient d'un appareil à
+/// l'autre, et n'étaient exploitables ni par un récapitulatif de séance ni par
+/// le système de jeu du MJ.
+///
+/// La clé est la campagne et non la séance : le tiroir de decks est accessible
+/// dès qu'une campagne est active, y compris avant le démarrage d'une séance.
+model CampaignState {
+  id         String   @id @default(cuid())
+  campaignId String   @unique
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  doomPool      Int      @default(3)
+  complications Json     @default("[]")
+  customCards   Json     @default("[]")
+  wormClock     Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("campaign_state")
+}
+
+/// Journal append-only de ce qui s'est réellement passé en séance.
+///
+/// Les diffusions du MJ n'étaient conservées nulle part : impossible de
+/// reconstituer une séance, donc impossible d'en produire un récapitulatif.
+/// Chaque entrée est un fait objectif, jamais du texte rédigé.
+model SessionLog {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  sessionId  String?
+
+  kind      String // "message" | "spotlight" | "complication" | "reward" | "dice" | "node" | "state"
+  payload   Json
+  createdAt DateTime @default(now())
+
+  @@index([campaignId, createdAt])
+  @@index([sessionId])
+  @@map("session_log")
 }
 
 model CampaignMembership {

@@ -1,6 +1,84 @@
 import { create } from 'zustand';
 import api from '../utils/api';
 
+// ─── Persistance de l'état de séance ────────────────────────────────────────
+// La réserve de Menace, les complications et les cartes personnalisées vivaient
+// dans le localStorage du navigateur du MJ. Elles sont désormais persistées côté
+// serveur : elles survivent à un rafraîchissement, suivent le MJ d'un appareil à
+// l'autre, et deviennent exploitables par le récapitulatif de séance.
+//
+// Les écritures sont regroupées : cliquer cinq fois sur « +1 Menace » puis jouer
+// une carte ne doit produire qu'une seule requête, et surtout ne doit pas perdre
+// les modifications intermédiaires.
+const pendingState = { campaignId: null, patch: {}, timer: null };
+
+async function flushStatePersist() {
+  const campaignId = pendingState.campaignId;
+  const patch = pendingState.patch;
+  pendingState.timer = null;
+  pendingState.patch = {};
+  pendingState.campaignId = null;
+
+  if (!campaignId || Object.keys(patch).length === 0) return;
+
+  try {
+    await api.patch(`/api/v1/gm/campaigns/${campaignId}/state`, patch);
+  } catch (err) {
+    console.error('Persist campaign state error:', err);
+  }
+}
+
+function scheduleStatePersist(campaignId, patch) {
+  if (!campaignId) return;
+
+  // Changement de campagne : on vide ce qui était en attente pour l'ancienne.
+  if (pendingState.campaignId && pendingState.campaignId !== campaignId) {
+    flushStatePersist();
+  }
+
+  if (pendingState.campaignId !== campaignId) {
+    pendingState.campaignId = campaignId;
+    pendingState.patch = {};
+  }
+
+  pendingState.patch = { ...pendingState.patch, ...patch };
+
+  if (pendingState.timer) clearTimeout(pendingState.timer);
+  pendingState.timer = setTimeout(flushStatePersist, 400);
+}
+
+// ─── Reprise de l'ancien état local ─────────────────────────────────────────
+// Au premier chargement après cette migration, le serveur renvoie encore ses
+// valeurs par défaut alors que le localStorage contient peut-être la Menace
+// accumulée par le MJ. On la remonte une fois, puis on efface la clé locale.
+function readLegacyLocalState(campaignId) {
+  try {
+    const doom = localStorage.getItem(`gm_doom_${campaignId}`);
+    const comps = localStorage.getItem(`gm_comps_${campaignId}`);
+    const cards = localStorage.getItem(`gm_custom_hazard_${campaignId}`);
+    if (doom === null && !comps && !cards) return null;
+
+    return {
+      doomPool: doom !== null ? (parseInt(doom, 10) || 0) : 3,
+      complications: comps ? JSON.parse(comps) : [],
+      customCards: cards ? JSON.parse(cards) : [],
+    };
+  } catch (e) {
+    console.error('Error reading legacy local state', e);
+    return null;
+  }
+}
+
+function clearLegacyLocalState(campaignId) {
+  try {
+    localStorage.removeItem(`gm_doom_${campaignId}`);
+    localStorage.removeItem(`gm_comps_${campaignId}`);
+    localStorage.removeItem(`gm_custom_hazard_${campaignId}`);
+  } catch (e) {
+    /* stockage indisponible, sans conséquence */
+  }
+}
+
 export const useGmStore = create((set, get) => ({
   campaigns: [],
   activeCampaignId: null,
@@ -24,26 +102,54 @@ export const useGmStore = create((set, get) => ({
   activeDeckTab: 'hazard',
   activeComplications: [],
   customHazardCards: [],
+  wormClock: 0,
+  isCampaignStateLoaded: false,
 
   setActiveCampaign: (id) => {
-    set({ activeCampaignId: id });
+    set({ activeCampaignId: id, isCampaignStateLoaded: false });
     if (id) {
-      try {
-        const savedDoom = localStorage.getItem(`gm_doom_${id}`);
-        if (savedDoom !== null) {
-          set({ doomPool: parseInt(savedDoom, 10) || 0 });
-        }
-        const savedComps = localStorage.getItem(`gm_comps_${id}`);
-        if (savedComps) {
-          set({ activeComplications: JSON.parse(savedComps) });
-        }
-        const savedCustomCards = localStorage.getItem(`gm_custom_hazard_${id}`);
-        if (savedCustomCards) {
-          set({ customHazardCards: JSON.parse(savedCustomCards) });
-        }
-      } catch (e) {
-        console.error('Error loading doom pool from storage', e);
+      get().fetchCampaignState(id);
+    }
+  },
+
+  fetchCampaignState: async (campaignId) => {
+    try {
+      const data = await api.get(`/api/v1/gm/campaigns/${campaignId}/state`);
+      const state = data.state || {};
+
+      const serverIsPristine =
+        (state.doomPool === 3 || state.doomPool === undefined) &&
+        (state.complications || []).length === 0 &&
+        (state.customCards || []).length === 0;
+
+      const legacy = serverIsPristine ? readLegacyLocalState(campaignId) : null;
+
+      if (legacy) {
+        // Première ouverture après la migration : l'état local est plus riche
+        // que celui du serveur, on le remonte.
+        set({
+          doomPool: legacy.doomPool,
+          activeComplications: legacy.complications,
+          customHazardCards: legacy.customCards,
+          isCampaignStateLoaded: true,
+        });
+        clearLegacyLocalState(campaignId);
+        scheduleStatePersist(campaignId, legacy);
+        return;
       }
+
+      set({
+        doomPool: state.doomPool ?? 3,
+        activeComplications: state.complications || [],
+        customHazardCards: state.customCards || [],
+        wormClock: state.wormClock ?? 0,
+        isCampaignStateLoaded: true,
+      });
+    } catch (err) {
+      // Le MJ doit pouvoir mener sa séance même si le chargement échoue : on
+      // garde les valeurs par défaut plutôt que de bloquer l'interface.
+      console.error('Fetch campaign state error:', err);
+      set({ isCampaignStateLoaded: true });
     }
   },
 
@@ -54,7 +160,9 @@ export const useGmStore = create((set, get) => ({
       const campaignsList = data.campaigns || data || [];
       set({ campaigns: campaignsList, isLoading: false });
       if (campaignsList.length > 0 && !get().activeCampaignId) {
-        set({ activeCampaignId: campaignsList[0].id });
+        // Passe par setActiveCampaign pour que l'état de séance soit chargé :
+        // un simple set() laissait le tiroir de decks sur ses valeurs par défaut.
+        get().setActiveCampaign(campaignsList[0].id);
       }
     } catch (err) {
       set({ error: err.message, isLoading: false });
@@ -789,20 +897,14 @@ export const useGmStore = create((set, get) => ({
     const cid = get().activeCampaignId;
     const newVal = Math.max(0, val);
     set({ doomPool: newVal });
-    if (cid) {
-      try { localStorage.setItem(`gm_doom_${cid}`, String(newVal)); } catch (e) {}
-    }
+    scheduleStatePersist(cid, { doomPool: newVal });
   },
 
   incrementDoomPool: (delta) => {
     const cid = get().activeCampaignId;
-    set((state) => {
-      const newVal = Math.max(0, state.doomPool + delta);
-      if (cid) {
-        try { localStorage.setItem(`gm_doom_${cid}`, String(newVal)); } catch (e) {}
-      }
-      return { doomPool: newVal };
-    });
+    const newVal = Math.max(0, get().doomPool + delta);
+    set({ doomPool: newVal });
+    scheduleStatePersist(cid, { doomPool: newVal });
   },
 
   spendDoomPool: (amount) => {
@@ -811,38 +913,35 @@ export const useGmStore = create((set, get) => ({
     if (current < amount) return false;
     const newVal = current - amount;
     set({ doomPool: newVal });
-    if (cid) {
-      try { localStorage.setItem(`gm_doom_${cid}`, String(newVal)); } catch (e) {}
-    }
+    scheduleStatePersist(cid, { doomPool: newVal });
     return true;
+  },
+
+  setWormClock: (value) => {
+    const cid = get().activeCampaignId;
+    const newVal = Math.max(0, value);
+    set({ wormClock: newVal });
+    scheduleStatePersist(cid, { wormClock: newVal });
   },
 
   addActiveComplication: (card) => {
     const cid = get().activeCampaignId;
     const item = {
       ...card,
-      uid: 'comp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+      uid: 'comp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
       activatedAt: Date.now()
     };
-    set((state) => {
-      const next = [item, ...state.activeComplications];
-      if (cid) {
-        try { localStorage.setItem(`gm_comps_${cid}`, JSON.stringify(next)); } catch (e) {}
-      }
-      return { activeComplications: next };
-    });
+    const next = [item, ...get().activeComplications];
+    set({ activeComplications: next });
+    scheduleStatePersist(cid, { complications: next });
     return item;
   },
 
   dismissActiveComplication: (uid) => {
     const cid = get().activeCampaignId;
-    set((state) => {
-      const next = state.activeComplications.filter(c => c.uid !== uid);
-      if (cid) {
-        try { localStorage.setItem(`gm_comps_${cid}`, JSON.stringify(next)); } catch (e) {}
-      }
-      return { activeComplications: next };
-    });
+    const next = get().activeComplications.filter(c => c.uid !== uid);
+    set({ activeComplications: next });
+    scheduleStatePersist(cid, { complications: next });
   },
 
   addCustomHazardCard: (card) => {
@@ -852,13 +951,9 @@ export const useGmStore = create((set, get) => ({
       id: 'custom_hz_' + Date.now(),
       isCustom: true
     };
-    set((state) => {
-      const next = [newCard, ...state.customHazardCards];
-      if (cid) {
-        try { localStorage.setItem(`gm_custom_hazard_${cid}`, JSON.stringify(next)); } catch (e) {}
-      }
-      return { customHazardCards: next };
-    });
+    const next = [newCard, ...get().customHazardCards];
+    set({ customHazardCards: next });
+    scheduleStatePersist(cid, { customCards: next });
     return newCard;
   }
 }));

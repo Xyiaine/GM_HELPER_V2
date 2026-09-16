@@ -715,6 +715,24 @@ const selectConvoyRewardsSchema = z.object({
   selectedRewards: z.string().min(1, 'Selected rewards JSON is required'),
 });
 
+// ============================================================
+// CAMPAGNE — ÉTAT DE SÉANCE
+// ============================================================
+
+// Toutes les clés sont optionnelles : le MJ ne modifie qu'un champ à la fois.
+const updateCampaignStateSchema = z.object({
+  doomPool: z.number().int().min(0).max(99).optional(),
+  complications: z.array(z.any()).optional(),
+  customCards: z.array(z.any()).optional(),
+  wormClock: z.number().int().min(0).max(20).optional(),
+});
+
+const createSessionLogEntrySchema = z.object({
+  kind: z.enum(['message', 'spotlight', 'complication', 'reward', 'dice', 'node', 'state']),
+  payload: z.record(z.any()),
+  sessionId: z.string().optional(),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -798,4 +816,7 @@ module.exports = {
   updateVehicleCrewSlotSchema,
   createVehicleAccessSchema,
   updateVehicleAccessSchema,
+  // Campain session state
+  updateCampaignStateSchema,
+  createSessionLogEntrySchema,
 };
