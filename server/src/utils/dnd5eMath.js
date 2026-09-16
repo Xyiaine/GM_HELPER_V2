@@ -56,18 +56,43 @@ const SKILL_ABILITY_MAP = {
   survival: 'wisdom',
 };
 
+/**
+ * Lit le champ JSON `skills` d'un personnage et normalise ses clés en camelCase.
+ *
+ * L'interface enregistre `animalHandling` et `sleightOfHand`, alors que
+ * `services/dice.js` cherchait `animal_handling` et `sleight_of_hand` : la
+ * maîtrise de ces deux compétences n'était jamais retrouvée et le bonus n'était
+ * pas appliqué. Normaliser les deux côtés supprime la classe de bug entière,
+ * y compris pour d'éventuelles données plus anciennes.
+ *
+ * @param {object} character Personnage Prisma
+ * @returns {object} Ex. `{ perception: 1, sleightOfHand: 2 }`
+ */
+function parseCharacterSkills(character) {
+  let raw = {};
+  if (character && character.skills) {
+    try {
+      raw = typeof character.skills === 'string' ? JSON.parse(character.skills) : character.skills;
+    } catch (e) {
+      console.warn('Failed to parse skills', e);
+      return {};
+    }
+  }
+
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
+
+  const normalized = {};
+  for (const [key, value] of Object.entries(raw)) {
+    normalized[key.replace(/_([a-z])/g, (_, c) => c.toUpperCase())] = value;
+  }
+  return normalized;
+}
+
 // Calculate all skill modifiers given character abilities and skill proficiencies
 function calculateAllSkills(character, totalLevel) {
   const calculatedSkills = {};
-  
-  let parsedSkills = {};
-  if (character.skills) {
-    try {
-      parsedSkills = typeof character.skills === 'string' ? JSON.parse(character.skills) : character.skills;
-    } catch (e) {
-      console.warn("Failed to parse skills", e);
-    }
-  }
+
+  const parsedSkills = parseCharacterSkills(character);
 
   for (const [skillName, abilityName] of Object.entries(SKILL_ABILITY_MAP)) {
     const score = character[abilityName] || 10;
@@ -109,6 +134,7 @@ module.exports = {
   getProficiencyBonus,
   getSavingThrowModifier,
   getSkillModifier,
+  parseCharacterSkills,
   SKILL_ABILITY_MAP,
   calculateAllSkills,
   calculateVehicleStats

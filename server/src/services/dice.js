@@ -1,6 +1,8 @@
 // GM Helper — Dice Service
 // Server-side dice computation (anti-cheat per Part H.5)
 
+const { parseCharacterSkills } = require('../utils/dnd5eMath');
+
 /**
  * Parse and roll a dice expression like "2d6+3", "1d20", "4d6kh3" (keep highest 3)
  * @param {string} expression - Dice expression
@@ -103,10 +105,9 @@ function computeCharacterRoll(character, rollRequest) {
 
   const profBonus = character.proficiencyBonus || 2;
 
-  // Parse skills and saving throws from JSON
-  let skills = {};
+  // Compétences (clés normalisées en camelCase) et jets de sauvegarde.
+  const skills = parseCharacterSkills(character);
   let savingThrows = {};
-  try { skills = character.skills ? JSON.parse(character.skills) : {}; } catch (e) { /* empty */ }
   try { savingThrows = character.savingThrows ? JSON.parse(character.savingThrows) : {}; } catch (e) { /* empty */ }
 
   const abilityScores = {
@@ -118,10 +119,16 @@ function computeCharacterRoll(character, rollRequest) {
     charisma: character.charisma,
   };
 
-  // Skill → ability mapping (D&D 5e standard)
+  // Compétence → caractéristique (D&D 5e standard).
+  //
+  // Les clés sont en camelCase, comme celles écrites par l'interface et par
+  // dnd5eMath.js. Elles étaient auparavant en snake_case : le client enregistre
+  // `animalHandling` et `sleightOfHand`, donc la maîtrise de ces deux
+  // compétences n'était jamais retrouvée et le bonus de maîtrise n'était pas
+  // appliqué. Dix-huit compétences, deux silencieusement fausses.
   const skillAbilityMap = {
     acrobatics: 'dexterity',
-    animal_handling: 'wisdom',
+    animalHandling: 'wisdom',
     arcana: 'intelligence',
     athletics: 'strength',
     deception: 'charisma',
@@ -135,10 +142,13 @@ function computeCharacterRoll(character, rollRequest) {
     performance: 'charisma',
     persuasion: 'charisma',
     religion: 'intelligence',
-    sleight_of_hand: 'dexterity',
+    sleightOfHand: 'dexterity',
     stealth: 'dexterity',
     survival: 'wisdom',
   };
+
+  // Tolérance : d'anciens appels peuvent encore arriver en snake_case.
+  const canonicalSkill = skill ? skill.replace(/_([a-z])/g, (_, c) => c.toUpperCase()) : skill;
 
   switch (type) {
     case 'ability_check': {
@@ -161,15 +171,23 @@ function computeCharacterRoll(character, rollRequest) {
       break;
     }
     case 'skill_check': {
-      if (!skill || !skillAbilityMap[skill]) {
+      if (!canonicalSkill || !skillAbilityMap[canonicalSkill]) {
         throw new Error('Valid skill required for skill check');
       }
-      const linkedAbility = skillAbilityMap[skill];
+      const linkedAbility = skillAbilityMap[canonicalSkill];
       modifier = abilityModifier(abilityScores[linkedAbility]);
-      if (skills[skill]) {
+
+      // 1 = maîtrise, 2 = expertise (bonus de maîtrise doublé). L'expertise
+      // n'était pas distinguée de la maîtrise simple : elle ne comptait qu'une
+      // fois.
+      const proficiencyLevel = Number(skills[canonicalSkill]) || 0;
+      if (proficiencyLevel >= 2) {
+        modifier += profBonus * 2;
+      } else if (proficiencyLevel === 1) {
         modifier += profBonus;
       }
-      const skillName = skill.replace(/_/g, ' ');
+
+      const skillName = canonicalSkill.replace(/([A-Z])/g, ' $1').toLowerCase();
       label = `${skillName.charAt(0).toUpperCase() + skillName.slice(1)} Check`;
       break;
     }
