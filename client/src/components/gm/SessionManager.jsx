@@ -160,7 +160,7 @@ export default function SessionManager() {
       )}
 
       {session && session.mode === 'in_person' && session.tableScreenToken && (
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', fontSize: '0.85rem', color: 'var(--color-primary)', backgroundColor: 'rgba(99, 102, 241, 0.1)', padding: '8px', borderRadius: '4px', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', fontSize: '0.85rem', color: 'var(--color-primary)', backgroundColor: 'var(--primary-tint-strong)', padding: '8px', borderRadius: '4px', marginBottom: '16px' }}>
           <LinkIcon size={14} />
           <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {window.location.origin}/table/{session.tableScreenToken}

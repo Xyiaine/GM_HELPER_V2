@@ -126,7 +126,7 @@ export default function ConvoyDashboard({ campaignId }) {
               {convoy.originCity?.location?.name} → {convoy.destCity?.location?.name}
             </div>
           </div>
-          <div style={{ background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', padding: '4px 12px', borderRadius: 16, fontSize: '0.85rem', fontWeight: 'bold' }}>
+          <div style={{ background: 'var(--primary-tint-strong)', color: '#a5b4fc', padding: '4px 12px', borderRadius: 16, fontSize: '0.85rem', fontWeight: 'bold' }}>
             En cours
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function ConvoyDashboard({ campaignId }) {
             <span>Progression</span>
             <span>Étape {Math.max(0, convoy.currentStepIndex + 1)} / {convoy.totalSteps}</span>
           </div>
-          <div style={{ height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 4, overflow: 'hidden' }}>
+          <div style={{ height: 8, background: 'var(--overlay-soft)', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{
               height: '100%',
               background: '#6366f1',
@@ -173,7 +173,7 @@ export default function ConvoyDashboard({ campaignId }) {
             <div style={{ flex: 1 }}>
               <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem' }}>{activeEvent.title}</h3>
               <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-                <span style={{ fontSize: '0.75rem', background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: 4 }}>
+                <span style={{ fontSize: '0.75rem', background: 'var(--overlay-soft)', padding: '2px 8px', borderRadius: 4 }}>
                   {CATEGORY_LABELS[activeEvent.category] || activeEvent.category}
                 </span>
                 <span style={{ fontSize: '0.75rem', background: `${SEVERITY_COLORS[activeEvent.severity]}30`, color: SEVERITY_COLORS[activeEvent.severity], padding: '2px 8px', borderRadius: 4 }}>
@@ -219,7 +219,7 @@ export default function ConvoyDashboard({ campaignId }) {
                     {convoy[key]}
                   </span>
                 </div>
-                <div style={{ height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ height: 8, background: 'var(--overlay-soft)', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     height: '100%',
                     background: convoy[key] < 20 ? '#ef4444' : color,
@@ -245,7 +245,7 @@ export default function ConvoyDashboard({ campaignId }) {
                 <div key={v.id} style={{
                   padding: 12,
                   borderRadius: 8,
-                  background: 'rgba(255,255,255,0.03)',
+                  background: 'var(--overlay-subtle)',
                   border: `1px solid ${v.isDestroyed ? '#ef4444' : 'var(--color-border)'}`,
                   opacity: v.isDestroyed ? 0.6 : 1,
                 }}>
@@ -260,7 +260,7 @@ export default function ConvoyDashboard({ campaignId }) {
                     )}
                   </div>
                   {!v.isDestroyed && (
-                    <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
+                    <div style={{ height: 6, background: 'var(--overlay-soft)', borderRadius: 3, overflow: 'hidden' }}>
                       <div style={{
                         height: '100%',
                         background: hpPct < 25 ? '#ef4444' : hpPct < 50 ? '#f59e0b' : '#22c55e',

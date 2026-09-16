@@ -404,7 +404,7 @@ export default function QuestNodeCard({
                           <strong style={{ fontSize: '0.95rem', color: '#f59e0b' }}>
                             {challenge.title}
                           </strong>
-                          <span style={{ marginLeft: '8px', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                          <span style={{ marginLeft: '8px', fontSize: '0.78rem', color: 'var(--ink-on-dark-muted)' }}>
                             (Caractéristique : <strong>{challenge.stat}</strong>)
                           </span>
                         </div>
@@ -414,20 +414,20 @@ export default function QuestNodeCard({
                         fontWeight: 800,
                         padding: '3px 10px',
                         borderRadius: '10px',
-                        backgroundColor: '#f59e0b',
+                        backgroundColor: 'var(--warning)',
                         color: '#000'
                       }}>
                         DD Évolutif (Facilité Croissante)
                       </span>
                     </div>
 
-                    <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--color-text-muted)', lineHeight: 1.45 }}>
+                    <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--ink-on-dark-muted)', lineHeight: 1.45 }}>
                       {challenge.description}
                     </p>
 
                     {/* Turn Stepper Selector */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>
+                      <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--ink-on-dark-muted)', textTransform: 'uppercase' }}>
                         Sélectionnez le tour en cours (Difficulté dégressive) :
                       </div>
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
@@ -444,7 +444,7 @@ export default function QuestNodeCard({
                                 borderRadius: '8px',
                                 border: isSelected ? '2px solid #f59e0b' : '1px solid var(--color-border)',
                                 backgroundColor: isSelected ? 'rgba(245, 158, 11, 0.2)' : 'rgba(255, 255, 255, 0.03)',
-                                color: isSelected ? '#fbbf24' : 'var(--color-text-muted)',
+                                color: isSelected ? '#fbbf24' : 'var(--ink-on-dark-muted)',
                                 cursor: 'pointer',
                                 display: 'flex',
                                 flexDirection: 'column',
@@ -457,7 +457,7 @@ export default function QuestNodeCard({
                                 <span>Tour {t.turn}</span>
                                 <span style={{
                                   backgroundColor: isSelected ? '#f59e0b' : 'rgba(255, 255, 255, 0.1)',
-                                  color: isSelected ? '#000' : 'var(--color-text)',
+                                  color: isSelected ? '#000' : 'var(--ink-on-dark)',
                                   padding: '1px 6px',
                                   borderRadius: '6px',
                                   fontSize: '0.74rem'
@@ -503,7 +503,7 @@ export default function QuestNodeCard({
                             style={{
                               backgroundColor: currentOutcome === 'failure' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(255, 255, 255, 0.05)',
                               border: currentOutcome === 'failure' ? '1px solid #ef4444' : '1px solid var(--color-border)',
-                              color: currentOutcome === 'failure' ? '#fca5a5' : 'var(--color-text-muted)',
+                              color: currentOutcome === 'failure' ? '#fca5a5' : 'var(--ink-on-dark-muted)',
                               borderRadius: '6px',
                               padding: '3px 8px',
                               fontSize: '0.72rem',
@@ -518,7 +518,7 @@ export default function QuestNodeCard({
                             style={{
                               backgroundColor: currentOutcome === 'success' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(255, 255, 255, 0.05)',
                               border: currentOutcome === 'success' ? '1px solid #10b981' : '1px solid var(--color-border)',
-                              color: currentOutcome === 'success' ? '#6ee7b7' : 'var(--color-text-muted)',
+                              color: currentOutcome === 'success' ? '#6ee7b7' : 'var(--ink-on-dark-muted)',
                               borderRadius: '6px',
                               padding: '3px 8px',
                               fontSize: '0.72rem',
@@ -560,7 +560,7 @@ export default function QuestNodeCard({
                       </div>
 
                       {narrativeNote && (
-                        <div style={{ fontSize: '0.74rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+                        <div style={{ fontSize: '0.74rem', color: 'var(--ink-on-dark-muted)', fontStyle: 'italic' }}>
                           💡 <strong>Note narrative :</strong> {narrativeNote}
                         </div>
                       )}
@@ -594,7 +594,7 @@ export default function QuestNodeCard({
                           <strong style={{ fontSize: '0.92rem', color: '#2dd4bf' }}>
                             {challenge.title}
                           </strong>
-                          <span style={{ marginLeft: '8px', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                          <span style={{ marginLeft: '8px', fontSize: '0.78rem', color: 'var(--ink-on-dark-muted)' }}>
                             (Jet : <strong>{challenge.stat}</strong>)
                           </span>
                         </div>
@@ -611,7 +611,7 @@ export default function QuestNodeCard({
                       </span>
                     </div>
 
-                    <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--color-text)', lineHeight: 1.4 }}>
+                    <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--ink-on-dark)', lineHeight: 1.4 }}>
                       {challenge.description}
                     </p>
 
@@ -643,7 +643,7 @@ export default function QuestNodeCard({
                           style={{
                             backgroundColor: outcome === 'failure' ? 'rgba(239, 68, 68, 0.3)' : 'transparent',
                             border: outcome === 'failure' ? '1px solid #ef4444' : '1px solid var(--color-border)',
-                            color: outcome === 'failure' ? '#fca5a5' : 'var(--color-text-muted)',
+                            color: outcome === 'failure' ? '#fca5a5' : 'var(--ink-on-dark-muted)',
                             borderRadius: '6px',
                             padding: '3px 8px',
                             fontSize: '0.72rem',
@@ -658,7 +658,7 @@ export default function QuestNodeCard({
                           style={{
                             backgroundColor: outcome === 'success' ? 'rgba(16, 185, 129, 0.3)' : 'transparent',
                             border: outcome === 'success' ? '1px solid #10b981' : '1px solid var(--color-border)',
-                            color: outcome === 'success' ? '#6ee7b7' : 'var(--color-text-muted)',
+                            color: outcome === 'success' ? '#6ee7b7' : 'var(--ink-on-dark-muted)',
                             borderRadius: '6px',
                             padding: '3px 8px',
                             fontSize: '0.72rem',
@@ -740,10 +740,10 @@ export default function QuestNodeCard({
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ fontSize: '1.1rem' }}>{challenge.icon || '⚔️'}</span>
                       <div>
-                        <strong style={{ fontSize: '0.9rem', color: 'var(--color-text)' }}>
+                        <strong style={{ fontSize: '0.9rem', color: 'var(--ink-on-dark)' }}>
                           {challenge.title}
                         </strong>
-                        <span style={{ marginLeft: '8px', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                        <span style={{ marginLeft: '8px', fontSize: '0.78rem', color: 'var(--ink-on-dark-muted)' }}>
                           (Stat : <strong>{challenge.stat}</strong>)
                         </span>
                       </div>
@@ -764,7 +764,7 @@ export default function QuestNodeCard({
                         </span>
                       )}
                       <span style={{
-                        backgroundColor: '#ef4444',
+                        backgroundColor: 'var(--danger)',
                         color: '#fff',
                         fontSize: '0.75rem',
                         fontWeight: 800,
@@ -776,7 +776,7 @@ export default function QuestNodeCard({
                     </div>
                   </div>
 
-                  <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--color-text)', lineHeight: 1.4 }}>
+                  <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--ink-on-dark)', lineHeight: 1.4 }}>
                     {challenge.description}
                   </p>
 
@@ -812,7 +812,7 @@ export default function QuestNodeCard({
                       style={{
                         backgroundColor: outcome === 'failure' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(255, 255, 255, 0.05)',
                         border: outcome === 'failure' ? '1px solid #ef4444' : '1px solid var(--color-border)',
-                        color: outcome === 'failure' ? '#fca5a5' : 'var(--color-text-muted)',
+                        color: outcome === 'failure' ? '#fca5a5' : 'var(--ink-on-dark-muted)',
                         borderRadius: '6px',
                         padding: '3px 8px',
                         fontSize: '0.72rem',
@@ -827,7 +827,7 @@ export default function QuestNodeCard({
                       style={{
                         backgroundColor: outcome === 'success' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(255, 255, 255, 0.05)',
                         border: outcome === 'success' ? '1px solid #10b981' : '1px solid var(--color-border)',
-                        color: outcome === 'success' ? '#6ee7b7' : 'var(--color-text-muted)',
+                        color: outcome === 'success' ? '#6ee7b7' : 'var(--ink-on-dark-muted)',
                         borderRadius: '6px',
                         padding: '3px 8px',
                         fontSize: '0.72rem',
@@ -859,7 +859,7 @@ export default function QuestNodeCard({
               <Target size={17} />
               <span>Actions Suggérées aux Joueurs</span>
             </div>
-            <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+            <span style={{ fontSize: '0.72rem', color: 'var(--ink-on-dark-muted)' }}>
               Cliquez sur une action pour la marquer comme retenue
             </span>
           </div>
@@ -906,7 +906,7 @@ export default function QuestNodeCard({
                       <span style={{
                         fontSize: '0.7rem',
                         fontWeight: 700,
-                        color: isSelected ? '#10b981' : (action.color || 'var(--color-text-muted)'),
+                        color: isSelected ? '#10b981' : (action.color || 'var(--ink-on-dark-muted)'),
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px'
                       }}>
@@ -914,7 +914,7 @@ export default function QuestNodeCard({
                       </span>
                       {isSelected && (
                         <span style={{
-                          backgroundColor: '#10b981',
+                          backgroundColor: 'var(--success)',
                           color: '#000',
                           fontSize: '0.65rem',
                           fontWeight: 800,
@@ -928,7 +928,7 @@ export default function QuestNodeCard({
                     <span style={{
                       fontSize: '0.86rem',
                       fontWeight: isSelected ? 700 : 500,
-                      color: isSelected ? '#f8fafc' : 'var(--color-text)',
+                      color: isSelected ? '#f8fafc' : 'var(--ink-on-dark)',
                       lineHeight: 1.35
                     }}>
                       {action.text}
@@ -952,7 +952,7 @@ export default function QuestNodeCard({
                 borderRadius: '8px',
                 border: '1px solid var(--color-border)',
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                color: 'var(--color-text)',
+                color: 'var(--ink-on-dark)',
                 fontSize: '0.82rem'
               }}
             />
@@ -1078,10 +1078,10 @@ export default function QuestNodeCard({
                     {npc.name.charAt(0)}
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-text)' }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--ink-on-dark)' }}>
                       {npc.name}
                     </div>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--ink-on-dark-muted)' }}>
                       {npc.role}
                     </div>
                   </div>
@@ -1107,7 +1107,7 @@ export default function QuestNodeCard({
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 cursor: 'pointer',
-                color: 'var(--color-text-muted)',
+                color: 'var(--ink-on-dark-muted)',
                 fontWeight: 600
               }}
             >
@@ -1117,7 +1117,7 @@ export default function QuestNodeCard({
               {showMjSecret ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </div>
             {showMjSecret && (
-              <p style={{ margin: '8px 0 0 0', color: 'var(--color-text)', lineHeight: 1.45, whiteSpace: 'pre-line' }}>
+              <p style={{ margin: '8px 0 0 0', color: 'var(--ink-on-dark)', lineHeight: 1.45, whiteSpace: 'pre-line' }}>
                 {cleanDesc}
               </p>
             )}
@@ -1163,7 +1163,7 @@ export default function QuestNodeCard({
                   padding: '10px 22px',
                   borderRadius: '10px',
                   border: 'none',
-                  backgroundColor: '#ef4444',
+                  backgroundColor: 'var(--danger)',
                   backgroundImage: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
                   color: '#fff',
                   fontWeight: 900,
@@ -1228,7 +1228,7 @@ export default function QuestNodeCard({
           flexDirection: 'column',
           gap: '10px'
         }}>
-          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-text-muted)' }}>
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--ink-on-dark-muted)' }}>
             Embranchements disponibles selon le graphe :
           </div>
 
@@ -1249,7 +1249,7 @@ export default function QuestNodeCard({
                       borderRadius: '8px',
                       border: '1px solid var(--color-primary, #6366f1)',
                       backgroundColor: 'rgba(99, 102, 241, 0.12)',
-                      color: 'var(--color-text)',
+                      color: 'var(--ink-on-dark)',
                       fontSize: '0.88rem',
                       fontWeight: 600,
                       cursor: 'pointer',
@@ -1264,7 +1264,7 @@ export default function QuestNodeCard({
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = 'rgba(99, 102, 241, 0.12)';
-                      e.currentTarget.style.color = 'var(--color-text)';
+                      e.currentTarget.style.color = 'var(--ink-on-dark)';
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -1311,7 +1311,7 @@ export default function QuestNodeCard({
                   borderRadius: '6px',
                   border: '1px solid var(--color-border)',
                   background: 'transparent',
-                  color: 'var(--color-text-muted)',
+                  color: 'var(--ink-on-dark-muted)',
                   fontSize: '0.78rem',
                   cursor: 'pointer'
                 }}

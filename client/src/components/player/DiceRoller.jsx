@@ -109,7 +109,7 @@ export default function DiceRoller({ campaignId }) {
       </div>
 
       {error && (
-        <div style={{ padding: '10px 14px', borderRadius: '8px', backgroundColor: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.4)', color: 'var(--danger, #ef4444)', fontSize: '0.85rem' }}>
+        <div style={{ padding: '10px 14px', borderRadius: '8px', backgroundColor: 'var(--danger-tint)', border: '1px solid rgba(239, 68, 68, 0.4)', color: 'var(--danger, #ef4444)', fontSize: '0.85rem' }}>
           {error}
         </div>
       )}

@@ -59,14 +59,16 @@ function worldToCanvas(wx, wy, pan, zoom) {
 }
 
 // ─── City Parameter Bar ───────────────────────────────────────
+// Ce composant n'est utilisé que dans le panneau latéral de la carte, qui reste
+// un panneau sombre : il lui faut donc les encres prévues pour ces surfaces.
 function ParamBar({ label, value, color }) {
   return (
     <div style={{ marginBottom: 6 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, marginBottom: 2 }}>
-        <span style={{ color: 'var(--color-text-muted)' }}>{label}</span>
-        <span style={{ color: 'var(--color-text)', fontWeight: 600 }}>{value}</span>
+        <span style={{ color: 'var(--ink-on-dark-muted)' }}>{label}</span>
+        <span style={{ color: 'var(--ink-on-dark)', fontWeight: 600 }}>{value}</span>
       </div>
-      <div style={{ height: 5, background: 'var(--color-border)', borderRadius: 3, overflow: 'hidden' }}>
+      <div style={{ height: 5, background: 'var(--overlay-soft)', borderRadius: 3, overflow: 'hidden' }}>
         <div
           style={{
             width: `${value}%`,
@@ -801,7 +803,7 @@ export default function MapManager() {
               title="Reset View"
               onClick={resetView}
             />
-            <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', margin: '2px 0' }} />
+            <div style={{ height: 1, background: 'var(--overlay-soft)', margin: '2px 0' }} />
             <ToolButton
               icon={<Eye size={16} />}
               title={showTerritories ? 'Hide Territories' : 'Show Territories'}
@@ -814,7 +816,7 @@ export default function MapManager() {
               onClick={() => setShowLabels((v) => !v)}
               active={showLabels}
             />
-            <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', margin: '2px 0' }} />
+            <div style={{ height: 1, background: 'var(--overlay-soft)', margin: '2px 0' }} />
             <ToolButton
               icon={<Upload size={16} />}
               title="Upload Base Map"
@@ -848,7 +850,7 @@ export default function MapManager() {
                 style={{
                   fontSize: 11,
                   padding: '4px 8px',
-                  background: 'rgba(255,255,255,0.07)',
+                  background: 'var(--overlay-subtle)',
                   border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: 6,
                   color: 'white',
@@ -1012,7 +1014,7 @@ export default function MapManager() {
               {/* Parameters */}
               <div
                 style={{
-                  background: 'rgba(255,255,255,0.04)',
+                  background: 'var(--overlay-subtle)',
                   border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: 10,
                   padding: 14,
@@ -1045,7 +1047,7 @@ export default function MapManager() {
               </div>
 
               {/* Map coordinates & GPS */}
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginBottom: 12, backgroundColor: 'rgba(255,255,255,0.05)', padding: '8px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginBottom: 12, backgroundColor: 'var(--overlay-subtle)', padding: '8px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div style={{ color: '#38bdf8', fontWeight: 'bold', marginBottom: '2px' }}>
                   📍 Position GPS : {(() => {
                     const name = selectedCity.name || selectedCity.location?.name || '';
@@ -1113,7 +1115,7 @@ export default function MapManager() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 10,
-                        background: 'rgba(255,255,255,0.04)',
+                        background: 'var(--overlay-subtle)',
                         border: '1px solid rgba(255,255,255,0.07)',
                         borderRadius: 8,
                         padding: '10px 12px',
@@ -1142,11 +1144,11 @@ export default function MapManager() {
                         )}
                       </div>
                       {city.mapX == null ? (
-                        <span style={{ fontSize: 10, color: '#f59e0b', background: 'rgba(245,158,11,0.1)', borderRadius: 4, padding: '2px 5px' }}>
+                        <span style={{ fontSize: 10, color: '#f59e0b', background: 'var(--warning-tint)', borderRadius: 4, padding: '2px 5px' }}>
                           Unplaced
                         </span>
                       ) : (
-                        <span style={{ fontSize: 10, color: '#10b981', background: 'rgba(16,185,129,0.1)', borderRadius: 4, padding: '2px 5px' }}>
+                        <span style={{ fontSize: 10, color: '#10b981', background: 'var(--success-tint)', borderRadius: 4, padding: '2px 5px' }}>
                           Placed
                         </span>
                       )}
@@ -1169,7 +1171,7 @@ export default function MapManager() {
                           display: 'flex',
                           alignItems: 'center',
                           gap: 8,
-                          background: 'rgba(255,255,255,0.04)',
+                          background: 'var(--overlay-subtle)',
                           border: '1px solid rgba(255,255,255,0.07)',
                           borderRadius: 8,
                           padding: '8px 10px',

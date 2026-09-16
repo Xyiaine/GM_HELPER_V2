@@ -11,7 +11,7 @@ export default function ActiveComplicationsBanner() {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(239, 68, 68, 0.12)',
+      backgroundColor: 'var(--danger-tint)',
       borderBottom: '1px solid rgba(239, 68, 68, 0.3)',
       padding: '8px 16px',
       display: 'flex',

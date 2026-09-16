@@ -1,14 +1,27 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#F4F1EA" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Trois familles, trois rôles.
+         Inter      : interface, texte courant
+         IBM Plex Mono : données techniques — codes, coordonnées, DD, dés
+         Zilla Slab : titres narratifs
+
+         Roboto n'est plus déclarée en repli : elle n'a jamais été importée, donc
+         le repli réel était celui du système, variable d'une machine à l'autre.
+
+         La graisse 700 d'Inter est retirée : le code demandait 800 et 900, qui
+         produisaient un gras synthétique du navigateur. Les graisses réellement
+         utilisées sont 400, 500 et 600. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Zilla+Slab:wght@500;600&display=swap" rel="stylesheet">
+
     <title>GM Helper</title>
   </head>
   <body>

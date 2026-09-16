@@ -245,7 +245,7 @@ export default function QuestManager() {
                             fetchQuests(activeCampaignId);
                           }
                         }} 
-                        style={{ display: 'flex', gap: '4px', alignItems: 'center', backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10b981', border: '1px solid #10b981' }}
+                        style={{ display: 'flex', gap: '4px', alignItems: 'center', backgroundColor: 'var(--success-tint)', color: '#10b981', border: '1px solid #10b981' }}
                         title="BE-1: Crée une instance vierge de jeu à partir de ce modèle"
                       >
                         🚀 Instancier (Nouvelle Table)
@@ -274,7 +274,7 @@ export default function QuestManager() {
                       <button 
                         className="btn-secondary" 
                         onClick={() => handleDeleteQuest(quest)} 
-                        style={{ display: 'flex', gap: '4px', alignItems: 'center', color: '#ef4444', borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)' }}
+                        style={{ display: 'flex', gap: '4px', alignItems: 'center', color: '#ef4444', borderColor: '#ef4444', backgroundColor: 'var(--danger-tint)' }}
                         title={`Supprimer définitivement la quête de la DB (${nodeCount} nœud(s))`}
                       >
                         <Trash2 size={16} /> Supprimer
@@ -296,7 +296,7 @@ export default function QuestManager() {
       {showCreateModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
+          backgroundColor: 'var(--paper-inset)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
         }}>
           <div style={{ 
             backgroundColor: 'var(--color-background)', padding: '24px', borderRadius: '8px',

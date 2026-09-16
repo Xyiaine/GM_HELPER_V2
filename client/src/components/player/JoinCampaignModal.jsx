@@ -47,7 +47,7 @@ export default function JoinCampaignModal({ isOpen, onClose, onSuccess }) {
         {error && (
           <div style={{
             padding: '10px 14px',
-            backgroundColor: 'rgba(239, 68, 68, 0.15)',
+            backgroundColor: 'var(--danger-tint)',
             border: '1px solid rgba(239, 68, 68, 0.3)',
             borderRadius: '6px',
             color: '#f87171',

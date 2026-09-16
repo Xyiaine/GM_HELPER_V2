@@ -358,13 +358,13 @@ export default function ConvoyManager() {
 
         {/* Create Form */}
         {showCreate && (
-          <div style={{ padding: 16, borderBottom: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', gap: 10, background: 'rgba(99,102,241,0.05)' }}>
+          <div style={{ padding: 16, borderBottom: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', gap: 10, background: 'var(--primary-tint)' }}>
             <input value={formName} onChange={e => setFormName(e.target.value)} placeholder="Nom du convoi..." style={inputStyle} />
-            <select value={formOrigin} onChange={e => setFormOrigin(e.target.value)} style={{ ...inputStyle, backgroundColor: '#1f2937', color: 'white' }}>
+            <select value={formOrigin} onChange={e => setFormOrigin(e.target.value)} style={{ ...inputStyle, backgroundColor: 'var(--paper-sunken)', color: 'var(--ink)' }}>
               <option value="">— Ville de départ —</option>
               {cities.map(c => <option key={c.id} value={c.id}>{c.location?.name || c.id}</option>)}
             </select>
-            <select value={formDest} onChange={e => setFormDest(e.target.value)} style={{ ...inputStyle, backgroundColor: '#1f2937', color: 'white' }}>
+            <select value={formDest} onChange={e => setFormDest(e.target.value)} style={{ ...inputStyle, backgroundColor: 'var(--paper-sunken)', color: 'var(--ink)' }}>
               <option value="">— Ville d'arrivée —</option>
               {cities.map(c => <option key={c.id} value={c.id}>{c.location?.name || c.id}</option>)}
             </select>
@@ -375,7 +375,7 @@ export default function ConvoyManager() {
               <input type="range" min={0} max={100} value={formDifficulty} onChange={e => setFormDifficulty(Number(e.target.value))}
                 style={{ width: '100%', accentColor: '#f59e0b' }} />
             </div>
-            <select value={formCargoType} onChange={e => setFormCargoType(e.target.value)} style={{ ...inputStyle, backgroundColor: '#1f2937', color: 'white' }}>
+            <select value={formCargoType} onChange={e => setFormCargoType(e.target.value)} style={{ ...inputStyle, backgroundColor: 'var(--paper-sunken)', color: 'var(--ink)' }}>
               <option value="resources">Ressources Matérielles</option>
               <option value="humans">Ressources Humaines</option>
               <option value="mixed">Mixte</option>
@@ -495,7 +495,7 @@ export default function ConvoyManager() {
                         {selectedConvoy[key]}
                       </span>
                     </div>
-                    <div style={{ height: 6, borderRadius: 3, background: 'rgba(255,255,255,0.1)', overflow: 'hidden' }}>
+                    <div style={{ height: 6, borderRadius: 3, background: 'var(--overlay-soft)', overflow: 'hidden' }}>
                       <div style={{
                         height: '100%', borderRadius: 3, transition: 'width 0.3s',
                         width: `${Math.min(100, selectedConvoy[key])}%`,
@@ -505,8 +505,8 @@ export default function ConvoyManager() {
                     <div style={{ display: 'flex', gap: 4, marginTop: 6 }}>
                       <button onClick={() => handleResourceChange(key, -10)} style={smallBtn}>-10</button>
                       <button onClick={() => handleResourceChange(key, -5)} style={smallBtn}>-5</button>
-                      <button onClick={() => handleResourceChange(key, 5)} style={{ ...smallBtn, background: 'rgba(34,197,94,0.2)' }}>+5</button>
-                      <button onClick={() => handleResourceChange(key, 10)} style={{ ...smallBtn, background: 'rgba(34,197,94,0.2)' }}>+10</button>
+                      <button onClick={() => handleResourceChange(key, 5)} style={{ ...smallBtn, background: 'var(--success-tint-strong)' }}>+5</button>
+                      <button onClick={() => handleResourceChange(key, 10)} style={{ ...smallBtn, background: 'var(--success-tint-strong)' }}>+10</button>
                     </div>
                   </div>
                 ))}
@@ -524,7 +524,7 @@ export default function ConvoyManager() {
                 {showAddVehicle && (
                   <div style={{ display: 'flex', gap: 8, marginBottom: 12, alignItems: 'center', background: 'var(--color-surface)', padding: 12, borderRadius: 8 }}>
                     <input value={vehName} onChange={e => setVehName(e.target.value)} placeholder="Nom du véhicule..." style={{ ...inputStyle, flex: '2 1 200px', minWidth: '150px' }} />
-                    <select value={vehType} onChange={e => setVehType(e.target.value)} style={{ ...inputStyle, backgroundColor: '#1f2937', color: 'white', width: '100px', flex: '0 0 100px' }}>
+                    <select value={vehType} onChange={e => setVehType(e.target.value)} style={{ ...inputStyle, backgroundColor: 'var(--paper-sunken)', color: 'var(--ink)', width: '100px', flex: '0 0 100px' }}>
                       <option value="moto">🏍️ Moto</option>
                       <option value="car">🚗 Voiture</option>
                       <option value="truck">🚛 Camion</option>
@@ -571,7 +571,7 @@ export default function ConvoyManager() {
                         </div>
                         {!v.isDestroyed && (
                           <>
-                            <div style={{ height: 6, borderRadius: 3, background: 'rgba(255,255,255,0.1)', overflow: 'hidden', marginBottom: 6 }}>
+                            <div style={{ height: 6, borderRadius: 3, background: 'var(--overlay-soft)', overflow: 'hidden', marginBottom: 6 }}>
                               <div style={{
                                 height: '100%', borderRadius: 3, transition: 'width 0.3s',
                                 width: `${hpPct}%`,
@@ -581,8 +581,8 @@ export default function ConvoyManager() {
                             <div style={{ display: 'flex', gap: 4, marginBottom: 8 }} onClick={e => e.stopPropagation()}>
                               <button onClick={() => handleVehicleHpChange(v.id, -20)} style={smallBtn}>-20</button>
                               <button onClick={() => handleVehicleHpChange(v.id, -10)} style={smallBtn}>-10</button>
-                              <button onClick={() => handleVehicleHpChange(v.id, 10)} style={{ ...smallBtn, background: 'rgba(34,197,94,0.2)' }}>+10</button>
-                              <button onClick={() => handleVehicleHpChange(v.id, 20)} style={{ ...smallBtn, background: 'rgba(34,197,94,0.2)' }}>+20</button>
+                              <button onClick={() => handleVehicleHpChange(v.id, 10)} style={{ ...smallBtn, background: 'var(--success-tint-strong)' }}>+10</button>
+                              <button onClick={() => handleVehicleHpChange(v.id, 20)} style={{ ...smallBtn, background: 'var(--success-tint-strong)' }}>+20</button>
                             </div>
                           </>
                         )}
@@ -603,7 +603,7 @@ export default function ConvoyManager() {
                   {/* Vertical line */}
                   <div style={{
                     position: 'absolute', left: 14, top: 0, bottom: 0, width: 2,
-                    background: 'rgba(255,255,255,0.1)',
+                    background: 'var(--overlay-soft)',
                   }} />
 
                   {(selectedConvoy.events || []).map((event, idx) => {
@@ -645,7 +645,7 @@ export default function ConvoyManager() {
                               <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
                                 {CATEGORY_LABELS[event.category] || event.category}
                               </span>
-                              {isActive && <span style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: 4, background: 'rgba(99,102,241,0.3)', color: '#a5b4fc' }}>ACTIF</span>}
+                              {isActive && <span style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: 4, background: 'var(--primary-border)', color: '#a5b4fc' }}>ACTIF</span>}
                               <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>#{idx + 1}</span>
                             </div>
 
@@ -678,7 +678,7 @@ export default function ConvoyManager() {
                                     const actionTxt = eff.type === 'damage' ? 'Risques potentiels' : 'Opportunité de repos';
 
                                     return (
-                                      <div style={{ marginTop: 12, padding: 12, background: 'rgba(0,0,0,0.2)', borderRadius: 8, border: '1px solid var(--color-border)' }}>
+                                      <div style={{ marginTop: 12, padding: 12, background: 'var(--paper-sunken)', borderRadius: 8, border: '1px solid var(--color-border)' }}>
                                         <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 8, textTransform: 'uppercase' }}>
                                           {actionTxt} : 
                                           {resKey && <span style={{ marginLeft: 6, fontWeight: 'bold', color: eff.type === 'damage' ? '#f87171' : '#4ade80' }}>{sign}{resVal} {resKey}</span>}
@@ -694,7 +694,7 @@ export default function ConvoyManager() {
                                   })()
                                 )}
                                 {isActive && event.severity === 'low' && (
-                                  <div style={{ marginTop: 16, padding: 12, background: 'rgba(52, 211, 153, 0.1)', borderRadius: 8, border: '1px solid rgba(52, 211, 153, 0.4)' }}>
+                                  <div style={{ marginTop: 16, padding: 12, background: 'var(--success-tint)', borderRadius: 8, border: '1px solid rgba(52, 211, 153, 0.4)' }}>
                                     <h4 style={{ margin: '0 0 12px 0', fontSize: '0.9rem', color: '#34d399' }}>⛺ Actions de Campement (PJ)</h4>
                                     
                                     {/* Ravitaillement */}
@@ -725,7 +725,7 @@ export default function ConvoyManager() {
                                           value={campActionVehicleId} 
                                           onChange={e => setCampActionVehicleId(e.target.value)}
                                           onClick={e => e.stopPropagation()}
-                                          style={{ background: '#1f2937', color: 'white', border: '1px solid var(--color-border)', borderRadius: 4, padding: '2px 6px', fontSize: '0.75rem' }}
+                                          style={{ background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: 4, padding: '2px 6px', fontSize: '0.75rem' }}
                                         >
                                           <option value="">Sélectionner un véhicule...</option>
                                           {selectedConvoy.vehicles?.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
@@ -766,7 +766,7 @@ export default function ConvoyManager() {
             {/* ─── Rewards Modal ─── */}
             {showRewards && (
               <div style={{
-                position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex',
+                position: 'fixed', inset: 0, background: 'var(--paper-inset)', display: 'flex',
                 alignItems: 'center', justifyContent: 'center', zIndex: 1000,
               }} onClick={() => setShowRewards(false)}>
                 <div style={{
@@ -840,11 +840,11 @@ export default function ConvoyManager() {
 
               return (
                 <div style={{
-                  position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', display: 'flex',
+                  position: 'fixed', inset: 0, background: 'var(--paper-inset)', display: 'flex',
                   alignItems: 'center', justifyContent: 'center', zIndex: 1100, backdropFilter: 'blur(3px)'
                 }} onClick={() => setInspectVehicle(null)}>
                   <div style={{
-                    background: '#18181b', borderRadius: 12, padding: 24, width: 560, maxHeight: '85vh',
+                    background: 'var(--paper-sunken)', borderRadius: 12, padding: 24, width: 560, maxHeight: '85vh',
                     overflowY: 'auto', border: '2px solid #b91c1c', boxShadow: '0 10px 30px rgba(0,0,0,0.8)',
                     fontFamily: 'system-ui, sans-serif'
                   }} onClick={e => e.stopPropagation()}>
@@ -863,7 +863,7 @@ export default function ConvoyManager() {
                     </div>
 
                     {/* D&D 5e Stat Grid */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 10, marginBottom: 16, backgroundColor: '#27272a', padding: 12, borderRadius: 8, textAlign: 'center' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 10, marginBottom: 16, backgroundColor: 'var(--paper-sunken)', padding: 12, borderRadius: 8, textAlign: 'center' }}>
                       <div>
                         <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>CA (Armure)</div>
                         <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#f59e0b' }}>🛡️ {ac}</div>
@@ -905,7 +905,7 @@ export default function ConvoyManager() {
                       <div style={{ marginBottom: 16 }}>
                         <h4 style={{ margin: '0 0 8px 0', color: '#ef4444', fontSize: '0.95rem' }}>⚔️ Armement & Actions D&D 5e</h4>
                         {notes.actions.map((act, idx) => (
-                          <div key={idx} style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', borderLeft: '3px solid #ef4444', padding: '8px 12px', borderRadius: 4, marginBottom: 8, fontSize: '0.85rem' }}>
+                          <div key={idx} style={{ backgroundColor: 'var(--danger-tint)', borderLeft: '3px solid #ef4444', padding: '8px 12px', borderRadius: 4, marginBottom: 8, fontSize: '0.85rem' }}>
                             <div style={{ fontWeight: 'bold', color: '#fca5a5', display: 'flex', justifyContent: 'space-between' }}>
                               <span>{act.name}</span>
                               <span style={{ fontSize: '0.75rem', color: '#f87171' }}>{act.type} • Portée : {act.range}</span>
@@ -922,10 +922,10 @@ export default function ConvoyManager() {
                     <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid #3f3f46', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ fontSize: '0.85rem', color: '#9ca3af' }}>Ajuster PV en direct :</span>
                       <div style={{ display: 'flex', gap: 6 }}>
-                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, -20)} style={{ ...smallBtn, background: '#ef4444' }}>-20 PV</button>
-                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, -10)} style={{ ...smallBtn, background: '#ef4444' }}>-10 PV</button>
-                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, 10)} style={{ ...smallBtn, background: '#10b981' }}>+10 PV</button>
-                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, 20)} style={{ ...smallBtn, background: '#10b981' }}>+20 PV</button>
+                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, -20)} style={{ ...smallBtn, background: 'var(--danger)' }}>-20 PV</button>
+                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, -10)} style={{ ...smallBtn, background: 'var(--danger)' }}>-10 PV</button>
+                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, 10)} style={{ ...smallBtn, background: 'var(--success)' }}>+10 PV</button>
+                        <button onClick={() => handleVehicleHpChange(convoyVeh.id, 20)} style={{ ...smallBtn, background: 'var(--success)' }}>+20 PV</button>
                       </div>
                     </div>
 
@@ -940,7 +940,7 @@ export default function ConvoyManager() {
       {/* Error Toast */}
       {error && (
         <div style={{
-          position: 'fixed', bottom: 20, right: 20, background: '#ef4444', color: 'white',
+          position: 'fixed', bottom: 20, right: 20, background: 'var(--danger)', color: 'white',
           padding: '12px 20px', borderRadius: 8, zIndex: 1000, display: 'flex', alignItems: 'center', gap: 8,
         }}>
           <AlertTriangle size={16} /> {error}
@@ -962,12 +962,12 @@ const btnStyle = (bg) => ({
 });
 
 const inputStyle = {
-  backgroundColor: '#1f2937', border: '1px solid var(--color-border)',
+  backgroundColor: 'var(--paper-sunken)', border: '1px solid var(--color-border)',
   borderRadius: 6, padding: '8px 12px', color: 'white', fontSize: '0.85rem',
   outline: 'none',
 };
 
 const smallBtn = {
-  flex: 1, padding: '3px 0', background: 'rgba(239,68,68,0.15)', border: 'none',
+  flex: 1, padding: '3px 0', background: 'var(--danger-tint)', border: 'none',
   borderRadius: 4, color: 'white', cursor: 'pointer', fontSize: '0.75rem',
 };

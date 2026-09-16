@@ -30,11 +30,11 @@ export default function LoreAtmosphereDeck({ onOpenNpcModal }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Scroll size={18} color="var(--color-primary-light)" />
-          <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-text)' }}>
+          <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700, color: 'var(--ink-on-dark)' }}>
             Deck 3 : Ambiance & Lore
           </h3>
         </div>
-        <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+        <span style={{ fontSize: '0.72rem', color: 'var(--ink-on-dark-muted)' }}>
           Événements d8 & Mémoire
         </span>
       </div>
@@ -86,7 +86,7 @@ export default function LoreAtmosphereDeck({ onOpenNpcModal }) {
                 }}>
                   d8 : {activeEvent.rolledNumber}
                 </span>
-                <h4 style={{ margin: 0, fontSize: '0.88rem', color: 'var(--color-text)', fontWeight: 800 }}>
+                <h4 style={{ margin: 0, fontSize: '0.88rem', color: 'var(--ink-on-dark)', fontWeight: 800 }}>
                   {activeEvent.title}
                 </h4>
               </div>
@@ -97,17 +97,17 @@ export default function LoreAtmosphereDeck({ onOpenNpcModal }) {
 
             <button
               onClick={() => setActiveEvent(null)}
-              style={{ border: 'none', background: 'transparent', color: 'var(--color-text-muted)', cursor: 'pointer' }}
+              style={{ border: 'none', background: 'transparent', color: 'var(--ink-on-dark-muted)', cursor: 'pointer' }}
             >
               <X size={15} />
             </button>
           </div>
 
-          <div style={{ fontSize: '0.8rem', color: 'var(--color-text)', fontStyle: 'italic', lineHeight: 1.35 }}>
+          <div style={{ fontSize: '0.8rem', color: 'var(--ink-on-dark)', fontStyle: 'italic', lineHeight: 1.35 }}>
             {activeEvent.pitch}
           </div>
 
-          <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', backgroundColor: 'var(--color-surface)', padding: '6px 8px', borderRadius: '4px', lineHeight: 1.35 }}>
+          <div style={{ fontSize: '0.78rem', color: 'var(--ink-on-dark-muted)', backgroundColor: 'var(--color-surface)', padding: '6px 8px', borderRadius: '4px', lineHeight: 1.35 }}>
             {activeEvent.description}
           </div>
 
@@ -119,7 +119,7 @@ export default function LoreAtmosphereDeck({ onOpenNpcModal }) {
 
       {/* Rival Convoys Directory */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', borderTop: '1px solid var(--color-border)', paddingTop: '10px' }}>
-        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--ink-on-dark-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
           <Users size={13} /> PNJ & Rivaux de la Course :
         </span>
 
@@ -133,7 +133,7 @@ export default function LoreAtmosphereDeck({ onOpenNpcModal }) {
                 borderRadius: '6px',
                 border: '1px solid var(--color-border)',
                 backgroundColor: 'var(--color-background)',
-                color: 'var(--color-text)',
+                color: 'var(--ink-on-dark)',
                 fontSize: '0.75rem',
                 fontWeight: 600,
                 textAlign: 'left',

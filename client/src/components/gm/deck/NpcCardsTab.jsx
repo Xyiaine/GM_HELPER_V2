@@ -151,7 +151,7 @@ export default function NpcCardsTab() {
                       fontSize: '0.72rem',
                       padding: '2px 6px',
                       borderRadius: '4px',
-                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      backgroundColor: 'var(--overlay-subtle)',
                       color: 'var(--color-text)'
                     }}>
                       {npc.role}
@@ -160,7 +160,7 @@ export default function NpcCardsTab() {
                       fontSize: '0.72rem',
                       padding: '2px 6px',
                       borderRadius: '4px',
-                      backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                      backgroundColor: 'var(--primary-tint-strong)',
                       color: 'var(--color-primary-light)'
                     }}>
                       {npc.city}
@@ -214,7 +214,7 @@ export default function NpcCardsTab() {
 
               {/* Secret inavouable (Toggleable) */}
               <div style={{
-                backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                backgroundColor: 'var(--danger-tint)',
                 border: '1px dashed rgba(239, 68, 68, 0.3)',
                 borderRadius: '6px',
                 padding: '8px',

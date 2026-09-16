@@ -13,7 +13,7 @@ export default function CaptainNominationPanel({ captainData }) {
 
   return (
     <div style={{
-      backgroundColor: 'rgba(16, 185, 129, 0.1)',
+      backgroundColor: 'var(--success-tint)',
       border: '1px solid #10b981',
       borderRadius: '8px',
       padding: '14px',
@@ -43,7 +43,7 @@ export default function CaptainNominationPanel({ captainData }) {
       )}
 
       {captainInfo.deadlockFallback && (
-        <div style={{ fontSize: '0.8rem', color: '#fef3c7', display: 'flex', alignItems: 'flex-start', gap: '6px', backgroundColor: 'rgba(245, 158, 11, 0.1)', padding: '8px', borderRadius: '4px' }}>
+        <div style={{ fontSize: '0.8rem', color: '#fef3c7', display: 'flex', alignItems: 'flex-start', gap: '6px', backgroundColor: 'var(--warning-tint)', padding: '8px', borderRadius: '4px' }}>
           <RefreshCw size={16} color="#f59e0b" style={{ flexShrink: 0, marginTop: '2px' }} />
           <div>
             <strong>Filet de Secours (Blocage) :</strong> {captainInfo.deadlockFallback}
@@ -52,7 +52,7 @@ export default function CaptainNominationPanel({ captainData }) {
       )}
 
       {captainInfo.conflictManagementLevers && captainInfo.conflictManagementLevers.length > 0 && (
-        <div style={{ fontSize: '0.8rem', color: '#fee2e2', backgroundColor: 'rgba(239, 68, 68, 0.1)', padding: '8px', borderRadius: '4px' }}>
+        <div style={{ fontSize: '0.8rem', color: '#fee2e2', backgroundColor: 'var(--danger-tint)', padding: '8px', borderRadius: '4px' }}>
           <strong style={{ color: '#ef4444', display: 'flex', alignItems: 'center', gap: '4px' }}>
             <ShieldAlert size={14} /> Leviers Anti-Conflit :
           </strong>

@@ -110,7 +110,7 @@ export default function ThreatClockWidget({ threat, campaignId, questId }) {
           className="btn-primary"
           onClick={() => handleAdvance('increment')}
           disabled={currentLevel >= (threat.maxLevel || 6)}
-          style={{ padding: '4px 10px', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', background: '#ef4444', color: '#fff', border: 'none' }}
+          style={{ padding: '4px 10px', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', background: 'var(--danger)', color: '#fff', border: 'none' }}
         >
           <Plus size={14} /> +1 Horloge
         </button>
@@ -119,7 +119,7 @@ export default function ThreatClockWidget({ threat, campaignId, questId }) {
       {/* Active Threshold Alert */}
       {activeAlert && (
         <div style={{
-          backgroundColor: 'rgba(239, 68, 68, 0.15)',
+          backgroundColor: 'var(--danger-tint)',
           border: '1px solid #ef4444',
           borderRadius: '4px',
           padding: '8px 12px',

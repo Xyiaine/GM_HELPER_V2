@@ -295,7 +295,7 @@ export default function TacticalCombatArena({
                 padding: '8px 18px',
                 borderRadius: '8px',
                 border: 'none',
-                backgroundColor: '#10b981',
+                backgroundColor: 'var(--success)',
                 color: '#fff',
                 fontWeight: 900,
                 fontSize: '0.88rem',

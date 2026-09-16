@@ -127,7 +127,7 @@ export default function HazardCardsTab() {
             padding: '5px 10px',
             borderRadius: '6px',
             border: '1px dashed var(--color-primary)',
-            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            backgroundColor: 'var(--primary-tint-strong)',
             color: 'var(--color-primary-light, #818cf8)',
             fontSize: '0.78rem',
             cursor: 'pointer',
@@ -312,7 +312,7 @@ export default function HazardCardsTab() {
                       fontSize: '0.7rem',
                       padding: '2px 6px',
                       borderRadius: '4px',
-                      backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                      backgroundColor: 'var(--primary-tint-strong)',
                       color: 'var(--color-primary-light)',
                       border: '1px solid rgba(99, 102, 241, 0.3)',
                       fontWeight: 600

@@ -40,11 +40,11 @@ export default function DesertHazardDeck({ wormClock, onWormClockChange }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Flame size={18} color="#ef4444" />
-          <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-text)' }}>
+          <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700, color: 'var(--ink-on-dark)' }}>
             Deck 2 : Dangers & Menaces
           </h3>
         </div>
-        <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+        <span style={{ fontSize: '0.72rem', color: 'var(--ink-on-dark-muted)' }}>
           Complications du Sel
         </span>
       </div>
@@ -99,7 +99,7 @@ export default function DesertHazardDeck({ wormClock, onWormClockChange }) {
               borderRadius: '4px',
               border: '1px solid var(--color-border)',
               background: 'transparent',
-              color: 'var(--color-text-muted)',
+              color: 'var(--ink-on-dark-muted)',
               cursor: wormClock <= 0 ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -187,7 +187,7 @@ export default function DesertHazardDeck({ wormClock, onWormClockChange }) {
             </h4>
             <button
               onClick={handleDismissHazard}
-              style={{ border: 'none', background: 'transparent', color: 'var(--color-text-muted)', cursor: 'pointer' }}
+              style={{ border: 'none', background: 'transparent', color: 'var(--ink-on-dark-muted)', cursor: 'pointer' }}
               title="Résoudre le danger"
             >
               <X size={15} />
@@ -195,12 +195,12 @@ export default function DesertHazardDeck({ wormClock, onWormClockChange }) {
           </div>
 
           {activeHazard.flavor && (
-            <p style={{ margin: 0, fontSize: '0.78rem', fontStyle: 'italic', color: 'var(--color-text-muted)' }}>
+            <p style={{ margin: 0, fontSize: '0.78rem', fontStyle: 'italic', color: 'var(--ink-on-dark-muted)' }}>
               « {activeHazard.flavor} »
             </p>
           )}
 
-          <div style={{ fontSize: '0.8rem', color: 'var(--color-text)', backgroundColor: 'var(--color-surface)', padding: '6px', borderRadius: '4px' }}>
+          <div style={{ fontSize: '0.8rem', color: 'var(--ink-on-dark)', backgroundColor: 'var(--color-surface)', padding: '6px', borderRadius: '4px' }}>
             {activeHazard.effect}
           </div>
 
@@ -210,7 +210,7 @@ export default function DesertHazardDeck({ wormClock, onWormClockChange }) {
               padding: '4px 8px',
               borderRadius: '4px',
               border: 'none',
-              backgroundColor: '#10b981',
+              backgroundColor: 'var(--success)',
               color: '#fff',
               fontSize: '0.75rem',
               fontWeight: 600,

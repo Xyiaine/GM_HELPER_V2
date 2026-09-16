@@ -144,13 +144,13 @@ export default function PrintStudio() {
       </header>
 
       {error && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', marginBottom: '20px', borderRadius: '8px', backgroundColor: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.4)', color: 'var(--danger, #ef4444)', fontSize: '0.9rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', marginBottom: '20px', borderRadius: '8px', backgroundColor: 'var(--danger-tint)', border: '1px solid rgba(239, 68, 68, 0.4)', color: 'var(--danger, #ef4444)', fontSize: '0.9rem' }}>
           <AlertTriangle size={16} /> {error}
         </div>
       )}
 
       {done && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', marginBottom: '20px', borderRadius: '8px', backgroundColor: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.4)', color: 'var(--success, #10b981)', fontSize: '0.9rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 16px', marginBottom: '20px', borderRadius: '8px', backgroundColor: 'var(--success-tint)', border: '1px solid rgba(16, 185, 129, 0.4)', color: 'var(--success, #10b981)', fontSize: '0.9rem' }}>
           <Check size={16} /> {done} fichier{done > 1 ? 's' : ''} PDF téléchargé{done > 1 ? 's' : ''}.
         </div>
       )}

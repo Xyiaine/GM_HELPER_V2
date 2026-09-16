@@ -146,7 +146,7 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
       </header>
 
       {/* Navigation Tabs */}
-      <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border)', backgroundColor: 'rgba(0,0,0,0.2)', overflowX: 'auto' }}>
+      <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border)', backgroundColor: 'var(--paper-sunken)', overflowX: 'auto' }}>
         <button
           onClick={() => setActiveTab('overview')}
           style={{
@@ -272,7 +272,7 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
                 <Dices size={18} /> Lancer le d8
               </button>
               {drawnEvent && (
-                <div style={{ backgroundColor: 'rgba(139, 92, 246, 0.15)', border: '1px solid #8b5cf6', borderRadius: '4px', padding: '10px', fontSize: '0.85rem' }}>
+                <div style={{ backgroundColor: 'var(--arcane-tint)', border: '1px solid #8b5cf6', borderRadius: '4px', padding: '10px', fontSize: '0.85rem' }}>
                   <strong>Résultat Dé : {drawnEvent.roll}</strong> → {drawnEvent.result}
                 </div>
               )}
@@ -368,7 +368,7 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
                     </button>
                   </div>
                   {checkedLeads[idx] && (
-                    <div style={{ fontSize: '0.8rem', color: '#e0f2fe', backgroundColor: 'rgba(56, 189, 248, 0.1)', padding: '8px', borderRadius: '4px', marginTop: '4px' }}>
+                    <div style={{ fontSize: '0.8rem', color: '#e0f2fe', backgroundColor: 'var(--info-tint)', padding: '8px', borderRadius: '4px', marginTop: '4px' }}>
                       💡 <strong>Révélation :</strong> {leadObj.reveals}
                     </div>
                   )}
@@ -392,12 +392,12 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
             <button
               className="btn-primary"
               onClick={handleDrawScenePool}
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', background: '#10b981', color: 'black' }}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', background: 'var(--success)', color: 'black' }}
             >
               🎲 Tirer une Scène du Pool
             </button>
             {scenePoolState && (
-              <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.15)', border: '1px solid #10b981', borderRadius: '6px', padding: '12px', fontSize: '0.85rem' }}>
+              <div style={{ backgroundColor: 'var(--success-tint)', border: '1px solid #10b981', borderRadius: '6px', padding: '12px', fontSize: '0.85rem' }}>
                 {scenePoolState.completed ? (
                   <strong style={{ color: '#10b981' }}>🏁 Pool complet ! Allez au nœud de clôture.</strong>
                 ) : (

@@ -204,7 +204,7 @@ export default function LiveSession({ campaignId }) {
             <div style={{
               marginTop: '16px',
               padding: '12px 24px',
-              backgroundColor: 'rgba(0, 0, 0, 0.4)',
+              backgroundColor: 'var(--paper-inset)',
               border: '1px solid var(--color-border)',
               borderRadius: '8px',
               fontSize: '1.2rem',

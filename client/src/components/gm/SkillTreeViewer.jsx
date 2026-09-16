@@ -162,7 +162,7 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
           )}
         </div>
         
-        <div style={{ padding: 16, borderBottom: '1px solid #374151', background: '#1f2937' }}>
+        <div style={{ padding: 16, borderBottom: '1px solid #374151', background: 'var(--paper-sunken)' }}>
           <div style={{ fontSize: '0.85rem', color: '#9ca3af', marginBottom: 4 }}>Personnage (Niveau {character?.level || 1})</div>
           <div style={{ fontWeight: 'bold', color: '#60a5fa', fontSize: '1.1rem' }}>{character?.name}</div>
           <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 6, color: '#f59e0b', fontWeight: 'bold' }}>
@@ -231,7 +231,7 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
 
           {/* Bestiaire Sidepanel (if companion tree) */}
           {currentTree?.bestiaire && (
-            <div style={{ margin: 16, padding: 12, background: 'rgba(34, 197, 94, 0.1)', borderRadius: 8, border: '1px solid rgba(34, 197, 94, 0.3)' }}>
+            <div style={{ margin: 16, padding: 12, background: 'var(--success-tint-strong)', borderRadius: 8, border: '1px solid rgba(34, 197, 94, 0.3)' }}>
               <div style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ade80', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
                 🐾 Bestiaire des Compagnons
               </div>
@@ -365,24 +365,24 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
             
             <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
               {currentTree.attributs?.map(attr => (
-                <span key={attr} style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(99,102,241,0.25)', color: '#a5b4fc', fontSize: '0.75rem', border: '1px solid rgba(99,102,241,0.4)', fontWeight: 'bold' }}>
+                <span key={attr} style={{ padding: '2px 8px', borderRadius: 4, background: 'var(--primary-tint-strong)', color: '#a5b4fc', fontSize: '0.75rem', border: '1px solid rgba(99,102,241,0.4)', fontWeight: 'bold' }}>
                   🧠 {attr}
                 </span>
               ))}
               {currentTree.classe_5e_ref && (
-                <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(245,158,11,0.25)', color: '#fbbf24', fontSize: '0.75rem', border: '1px solid rgba(245,158,11,0.4)', fontWeight: 'bold' }}>
+                <span style={{ padding: '2px 8px', borderRadius: 4, background: 'var(--warning-tint-strong)', color: '#fbbf24', fontSize: '0.75rem', border: '1px solid rgba(245,158,11,0.4)', fontWeight: 'bold' }}>
                   📖 5e: {currentTree.classe_5e_ref}
                 </span>
               )}
               {currentTree.monnaie === 'faveur' && (
-                <span style={{ padding: '2px 8px', borderRadius: 4, background: 'rgba(168,85,247,0.25)', color: '#c084fc', fontSize: '0.75rem', border: '1px solid rgba(168,85,247,0.4)', fontWeight: 'bold' }}>
+                <span style={{ padding: '2px 8px', borderRadius: 4, background: 'var(--arcane-tint-strong)', color: '#c084fc', fontSize: '0.75rem', border: '1px solid rgba(168,85,247,0.4)', fontWeight: 'bold' }}>
                   💎 Monnaie: Faveur
                 </span>
               )}
             </div>
 
             {currentTree.ressource_propre && (
-              <div style={{ marginTop: 8, padding: '4px 10px', borderRadius: 6, background: 'rgba(168,85,247,0.2)', color: '#e9d5ff', fontSize: '0.8rem', border: '1px solid rgba(168,85,247,0.3)', maxWidth: 450 }}>
+              <div style={{ marginTop: 8, padding: '4px 10px', borderRadius: 6, background: 'var(--arcane-tint-strong)', color: '#e9d5ff', fontSize: '0.8rem', border: '1px solid rgba(168,85,247,0.3)', maxWidth: 450 }}>
                 ✨ <strong>{currentTree.ressource_propre.nom}</strong> — {currentTree.ressource_propre.description}
               </div>
             )}
@@ -412,7 +412,7 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
               {selectedNode.description}
             </p>
 
-            <div style={{ background: '#1f2937', padding: 12, borderRadius: 8, marginBottom: 16 }}>
+            <div style={{ background: 'var(--paper-sunken)', padding: 12, borderRadius: 8, marginBottom: 16 }}>
               <strong style={{ display: 'block', fontSize: '0.75rem', color: '#9ca3af', marginBottom: 4, textTransform: 'uppercase' }}>EFFET</strong>
               <div style={{ fontSize: '0.9rem', color: '#34d399' }}>{selectedNode.effet?.resume}</div>
               
@@ -469,7 +469,7 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
 
             {/* Unlock Error Toast */}
             {unlockError && (
-              <div style={{ background: 'rgba(239, 68, 68, 0.2)', border: '1px solid #ef4444', color: '#fca5a5', padding: '8px 12px', borderRadius: 6, fontSize: '0.8rem', marginBottom: 12 }}>
+              <div style={{ background: 'var(--danger-tint-strong)', border: '1px solid #ef4444', color: '#fca5a5', padding: '8px 12px', borderRadius: 6, fontSize: '0.8rem', marginBottom: 12 }}>
                 ⚠️ {unlockError}
               </div>
             )}

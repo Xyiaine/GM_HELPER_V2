@@ -92,7 +92,7 @@ export default function IntrigueCardsTab() {
             padding: '6px 12px',
             borderRadius: '6px',
             border: '1px dashed var(--color-primary)',
-            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            backgroundColor: 'var(--primary-tint-strong)',
             color: 'var(--color-primary-light)',
             fontSize: '0.8rem',
             cursor: 'pointer'
@@ -203,7 +203,7 @@ export default function IntrigueCardsTab() {
                   <span style={{
                     fontSize: '0.72rem',
                     color: 'var(--color-primary-light)',
-                    backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                    backgroundColor: 'var(--primary-tint-strong)',
                     padding: '2px 6px',
                     borderRadius: '4px',
                     display: 'inline-block',
@@ -248,7 +248,7 @@ export default function IntrigueCardsTab() {
 
               {/* Secret Toggle */}
               <div style={{
-                backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                backgroundColor: 'var(--danger-tint)',
                 border: '1px dashed rgba(239, 68, 68, 0.3)',
                 borderRadius: '6px',
                 padding: '8px',

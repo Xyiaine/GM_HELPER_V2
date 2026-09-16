@@ -396,7 +396,7 @@ export default function CombatantCard({
               fontWeight: 800,
               borderRadius: '4px',
               border: 'none',
-              backgroundColor: '#ef4444',
+              backgroundColor: 'var(--danger)',
               color: '#fff',
               cursor: 'pointer'
             }}

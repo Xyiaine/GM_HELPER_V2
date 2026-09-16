@@ -1,38 +1,189 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   GM HELPER — SYSTÈME DE JETONS
+   Direction artistique : « Sel et rouille »
+   Cahier des charges : Cahier des charges/DA_Cahier_des_charges_v1.html
+
+   L'interface du MJ est un carnet de terrain : papier jauni par le sel,
+   annotations à l'encre de rouille, relevés techniques en marge.
+   L'écran de table en est la version nocturne, projetée dans une pièce sombre.
+
+   Ce fichier est la seule source de vérité. Trois couches :
+     1. Jetons bruts      — la palette, la typographie, le rythme
+     2. Alias hérités     — les anciens noms, pour ne rien casser
+     3. Styles de base    — éléments nus et classes utilitaires
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 :root {
-  /* Color Palette (Dark Theme) */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #2d2d2d;
-  --bg-tertiary: #353535;
-  --bg-hover: #404040;
-  
-  --text-primary: #f0f0f0;
-  --text-secondary: #aaaaaa;
-  
-  --accent-primary: #6366f1; /* Indigo */
-  --accent-hover: #4f46e5;
-  
-  --danger: #ef4444;
-  --success: #10b981;
-  --warning: #f59e0b;
+  /* ─── 1. MATIÈRE ─────────────────────────────────────────────────────── */
+  --paper:         #F4F1EA;  /* fond général, papier jauni */
+  --paper-raised:  #FBFAF6;  /* cartes, panneaux posés */
+  --paper-sunken:  #EAE5DA;  /* champs, fonds de liste, zones en retrait */
+  --paper-inset:   #E2DCD0;  /* creux marqué, survols de ligne */
 
-  --border-color: #3f3f46;
-  
-  /* Aliases used in newer components */
-  --color-background: var(--bg-primary);
-  --color-surface: var(--bg-secondary);
-  --color-text: var(--text-primary);
-  --color-text-muted: var(--text-secondary);
-  --color-primary: var(--accent-primary);
-  --color-border: var(--border-color);
+  /* ─── 2. ENCRES ──────────────────────────────────────────────────────── */
+  --ink:           #1F1C18;  /* texte principal — noir chaud, jamais pur */
+  --ink-muted:     #6B6459;  /* texte secondaire, libellés */
+  --ink-faint:     #9A9184;  /* indications, métadonnées, substitutions */
+  --ink-inverse:   #FBFAF6;  /* texte sur aplat sombre */
 
-  /* Typography */
-  --font-family: 'Inter', 'Roboto', sans-serif;
-  
-  /* Radii */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  /* Encres pour les surfaces sombres assumées. La table de jeu de la Course du
+     Sel et les zones de dessin (carte du monde, carte locale, arbre de
+     compétences) restent des îlots sombres : leur contenu est peint avec sa
+     propre échelle de couleurs, qui deviendrait illisible sur fond clair.
+     Elles ont donc besoin d'encres claires, distinctes de l'encre principale. */
+  --ink-on-dark:       #E8E3D8;
+  --ink-on-dark-muted: #A9A399;
+
+  /* ─── 3. TRAITS ──────────────────────────────────────────────────────── */
+  --rule:          #D8D2C4;
+  --rule-strong:   #B8B0A0;
+
+  /* ─── 4. ACCENTS ─────────────────────────────────────────────────────── */
+  --rust:          #A8501E;  /* accent principal : actions, liens, actif */
+  --rust-soft:     #C97A3E;  /* survols, états intermédiaires */
+  --rust-deep:     #8A3D14;  /* pressions, texte d'accent sur fond clair */
+  --ember:         #C4801A;  /* « l'horizon d'un orange braise » */
+  --reactor:       #4A7C3F;  /* le vert du cristal, réussites */
+  --ember-red:     #B3392E;  /* danger, échecs, critiques */
+  --artificial:    #3A5F8A;  /* « la lumière d'un bleu artificiel » */
+  --arcane:        #6B4E8C;  /* mystère, illusions — Cité du Divertissement */
+
+  /* ─── 5. SÉMANTIQUE ET TEINTES ───────────────────────────────────────── */
+  --danger:   var(--ember-red);
+  --warning:  var(--ember);
+  --success:  var(--reactor);
+  --info:     var(--artificial);
+  --primary:  var(--rust);
+
+  /* Teintes translucides : elles fonctionnent sur fond clair comme sur fond
+     sombre, et remplacent les rgba() écrits en dur dans les composants. */
+  --danger-tint:        rgba(179, 57, 46, 0.10);
+  --danger-tint-strong: rgba(179, 57, 46, 0.16);
+  --danger-border:      rgba(179, 57, 46, 0.34);
+
+  --success-tint:        rgba(74, 124, 63, 0.10);
+  --success-tint-strong: rgba(74, 124, 63, 0.16);
+  --success-border:      rgba(74, 124, 63, 0.34);
+
+  --warning-tint:        rgba(196, 128, 26, 0.12);
+  --warning-tint-strong: rgba(196, 128, 26, 0.18);
+  --warning-border:      rgba(196, 128, 26, 0.36);
+
+  --primary-tint:        rgba(168, 80, 30, 0.08);
+  --primary-tint-strong: rgba(168, 80, 30, 0.14);
+  --primary-border:      rgba(168, 80, 30, 0.32);
+
+  --info-tint:        rgba(58, 95, 138, 0.10);
+  --info-tint-strong: rgba(58, 95, 138, 0.16);
+  --info-border:      rgba(58, 95, 138, 0.34);
+
+  --arcane-tint:        rgba(107, 78, 140, 0.10);
+  --arcane-tint-strong: rgba(107, 78, 140, 0.16);
+  --arcane-border:      rgba(107, 78, 140, 0.34);
+
+  /* ─── 6. CALQUES ─────────────────────────────────────────────────────── */
+  /* Sur fond clair, un calque se teinte de brun, jamais de noir pur : le noir
+     sur du papier jauni donne un gris sale. */
+  --overlay-subtle: rgba(80, 62, 40, 0.04);
+  --overlay-soft:   rgba(80, 62, 40, 0.07);
+  --overlay-medium: rgba(80, 62, 40, 0.13);
+  --scrim:          rgba(31, 28, 24, 0.55);
+
+  /* ─── 7. TYPOGRAPHIE ─────────────────────────────────────────────────── */
+  --font-ui:    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-data:  'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-title: 'Zilla Slab', Georgia, 'Times New Roman', serif;
+
+  /* Sept tailles, pas une de plus. Toute valeur hors de cette liste est un
+     défaut à corriger. */
+  --text-2xs:  11px;
+  --text-xs:   12px;
+  --text-sm:   13px;
+  --text-base: 15px;
+  --text-lg:   17px;
+  --text-xl:   22px;
+  --text-2xl:  30px;
+
+  /* ─── 8. ESPACEMENT — échelle de 4 px ────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* ─── 9. RAYONS ──────────────────────────────────────────────────────── */
+  /* Peu arrondis : le papier, la tôle et le métal ne sont pas des pastilles. */
+  --radius-sm:   3px;
+  --radius-md:   6px;
+  --radius-lg:   10px;
+  --radius-full: 999px;
+
+  /* ─── 10. OMBRES ─────────────────────────────────────────────────────── */
+  --shadow-raised: 0 1px 2px rgba(80, 62, 40, 0.08);
+  --shadow-float:  0 4px 12px rgba(80, 62, 40, 0.12);
+
+  /* ─── 11. MOUVEMENT ──────────────────────────────────────────────────── */
+  /* Aucune animation : uniquement des transitions d'état. */
+  --motion-fast: 120ms ease-out;
+  --motion-base: 200ms ease-out;
+
+  /* ─── 12. PLANS ──────────────────────────────────────────────────────── */
+  --layer-base:    0;
+  --layer-sticky:  100;
+  --layer-overlay: 200;
+  --layer-modal:   300;
+  --layer-toast:   400;
+
+  color-scheme: light;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COUCHE 2 — ALIAS HÉRITÉS
+
+   Les six variables ci-dessous totalisent plus de 1 300 usages dans les
+   composants. En les faisant pointer vers la nouvelle palette, la moitié de
+   l'interface bascule sans qu'un seul composant soit modifié.
+
+   Cette couche disparaîtra quand la migration des composants sera terminée.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Anciens noms courts */
+  --bg-primary:    var(--paper);
+  --bg-secondary:  var(--paper-raised);
+  --bg-tertiary:   var(--paper-sunken);
+  --bg-hover:      var(--paper-inset);
+  --text-primary:  var(--ink);
+  --text-secondary: var(--ink-muted);
+  --accent-primary: var(--rust);
+  --accent-hover:   var(--rust-deep);
+  --border-color:   var(--rule);
+
+  /* Noms longs, utilisés par les composants récents */
+  --color-background: var(--paper);
+  --color-surface:    var(--paper-raised);
+  --color-text:       var(--ink);
+  --color-text-muted: var(--ink-muted);
+  --color-primary:    var(--rust);
+  --color-border:     var(--rule);
+
+  --font-family: var(--font-ui);
+
+  /* Les six variables utilisées mais jamais définies. Elles retombaient sur
+     leur valeur de repli, ou sur rien du tout. --color-primary-light était
+     employée 40 fois dans 16 fichiers. */
+  --color-primary-light: var(--rust-soft);
+  --color-primary-dark:  var(--rust-deep);
+  --color-primary-rgb:   168, 80, 30;
+  --color-surface-rgb:   251, 250, 246;
+  --color-bg:            var(--paper);
+  --error:               var(--ember-red);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COUCHE 3 — STYLES DE BASE
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 * {
   box-sizing: border-box;
@@ -41,65 +192,162 @@
 }
 
 body {
-  font-family: var(--font-family);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.5;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  background-color: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Les titres portent la famille narrative. Le reste du texte reste en Inter. */
+h1, h2 {
+  font-family: var(--font-title);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: var(--text-2xl); }
+h2 { font-size: var(--text-xl); }
+
+h3, h4, h5, h6 {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h3 { font-size: var(--text-lg); }
+
+/* Tout ce qui est mesuré, codé ou relevé passe en monospace. */
+code, kbd, samp, pre {
+  font-family: var(--font-data);
+  font-size: 0.9em;
 }
 
 a {
-  color: var(--accent-primary);
+  color: var(--rust-deep);
   text-decoration: none;
+  transition: color var(--motion-fast);
 }
 
 a:hover {
+  color: var(--rust);
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 button {
   cursor: pointer;
   font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
   border: none;
   border-radius: var(--radius-md);
-  padding: 8px 16px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  padding: var(--space-2) var(--space-4);
+  transition: background-color var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 1px;
 }
 
 .btn-primary {
-  background-color: var(--accent-primary);
-  color: white;
+  background-color: var(--rust);
+  color: var(--ink-inverse);
 }
 
 .btn-primary:hover {
-  background-color: var(--accent-hover);
+  background-color: var(--rust-deep);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .btn-secondary {
-  background-color: var(--bg-tertiary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background-color: var(--paper-raised);
+  color: var(--ink);
+  border: 1px solid var(--rule);
 }
 
 .btn-secondary:hover {
-  background-color: var(--bg-hover);
+  background-color: var(--paper-sunken);
+  border-color: var(--rule-strong);
 }
 
 input, textarea, select {
   font-family: inherit;
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  font-size: var(--text-sm);
+  background-color: var(--paper-raised);
+  color: var(--ink);
+  border: 1px solid var(--rule);
   border-radius: var(--radius-md);
-  padding: 8px 12px;
+  padding: var(--space-2) var(--space-3);
   width: 100%;
+  transition: border-color var(--motion-fast);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--ink-faint);
 }
 
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  border-color: var(--rust);
+  box-shadow: 0 0 0 3px var(--primary-tint-strong);
+}
+
+/* Barres de défilement : celles du système restent sombres sur un thème clair
+   et cassent la continuité visuelle. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--rule-strong);
+  border: 3px solid var(--paper);
+  border-radius: var(--radius-full);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ink-faint);
+}
+
+/* ─── Classes utilitaires ─────────────────────────────────────────────── */
+
+/* Étiquette de section : petites capitales espacées, comme une annotation
+   portée en marge d'un carnet. */
+.label-section {
+  font-family: var(--font-data);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Donnée technique : code de nœud, coordonnée, difficulté, expression de dés. */
+.data {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
 }
 
 .loading-screen {
@@ -108,30 +356,41 @@ input:focus, textarea:focus, select:focus {
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  background-color: var(--bg-primary);
+  font-family: var(--font-data);
+  font-size: var(--text-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background-color: var(--paper);
 }
 
-/* Base layouts */
+.error-message {
+  padding: var(--space-4);
+  color: var(--danger);
+  background-color: var(--danger-tint);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-md);
+}
+
+.empty-state {
+  padding: var(--space-7) var(--space-4);
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: var(--text-sm);
+}
+
+/* ─── Structures de page ──────────────────────────────────────────────── */
+
 .gm-layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
-.gm-sidebar {
-  width: 260px;
-  background-color: var(--bg-secondary);
-  border-right: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-}
-
 .gm-content {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
+  padding: var(--space-5);
 }
 
 .player-layout {
@@ -140,40 +399,38 @@ input:focus, textarea:focus, select:focus {
   height: 100vh;
   max-width: 600px; /* Mobile first */
   margin: 0 auto;
-  background-color: var(--bg-primary);
+  background-color: var(--paper);
 }
 
 .player-nav {
   display: flex;
-  background-color: var(--bg-secondary);
-  border-top: 1px solid var(--border-color);
-  padding: 12px;
+  background-color: var(--paper-raised);
+  border-top: 1px solid var(--rule);
+  padding: var(--space-3);
   justify-content: space-around;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: var(--layer-sticky);
 }
 
 .player-content {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: var(--space-4);
 }
 
 @keyframes pulse {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  0%   { opacity: 1;   transform: scale(1); }
+  50%  { opacity: 0.5; transform: scale(1.05); }
+  100% { opacity: 1;   transform: scale(1); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

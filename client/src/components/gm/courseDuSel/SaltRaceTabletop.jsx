@@ -395,7 +395,7 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
       padding: '16px',
       backgroundColor: 'var(--color-background, #121212)',
       minHeight: '100%',
-      color: 'var(--color-text)'
+      color: 'var(--ink-on-dark)'
     }}>
       {/* 1. TOP DIRECTOR GUIDANCE BAR (Co-Pilote MJ Pas-à-Pas) */}
       <div style={{
@@ -430,7 +430,7 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
                     borderRadius: '6px',
                     border: isCurrent ? '1px solid var(--color-primary)' : '1px solid var(--color-border)',
                     backgroundColor: isCurrent ? 'var(--color-primary)' : isDone ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
-                    color: isCurrent ? '#fff' : isDone ? 'var(--color-primary-light)' : 'var(--color-text-muted)',
+                    color: isCurrent ? '#fff' : isDone ? 'var(--color-primary-light)' : 'var(--ink-on-dark-muted)',
                     fontSize: '0.72rem',
                     fontWeight: 700,
                     cursor: 'pointer'
@@ -455,10 +455,10 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
           gap: '12px',
           flexWrap: 'wrap'
         }}>
-          <div style={{ fontSize: '0.88rem', color: 'var(--color-text)', lineHeight: 1.4 }}>
+          <div style={{ fontSize: '0.88rem', color: 'var(--ink-on-dark)', lineHeight: 1.4 }}>
             👉 {currentPhaseObj.instruction}
             {directorPhase === 3 && !hasPresentNpcs && (
-              <span style={{ fontStyle: 'italic', color: 'var(--color-text-muted)', marginLeft: '6px' }}>
+              <span style={{ fontStyle: 'italic', color: 'var(--ink-on-dark-muted)', marginLeft: '6px' }}>
                 (Aucun PNJ direct n'est lié à cette étape, passez directement au choix !)
               </span>
             )}
@@ -508,7 +508,7 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
             <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-primary-light)', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Trophy size={14} /> Leaderboard de la Course du Sel
             </span>
-            <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+            <span style={{ fontSize: '0.72rem', color: 'var(--ink-on-dark-muted)' }}>
               1er convoi arrivé au complet intègre la Garde
             </span>
           </div>
@@ -528,7 +528,7 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
                   fontSize: '0.78rem'
                 }}
               >
-                <span style={{ fontWeight: 800, color: idx === 0 ? '#f59e0b' : 'var(--color-text-muted)' }}>
+                <span style={{ fontWeight: 800, color: idx === 0 ? '#f59e0b' : 'var(--ink-on-dark-muted)' }}>
                   #{idx + 1}
                 </span>
                 <span>{c.icon} <strong>{c.name}</strong></span>
@@ -545,7 +545,7 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
                   <div style={{ display: 'flex', gap: '2px', marginLeft: '4px' }}>
                     <button
                       onClick={() => handleAdjustConvoy(c.id, -1)}
-                      style={{ border: 'none', background: 'transparent', color: 'var(--color-text-muted)', cursor: 'pointer', padding: '0 2px' }}
+                      style={{ border: 'none', background: 'transparent', color: 'var(--ink-on-dark-muted)', cursor: 'pointer', padding: '0 2px' }}
                       title="Reculer"
                     >-</button>
                     <button
@@ -572,10 +572,10 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
           gap: '10px'
         }}>
           <div>
-            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text)' }}>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--ink-on-dark)' }}>
               Historique de Parcours
             </div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--ink-on-dark-muted)' }}>
               {historyNodeIds.length} étape(s) franchie(s)
             </div>
           </div>
@@ -647,11 +647,11 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Layers size={18} color="var(--color-primary-light)" />
-              <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 800, color: 'var(--color-text)' }}>
+              <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 800, color: 'var(--ink-on-dark)' }}>
                 Deck 1 : Aventure
               </h3>
             </div>
-            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--ink-on-dark-muted)' }}>
               Nœuds officiels du Graphe (43 scènes)
             </span>
 
@@ -670,12 +670,12 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
               <span style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--color-primary-light)' }}>
                 {Math.max(0, 43 - historyNodeIds.length - 1)}
               </span>
-              <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--ink-on-dark-muted)' }}>
                 cartes en réserve
               </span>
             </div>
 
-            <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', lineHeight: 1.3 }}>
+            <div style={{ fontSize: '0.72rem', color: 'var(--ink-on-dark-muted)', lineHeight: 1.3 }}>
               🔒 Les cartes se débloquent automatiquement selon les choix de transition du convoi.
             </div>
           </div>
@@ -693,7 +693,7 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
             overflowY: 'auto'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text)' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--ink-on-dark)' }}>
                 Défausse / Historique ({historyNodeIds.length})
               </span>
               {historyNodeIds.length > 0 && (
@@ -707,7 +707,7 @@ export default function SaltRaceTabletop({ quest, campaignId }) {
             </div>
 
             {historyNodeIds.length === 0 ? (
-              <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', fontStyle: 'italic', padding: '10px 0' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--ink-on-dark-muted)', fontStyle: 'italic', padding: '10px 0' }}>
                 Aucune étape défaussée pour le moment.
               </div>
             ) : (

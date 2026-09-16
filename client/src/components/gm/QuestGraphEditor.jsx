@@ -194,8 +194,8 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {n.data.node?.isTimed && <Clock size={14} color="#ef4444" />}
-                {n.data.node?.displayCode && <span style={{ padding: '2px 4px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', fontSize: '0.7rem' }}>{n.data.node.displayCode}</span>}
-                {n.data.node?.isOptional && <span style={{ padding: '2px 4px', background: 'rgba(245, 158, 11, 0.2)', color: '#f59e0b', borderRadius: '3px', fontSize: '0.7rem' }}>Optionnel</span>}
+                {n.data.node?.displayCode && <span style={{ padding: '2px 4px', background: 'var(--overlay-soft)', borderRadius: '3px', fontSize: '0.7rem' }}>{n.data.node.displayCode}</span>}
+                {n.data.node?.isOptional && <span style={{ padding: '2px 4px', background: 'var(--warning-tint-strong)', color: '#f59e0b', borderRadius: '3px', fontSize: '0.7rem' }}>Optionnel</span>}
                 {n.data.node?.title || n.data.label}
               </div>
               {n.data.node?.pathGroup && (
@@ -257,7 +257,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
         id: node.id,
         position: { x: node.positionX, y: node.positionY },
         data: { label: node.title, type: node.nodeType, status: node.status, node },
-        style: { background: '#1e1e1e', color: '#fff', border: '1px solid #333', borderRadius: '5px', padding: '10px' }
+        style: { background: 'var(--paper-sunken)', color: '#fff', border: '1px solid #333', borderRadius: '5px', padding: '10px' }
       }]);
     } catch (err) {
       console.error(err);
@@ -374,18 +374,18 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 defaultValue={selectedNode.title} 
                 onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { title: e.target.value })}
                 className="editable-input"
-                style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid var(--color-border)', color: '#fff', padding: '8px', borderRadius: '4px' }}
+                style={{ background: 'var(--paper-sunken)', border: '1px solid var(--color-border)', color: 'var(--ink)', padding: '8px', borderRadius: '4px' }}
               />
             </label>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
               <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <span style={{ fontWeight: 'bold' }}>Code d'affichage</span>
-                <input type="text" defaultValue={selectedNode.displayCode || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { displayCode: e.target.value })} style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }} placeholder="Ex: 0.a, 2A.e" />
+                <input type="text" defaultValue={selectedNode.displayCode || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { displayCode: e.target.value })} style={{ padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }} placeholder="Ex: 0.a, 2A.e" />
               </label>
               <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <span style={{ fontWeight: 'bold' }}>Groupe de chemin</span>
-                <input type="text" defaultValue={selectedNode.pathGroup || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { pathGroup: e.target.value })} style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }} placeholder="Ex: Alternative A" />
+                <input type="text" defaultValue={selectedNode.pathGroup || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { pathGroup: e.target.value })} style={{ padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }} placeholder="Ex: Alternative A" />
               </label>
               <label style={{ display: 'flex', gap: '8px', alignItems: 'center', height: '100%', paddingTop: '20px' }}>
                 <input type="checkbox" defaultChecked={selectedNode.isOptional} onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { isOptional: e.target.checked })} />
@@ -396,7 +396,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <span style={{ fontWeight: 'bold' }}>Rythme (Pacing)</span>
-                <select defaultValue={selectedNode.pacingTag || ''} onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { pacingTag: e.target.value })} style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+                <select defaultValue={selectedNode.pacingTag || ''} onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { pacingTag: e.target.value })} style={{ padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
                   <option value="">Aucun</option>
                   <option value="climax">Climax</option>
                   <option value="respiration">Respiration</option>
@@ -406,7 +406,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
               </label>
               <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <span style={{ fontWeight: 'bold' }}>Compétence (Skill)</span>
-                <input type="text" defaultValue={selectedNode.requiredSkillCategory || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { requiredSkillCategory: e.target.value })} style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }} placeholder="Ex: Perception" />
+                <input type="text" defaultValue={selectedNode.requiredSkillCategory || ''} onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { requiredSkillCategory: e.target.value })} style={{ padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }} placeholder="Ex: Perception" />
               </label>
             </div>
 
@@ -417,7 +417,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 type="text"
                 defaultValue={selectedNode.imageUrl || ''}
                 onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { imageUrl: e.target.value || null })}
-                style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                style={{ padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 placeholder="URL de l'image projetée sur l'écran de table"
               />
               <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
@@ -433,12 +433,12 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                   defaultValue={selectedNode.mjDescription || ''} 
                   onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { mjDescription: e.target.value })}
                   placeholder="Décrivez ce qui se passe ici pour le MJ (PNJ présents, dialogues, indices...)"
-                  style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--warning, #f59e0b)', borderRadius: '4px', fontSize: '1rem', lineHeight: '1.4' }}
+                  style={{ width: '100%', padding: '12px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--warning, #f59e0b)', borderRadius: '4px', fontSize: '1rem', lineHeight: '1.4' }}
                   rows={6}
                 />
               </label>
             ) : (
-              <div style={{ padding: '10px', backgroundColor: 'rgba(245, 158, 11, 0.1)', border: '1px solid var(--warning)', borderRadius: '4px', fontSize: '0.85rem', color: '#fcd34d' }}>
+              <div style={{ padding: '10px', backgroundColor: 'var(--warning-tint)', border: '1px solid var(--warning)', borderRadius: '4px', fontSize: '0.85rem', color: '#fcd34d' }}>
                 🔒 <strong>Notes MJ :</strong> Masquées en mode écran joueurs
               </div>
             )}
@@ -449,7 +449,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 defaultValue={selectedNode.sensoryText || ''} 
                 onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { sensoryText: e.target.value })}
                 placeholder="Décrivez les éléments visuels, sonores, odeurs..."
-                style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #10b981', borderRadius: '4px', fontSize: '1rem', lineHeight: '1.4' }}
+                style={{ width: '100%', padding: '12px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid #10b981', borderRadius: '4px', fontSize: '1rem', lineHeight: '1.4' }}
                 rows={8}
                 readOnly={viewMode === 'player'}
               />
@@ -480,7 +480,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                   defaultValue={selectedNode.detectionMechanic || ''} 
                   onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { detectionMechanic: e.target.value })}
                   placeholder='{"indiceText": "...", "jetSkill": "Perception", ...}'
-                  style={{ width: '100%', padding: '12px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid #8b5cf6', borderRadius: '4px', fontSize: '0.9rem', fontFamily: 'monospace' }}
+                  style={{ width: '100%', padding: '12px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid #8b5cf6', borderRadius: '4px', fontSize: '0.9rem', fontFamily: 'monospace' }}
                   rows={3}
                 />
               </label>
@@ -497,7 +497,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 <select 
                   defaultValue={selectedNode.nodeType}
                   onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { nodeType: e.target.value })}
-                  style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                  style={{ padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 >
                   <option value="start">Départ</option>
                   <option value="intermediate">Intermédiaire</option>
@@ -522,7 +522,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                   type="number" 
                   defaultValue={selectedNode.timerDurationSeconds || 0}
                   onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { timerDurationSeconds: parseInt(e.target.value) })}
-                  style={{ width: '100%', padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                  style={{ width: '100%', padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 />
               </label>
             )}
@@ -533,7 +533,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 <select 
                   defaultValue={selectedNode.timeoutNodeId || ''}
                   onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { timeoutNodeId: e.target.value || null })}
-                  style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                  style={{ padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 >
                   <option value="">-- Sélectionner un nœud --</option>
                   {nodes.filter(n => n.id !== selectedNode.id).map(n => (
@@ -562,7 +562,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 <select 
                   defaultValue={selectedNode.endOutcome || ''}
                   onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { endOutcome: e.target.value || null })}
-                  style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                  style={{ padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 >
                   <option value="">-- Ne rien changer --</option>
                   <option value="success">Succès</option>
@@ -582,7 +582,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 <select 
                   defaultValue={selectedNode.linkedNpcId || ''}
                   onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { linkedNpcId: e.target.value || null })}
-                  style={{ flex: 1, padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                  style={{ flex: 1, padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 >
                   <option value="">-- Aucun PNJ --</option>
                   {npcs && npcs.map(n => <option key={n.id} value={n.id}>{n.name}</option>)}
@@ -625,7 +625,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 <select 
                   defaultValue={selectedNode.linkedLocationId || ''}
                   onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { linkedLocationId: e.target.value || null })}
-                  style={{ flex: 1, padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                  style={{ flex: 1, padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 >
                   <option value="">-- Aucun Lieu --</option>
                   {locations && locations.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
@@ -661,7 +661,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 <select 
                   defaultValue={selectedNode.linkedEncounterId || ''}
                   onChange={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { linkedEncounterId: e.target.value || null })}
-                  style={{ flex: 1, padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                  style={{ flex: 1, padding: '8px', background: 'var(--paper-sunken)', color: 'var(--ink)', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 >
                   <option value="">-- Aucune Rencontre --</option>
                   {encounters && encounters.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
@@ -702,7 +702,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
               {selectedNode.status !== 'reached' ? (
                 <button 
                   className="btn-primary" 
-                  style={{ display: 'flex', justifyContent: 'center', gap: '8px', background: '#10b981', color: 'black', padding: '12px', fontSize: '1.1rem' }}
+                  style={{ display: 'flex', justifyContent: 'center', gap: '8px', background: 'var(--success)', color: 'black', padding: '12px', fontSize: '1.1rem' }}
                   onClick={() => reachQuestNode(campaignId, quest.id, selectedNode.id).then(node => updateLocalNode(node))}
                 >
                   <Flag size={20} /> Marquer comme Atteint

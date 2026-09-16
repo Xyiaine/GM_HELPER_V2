@@ -87,7 +87,7 @@ export default function HiddenRollsTab() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       {error && (
-        <div style={{ padding: '10px 12px', borderRadius: '8px', backgroundColor: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.4)', color: 'var(--danger, #ef4444)', fontSize: '0.82rem' }}>
+        <div style={{ padding: '10px 12px', borderRadius: '8px', backgroundColor: 'var(--danger-tint)', border: '1px solid rgba(239, 68, 68, 0.4)', color: 'var(--danger, #ef4444)', fontSize: '0.82rem' }}>
           {error}
         </div>
       )}

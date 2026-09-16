@@ -337,7 +337,7 @@ export default function BestiaryManager() {
                       gap: '4px',
                       padding: '4px 8px',
                       borderRadius: '4px',
-                      backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                      backgroundColor: 'var(--info-tint)',
                       color: '#60a5fa',
                       fontSize: '0.85rem',
                     }}
@@ -352,7 +352,7 @@ export default function BestiaryManager() {
                       gap: '4px',
                       padding: '4px 8px',
                       borderRadius: '4px',
-                      backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                      backgroundColor: 'var(--danger-tint)',
                       color: '#f87171',
                       fontSize: '0.85rem',
                     }}
@@ -368,7 +368,7 @@ export default function BestiaryManager() {
                         gap: '4px',
                         padding: '4px 8px',
                         borderRadius: '4px',
-                        backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                        backgroundColor: 'var(--success-tint)',
                         color: '#34d399',
                         fontSize: '0.85rem',
                       }}
@@ -475,7 +475,7 @@ export default function BestiaryManager() {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.7)',
+            backgroundColor: 'var(--paper-inset)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -505,7 +505,7 @@ export default function BestiaryManager() {
             </div>
 
             {errorMessage && (
-              <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', border: '1px solid #ef4444', color: '#f87171', padding: '10px', borderRadius: '6px', marginBottom: '16px' }}>
+              <div style={{ backgroundColor: 'var(--danger-tint-strong)', border: '1px solid #ef4444', color: '#f87171', padding: '10px', borderRadius: '6px', marginBottom: '16px' }}>
                 {errorMessage}
               </div>
             )}

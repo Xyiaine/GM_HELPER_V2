@@ -568,7 +568,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
             </div>
 
             {isAddingAttack && canEdit && (
-              <form onSubmit={handleAddAttack} style={{ background: 'rgba(0,0,0,0.25)', padding: '14px', borderRadius: '8px', marginBottom: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', alignItems: 'end' }}>
+              <form onSubmit={handleAddAttack} style={{ background: 'var(--paper-sunken)', padding: '14px', borderRadius: '8px', marginBottom: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', alignItems: 'end' }}>
                 <div>
                   <label style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Nom Arme/Attaque</label>
                   <input type="text" placeholder="Ex: Fusil de sniper" value={newAtkName} onChange={e => setNewAtkName(e.target.value)} className="editable-input" style={{ width: '100%', textAlign: 'left' }} required />
@@ -594,7 +594,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
                 </div>
                 <div style={{ display: 'flex', gap: '6px' }}>
                   <button type="submit" className="btn-primary" style={{ flex: 1 }}>Enregistrer</button>
-                  <button type="button" onClick={() => setIsAddingAttack(false)} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer' }}>✕</button>
+                  <button type="button" onClick={() => setIsAddingAttack(false)} style={{ background: 'var(--paper-raised)', border: '1px solid var(--rule)', color: 'var(--ink)', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer' }}>✕</button>
                 </div>
               </form>
             )}
@@ -682,7 +682,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
           <div className="glass-panel">
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
               <strong style={{ color: 'var(--color-text)', fontSize: '1.1rem' }}>Bonus de Maîtrise</strong>
-              <strong style={{ color: 'var(--color-primary)', fontSize: '1.2rem', background: 'rgba(59, 130, 246, 0.1)', padding: '4px 12px', borderRadius: '12px' }}>
+              <strong style={{ color: 'var(--color-primary)', fontSize: '1.2rem', background: 'var(--info-tint)', padding: '4px 12px', borderRadius: '12px' }}>
                 +{pb}
               </strong>
             </div>
@@ -861,7 +861,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
           </div>
 
           {isAddingItem && canEdit && (
-            <form onSubmit={handleAddItem} style={{ background: 'rgba(0,0,0,0.25)', padding: '14px', borderRadius: '8px', marginBottom: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', alignItems: 'end' }}>
+            <form onSubmit={handleAddItem} style={{ background: 'var(--paper-sunken)', padding: '14px', borderRadius: '8px', marginBottom: '16px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', alignItems: 'end' }}>
               <div>
                 <label style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Nom de l'objet</label>
                 <input type="text" placeholder="Ex: Corde, Rations..." value={newItemName} onChange={e => setNewItemName(e.target.value)} className="editable-input" style={{ width: '100%', textAlign: 'left' }} required />
@@ -886,7 +886,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
               </div>
               <div style={{ display: 'flex', gap: '6px' }}>
                 <button type="submit" className="btn-primary" style={{ flex: 1 }}>Ajouter</button>
-                <button type="button" onClick={() => setIsAddingItem(false)} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer' }}>✕</button>
+                <button type="button" onClick={() => setIsAddingItem(false)} style={{ background: 'var(--paper-raised)', border: '1px solid var(--rule)', color: 'var(--ink)', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer' }}>✕</button>
               </div>
             </form>
           )}
@@ -962,7 +962,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
                 style={{ minHeight: '100px' }}
               />
             ) : (
-              <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '8px', fontSize: '0.9rem' }}>
+              <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'var(--paper-sunken)', padding: '12px', borderRadius: '8px', fontSize: '0.9rem' }}>
                 {character.notes || 'Aucune note.'}
               </div>
             )}
@@ -1013,7 +1013,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
               {canEdit ? (
                 <textarea rows={3} value={roleplayTraits.personality || ''} onChange={e => handleRoleplayTraitChange('personality', e.target.value)} className="editable-textarea" style={{ minHeight: '80px' }} placeholder="Façons d'être, manies, langage..." />
               ) : (
-                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '6px', fontSize: '0.85rem' }}>{roleplayTraits.personality || 'Non défini'}</div>
+                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'var(--paper-sunken)', padding: '10px', borderRadius: '6px', fontSize: '0.85rem' }}>{roleplayTraits.personality || 'Non défini'}</div>
               )}
             </div>
 
@@ -1022,7 +1022,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
               {canEdit ? (
                 <textarea rows={3} value={roleplayTraits.ideals || ''} onChange={e => handleRoleplayTraitChange('ideals', e.target.value)} className="editable-textarea" style={{ minHeight: '80px' }} placeholder="Ce en quoi croit le personnage..." />
               ) : (
-                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '6px', fontSize: '0.85rem' }}>{roleplayTraits.ideals || 'Non défini'}</div>
+                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'var(--paper-sunken)', padding: '10px', borderRadius: '6px', fontSize: '0.85rem' }}>{roleplayTraits.ideals || 'Non défini'}</div>
               )}
             </div>
 
@@ -1031,7 +1031,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
               {canEdit ? (
                 <textarea rows={3} value={roleplayTraits.bonds || ''} onChange={e => handleRoleplayTraitChange('bonds', e.target.value)} className="editable-textarea" style={{ minHeight: '80px' }} placeholder="Personnes, lieux ou objets chers..." />
               ) : (
-                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '6px', fontSize: '0.85rem' }}>{roleplayTraits.bonds || 'Non défini'}</div>
+                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'var(--paper-sunken)', padding: '10px', borderRadius: '6px', fontSize: '0.85rem' }}>{roleplayTraits.bonds || 'Non défini'}</div>
               )}
             </div>
 
@@ -1040,7 +1040,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
               {canEdit ? (
                 <textarea rows={3} value={roleplayTraits.flaws || ''} onChange={e => handleRoleplayTraitChange('flaws', e.target.value)} className="editable-textarea" style={{ minHeight: '80px' }} placeholder="Vices, impulsions destructrices..." />
               ) : (
-                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '6px', fontSize: '0.85rem' }}>{roleplayTraits.flaws || 'Non défini'}</div>
+                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--color-text)', background: 'var(--paper-sunken)', padding: '10px', borderRadius: '6px', fontSize: '0.85rem' }}>{roleplayTraits.flaws || 'Non défini'}</div>
               )}
             </div>
           </div>
@@ -1065,7 +1065,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
               onClick={() => setShowSkillTreeModal(true)}
               style={{
                 display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px',
-                borderRadius: '6px', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: '6px', background: 'var(--overlay-subtle)', border: '1px solid rgba(255,255,255,0.15)',
                 color: '#fff', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600
               }}
               title="Agrandir en plein écran"
@@ -1166,7 +1166,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
             className="editable-textarea"
             rows={8}
             placeholder="Coulisses de ce personnage, objectifs secrets de faction, arcs narratifs à déclencher..."
-            style={{ border: '1px solid rgba(239, 68, 68, 0.4)', background: 'rgba(239, 68, 68, 0.04)' }}
+            style={{ border: '1px solid rgba(239, 68, 68, 0.4)', background: 'var(--danger-tint)' }}
           />
         </section>
       )}

@@ -109,7 +109,7 @@ export default function NpcCardModal({ npc, onClose, onAttitudeChange, onHpChang
             style={{
               border: 'none',
               background: 'transparent',
-              color: 'var(--color-text-muted)',
+              color: 'var(--ink-on-dark-muted)',
               cursor: 'pointer',
               padding: '4px',
               borderRadius: '6px'
@@ -121,7 +121,7 @@ export default function NpcCardModal({ npc, onClose, onAttitudeChange, onHpChang
 
         {/* Attitude Selector Bar */}
         <div>
-          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-text-muted)', marginBottom: '6px' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--ink-on-dark-muted)', marginBottom: '6px' }}>
             Disposition envers les PJ (sauvegarde automatique en base) :
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '6px' }}>
@@ -136,7 +136,7 @@ export default function NpcCardModal({ npc, onClose, onAttitudeChange, onHpChang
                     borderRadius: '6px',
                     border: isActive ? `2px solid ${a.color}` : '1px solid var(--color-border)',
                     backgroundColor: isActive ? a.color : 'rgba(255, 255, 255, 0.03)',
-                    color: isActive ? '#fff' : 'var(--color-text-muted)',
+                    color: isActive ? '#fff' : 'var(--ink-on-dark-muted)',
                     fontSize: '0.75rem',
                     fontWeight: isActive ? 800 : 500,
                     cursor: 'pointer',
@@ -161,11 +161,11 @@ export default function NpcCardModal({ npc, onClose, onAttitudeChange, onHpChang
           gap: '10px'
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-            <span style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            <span style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--ink-on-dark-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               📊 Fiche de Combat Unifiée (Sync Base de Données)
             </span>
             {npc.speed && (
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: 'var(--ink-on-dark-muted)' }}>
                 <Footprints size={13} /> {npc.speed}
               </span>
             )}
@@ -254,18 +254,18 @@ export default function NpcCardModal({ npc, onClose, onAttitudeChange, onHpChang
               padding: '6px 4px',
               fontSize: '0.78rem'
             }}>
-              <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.68rem' }}>FOR</div><strong>{parsedStats.str ?? 10}</strong></div>
-              <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.68rem' }}>DEX</div><strong>{parsedStats.dex ?? 10}</strong></div>
-              <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.68rem' }}>CON</div><strong>{parsedStats.con ?? 10}</strong></div>
-              <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.68rem' }}>INT</div><strong>{parsedStats.int ?? 10}</strong></div>
-              <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.68rem' }}>SAG</div><strong>{parsedStats.wis ?? 10}</strong></div>
-              <div><div style={{ color: 'var(--color-text-muted)', fontSize: '0.68rem' }}>CHA</div><strong>{parsedStats.cha ?? 10}</strong></div>
+              <div><div style={{ color: 'var(--ink-on-dark-muted)', fontSize: '0.68rem' }}>FOR</div><strong>{parsedStats.str ?? 10}</strong></div>
+              <div><div style={{ color: 'var(--ink-on-dark-muted)', fontSize: '0.68rem' }}>DEX</div><strong>{parsedStats.dex ?? 10}</strong></div>
+              <div><div style={{ color: 'var(--ink-on-dark-muted)', fontSize: '0.68rem' }}>CON</div><strong>{parsedStats.con ?? 10}</strong></div>
+              <div><div style={{ color: 'var(--ink-on-dark-muted)', fontSize: '0.68rem' }}>INT</div><strong>{parsedStats.int ?? 10}</strong></div>
+              <div><div style={{ color: 'var(--ink-on-dark-muted)', fontSize: '0.68rem' }}>SAG</div><strong>{parsedStats.wis ?? 10}</strong></div>
+              <div><div style={{ color: 'var(--ink-on-dark-muted)', fontSize: '0.68rem' }}>CHA</div><strong>{parsedStats.cha ?? 10}</strong></div>
             </div>
           )}
 
           {/* Weapon / Action Attack */}
           {weaponDesc && (
-            <div style={{ fontSize: '0.8rem', color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '6px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', paddingTop: '6px' }}>
+            <div style={{ fontSize: '0.8rem', color: 'var(--ink-on-dark)', display: 'flex', alignItems: 'center', gap: '6px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', paddingTop: '6px' }}>
               <Swords size={14} color="#f87171" />
               <span><strong>Arme / Attaque :</strong> {weaponDesc}</span>
             </div>
@@ -335,7 +335,7 @@ export default function NpcCardModal({ npc, onClose, onAttitudeChange, onHpChang
               {isSecretRevealed ? <EyeOff size={15} /> : <Eye size={15} />}
             </div>
             {isSecretRevealed && (
-              <p style={{ margin: '8px 0 0 0', color: 'var(--color-text)', lineHeight: 1.45 }}>
+              <p style={{ margin: '8px 0 0 0', color: 'var(--ink-on-dark)', lineHeight: 1.45 }}>
                 {npc.secret}
               </p>
             )}

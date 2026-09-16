@@ -405,7 +405,7 @@ export default function CombatTracker() {
         <div style={{
           padding: '12px 16px',
           borderRadius: '8px',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          backgroundColor: 'var(--info-tint)',
           border: '1px solid rgba(59, 130, 246, 0.3)',
           display: 'flex',
           justifyContent: 'space-between',
@@ -448,7 +448,7 @@ export default function CombatTracker() {
               style={{
                 padding: '6px 12px',
                 borderRadius: '6px',
-                backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                backgroundColor: 'var(--danger-tint)',
                 border: '1px solid #ef4444',
                 color: '#ef4444',
                 fontSize: '0.85rem',
@@ -466,7 +466,7 @@ export default function CombatTracker() {
 
       {/* Modal create encounter */}
       {isCreatingEncounter && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'var(--paper-inset)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ backgroundColor: 'var(--color-surface)', padding: '24px', borderRadius: '8px', border: '1px solid var(--color-border)', width: '420px' }}>
             <h3 style={{ margin: '0 0 16px 0', color: 'var(--color-primary)' }}>Créer une Rencontre de Zéro</h3>
             <form onSubmit={handleCreateNewEncounter} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -773,7 +773,7 @@ export default function CombatTracker() {
                     padding: '10px 18px',
                     borderRadius: '6px',
                     border: '1px solid #ef4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    backgroundColor: 'var(--danger-tint)',
                     color: '#ef4444',
                     cursor: 'pointer',
                     display: 'flex',
@@ -960,7 +960,7 @@ export default function CombatTracker() {
                       padding: '8px 16px',
                       borderRadius: '6px',
                       border: '1px solid #ef4444',
-                      backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                      backgroundColor: 'var(--danger-tint)',
                       color: '#ef4444',
                       cursor: 'pointer',
                       display: 'flex',
@@ -1035,12 +1035,12 @@ export default function CombatTracker() {
                               {c.name}
                             </span>
                             {c.isSurprised && activeEncounter.currentRound === 1 && (
-                              <span style={{ marginLeft: '8px', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                              <span style={{ marginLeft: '8px', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'var(--danger-tint-strong)', color: '#ef4444', fontSize: '0.75rem', fontWeight: 'bold' }}>
                                 SURPRIS (Tour passé)
                               </span>
                             )}
                             {isDowned && (
-                              <span style={{ marginLeft: '8px', padding: '2px 6px', borderRadius: '4px', backgroundColor: '#ef4444', color: '#fff', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                              <span style={{ marginLeft: '8px', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'var(--danger)', color: '#fff', fontSize: '0.75rem', fontWeight: 'bold' }}>
                                 À TERRE / K.O.
                               </span>
                             )}
@@ -1063,7 +1063,7 @@ export default function CombatTracker() {
                               gap: '4px',
                               padding: '6px 12px',
                               borderRadius: '6px',
-                              backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                              backgroundColor: 'var(--info-tint)',
                               color: '#60a5fa',
                               fontWeight: 'bold',
                             }}
@@ -1279,7 +1279,7 @@ export default function CombatTracker() {
                     padding: '8px 16px',
                     borderRadius: '6px',
                     border: '1px solid #ef4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    backgroundColor: 'var(--danger-tint)',
                     color: '#ef4444',
                     cursor: 'pointer',
                     display: 'flex',

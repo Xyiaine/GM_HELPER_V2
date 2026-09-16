@@ -26,7 +26,7 @@ export default function GmDeckDrawer() {
         style={{
           position: 'fixed',
           inset: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.65)',
+          backgroundColor: 'var(--paper-inset)',
           backdropFilter: 'blur(3px)',
           zIndex: 9998,
           transition: 'opacity 0.25s ease'
@@ -78,7 +78,7 @@ export default function GmDeckDrawer() {
               fontSize: '0.7rem',
               padding: '2px 6px',
               borderRadius: '4px',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              backgroundColor: 'var(--overlay-subtle)',
               color: 'var(--color-text-muted)',
               fontFamily: 'monospace'
             }}>

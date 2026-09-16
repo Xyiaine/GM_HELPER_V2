@@ -124,13 +124,13 @@ export default function VehicleSheet() {
                 const labels = { engine: 'Moteur', body: 'Carrosserie', nos: 'Kit NOS', weapon: 'Armes' };
                 const slots = (vehicle.partSlots || []).filter(s => s.partType === category);
                 return (
-                  <div key={category} style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '8px' }}>
+                  <div key={category} style={{ backgroundColor: 'var(--paper-sunken)', padding: '12px', borderRadius: '8px' }}>
                     <h4 style={{ margin: '0 0 12px 0', color: 'var(--color-primary)', textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '1px' }}>{labels[category]}</h4>
                     {slots.length === 0 ? (
                       <div style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', fontStyle: 'italic' }}>Aucune pièce installée.</div>
                     ) : (
                       slots.map(slot => (
-                        <div key={slot.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.05)', padding: '8px 12px', borderRadius: '6px', marginBottom: '8px' }}>
+                        <div key={slot.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--overlay-subtle)', padding: '8px 12px', borderRadius: '6px', marginBottom: '8px' }}>
                           <div>
                             <div style={{ color: 'var(--color-text)', fontWeight: 'bold' }}>{slot.part ? slot.part.name : 'Slot Vide'}</div>
                             <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>État : {slot.condition}</div>
@@ -163,7 +163,7 @@ export default function VehicleSheet() {
                   <input type="number" className="input-field" style={{ width: '80px' }} value={vehicle.hpCurrent} onChange={(e) => handleChange('hpCurrent', parseInt(e.target.value))} />
                   <span>/</span>
                   <strong style={{ color: 'var(--color-text)' }}>{stats.hpMax}</strong>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginLeft: '8px' }}>(Base: <input type="number" style={{ width: '50px', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'white', padding: '2px 4px', borderRadius: '4px' }} value={vehicle.hpMaxBase} onChange={(e) => handleChange('hpMaxBase', parseInt(e.target.value))} />)</span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginLeft: '8px' }}>(Base: <input type="number" style={{ width: '50px', background: 'var(--paper-raised)', border: '1px solid var(--rule)', color: 'var(--ink)', padding: '2px 4px', borderRadius: '4px' }} value={vehicle.hpMaxBase} onChange={(e) => handleChange('hpMaxBase', parseInt(e.target.value))} />)</span>
                 </div>
               </div>
               <div>
@@ -193,7 +193,7 @@ export default function VehicleSheet() {
                 <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--color-text-muted)', marginBottom: '4px' }}>Classe d'Armure (Finale)</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <strong style={{ color: 'var(--color-text)', fontSize: '1.2rem' }}>{stats.ac}</strong>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>(Base: <input type="number" style={{ width: '50px', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'white', padding: '2px 4px', borderRadius: '4px' }} value={vehicle.acBase} onChange={(e) => handleChange('acBase', parseInt(e.target.value))} />)</span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>(Base: <input type="number" style={{ width: '50px', background: 'var(--paper-raised)', border: '1px solid var(--rule)', color: 'var(--ink)', padding: '2px 4px', borderRadius: '4px' }} value={vehicle.acBase} onChange={(e) => handleChange('acBase', parseInt(e.target.value))} />)</span>
                 </div>
               </div>
               <div>
@@ -203,7 +203,7 @@ export default function VehicleSheet() {
                 </label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <strong style={{ color: 'var(--color-text)', fontSize: '1.2rem' }}>{stats.speed} m</strong>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>(Base: <input type="number" style={{ width: '50px', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'white', padding: '2px 4px', borderRadius: '4px' }} value={vehicle.speedBase} onChange={(e) => handleChange('speedBase', parseInt(e.target.value))} />)</span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>(Base: <input type="number" style={{ width: '50px', background: 'var(--paper-raised)', border: '1px solid var(--rule)', color: 'var(--ink)', padding: '2px 4px', borderRadius: '4px' }} value={vehicle.speedBase} onChange={(e) => handleChange('speedBase', parseInt(e.target.value))} />)</span>
                 </div>
               </div>
             </div>
