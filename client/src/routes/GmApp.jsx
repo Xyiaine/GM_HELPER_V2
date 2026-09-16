@@ -23,6 +23,7 @@ import GmDeckDrawer from '../components/gm/deck/GmDeckDrawer';
 import ActiveComplicationsBanner from '../components/gm/deck/ActiveComplicationsBanner';
 import { useGmStore } from '../store/gmStore';
 import useAuthStore from '../store/authStore';
+import { acquireSocket, autoJoinCampaignRoom } from '../utils/socket';
 import { Flame } from 'lucide-react';
 
 export default function GmApp() {
@@ -36,11 +37,26 @@ export default function GmApp() {
     isDeckDrawerOpen,
     toggleDeckDrawer
   } = useGmStore();
-  const { user, logout } = useAuthStore();
+  const { user, logout, accessToken } = useAuthStore();
 
   useEffect(() => {
     fetchCampaigns();
   }, [fetchCampaigns]);
+
+  // The GM app previously never opened a socket connection at all: several
+  // components (session manager, threat clocks, quest graph editor) registered
+  // listeners on a socket that was never connected, so player joins, timer
+  // events and threshold alerts never arrived. Connect here, once, for the
+  // whole GM app, and join the active campaign room.
+  useEffect(() => {
+    if (!activeCampaignId || !accessToken) return;
+    const releaseSocket = acquireSocket({ token: accessToken });
+    const stopAutoJoin = autoJoinCampaignRoom(activeCampaignId);
+    return () => {
+      stopAutoJoin();
+      releaseSocket();
+    };
+  }, [activeCampaignId, accessToken]);
 
   // Global Keyboard shortcut 'M' to toggle the universal deck drawer
   useEffect(() => {

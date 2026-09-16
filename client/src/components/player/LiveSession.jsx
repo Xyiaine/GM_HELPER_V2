@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePlayerStore } from '../../store/playerStore';
 import useAuthStore from '../../store/authStore';
-import socket from '../../utils/socket';
+import socket, { acquireSocket, autoJoinCampaignRoom } from '../../utils/socket';
 import { Radio, AlertCircle, MessageSquare } from 'lucide-react';
 
 export default function LiveSession({ campaignId }) {
@@ -34,11 +34,11 @@ export default function LiveSession({ campaignId }) {
   useEffect(() => {
     if (!campaignId || !accessToken) return;
 
-    // Connect socket
-    socket.auth = { token: accessToken };
-    socket.connect();
-
-    socket.emit('join:campaign', campaignId);
+    // Shared, reference-counted connection. This component must not call
+    // socket.disconnect() on its own: other mounted components listen on the
+    // same instance.
+    const releaseSocket = acquireSocket({ token: accessToken });
+    const stopAutoJoin = autoJoinCampaignRoom(campaignId);
 
     const handleMessage = (data) => {
       setMessages(prev => [...prev, data]);
@@ -71,14 +71,6 @@ export default function LiveSession({ campaignId }) {
       setTimers(prev => prev.filter(t => t.nodeId !== data.nodeId));
     };
 
-    const [combatState, setCombatState] = useState(null);
-
-    const handleEncounterState = (data) => {
-      if (data && data.encounter) {
-        setCombatState(data.encounter);
-      }
-    };
-
     socket.on('session:message', handleMessage);
     socket.on('session:started', handleSessionStarted);
     socket.on('session:ended', handleSessionEnded);
@@ -86,7 +78,6 @@ export default function LiveSession({ campaignId }) {
     socket.on('spotlight_clear', handleSpotlightClear);
     socket.on('quest_node_timer_started', handleTimerStarted);
     socket.on('quest_node_timer_cleared', handleTimerCleared);
-    socket.on('encounter_state_changed', handleEncounterState);
 
     return () => {
       socket.off('session:message', handleMessage);
@@ -96,8 +87,8 @@ export default function LiveSession({ campaignId }) {
       socket.off('spotlight_clear', handleSpotlightClear);
       socket.off('quest_node_timer_started', handleTimerStarted);
       socket.off('quest_node_timer_cleared', handleTimerCleared);
-      socket.off('encounter_state_changed', handleEncounterState);
-      socket.disconnect();
+      stopAutoJoin();
+      releaseSocket();
     };
   }, [campaignId, accessToken, fetchSession]);
 

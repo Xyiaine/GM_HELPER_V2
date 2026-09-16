@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import api from '../../utils/api';
 import useAuthStore from '../../store/authStore';
-import io from 'socket.io-client';
+import socket, { acquireSocket, autoJoinCampaignRoom } from '../../utils/socket';
 
 const SEVERITY_COLORS = {
   low: '#22c55e',
@@ -62,14 +62,9 @@ export default function ConvoyDashboard({ campaignId }) {
   useEffect(() => {
     if (!campaignId || !accessToken) return;
 
-    const socketUrl = process.env.NODE_ENV === 'production' ? window.location.origin : 'http://localhost:3000';
-    const socket = io(socketUrl, {
-      auth: { token: accessToken }
-    });
-
-    socket.on('connect', () => {
-      socket.emit('join_campaign', campaignId);
-    });
+    // Uses the shared socket instance rather than opening a second connection.
+    const releaseSocket = acquireSocket({ token: accessToken });
+    const stopAutoJoin = autoJoinCampaignRoom(campaignId);
 
     const handleUpdate = () => fetchConvoy();
 
@@ -84,8 +79,17 @@ export default function ConvoyDashboard({ campaignId }) {
     socket.on('convoy_deleted', handleUpdate);
 
     return () => {
-      socket.emit('leave_campaign', campaignId);
-      socket.disconnect();
+      socket.off('convoy_created', handleUpdate);
+      socket.off('convoy_updated', handleUpdate);
+      socket.off('convoy_step_changed', handleUpdate);
+      socket.off('convoy_resources_updated', handleUpdate);
+      socket.off('convoy_vehicle_added', handleUpdate);
+      socket.off('convoy_vehicle_updated', handleUpdate);
+      socket.off('convoy_vehicle_destroyed', handleUpdate);
+      socket.off('convoy_completed', handleUpdate);
+      socket.off('convoy_deleted', handleUpdate);
+      stopAutoJoin();
+      releaseSocket();
     };
   }, [campaignId, accessToken]);
 

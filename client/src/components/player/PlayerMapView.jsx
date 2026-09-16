@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { usePlayerStore } from '../../store/playerStore';
 import useAuthStore from '../../store/authStore';
 import api from '../../utils/api';
-import socket from '../../utils/socket';
+import socket, { acquireSocket, autoJoinCampaignRoom } from '../../utils/socket';
 import { Map as MapIcon, X } from 'lucide-react';
 
 export default function PlayerMapView({ campaignId }) {
@@ -30,9 +30,8 @@ export default function PlayerMapView({ campaignId }) {
   useEffect(() => {
     if (!campaignId || !accessToken) return;
 
-    socket.auth = { token: accessToken };
-    socket.connect();
-    socket.emit('join:campaign', campaignId);
+    const releaseSocket = acquireSocket({ token: accessToken });
+    const stopAutoJoin = autoJoinCampaignRoom(campaignId);
 
     const handleZoneRevealed = (zone) => {
       setRevealedZones(prev => [...prev.filter(z => z.id !== zone.id), zone]);
@@ -48,6 +47,8 @@ export default function PlayerMapView({ campaignId }) {
     return () => {
       socket.off('map_zone_revealed', handleZoneRevealed);
       socket.off('map_zone_hidden', handleZoneHidden);
+      stopAutoJoin();
+      releaseSocket();
     };
   }, [campaignId, accessToken]);
 

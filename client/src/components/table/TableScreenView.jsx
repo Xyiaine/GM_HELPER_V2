@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../utils/api';
-import socket from '../../utils/socket';
+import socket, { acquireSocket } from '../../utils/socket';
 import { Camera } from 'lucide-react';
 
 export default function TableScreenView() {
@@ -45,12 +45,11 @@ export default function TableScreenView() {
   useEffect(() => {
     if (!token) return;
 
-    // Connect with token in auth
-    socket.auth = { tableScreenToken: token };
-    socket.connect();
-
-    // Rejoin the room
-    socket.emit('join:table_screen', token);
+    // The handshake carries the session token and the table-screen flag.
+    // The server validates the token against a live session and joins the
+    // `table_screen:{token}` and `campaign:{id}:table_screen` rooms itself,
+    // including on every reconnection — no client-side join needed.
+    const releaseSocket = acquireSocket({ token, isTableScreen: true });
 
     const handleSpotlight = (payload) => {
       setActiveSpotlight(payload);
@@ -92,7 +91,7 @@ export default function TableScreenView() {
       socket.off('quest_node_timer_cleared', handleTimerCleared);
       socket.off('encounter_state_changed', handleEncounterState);
       socket.off('encounter_state_changed_public', handleEncounterState);
-      socket.disconnect();
+      releaseSocket();
     };
   }, [token]);
 
