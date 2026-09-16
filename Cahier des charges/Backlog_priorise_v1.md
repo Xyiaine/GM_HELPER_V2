@@ -9,6 +9,50 @@ Légende effort : `S` = moins d'une demi-journée · `M` = 1 à 3 jours · `L` =
 
 ---
 
+## État d'avancement — 16 septembre 2026
+
+> **Vague 1 : terminée.** Neuf commits. Le temps réel fonctionne, les accès sont
+> contrôlés, la progression est recalculée. Non testé à une vraie table.
+>
+> **Périmètre retenu : option A — « la table d'abord »** (voir `Cadrage_valide_v1.md`,
+> arbitrage 1). L'écran de table, la persistance de séance et la chaîne d'impression
+> passent avant le système de jeu du MJ.
+>
+> **Bloqué :** le `git push` échoue faute d'authentification GitHub sur le poste.
+> Les commits sont en local.
+
+| Ticket | État | Commit |
+|---|---|---|
+| V1-01 · Noms d'événements socket | ✅ | `dcddb9c` |
+| V1-02 · Handshake écran de table | ✅ | `dcddb9c` |
+| V1-03 · Fuite cross-campagne | ✅ | `b065880` |
+| V1-04 · Hook illégal LiveSession | ✅ | `dcddb9c` |
+| V1-05 · Notes privées joueurs | ✅ | `8deda74` |
+| V1-06 · Lanceur de dés joueur | ✅ | `08d0a81` |
+| V1-07 · Contrôle d'accès déblocage | ✅ | `e7f236b` |
+| V1-08 · Transactions sur les copies de quête | ⬜ à faire | — |
+| V1-09 · Nettoyages rapides | ✅ | `48a08b0`, `9d6e6ce` |
+
+**Découvertes supplémentaires corrigées, hors backlog initial :**
+
+- `skillTrees.js` était le **seul** routeur GM sans `verifyToken` : toute la
+  fonctionnalité des arbres de compétences renvoyait une erreur 500 (`e7f236b`).
+- **L'application MJ ne se connectait jamais au socket.** Aucun `socket.connect()`
+  n'existait côté GM : les alertes de seuil de menace, les arrivées de joueurs et les
+  timers n'ont jamais fonctionné, y compris pour le MJ (`dcddb9c`).
+- Les **quatre** appels de jonction de room étaient cassés, chacun différemment
+  (`dcddb9c`).
+- Les PV et la CA étaient transmis à l'écran de table, contre la décision D1
+  (`b065880`).
+- `calculateHybridProgression` contenait une expression morte (`e7f236b`).
+- Le mode « jet secret » était purement décoratif (`08d0a81`).
+- L'échec d'un jet de dé était avalé sans message (`08d0a81`).
+
+**Reste à faire sur la Vague 1 :** `V1-08` (transactions sur l'instanciation et la
+duplication de quête).
+
+---
+
 ## Vague 1 — Réparer la table
 
 > Objectif de la vague : les événements diffusés par le MJ atteignent réellement les joueurs et l'écran de table.

@@ -852,6 +852,11 @@ router.post('/:id/duplicate', async (req, res) => {
       }
     });
 
+    // Same reasoning as /instantiate: the graph is copied create by create, so a
+    // failure partway through is compensated by deleting the parent quest, which
+    // cascades to every child.
+    try {
+
     // 2. Duplicate nodes
     const nodeMapping = {}; // oldId -> newId
     for (const node of originalQuest.nodes) {
@@ -906,6 +911,12 @@ router.post('/:id/duplicate', async (req, res) => {
     }
 
     res.json({ quest: newQuest });
+    } catch (copyErr) {
+      await prisma.quest.delete({ where: { id: newQuest.id } }).catch((cleanupErr) => {
+        console.error('Duplicate cleanup failed, a partial quest may remain:', newQuest.id, cleanupErr);
+      });
+      throw copyErr;
+    }
   } catch (err) {
     console.error('Duplicate quest error:', err);
     res.status(500).json({ error: 'Failed to duplicate quest' });
@@ -1342,6 +1353,13 @@ router.post('/:id/instantiate', async (req, res) => {
       }
     });
 
+    // Everything below copies the graph child by child. Prisma runs each create
+    // as its own statement, so an interruption partway through used to leave a
+    // quest with a half-copied graph behind. On any failure the parent quest is
+    // removed, which cascades to every child (see onDelete: Cascade in
+    // schema.prisma) and leaves the database as it was.
+    try {
+
     // Map old node IDs to newly created node IDs
     const nodeIdMap = new Map();
 
@@ -1519,6 +1537,12 @@ router.post('/:id/instantiate', async (req, res) => {
     }
 
     res.status(201).json({ quest: newQuest });
+    } catch (copyErr) {
+      await prisma.quest.delete({ where: { id: newQuest.id } }).catch((cleanupErr) => {
+        console.error('Instantiate cleanup failed, a partial quest may remain:', newQuest.id, cleanupErr);
+      });
+      throw copyErr;
+    }
   } catch (err) {
     console.error('Instantiate quest error:', err);
     res.status(500).json({ error: 'Failed to instantiate quest' });
