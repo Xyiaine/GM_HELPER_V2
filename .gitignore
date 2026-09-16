@@ -9,3 +9,8 @@ server/uploads/
 
 # Fichiers temporaires de build Vite
 vite.config.js.timestamp-*.mjs
+
+# Base de donnees locale (contient des donnees utilisateur : non versionnee)
+# schema.prisma est la source de verite, la base se recree avec `npx prisma db push`
+server/prisma/dev.db
+server/prisma/dev.db.backup-*
