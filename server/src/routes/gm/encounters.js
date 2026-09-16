@@ -15,8 +15,13 @@ const router = express.Router({ mergeParams: true });
 router.use(verifyToken, requireCampaignAccess, requireGM);
 
 /**
- * Filter encounter payload for public view (Players / TV screen)
- * Strips armorClass and hpCurrent/hpMax for hostile/hidden entities.
+ * Filter encounter payload for public view (Players / TV screen).
+ *
+ * Hit points and armor class are deliberately never exposed here: the table
+ * screen shows the initiative order and the encounter map, not the numbers.
+ * Players track their own hit points on their paper sheet.
+ * A player still receives their own character's hit points through the targeted
+ * `character:hp-updated` event emitted to `user:{ownerUserId}`.
  */
 function filterEncounterForPublic(encounter) {
   if (!encounter) return null;
@@ -35,9 +40,6 @@ function filterEncounterForPublic(encounter) {
           type: c.type,
           sourceType: c.sourceType,
           initiative: c.initiative,
-          hpCurrent: c.hpCurrent,
-          hpMax: c.hpMax,
-          armorClass: c.armorClass,
           conditions: c.conditions,
           isSurprised: c.isSurprised,
           characterId: c.characterId,
@@ -66,7 +68,12 @@ function emitEncounterState(io, campaignId, encounter) {
   // Filtered payload for Players & TV Screen
   const publicPayload = filterEncounterForPublic(encounter);
   io.to(`campaign:${campaignId}:player`).emit('encounter_state_changed', { encounter: publicPayload });
-  io.emit('encounter_state_changed_public', { encounter: publicPayload });
+
+  // Was `io.emit(...)`, which broadcast every encounter of every campaign to all
+  // connected sockets. The table screen now joins a campaign-scoped room instead.
+  io.to(`campaign:${campaignId}:table_screen`).emit('encounter_state_changed_public', {
+    encounter: publicPayload,
+  });
 }
 
 // GET / — List encounters
