@@ -4,6 +4,7 @@ import api from '../../utils/api';
 import socket from '../../utils/socket';
 import { Radio, MessageSquare, Play, Square, Camera, Link as LinkIcon, Target, CheckCircle, PauseCircle, FileText, Users, Copy } from 'lucide-react';
 import SpotlightController from './SpotlightController';
+import SessionRecapModal from './SessionRecapModal';
 
 export default function SessionManager() {
   const { activeCampaignId, quests, fetchQuests, updateQuest } = useGmStore();
@@ -15,6 +16,7 @@ export default function SessionManager() {
   const [showQuickNote, setShowQuickNote] = useState(false);
   const [quickNoteMsg, setQuickNoteMsg] = useState('');
   const [activePlayers, setActivePlayers] = useState([]);
+  const [showRecapModal, setShowRecapModal] = useState(false);
 
   useEffect(() => {
     if (activeCampaignId) {
@@ -75,7 +77,12 @@ export default function SessionManager() {
     }
   };
 
-  const handleEndSession = async () => {
+  const handleEndSession = () => {
+    if (!session) return;
+    setShowRecapModal(true);
+  };
+
+  const confirmEndSession = async () => {
     if (!session) return;
     try {
       await api.put(`/api/v1/gm/campaigns/${activeCampaignId}/sessions/${session.id}`, {
@@ -83,6 +90,7 @@ export default function SessionManager() {
       });
       setSession(null);
       setShowBroadcast(false);
+      setShowRecapModal(false);
     } catch (err) {
       console.error(err);
     }
@@ -263,6 +271,16 @@ export default function SessionManager() {
             )}
           </div>
         </div>
+      )}
+
+      {showRecapModal && session && (
+        <SessionRecapModal
+          isOpen={showRecapModal}
+          onClose={() => setShowRecapModal(false)}
+          campaignId={activeCampaignId}
+          sessionId={session.id}
+          onConfirmEnd={confirmEndSession}
+        />
       )}
     </div>
   );

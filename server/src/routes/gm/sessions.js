@@ -292,4 +292,156 @@ router.get('/:id/table-screen-token', async (req, res) => {
   }
 });
 
+// ============================================================
+// RÉCAPITULATIF DE SÉANCE (V2-05)
+// ============================================================
+
+async function generateSessionRecap(prisma, campaignId, session) {
+  const startTime = session.startedAt || session.createdAt;
+  const endTime = session.endedAt || new Date();
+
+  // Journal de séance
+  const logs = await prisma.sessionLog.findMany({
+    where: { sessionId: session.id, campaignId },
+    orderBy: { createdAt: 'asc' },
+  });
+
+  // Nœuds atteints pendant la séance
+  const reachedNodes = await prisma.questNode.findMany({
+    where: {
+      quest: { campaignId },
+      status: 'reached',
+      reachedAt: { gte: startTime, lte: endTime },
+    },
+    include: { quest: { select: { name: true } } },
+    orderBy: { reachedAt: 'asc' },
+  });
+
+  // Combats terminés
+  const encounters = await prisma.encounter.findMany({
+    where: {
+      campaignId,
+      status: 'completed',
+      updatedAt: { gte: startTime, lte: endTime },
+    },
+    include: { combatants: true },
+    orderBy: { updatedAt: 'asc' },
+  });
+
+  // Changements de paramètres de cités
+  const cityChanges = await prisma.cityParameterHistory.findMany({
+    where: { createdAt: { gte: startTime, lte: endTime } },
+    include: { city: { select: { name: true } } },
+    orderBy: { createdAt: 'asc' },
+  });
+
+  const diceLogs = logs.filter((l) => l.kind === 'dice');
+  const rewardLogs = logs.filter((l) => l.kind === 'reward');
+  const notableDice = diceLogs.filter((l) => {
+    const p = l.payload;
+    return p && (p.nat20 || p.nat1 || (p.details && p.details.includes && (p.details.includes('nat20') || p.details.includes('nat1'))));
+  });
+
+  const lines = [];
+  lines.push(`# Récapitulatif de séance`);
+  lines.push(`**Date** : ${startTime.toLocaleDateString('fr-FR')}`);
+  if (session.endedAt) {
+    const hours = Math.round((endTime - startTime) / 36e5 * 10) / 10;
+    lines.push(`**Durée** : ${hours} h`);
+  }
+  lines.push('');
+
+  if (reachedNodes.length > 0) {
+    lines.push(`## Avancée des quêtes`);
+    for (const node of reachedNodes) {
+      lines.push(`- **${node.quest.name}** — ${node.title}`);
+    }
+    lines.push('');
+  }
+
+  if (encounters.length > 0) {
+    lines.push(`## Combats`);
+    for (const enc of encounters) {
+      const fallen = enc.combatants.filter((c) => c.hpCurrent <= 0).map((c) => c.name);
+      let txt = `- **${enc.name || 'Combat'}**`;
+      if (enc.currentRound) txt += ` (${enc.currentRound} rounds)`;
+      if (fallen.length > 0) txt += ` — tombés : ${fallen.join(', ')}`;
+      lines.push(txt);
+    }
+    lines.push('');
+  }
+
+  if (rewardLogs.length > 0) {
+    lines.push(`## Récompenses distribuées`);
+    for (const log of rewardLogs) {
+      const p = log.payload;
+      lines.push(`- **${p.characterName}** : ${p.rewardType} (${p.rewardValue})`);
+    }
+    lines.push('');
+  }
+
+  if (notableDice.length > 0) {
+    lines.push(`## Jets marquants`);
+    for (const log of notableDice) {
+      const p = log.payload;
+      lines.push(`- ${p.characterName || 'MJ'} : ${p.expression || p.label} = ${p.total}`);
+    }
+    lines.push('');
+  }
+
+  if (cityChanges.length > 0) {
+    lines.push(`## Changements dans le monde`);
+    for (const change of cityChanges) {
+      const delta = change.newValue - change.oldValue;
+      const sign = delta > 0 ? '+' : '';
+      lines.push(`- **${change.city.name}** — ${change.parameter} : ${sign}${delta} (${change.cause || 'sans cause'})`);
+    }
+    lines.push('');
+  }
+
+  lines.push('---');
+  lines.push('_Récapitulatif généré automatiquement. Éditable par le MJ._');
+
+  return lines.join('\n');
+}
+
+// POST /:id/recap — Générer et sauvegarder le récapitulatif
+router.post('/:id/recap', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const session = await prisma.session.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId },
+    });
+    if (!session) return res.status(404).json({ error: 'Session not found' });
+
+    const recap = await generateSessionRecap(prisma, req.campaignId, session);
+
+    const updated = await prisma.session.update({
+      where: { id: req.params.id },
+      data: { summary: recap },
+    });
+
+    res.json({ session: updated, recap });
+  } catch (err) {
+    console.error('Generate recap error:', err);
+    res.status(500).json({ error: 'Failed to generate recap' });
+  }
+});
+
+// GET /:id/recap — Récupérer le récapitulatif existant
+router.get('/:id/recap', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const session = await prisma.session.findFirst({
+      where: { id: req.params.id, campaignId: req.campaignId },
+      select: { id: true, summary: true, status: true, startedAt: true, endedAt: true },
+    });
+    if (!session) return res.status(404).json({ error: 'Session not found' });
+    res.json({ session });
+  } catch (err) {
+    console.error('Get recap error:', err);
+    res.status(500).json({ error: 'Failed to get recap' });
+  }
+});
+
 module.exports = router;

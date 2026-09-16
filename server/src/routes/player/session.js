@@ -66,4 +66,25 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /recap — Récapitulatif de la dernière séance terminée
+router.get('/recap', async (req, res) => {
+  try {
+    const prisma = req.app.get('prisma');
+    const lastSession = await prisma.session.findFirst({
+      where: { campaignId: req.campaignId, status: 'ended' },
+      orderBy: { endedAt: 'desc' },
+      select: { id: true, summary: true, startedAt: true, endedAt: true },
+    });
+
+    if (!lastSession || !lastSession.summary) {
+      return res.json({ recap: null });
+    }
+
+    res.json({ recap: lastSession.summary, session: lastSession });
+  } catch (err) {
+    console.error('Get player recap error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;
