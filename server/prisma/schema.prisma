@@ -1102,7 +1102,12 @@ model QuestNode {
   linkedNpcId       String?
   linkedLocationId  String?
   linkedEncounterId String?
-  
+
+  /// Illustration projetée sur l'écran de table quand ce nœud devient la scène
+  /// courante. Aucun champ d'image n'existait sur les nœuds : l'écran de table
+  /// ne pouvait donc rien montrer d'autre que ce que le MJ poussait à la main.
+  imageUrl          String?
+
   positionX         Float     @default(0)
   positionY         Float     @default(0)
   

@@ -17,6 +17,7 @@ const {
 } = require('../../validators/schemas');
 const { startNodeTimer, cancelNodeTimer, handleNodeTimeout, cancelParentTimers, executeQuestResolution } = require('../../services/questTimers');
 const { instantiateQuestEncounters } = require('../../services/questCombatService');
+const { buildCurrentScene } = require('../../services/tableScreenState');
 
 // Architecture Review Utilities (BE-1 to BE-10)
 const { evaluateCondition } = require('../../utils/conditionEvaluator');
@@ -527,13 +528,10 @@ router.post('/:id/nodes/:nodeId/reach', async (req, res) => {
       if (io) {
         io.to(`campaign:${req.campaignId}:gm`).emit('quest_node_timer_started', timerPayload);
         if (updated.timerVisibleToPlayers) {
-          const session = await prisma.session.findFirst({
-            where: { campaignId: req.campaignId, status: 'live' }
-          });
           io.to(`campaign:${req.campaignId}:player`).emit('quest_node_timer_started', timerPayload);
-          if (session && session.mode === 'in_person' && session.tableScreenToken) {
-            io.to(`table_screen:${session.tableScreenToken}`).emit('quest_node_timer_started', timerPayload);
-          }
+          // L'écran de table rejoint `campaign:{id}:table_screen` à la connexion :
+          // plus besoin de rechercher la session ni de vérifier le mode de jeu.
+          io.to(`campaign:${req.campaignId}:table_screen`).emit('quest_node_timer_started', timerPayload);
         }
       }
     }
@@ -541,14 +539,23 @@ router.post('/:id/nodes/:nodeId/reach', async (req, res) => {
     // Cancel parent timers
     await cancelParentTimers(prisma, updated.id);
     
-    if (io && updated.sensoryText && !alreadyReached) {
-      io.to(`campaign:${req.campaignId}:gm`).emit('quest_node_reached', {
-        questId: req.params.id,
-        nodeId: updated.id,
-        sensoryText: updated.sensoryText
-      });
+    if (io && !alreadyReached) {
+      if (updated.sensoryText) {
+        io.to(`campaign:${req.campaignId}:gm`).emit('quest_node_reached', {
+          questId: req.params.id,
+          nodeId: updated.id,
+          sensoryText: updated.sensoryText
+        });
+      }
+
+      // L'écran de table suit la progression de la quête : dès qu'un nœud
+      // devient la scène courante, son illustration et son texte sensoriel y
+      // sont poussés. C'est ce qui évite au MJ de pousser une image à la main
+      // à chaque changement de scène.
+      const scene = await buildCurrentScene(prisma, req.campaignId);
+      io.to(`campaign:${req.campaignId}:table_screen`).emit('table_scene_changed', { scene });
     }
-    
+
     res.json({ node: updated });
   } catch (err) {
     console.error(err);
@@ -581,13 +588,8 @@ router.post('/:id/nodes/:nodeId/start-timer', async (req, res) => {
     if (io) {
       io.to(`campaign:${req.campaignId}:gm`).emit('quest_node_timer_started', timerPayload);
       if (node.timerVisibleToPlayers) {
-        const session = await prisma.session.findFirst({
-          where: { campaignId: req.campaignId, status: 'live' }
-        });
         io.to(`campaign:${req.campaignId}:player`).emit('quest_node_timer_started', timerPayload);
-        if (session && session.mode === 'in_person' && session.tableScreenToken) {
-          io.to(`table_screen:${session.tableScreenToken}`).emit('quest_node_timer_started', timerPayload);
-        }
+        io.to(`campaign:${req.campaignId}:table_screen`).emit('quest_node_timer_started', timerPayload);
       }
     }
     
@@ -616,16 +618,16 @@ router.post('/:id/nodes/:nodeId/unreach', async (req, res) => {
     if (io) {
       io.to(`campaign:${req.campaignId}:gm`).emit('quest_node_timer_cleared', { nodeId: updated.id });
       if (updated.timerVisibleToPlayers) {
-        const session = await prisma.session.findFirst({
-          where: { campaignId: req.campaignId, status: 'live' }
-        });
         io.to(`campaign:${req.campaignId}:player`).emit('quest_node_timer_cleared', { nodeId: updated.id });
-        if (session && session.mode === 'in_person' && session.tableScreenToken) {
-          io.to(`table_screen:${session.tableScreenToken}`).emit('quest_node_timer_cleared', { nodeId: updated.id });
-        }
+        io.to(`campaign:${req.campaignId}:table_screen`).emit('quest_node_timer_cleared', { nodeId: updated.id });
       }
+
+      // Revenir en arrière change la scène courante : l'écran de table doit
+      // suivre, sinon il continue d'afficher la scène que le MJ vient d'annuler.
+      const scene = await buildCurrentScene(prisma, req.campaignId);
+      io.to(`campaign:${req.campaignId}:table_screen`).emit('table_scene_changed', { scene });
     }
-    
+
     res.json({ node: updated });
   } catch (err) {
     res.status(500).json({ error: 'Failed to unreach node' });

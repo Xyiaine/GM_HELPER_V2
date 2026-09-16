@@ -275,6 +275,8 @@ const createQuestNodeSchema = z.object({
   linkedNpcId: z.string().nullable().optional(),
   linkedLocationId: z.string().nullable().optional(),
   linkedEncounterId: z.string().nullable().optional(),
+  // Illustration projetée sur l'écran de table quand ce nœud est la scène courante.
+  imageUrl: z.string().max(2000).nullable().optional(),
   combatTemplate: z.string().nullable().optional(),
   positionX: z.number().optional(),
   positionY: z.number().optional(),
@@ -544,6 +546,12 @@ const playerDiceRollSchema = z.object({
 const createSessionSchema = z.object({
   summary: z.string().max(10000).optional(),
   mode: z.enum(['remote', 'in_person']).optional(),
+  // Le client envoie `status: 'live'` pour démarrer directement une séance.
+  // Le champ était absent du schéma : Zod le supprimait silencieusement, la
+  // session restait au statut « planned » par défaut et ne passait donc jamais
+  // en direct. L'écran de table et le mode joueur, qui exigent tous deux le
+  // statut « live », étaient inaccessibles.
+  status: z.enum(['planned', 'live', 'ended']).optional(),
 });
 
 const updateSessionSchema = z.object({

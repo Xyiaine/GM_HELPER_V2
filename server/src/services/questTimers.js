@@ -20,6 +20,19 @@ function cancelNodeTimer(nodeId) {
   }
 }
 
+/**
+ * Identifiants des nœuds dont le minuteur tourne actuellement.
+ *
+ * La Map ne contient que des handles de setTimeout, sans métadonnées : l'écran
+ * de table a besoin du titre et de l'échéance, qu'il relit en base à partir de
+ * ces identifiants.
+ *
+ * @returns {string[]}
+ */
+function getActiveTimerNodeIds() {
+  return Array.from(activeTimers.keys());
+}
+
 async function handleNodeTimeout(prisma, io, campaignId, questId, nodeId) {
   try {
     const node = await prisma.questNode.findUnique({
@@ -199,6 +212,7 @@ async function cancelParentTimers(prisma, nodeId) {
 module.exports = {
   startNodeTimer,
   cancelNodeTimer,
+  getActiveTimerNodeIds,
   restoreTimersFromDB,
   handleNodeTimeout,
   cancelParentTimers,

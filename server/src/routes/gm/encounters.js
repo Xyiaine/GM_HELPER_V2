@@ -9,53 +9,11 @@ const {
   updateCombatantSchema,
   bulkAddCombatantsSchema,
 } = require('../../validators/schemas');
+const { filterEncounterForPublic } = require('../../utils/publicPayload');
 
 const router = express.Router({ mergeParams: true });
 
 router.use(verifyToken, requireCampaignAccess, requireGM);
-
-/**
- * Filter encounter payload for public view (Players / TV screen).
- *
- * Hit points and armor class are deliberately never exposed here: the table
- * screen shows the initiative order and the encounter map, not the numbers.
- * Players track their own hit points on their paper sheet.
- * A player still receives their own character's hit points through the targeted
- * `character:hp-updated` event emitted to `user:{ownerUserId}`.
- */
-function filterEncounterForPublic(encounter) {
-  if (!encounter) return null;
-  return {
-    id: encounter.id,
-    name: encounter.name,
-    status: encounter.status,
-    phase: encounter.phase,
-    currentRound: encounter.currentRound,
-    currentTurnIndex: encounter.currentTurnIndex,
-    combatants: (encounter.combatants || []).map(c => {
-      if (c.isVisibleToPlayers) {
-        return {
-          id: c.id,
-          name: c.name,
-          type: c.type,
-          sourceType: c.sourceType,
-          initiative: c.initiative,
-          conditions: c.conditions,
-          isSurprised: c.isSurprised,
-          characterId: c.characterId,
-        };
-      }
-      return {
-        id: c.id,
-        name: c.name,
-        type: c.type,
-        sourceType: c.sourceType,
-        initiative: c.initiative,
-        isSurprised: c.isSurprised,
-      };
-    }),
-  };
-}
 
 /**
  * Helper to emit Socket.IO events with differentiated payloads (GM vs Public)
