@@ -13,6 +13,7 @@ import NotesManager from '../components/gm/NotesManager';
 import SessionManager from '../components/gm/SessionManager';
 import ItemsManager from '../components/gm/ItemsManager';
 import GlobalSearch from '../components/gm/GlobalSearch';
+import PrintStudio from '../components/gm/PrintStudio';
 import TagManager from '../components/gm/TagManager';
 import MapManager from '../components/gm/MapManager';
 import LocalMapManager from '../components/gm/LocalMapManager';
@@ -123,6 +124,7 @@ export default function GmApp() {
               <Link to={`/gm/campaigns/${activeCampaignId}/bestiary`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/bestiary') ? 'bold' : 'normal' }}>🐺 Bestiaire</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/items`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>🎒 Objets & Équipement</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/tags`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)' }}>🏷️ Tags</Link>
+              <Link to={`/gm/campaigns/${activeCampaignId}/exports`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/exports') ? 'bold' : 'normal' }}>🖨️ Impression</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/convoys`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/convoys') ? 'bold' : 'normal' }}>🚛 Convois</Link>
               <Link to={`/gm/campaigns/${activeCampaignId}/vehicles`} style={{ padding: '8px', borderRadius: '4px', textDecoration: 'none', color: 'var(--color-text)', fontWeight: location.pathname.includes('/vehicles') ? 'bold' : 'normal' }}>🚚 Véhicules</Link>
             </>
@@ -193,6 +195,7 @@ export default function GmApp() {
             <Route path="/campaigns/:campaignId/bestiary" element={<BestiaryManager />} />
             <Route path="/campaigns/:campaignId/items" element={<ItemsManager />} />
             <Route path="/campaigns/:campaignId/tags" element={<TagManager />} />
+            <Route path="/campaigns/:campaignId/exports" element={<PrintStudio />} />
             <Route path="/campaigns/:campaignId/convoys" element={<ConvoyManager />} />
             <Route path="/campaigns/:campaignId/vehicles" element={<VehiclesList />} />
             <Route path="/campaigns/:campaignId/vehicles/:vehicleId" element={<VehicleSheet />} />
