@@ -6,3 +6,6 @@ server/uploads/
 
 # Agent workspace (memoire projet, non versionnee)
 .workbuddy-ai/
+
+# Fichiers temporaires de build Vite
+vite.config.js.timestamp-*.mjs
