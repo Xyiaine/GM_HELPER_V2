@@ -23,22 +23,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 
-const CONDITIONS_DND5E = [
-  'Aveuglé',
-  'Charmé',
-  'Assourdi',
-  'Effrayé',
-  'Agrippé',
-  'Incapable d\'agir',
-  'Invisible',
-  'Paralysé',
-  'Pétrifié',
-  'Empoisonné',
-  'À terre',
-  'Entravé',
-  'Étourdi',
-  'Inconscient',
-];
+import { CONDITIONS_DND5E } from '../../utils/conditions';
 
 export default function CombatTracker() {
   const location = useLocation();
@@ -423,7 +408,7 @@ export default function CombatTracker() {
           backgroundColor: 'rgba(59, 130, 246, 0.1)',
           border: '1px solid rgba(59, 130, 246, 0.3)',
           display: 'flex',
-          justify: 'space-between',
+          justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: '12px'
@@ -733,7 +718,7 @@ export default function CombatTracker() {
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          justify: 'space-between',
+                          justifyContent: 'space-between',
                           padding: '10px 14px',
                           borderRadius: '6px',
                           backgroundColor: 'var(--color-background)',
@@ -839,7 +824,7 @@ export default function CombatTracker() {
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        justify: 'space-between',
+                        justifyContent: 'space-between',
                         padding: '12px',
                         borderRadius: '6px',
                         backgroundColor: isChecked ? 'rgba(239, 68, 68, 0.1)' : 'var(--color-background)',
@@ -895,7 +880,7 @@ export default function CombatTracker() {
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        justify: 'space-between',
+                        justifyContent: 'space-between',
                         padding: '10px 14px',
                         borderRadius: '6px',
                         backgroundColor: 'var(--color-background)',
@@ -954,7 +939,7 @@ export default function CombatTracker() {
                   borderRadius: '8px',
                   border: '1px solid var(--color-primary)',
                   display: 'flex',
-                  justify: 'space-between',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
                   boxShadow: '0 4px 16px rgba(120, 80, 255, 0.2)',
                 }}

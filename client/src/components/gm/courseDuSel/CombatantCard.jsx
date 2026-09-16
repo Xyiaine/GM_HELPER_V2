@@ -14,19 +14,7 @@ import {
   Crosshair
 } from 'lucide-react';
 
-const CONDITIONS_DND5E = [
-  'Aveuglé',
-  'Charmé',
-  'Effrayé',
-  'Agrippé',
-  'Invisible',
-  'Paralysé',
-  'Empoisonné',
-  'À terre',
-  'Entravé',
-  'Étourdi',
-  'Inconscient'
-];
+import { CONDITIONS_DND5E } from '../../../utils/conditions';
 
 export default function CombatantCard({
   combatant,
