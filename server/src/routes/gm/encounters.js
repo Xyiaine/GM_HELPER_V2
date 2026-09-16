@@ -544,6 +544,16 @@ router.post('/:id/next-turn', async (req, res) => {
     if (nextIndex >= encounter.combatants.length) {
       nextIndex = 0;
       nextRound += 1;
+
+      // Fin de round : synchroniser les PV des PJ vers leur fiche
+      for (const combatant of encounter.combatants) {
+        if (combatant.characterId && combatant.type === 'character') {
+          await prisma.character.update({
+            where: { id: combatant.characterId },
+            data: { hpCurrent: Math.max(0, combatant.hpCurrent) },
+          });
+        }
+      }
     }
 
     // Check if next combatant is surprised during round 1
@@ -592,6 +602,17 @@ router.post('/:id/end-combat', async (req, res) => {
     if (!encounter) return res.status(404).json({ error: 'Encounter not found' });
 
     const fallen = encounter.combatants.filter(c => c.hpCurrent <= 0).map(c => c.name);
+
+    // Synchroniser les PV des personnages joueurs vers leur fiche
+    for (const combatant of encounter.combatants) {
+      if (combatant.characterId && combatant.type === 'character') {
+        await prisma.character.update({
+          where: { id: combatant.characterId },
+          data: { hpCurrent: Math.max(0, combatant.hpCurrent) },
+        });
+      }
+    }
+
     const summary = JSON.stringify({
       endedAt: new Date().toISOString(),
       totalRounds: encounter.currentRound,
