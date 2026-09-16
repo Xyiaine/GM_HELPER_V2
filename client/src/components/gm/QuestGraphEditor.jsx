@@ -410,6 +410,21 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
               </label>
             </div>
 
+            {/* Illustration projetée sur l'écran de table */}
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span style={{ fontWeight: 'bold' }}>Illustration de scène</span>
+              <input
+                type="text"
+                defaultValue={selectedNode.imageUrl || ''}
+                onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { imageUrl: e.target.value || null })}
+                style={{ padding: '8px', background: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '4px' }}
+                placeholder="URL de l'image projetée sur l'écran de table"
+              />
+              <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+                Affichée sur la télévision dès que ce nœud devient la scène courante. À défaut, l'image de la quête sert de repli.
+              </span>
+            </label>
+
             {/* MJ Description — GM Mode Only (FE-1) */}
             {viewMode === 'gm' ? (
               <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

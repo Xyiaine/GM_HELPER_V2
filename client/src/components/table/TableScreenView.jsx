@@ -1,244 +1,221 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../utils/api';
 import socket, { acquireSocket } from '../../utils/socket';
-import { Camera } from 'lucide-react';
+
+// Écran de table — projeté sur une télévision en bout de table.
+//
+// Direction artistique : « projection de fortune ». L'image est celle d'un
+// moniteur récupéré, alimenté par un groupe électrogène fatigué — grain, léger
+// balayage, vignettage. Palette de sable et d'ambre sur un fond de métal
+// poussiéreux, parce que l'univers est un monde sans espoir et que la lumière
+// y est rare.
+//
+// Contraintes de conception :
+//  - lu à plusieurs mètres : grandes tailles, fort contraste, peu d'éléments ;
+//  - purement passif : aucune interaction, l'écran se met à jour tout seul ;
+//  - aucun point de vie affiché : les joueurs tiennent leur fiche papier, et
+//    l'écran ne montre que l'ordre d'initiative.
+const PALETTE = {
+  base: '#0a0908',
+  ink: '#ece5d8',
+  muted: '#8a8175',
+  amber: '#d99a3f',
+  amberBright: '#f0b755',
+  danger: '#e0483a',
+};
+
+function formatClock(seconds) {
+  const safe = Math.max(0, seconds);
+  const m = Math.floor(safe / 60);
+  const s = safe % 60;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
 
 export default function TableScreenView() {
   const { token } = useParams();
   const [data, setData] = useState(null);
   const [activeSpotlight, setActiveSpotlight] = useState(null);
-  const [gallery, setGallery] = useState([]);
+  const [scene, setScene] = useState(null);
+  const [encounter, setEncounter] = useState(null);
   const [timers, setTimers] = useState([]);
-  const [combatState, setCombatState] = useState(null);
   const [error, setError] = useState(null);
+  const [now, setNow] = useState(() => Date.now());
 
-  // Timer countdown effect
+  // ─── Chargement initial ───────────────────────────────────────────
   useEffect(() => {
-    if (timers.length === 0) return;
-    const interval = setInterval(() => {
-      setTimers(currentTimers => 
-        currentTimers.map(t => {
-          const remaining = Math.max(0, Math.floor((new Date(t.expiresAt).getTime() - Date.now()) / 1000));
-          return { ...t, remaining };
-        }).filter(t => t.remaining > 0)
-      );
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [timers.length]);
+    let cancelled = false;
 
-  useEffect(() => {
-    async function loadData() {
+    async function load() {
       try {
         const res = await api.get(`/api/v1/table-screen/${token}`);
+        if (cancelled) return;
         setData(res);
-        const active = res.broadcasts?.find(b => b.isActive);
-        setActiveSpotlight(active || null);
-        setGallery(res.broadcasts || []);
+        setScene(res.scene || null);
+        setEncounter(res.encounter || null);
+        setTimers(res.timers || []);
+        setActiveSpotlight((res.broadcasts || []).find((b) => b.isActive) || null);
       } catch (err) {
-        setError('Jeton invalide ou expiré.');
+        if (!cancelled) setError('Jeton invalide ou session close.');
       }
     }
-    loadData();
+
+    load();
+    return () => { cancelled = true; };
   }, [token]);
 
+  // ─── Temps réel ───────────────────────────────────────────────────
   useEffect(() => {
     if (!token) return;
 
-    // The handshake carries the session token and the table-screen flag.
-    // The server validates the token against a live session and joins the
-    // `table_screen:{token}` and `campaign:{id}:table_screen` rooms itself,
-    // including on every reconnection — no client-side join needed.
     const releaseSocket = acquireSocket({ token, isTableScreen: true });
 
-    const handleSpotlight = (payload) => {
-      setActiveSpotlight(payload);
-      setGallery(prev => [payload, ...prev.filter(b => b.id !== payload.id)]);
-    };
-    
-    const handleClearSpotlight = () => {
-      setActiveSpotlight(null);
+    const handleSpotlight = (payload) => setActiveSpotlight(payload);
+    const handleSpotlightClear = () => setActiveSpotlight(null);
+
+    const handleScene = (payload) => {
+      if (payload && payload.scene !== undefined) setScene(payload.scene);
     };
 
-    const handleTimerStarted = (data) => {
-      setTimers(prev => {
-        const filtered = prev.filter(t => t.nodeId !== data.nodeId);
-        return [...filtered, { ...data, remaining: data.duration }];
+    const handleEncounter = (payload) => {
+      if (payload && payload.encounter) setEncounter(payload.encounter);
+    };
+
+    const handleTimerStarted = (payload) => {
+      setTimers((prev) => {
+        const next = prev.filter((t) => t.nodeId !== payload.nodeId);
+        return [...next, { ...payload, expiresAt: payload.expiresAt }];
       });
     };
 
-    const handleTimerCleared = (data) => {
-      setTimers(prev => prev.filter(t => t.nodeId !== data.nodeId));
-    };
-
-    const handleEncounterState = (data) => {
-      if (data && data.encounter) {
-        setCombatState(data.encounter);
-      }
+    const handleTimerCleared = (payload) => {
+      setTimers((prev) => prev.filter((t) => t.nodeId !== payload.nodeId));
     };
 
     socket.on('spotlight_update', handleSpotlight);
-    socket.on('spotlight_clear', handleClearSpotlight);
+    socket.on('spotlight_clear', handleSpotlightClear);
+    socket.on('table_scene_changed', handleScene);
+    socket.on('encounter_state_changed', handleEncounter);
+    socket.on('encounter_state_changed_public', handleEncounter);
     socket.on('quest_node_timer_started', handleTimerStarted);
     socket.on('quest_node_timer_cleared', handleTimerCleared);
-    socket.on('encounter_state_changed', handleEncounterState);
-    socket.on('encounter_state_changed_public', handleEncounterState);
 
     return () => {
       socket.off('spotlight_update', handleSpotlight);
-      socket.off('spotlight_clear', handleClearSpotlight);
+      socket.off('spotlight_clear', handleSpotlightClear);
+      socket.off('table_scene_changed', handleScene);
+      socket.off('encounter_state_changed', handleEncounter);
+      socket.off('encounter_state_changed_public', handleEncounter);
       socket.off('quest_node_timer_started', handleTimerStarted);
       socket.off('quest_node_timer_cleared', handleTimerCleared);
-      socket.off('encounter_state_changed', handleEncounterState);
-      socket.off('encounter_state_changed_public', handleEncounterState);
       releaseSocket();
     };
   }, [token]);
 
+  // ─── Décompte ─────────────────────────────────────────────────────
+  // Un seul intervalle pour tous les minuteurs : chaque minuteur n'a plus à
+  // maintenir son propre état, et rien ne se décale.
+  useEffect(() => {
+    if (timers.length === 0) return;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [timers.length]);
+
+  const liveTimers = useMemo(
+    () => timers
+      .map((t) => ({ ...t, remaining: Math.max(0, Math.floor((new Date(t.expiresAt).getTime() - now) / 1000)) }))
+      .filter((t) => t.remaining > 0),
+    [timers, now],
+  );
+
+  const combatActive = encounter && (encounter.phase === 'active' || encounter.status === 'active');
+
+  // Priorité d'affichage : ce que le MJ pousse explicitement, puis la scène
+  // courante de la quête. L'image de la quête sert de dernier recours.
+  const heroImage = activeSpotlight?.imageUrl || scene?.imageUrl || null;
+  const isBanner = activeSpotlight && !activeSpotlight.imageUrl && activeSpotlight.text;
+
   if (error) {
     return (
-      <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: '#000', color: 'var(--error, #ef4444)' }}>
-        <h2>{error}</h2>
-      </div>
+      <Frame>
+        <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '1.5rem' }}>
+          <p style={{ fontSize: '1.4rem', color: PALETTE.danger, letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>
+            {error}
+          </p>
+          <p style={{ fontSize: '1rem', color: PALETTE.muted, margin: 0 }}>
+            Vérifiez le lien affiché dans le gestionnaire de session.
+          </p>
+        </div>
+      </Frame>
     );
   }
 
   if (!data) {
     return (
-      <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: '#000', color: 'white' }}>
-        Connexion à la table...
-      </div>
+      <Frame>
+        <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <p style={{ fontSize: '1.2rem', color: PALETTE.muted, letterSpacing: '0.3em', textTransform: 'uppercase', margin: 0 }}>
+            Connexion à la table
+          </p>
+        </div>
+      </Frame>
     );
   }
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      height: '100vh', 
-      width: '100vw', 
-      backgroundColor: '#000', 
-      color: 'white',
-      overflow: 'hidden',
-      position: 'relative'
-    }}>
-      {!activeSpotlight ? (
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
-          <Camera size={64} style={{ marginBottom: '24px' }} />
-          <h1>{data.session?.campaign?.name || 'Session Live'}</h1>
-          <p>En attente d'une diffusion du MJ...</p>
-        </div>
-      ) : (
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', paddingBottom: gallery.length > 0 ? '120px' : '24px' }}>
-          {(activeSpotlight.contentType === 'image' || activeSpotlight.contentType === 'banner') && activeSpotlight.imageUrl && (
-            <img 
-              src={activeSpotlight.imageUrl} 
-              alt="Spotlight" 
-              style={{ 
-                maxWidth: '100%', 
-                maxHeight: '100%', 
-                objectFit: 'contain',
-                borderRadius: '8px',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.8)'
-              }} 
-            />
-          )}
-        </div>
-      )}
-
-      {combatState && (combatState.phase === 'active' || combatState.status === 'active') && (
+    <Frame>
+      {/* Image de fond plein cadre */}
+      {heroImage && !isBanner && (
         <div
+          key={heroImage}
           style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-            borderBottom: '2px solid var(--color-primary, #7850ff)',
-            padding: '12px 24px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            zIndex: 200,
-            backdropFilter: 'blur(10px)',
+            inset: 0,
+            backgroundImage: `url("${heroImage}")`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            animation: 'tsDrift 40s ease-in-out infinite alternate',
           }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#7850ff' }}>
-              ⚔️ Round {combatState.currentRound || 1}
-            </span>
-            <span style={{ fontSize: '0.9rem', color: '#aaa' }}>Ordre d'initiative :</span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflowX: 'auto' }}>
-            {(combatState.combatants || []).map((c, idx) => {
-              const isCurrent = idx === combatState.currentTurnIndex;
-              const isPlayer = c.isVisibleToPlayers;
-              return (
-                <div
-                  key={c.id || idx}
-                  style={{
-                    padding: '6px 14px',
-                    borderRadius: '20px',
-                    fontSize: '0.85rem',
-                    fontWeight: isCurrent ? 'bold' : 'normal',
-                    backgroundColor: isCurrent ? '#7850ff' : 'rgba(255, 255, 255, 0.1)',
-                    color: '#fff',
-                    border: isCurrent ? '2px solid #fff' : '1px solid rgba(255, 255, 255, 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                  }}
-                >
-                  <span>#{idx + 1} {c.name}</span>
-                  {isPlayer && c.hpCurrent !== undefined && (
-                    <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>({c.hpCurrent}/{c.hpMax} PV)</span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        />
       )}
 
-      {timers.length > 0 && (
-        <div style={{
-          position: 'absolute',
-          top: '24px',
-          right: '24px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '16px',
-          zIndex: 100
-        }}>
-          {timers.map(timer => {
-            const mins = Math.floor(timer.remaining / 60);
-            const secs = timer.remaining % 60;
-            const timeStr = `${mins}:${secs.toString().padStart(2, '0')}`;
-            const isUrgent = timer.remaining < 30;
+      {/* Voile de lisibilité : assombrit le bas et les bords pour que le texte
+          reste lisible quelle que soit l'image projetée. */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: `linear-gradient(to top, ${PALETTE.base} 2%, rgba(10,9,8,0.82) 26%, rgba(10,9,8,0.25) 62%, rgba(10,9,8,0.6) 100%)`,
+      }} />
 
+      {/* ─── Minuteurs ─────────────────────────────────────────── */}
+      {liveTimers.length > 0 && (
+        <div style={{
+          position: 'absolute', top: '3rem', right: '3rem', zIndex: 30,
+          display: 'flex', flexDirection: 'column', gap: '1.25rem', alignItems: 'flex-end',
+        }}>
+          {liveTimers.map((timer) => {
+            const urgent = timer.remaining < 30;
             return (
-              <div key={timer.nodeId} style={{ 
-                backgroundColor: 'rgba(0, 0, 0, 0.85)',
-                border: `2px solid ${isUrgent ? '#ef4444' : '#f59e0b'}`,
-                padding: '16px 24px', 
-                borderRadius: '12px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                boxShadow: isUrgent ? '0 0 20px rgba(239, 68, 68, 0.8)' : '0 4px 12px rgba(0,0,0,0.5)',
-                backdropFilter: 'blur(8px)',
-                animation: isUrgent ? 'pulse 1s infinite' : 'none'
-              }}>
-                <h3 style={{ color: 'white', margin: '0 0 8px 0', fontSize: '1.2rem' }}>{timer.title}</h3>
-                <div style={{ 
-                  fontSize: '3rem', 
-                  fontWeight: 'bold', 
-                  fontFamily: 'monospace',
-                  color: isUrgent ? '#ef4444' : '#f59e0b',
-                  textShadow: '0 2px 8px rgba(0,0,0,0.8)'
+              <div
+                key={timer.nodeId}
+                style={{
+                  border: `2px solid ${urgent ? PALETTE.danger : PALETTE.amber}`,
+                  borderRadius: '4px',
+                  padding: '1rem 1.75rem',
+                  backgroundColor: 'rgba(10,9,8,0.82)',
+                  textAlign: 'right',
+                  animation: urgent ? 'tsPulse 1s ease-in-out infinite' : 'none',
+                }}
+              >
+                <div style={{ fontSize: '0.95rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: urgent ? PALETTE.danger : PALETTE.amber, marginBottom: '0.35rem' }}>
+                  {timer.title}
+                </div>
+                <div style={{
+                  fontSize: '4.5rem', fontWeight: 700, lineHeight: 1,
+                  fontVariantNumeric: 'tabular-nums',
+                  color: urgent ? PALETTE.danger : PALETTE.ink,
                 }}>
-                  {timeStr}
+                  {formatClock(timer.remaining)}
                 </div>
               </div>
             );
@@ -246,42 +223,241 @@ export default function TableScreenView() {
         </div>
       )}
 
-      {gallery.length > 0 && (
+      {/* ─── Contenu principal ─────────────────────────────────── */}
+      <div style={{
+        position: 'relative', zIndex: 20, flex: 1,
+        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+        padding: '0 6vw 4rem',
+      }}>
+        {isBanner ? (
+          <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <p style={{
+              fontSize: 'clamp(2rem, 4.4vw, 3.6rem)',
+              lineHeight: 1.35,
+              color: PALETTE.ink,
+              textAlign: 'center',
+              maxWidth: '26ch',
+              margin: 0,
+              borderTop: '1px solid rgba(217,154,63,0.35)',
+              borderBottom: '1px solid rgba(217,154,63,0.35)',
+              padding: '2.5rem 0',
+              whiteSpace: 'pre-line',
+            }}>
+              {activeSpotlight.text}
+            </p>
+          </div>
+        ) : (
+          <>
+            {scene && (
+              <>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.9rem' }}>
+                  {scene.displayCode && (
+                    <span style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '1.05rem', color: PALETTE.amber, letterSpacing: '0.16em' }}>
+                      {scene.displayCode}
+                    </span>
+                  )}
+                  <span style={{ width: '3rem', height: '1px', backgroundColor: 'rgba(217,154,63,0.45)' }} />
+                  {scene.questName && (
+                    <span style={{ fontSize: '0.95rem', color: PALETTE.muted, letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+                      {scene.questName}
+                    </span>
+                  )}
+                </div>
+
+                <h1 style={{
+                  fontSize: 'clamp(2.4rem, 5.2vw, 4.4rem)',
+                  fontWeight: 600,
+                  lineHeight: 1.08,
+                  letterSpacing: '-0.015em',
+                  color: PALETTE.ink,
+                  margin: '0 0 1.5rem',
+                  maxWidth: '24ch',
+                }}>
+                  {scene.title}
+                </h1>
+
+                {scene.sensoryText && (
+                  <p style={{
+                    fontSize: 'clamp(1.15rem, 1.7vw, 1.6rem)',
+                    lineHeight: 1.65,
+                    color: '#cdc4b4',
+                    maxWidth: '62ch',
+                    margin: 0,
+                    whiteSpace: 'pre-line',
+                  }}>
+                    {scene.sensoryText}
+                  </p>
+                )}
+              </>
+            )}
+
+            {!scene && !heroImage && (
+              <div style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '1.5rem' }}>
+                <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 500, color: PALETTE.ink, margin: 0, letterSpacing: '-0.01em' }}>
+                  {data.campaign?.name}
+                </h1>
+                <p style={{ fontSize: '1rem', color: PALETTE.muted, letterSpacing: '0.28em', textTransform: 'uppercase', margin: 0 }}>
+                  En attente de la première scène
+                </p>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+      {/* ─── Ordre d'initiative ────────────────────────────────── */}
+      {/* Ni points de vie, ni classe d'armure : l'écran montre qui agit et
+          quand, les chiffres restent sur les fiches papier. */}
+      {combatActive && (
         <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '100px',
-          backgroundColor: 'rgba(0,0,0,0.8)',
-          borderTop: '1px solid #333',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          padding: '0 24px',
-          overflowX: 'auto',
-          whiteSpace: 'nowrap'
+          position: 'relative', zIndex: 25,
+          borderTop: '1px solid rgba(217,154,63,0.3)',
+          backgroundColor: 'rgba(10,9,8,0.9)',
+          padding: '1.5rem 3rem 1.75rem',
         }}>
-          {gallery.filter(b => b.imageUrl).map(b => (
-            <img
-              key={b.id}
-              src={b.imageUrl}
-              alt="Gallery item"
-              onClick={() => setActiveSpotlight(b)}
-              style={{
-                height: '80px',
-                width: '120px',
-                objectFit: 'cover',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                opacity: activeSpotlight?.id === b.id ? 1 : 0.5,
-                border: activeSpotlight?.id === b.id ? '2px solid var(--color-primary)' : '2px solid transparent',
-                transition: 'all 0.2s'
-              }}
-            />
-          ))}
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem', marginBottom: '1rem' }}>
+            <span style={{ fontSize: '1.05rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: PALETTE.amber }}>
+              Round {encounter.currentRound || 1}
+            </span>
+            <span style={{ fontSize: '0.9rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: PALETTE.muted }}>
+              Ordre d'initiative
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.75rem', overflowX: 'auto', paddingBottom: '0.25rem' }}>
+            {(encounter.combatants || []).map((c, idx) => {
+              const isCurrent = idx === encounter.currentTurnIndex;
+              return (
+                <div
+                  key={c.id || idx}
+                  style={{
+                    flexShrink: 0,
+                    padding: '0.7rem 1.4rem',
+                    borderRadius: '3px',
+                    border: isCurrent ? `2px solid ${PALETTE.amberBright}` : '1px solid rgba(236,229,216,0.14)',
+                    backgroundColor: isCurrent ? 'rgba(217,154,63,0.16)' : 'rgba(236,229,216,0.04)',
+                    color: isCurrent ? PALETTE.ink : '#a49a8c',
+                    fontSize: '1.25rem',
+                    fontWeight: isCurrent ? 600 : 400,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.7rem',
+                    animation: isCurrent ? 'tsPulse 2.4s ease-in-out infinite' : 'none',
+                  }}
+                >
+                  <span style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '0.95rem', color: isCurrent ? PALETTE.amberBright : PALETTE.muted }}>
+                    {idx + 1}
+                  </span>
+                  <span>{c.name}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
+
+      {/* ─── Bandeau d'état ────────────────────────────────────── */}
+      <div style={{
+        position: 'relative', zIndex: 25,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0.85rem 3rem',
+        borderTop: '1px solid rgba(236,229,216,0.08)',
+        fontSize: '0.8rem',
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        color: PALETTE.muted,
+      }}>
+        <span>{data.campaign?.name}</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <span style={{
+            width: '7px', height: '7px', borderRadius: '50%',
+            backgroundColor: PALETTE.amber,
+            animation: 'tsBlink 3s ease-in-out infinite',
+          }} />
+          En direct
+        </span>
+      </div>
+    </Frame>
+  );
+}
+
+/**
+ * Enveloppe commune : fond, texture de grain, balayage, vignettage.
+ * Ces effets donnent l'impression d'un écran de récupération ; ils sont
+ * désactivés si le système demande de réduire les animations.
+ */
+function Frame({ children }) {
+  return (
+    <div style={{
+      position: 'relative',
+      height: '100vh',
+      width: '100vw',
+      overflow: 'hidden',
+      backgroundColor: PALETTE.base,
+      color: PALETTE.ink,
+      display: 'flex',
+      flexDirection: 'column',
+      fontFamily: "'Inter', 'Roboto', system-ui, sans-serif",
+    }}>
+      <style>{`
+        @keyframes tsDrift {
+          from { transform: scale(1.02) translate3d(0, 0, 0); }
+          to   { transform: scale(1.09) translate3d(-1.2%, -1.4%, 0); }
+        }
+        @keyframes tsGrain {
+          from { background-position: 0 0; }
+          to   { background-position: 180px 180px; }
+        }
+        @keyframes tsSweep {
+          from { transform: translateY(-12vh); }
+          to   { transform: translateY(112vh); }
+        }
+        @keyframes tsPulse {
+          0%, 100% { opacity: 1; }
+          50%      { opacity: 0.62; }
+        }
+        @keyframes tsBlink {
+          0%, 100% { opacity: 1; }
+          50%      { opacity: 0.25; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ts-anim { animation: none !important; }
+        }
+      `}</style>
+
+      {/* Grain : texture fixe déplacée lentement, peu coûteuse pour un téléviseur */}
+      <div className="ts-anim" style={{
+        position: 'absolute',
+        inset: '-100px',
+        pointerEvents: 'none',
+        opacity: 0.05,
+        zIndex: 40,
+        backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        animation: 'tsGrain 0.9s steps(4) infinite',
+      }} />
+
+      {/* Balayage vertical, très discret */}
+      <div className="ts-anim" style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        height: '12vh',
+        pointerEvents: 'none',
+        zIndex: 41,
+        background: 'linear-gradient(to bottom, transparent, rgba(236,229,216,0.035), transparent)',
+        animation: 'tsSweep 11s linear infinite',
+      }} />
+
+      {/* Vignettage : ramène le regard au centre de la table */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        zIndex: 42,
+        background: 'radial-gradient(ellipse at center, transparent 42%, rgba(0,0,0,0.55) 100%)',
+      }} />
+
+      {children}
     </div>
   );
 }
