@@ -540,6 +540,17 @@ const playerDiceRollSchema = z.object({
 });
 
 // ============================================================
+// REWARDS
+// ============================================================
+
+const distributeRewardsSchema = z.object({
+  distributions: z.array(z.object({
+    rewardId: z.string().min(1),
+    characterIds: z.array(z.string().min(1)).min(1),
+  })).min(1),
+});
+
+// ============================================================
 // SESSIONS
 // ============================================================
 
@@ -841,4 +852,5 @@ module.exports = {
   updateCampaignStateSchema,
   createSessionLogEntrySchema,
   hiddenRollSchema,
+  distributeRewardsSchema,
 };

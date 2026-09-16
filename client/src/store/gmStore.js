@@ -955,5 +955,26 @@ export const useGmStore = create((set, get) => ({
     set({ customHazardCards: next });
     scheduleStatePersist(cid, { customCards: next });
     return newCard;
-  }
+  },
+
+  // ─── REWARDS ────────────────────────────────────────────────
+  createQuestNodeReward: async (campaignId, questId, nodeId, payload) => {
+    try {
+      const data = await api.post(`/api/v1/gm/campaigns/${campaignId}/quests/${questId}/nodes/${nodeId}/rewards`, payload);
+      return data.reward;
+    } catch (err) {
+      console.error('Create reward error:', err);
+      throw err;
+    }
+  },
+
+  distributeRewards: async (campaignId, questId, nodeId, distributions) => {
+    try {
+      const data = await api.post(`/api/v1/gm/campaigns/${campaignId}/quests/${questId}/nodes/${nodeId}/distribute`, { distributions });
+      return data;
+    } catch (err) {
+      console.error('Distribute rewards error:', err);
+      throw err;
+    }
+  },
 }));

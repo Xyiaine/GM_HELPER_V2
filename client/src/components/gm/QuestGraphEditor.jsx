@@ -12,20 +12,21 @@ import ReactFlow, {
   MarkerType
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { Radio, Eye, Flag, Clock, X } from 'lucide-react';
+import { Radio, Eye, Flag, Clock, X, Gift } from 'lucide-react';
 
 import { useNavigate } from 'react-router-dom';
 import NpcVoiceProfileCard from './NpcVoiceProfileCard';
 import CaptainNominationPanel from './CaptainNominationPanel';
+import RewardDistributionModal from './RewardDistributionModal';
 
 export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' }) {
   const navigate = useNavigate();
-  const { 
-    createQuestNode, updateQuestNode, deleteQuestNode, 
-    createQuestNodeConnection, deleteQuestNodeConnection, 
+  const {
+    createQuestNode, updateQuestNode, deleteQuestNode,
+    createQuestNodeConnection, deleteQuestNodeConnection,
     updateQuestNodeConnection, reachQuestNode, unreachQuestNode, startNodeTimer,
-    spawnEncounterFromNode,
-    npcs, locations, encounters,
+    spawnEncounterFromNode, distributeRewards,
+    npcs, locations, encounters, characters,
     fetchNpcs, fetchLocations, fetchEncounters
   } = useGmStore();
 
@@ -36,6 +37,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
   const [edgeLabelInput, setEdgeLabelInput] = useState('');
   const [hideResolved, setHideResolved] = useState(false);
   const [timers, setTimers] = useState([]);
+  const [showRewardModal, setShowRewardModal] = useState(false);
 
   useEffect(() => {
     if (selectedEdge) {
@@ -708,17 +710,35 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                   <Flag size={20} /> Marquer comme Atteint
                 </button>
               ) : (
-                <button 
-                  className="btn-secondary" 
+                <button
+                  className="btn-secondary"
                   style={{ display: 'flex', justifyContent: 'center', gap: '8px', padding: '12px', fontSize: '1.1rem' }}
                   onClick={() => unreachQuestNode(campaignId, quest.id, selectedNode.id).then(node => updateLocalNode(node))}
                 >
                   Annuler (Non atteint)
                 </button>
               )}
-              
-              <button 
-                className="btn-secondary" 
+
+              {selectedNode.status === 'reached' && (
+                <button
+                  className="btn-secondary"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    padding: '12px',
+                    fontSize: '1.05rem',
+                    borderColor: 'var(--accent-braise)',
+                    color: 'var(--accent-braise)',
+                  }}
+                  onClick={() => setShowRewardModal(true)}
+                >
+                  <Gift size={18} /> Distribuer les récompenses
+                </button>
+              )}
+
+              <button
+                className="btn-secondary"
                 style={{ color: 'var(--error, #ef4444)', borderColor: 'var(--error, #ef4444)', marginTop: '16px' }}
                 onClick={() => {
                   deleteQuestNode(campaignId, quest.id, selectedNode.id).then(() => {
@@ -732,6 +752,18 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
             </div>
           </div>
         </div>
+      )}
+
+      {showRewardModal && selectedNode && (
+        <RewardDistributionModal
+          isOpen={showRewardModal}
+          onClose={() => setShowRewardModal(false)}
+          node={selectedNode}
+          quest={quest}
+          characters={characters}
+          campaignId={campaignId}
+          onDistribute={(distributions) => distributeRewards(campaignId, quest.id, selectedNode.id, distributions)}
+        />
       )}
     </div>
   );

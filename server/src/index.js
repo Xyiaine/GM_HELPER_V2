@@ -37,6 +37,7 @@ const gmStateRoutes = require('./routes/gm/state');
 const gmExportRoutes = require('./routes/gm/exports');
 const gmHiddenRollRoutes = require('./routes/gm/hiddenRolls');
 const gmVehicleRoutes = require('./routes/gm/vehicles');
+const gmRewardRoutes = require('./routes/gm/rewards');
 const playerCampaignRoutes = require('./routes/player/campaigns');
 const playerCharacterRoutes = require('./routes/player/character');
 const playerDiceRoutes = require('./routes/player/dice');
@@ -142,6 +143,7 @@ app.use('/api/v1/gm/campaigns/:campaignId/state', gmStateRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/exports', gmExportRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/hidden-rolls', gmHiddenRollRoutes);
 app.use('/api/v1/gm/campaigns/:campaignId/vehicles', gmVehicleRoutes);
+app.use('/api/v1/gm/campaigns/:campaignId/quests', gmRewardRoutes);
 
 // Player endpoints (protected — Player role, own data only)
 app.use('/api/v1/player/campaigns', playerCampaignRoutes);
