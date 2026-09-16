@@ -141,14 +141,14 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
       inset: embedded ? undefined : 0,
       height: embedded ? '650px' : '100%',
       width: '100%',
-      background: 'rgba(10, 15, 25, 0.95)',
-      borderRadius: embedded ? '12px' : 0,
-      border: embedded ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+      background: embedded ? '#0a0f19' : 'rgba(10, 15, 25, 0.95)',
+      borderRadius: embedded ? 'var(--radius-lg)' : 0,
+      border: embedded ? '1px solid var(--rule)' : 'none',
       overflow: 'hidden',
       display: 'flex',
       zIndex: embedded ? 1 : 9999,
-      color: 'white',
-      fontFamily: 'sans-serif'
+      color: 'var(--ink-on-dark)',
+      fontFamily: 'var(--font-body)'
     }}>
       {/* Sidebar - Tree Selection */}
       <div style={{
@@ -360,7 +360,7 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
         {/* Floating Title & Badges */}
         {currentTree && (
           <div style={{ position: 'absolute', top: 24, left: 24, pointerEvents: 'none' }}>
-            <h1 style={{ margin: 0, fontSize: '2rem', color: '#fff', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{currentTree.nom}</h1>
+            <h1 style={{ margin: 0, fontSize: '2rem', color: 'var(--ink-on-dark)', textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>{currentTree.nom}</h1>
             <p style={{ margin: '6px 0 0 0', color: '#9ca3af', maxWidth: 450, textShadow: '0 2px 4px rgba(0,0,0,0.8)', fontSize: '0.9rem' }}>{currentTree.description}</p>
             
             <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
@@ -403,7 +403,7 @@ export default function SkillTreeViewer({ campaignId, character, onUpdateCharact
                 <div style={{ fontSize: '0.75rem', color: TIER_COLORS[selectedNode.tier] || '#9ca3af', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: 1 }}>
                   Tier {selectedNode.tier} • {selectedNode.type}
                 </div>
-                <h3 style={{ margin: '4px 0 0 0', fontSize: '1.2rem', color: '#fff' }}>{selectedNode.nom}</h3>
+                <h3 style={{ margin: '4px 0 0 0', fontSize: '1.2rem', color: 'var(--ink-on-dark)' }}>{selectedNode.nom}</h3>
               </div>
               <button onClick={() => { setSelectedNode(null); setUnlockError(null); }} style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer' }}><X size={16} /></button>
             </div>
