@@ -3,6 +3,7 @@ import { useGmStore } from '../../store/gmStore';
 import api from '../../utils/api';
 import socket from '../../utils/socket';
 import { Radio, MessageSquare, Play, Square, Camera, Link as LinkIcon, Target, CheckCircle, PauseCircle, FileText, Users, Copy } from 'lucide-react';
+import { notify } from '../../store/notificationStore';
 import SpotlightController from './SpotlightController';
 import SessionRecapModal from './SessionRecapModal';
 
@@ -73,7 +74,7 @@ export default function SessionManager() {
       setShowStartMenu(false);
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.error || 'Failed to start session');
+      notify.error(err.response?.data?.error || 'Erreur au démarrage de la séance');
     }
   };
 
@@ -120,10 +121,10 @@ export default function SessionManager() {
       });
       setQuickNoteMsg('');
       setShowQuickNote(false);
-      alert('Note enregistrée');
+      notify.success('Note enregistrée');
     } catch (err) {
       console.error(err);
-      alert('Erreur lors de l\'enregistrement de la note');
+      notify.error('Erreur lors de l\'enregistrement de la note');
     }
   };
 
@@ -173,10 +174,10 @@ export default function SessionManager() {
           <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {window.location.origin}/table/{session.tableScreenToken}
           </span>
-          <button 
+          <button
             onClick={() => {
               navigator.clipboard.writeText(`${window.location.origin}/table/${session.tableScreenToken}`);
-              alert('Lien copié dans le presse-papier');
+              notify.success('Lien copié dans le presse-papier');
             }}
             style={{ background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
           >

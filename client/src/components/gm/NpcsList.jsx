@@ -4,6 +4,7 @@ import { useGmStore } from '../../store/gmStore';
 import api from '../../utils/api';
 import Modal from '../ui/Modal';
 import { Plus, Search, Building2, Shield, Star, Filter, ArrowUpDown, MapPin, X } from 'lucide-react';
+import { notify } from '../../store/notificationStore';
 
 const KNOWN_CITIES = [
   "Cité Médicale",
@@ -175,8 +176,9 @@ export default function NpcsList() {
       setIsModalOpen(false);
       setFormData({ name: '', race: '', role: '', description: '', locationId: '', personality: '' });
       fetchNpcs(campaignId);
+      notify.success('PNJ créé.');
     } catch (err) {
-      alert('Failed to create NPC');
+      notify.error('Erreur lors de la création du PNJ');
     }
   };
 

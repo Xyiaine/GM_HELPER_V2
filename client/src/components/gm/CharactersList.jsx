@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGmStore } from '../../store/gmStore';
 import { Network, Plus, FileText, X } from 'lucide-react';
+import { notify } from '../../store/notificationStore';
 import SkillTreeViewer from './SkillTreeViewer';
 import CharacterSheet from '../player/CharacterSheet';
 import { formatClasses } from '../../utils/formatters';
@@ -23,8 +24,9 @@ export default function CharactersList() {
   const handleCreateCharacter = async () => {
     try {
       await createCharacter(campaignId, { name: "Nouveau PJ", race: "Humain" });
+      notify.success('Personnage créé.');
     } catch (err) {
-      alert("Erreur lors de la création du personnage.");
+      notify.error('Erreur lors de la création du personnage.');
     }
   };
 

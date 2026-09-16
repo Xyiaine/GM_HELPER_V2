@@ -3,6 +3,7 @@ import { useGmStore } from '../../store/gmStore';
 import api from '../../utils/api';
 import { Link } from 'react-router-dom';
 import { Target, MapPin, Users, PlusCircle, CheckCircle, Copy, Trash2, GitFork, Calendar, Clock, ArrowUpDown } from 'lucide-react';
+import { notify } from '../../store/notificationStore';
 
 export default function QuestManager() {
   const { activeCampaignId, quests, fetchQuests, createQuest, resolveQuest, duplicateQuest, deleteQuest, items, fetchItems } = useGmStore();
@@ -115,8 +116,9 @@ export default function QuestManager() {
     if (confirmed) {
       try {
         await deleteQuest(activeCampaignId, quest.id);
+        notify.success(`Quête "${quest.name}" supprimée.`);
       } catch (err) {
-        alert('Erreur lors de la suppression de la quête.');
+        notify.error('Erreur lors de la suppression de la quête.');
       }
     }
   };

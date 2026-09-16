@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useGmStore } from '../../store/gmStore';
 import { Users, Map, BookOpen, Swords, Flag, Search, Dices, Truck, Share2, Copy, Check, Save } from 'lucide-react';
+import { notify } from '../../store/notificationStore';
 import GMDicePanel from './GMDicePanel';
 
 export default function CampaignDashboard() {
@@ -38,10 +39,11 @@ export default function CampaignDashboard() {
       await updateCampaign(campaignId, { joinPassword: passwordInput.trim() });
       setSavingPass(false);
       setPassSavedMessage(true);
+      notify.success('Mot de passe de campagne mis à jour.');
       setTimeout(() => setPassSavedMessage(false), 2500);
     } catch (err) {
       setSavingPass(false);
-      alert('Erreur lors de la sauvegarde du mot de passe');
+      notify.error('Erreur lors de la sauvegarde du mot de passe');
     }
   };
 

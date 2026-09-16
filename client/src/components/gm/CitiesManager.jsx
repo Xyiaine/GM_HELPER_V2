@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useGmStore } from '../../store/gmStore';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Activity, Shield, Zap, Wheat, Heart, Fuel, ChevronRight, ChevronDown } from 'lucide-react';
+import { notify } from '../../store/notificationStore';
 import Modal from '../ui/Modal';
 
 const LocationNode = ({ location, level = 0, campaignId }) => {
@@ -75,8 +76,9 @@ export default function CitiesManager() {
       });
       setAdjustingCity(null);
       setAdjustForm({ parameter: 'health', value: 0, cause: '' });
+      notify.success('Paramètres de cité mis à jour.');
     } catch (err) {
-      alert('Failed to adjust city values');
+      notify.error('Erreur lors de la mise à jour des paramètres');
     }
   };
 

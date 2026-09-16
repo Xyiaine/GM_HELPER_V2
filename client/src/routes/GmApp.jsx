@@ -22,6 +22,7 @@ import VehicleSheet from '../components/gm/VehicleSheet';
 import PrintStudio from '../components/gm/PrintStudio';
 import GmDeckDrawer from '../components/gm/deck/GmDeckDrawer';
 import ActiveComplicationsBanner from '../components/gm/deck/ActiveComplicationsBanner';
+import ToastContainer from '../components/ui/ToastContainer';
 import { useGmStore } from '../store/gmStore';
 import useAuthStore from '../store/authStore';
 import { acquireSocket, autoJoinCampaignRoom } from '../utils/socket';
@@ -346,6 +347,7 @@ export default function GmApp() {
       </main>
 
       <GmDeckDrawer />
+      <ToastContainer />
     </div>
   );
 }

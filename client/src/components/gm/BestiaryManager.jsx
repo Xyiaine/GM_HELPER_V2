@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useGmStore } from '../../store/gmStore';
+import { notify } from '../../store/notificationStore';
 import {
   Skull,
   Plus,
@@ -135,8 +136,9 @@ export default function BestiaryManager() {
     if (!window.confirm('Voulez-vous vraiment supprimer cet élément du bestiaire ?')) return;
     try {
       await deleteBestiaryEntry(activeCampaignId, id);
+      notify.success('Entrée du bestiaire supprimée.');
     } catch (err) {
-      alert(err.response?.data?.error || 'Erreur lors de la suppression');
+      notify.error(err.response?.data?.error || 'Erreur lors de la suppression');
     }
   };
 

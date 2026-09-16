@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Truck, Save, ArrowLeft, Shield, Wind, Battery, Activity } from 'lucide-react';
+import { notify } from '../../store/notificationStore';
 import api from '../../utils/api';
 
 export default function VehicleSheet() {
@@ -32,10 +33,10 @@ export default function VehicleSheet() {
     try {
       const { id, campaignId, createdAt, updatedAt, partSlots, crewSlots, accesses, ...updateData } = vehicle;
       await api.put(`/api/v1/gm/campaigns/${campaignId}/vehicles/${vehicleId}`, updateData);
-      alert('Sauvegardé avec succès.');
+      notify.success('Véhicule sauvegardé.');
     } catch (err) {
       console.error('Error saving vehicle:', err);
-      alert('Erreur lors de la sauvegarde.');
+      notify.error('Erreur lors de la sauvegarde.');
     }
   };
 

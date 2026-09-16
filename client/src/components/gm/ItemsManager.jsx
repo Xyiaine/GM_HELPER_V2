@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useGmStore } from '../../store/gmStore';
 import Modal from '../ui/Modal';
 import { Package, Plus } from 'lucide-react';
+import { notify } from '../../store/notificationStore';
 
 export default function ItemsManager() {
   const { campaignId } = useParams();
@@ -33,8 +34,9 @@ export default function ItemsManager() {
       });
       setIsModalOpen(false);
       setFormData({ name: '', type: 'weapon', rarity: 'common', description: '', value: 0, weight: 0 });
+      notify.success('Objet créé.');
     } catch (err) {
-      alert('Failed to create item');
+      notify.error('Erreur lors de la création de l\'objet');
     }
   };
 
