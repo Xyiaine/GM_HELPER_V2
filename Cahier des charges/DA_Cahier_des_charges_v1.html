@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GM Helper — Cahier des charges de direction artistique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Zilla+Slab:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:#F4F1EA;color:#1F1C18;
+    font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 32px 120px}
+
+  header.top{border-bottom:1px solid #D8D2C4;padding:64px 0 40px;margin-bottom:56px}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#A8501E;margin:0 0 16px}
+  header.top h1{font-family:'Zilla Slab',serif;font-size:40px;line-height:1.15;margin:0 0 16px;font-weight:600;letter-spacing:-.01em}
+  header.top p{font-size:17px;color:#6B6459;margin:0;max-width:680px}
+  .meta{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px}
+  .meta span{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:4px 10px;border:1px solid #D8D2C4;border-radius:3px;color:#6B6459}
+
+  h2{font-family:'Zilla Slab',serif;font-size:25px;margin:72px 0 6px;font-weight:600;padding-top:24px;border-top:2px solid #1F1C18}
+  h2 .num{font-family:'IBM Plex Mono',monospace;font-size:16px;color:#A8501E;margin-right:12px}
+  h2+.sub{color:#6B6459;font-size:14px;margin:0 0 28px}
+  h3{font-family:'Zilla Slab',serif;font-size:18px;margin:40px 0 10px;font-weight:500}
+  p{margin:0 0 14px}
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin-bottom:7px}
+  strong{font-weight:600}
+
+  code,.mono{font-family:'IBM Plex Mono',monospace;font-size:12.5px;background:#EAE5DA;border:1px solid #D8D2C4;border-radius:3px;padding:1px 5px;color:#8A3D14;white-space:nowrap}
+
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#6B6459;padding:0 12px 9px 0;border-bottom:1.5px solid #1F1C18;font-weight:600}
+  td{padding:10px 12px 10px 0;border-bottom:1px solid #E4DED2;vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  .num-cell{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+
+  .callout{background:#FBFAF6;border:1px solid #D8D2C4;border-left:3px solid #A8501E;border-radius:0 8px 8px 0;padding:18px 22px;margin:22px 0}
+  .callout .t{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#A8501E;margin-bottom:8px;font-weight:500}
+  .callout p:last-child{margin:0}
+
+  /* Nuancier */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px;margin:24px 0}
+  .swatch{border:1px solid #D8D2C4;border-radius:8px;overflow:hidden;background:#FBFAF6}
+  .swatch .chip{height:74px}
+  .swatch .info{padding:10px 12px}
+  .swatch .name{font-weight:600;font-size:13.5px;margin-bottom:3px}
+  .swatch .hex{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B6459}
+  .swatch .use{font-size:11.5px;color:#9A9184;margin-top:5px;line-height:1.4}
+
+  .group-title{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6B6459;margin:32px 0 4px;font-weight:500}
+
+  /* Spécimens typographiques */
+  .specimen{border:1px solid #D8D2C4;border-radius:8px;padding:22px 24px;margin:16px 0;background:#FBFAF6}
+  .specimen .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9A9184;margin-bottom:14px}
+  .specimen .sample{font-size:34px;line-height:1.2;margin-bottom:10px}
+  .specimen .desc{font-size:13px;color:#6B6459;margin:0}
+
+  .scale-row{display:flex;align-items:baseline;gap:16px;padding:8px 0;border-bottom:1px solid #E4DED2}
+  .scale-row:last-child{border-bottom:none}
+  .scale-row .tok{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8A3D14;flex:0 0 190px}
+  .scale-row .px{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#9A9184;flex:0 0 90px;text-align:right}
+  .scale-row .demo{flex:1;color:#1F1C18}
+
+  pre{background:#1F1C18;color:#E8E3D8;border-radius:8px;padding:20px 22px;overflow-x:auto;font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.7;margin:18px 0}
+  pre .c{color:#8A8175}
+  pre .k{color:#C97A3E}
+
+  .risk{background:#FBF1EE;border:1px solid #E8C9BC;border-radius:8px;padding:16px 20px;margin:20px 0}
+  .risk .t{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#B3392E;margin-bottom:8px;font-weight:500}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0}
+  @media(max-width:720px){.two{grid-template-columns:1fr}.wrap{padding:0 20px 72px}header.top h1{font-size:28px}}
+
+  footer{margin-top:80px;padding-top:26px;border-top:1px solid #D8D2C4;font-size:13px;color:#6B6459}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="kicker">GM Helper — La Course du Sel</p>
+    <h1>Cahier des charges de direction artistique</h1>
+    <p>Ce que l'interface doit devenir, pourquoi, et par quels moyens concrets. Rédigé à partir de l'audit du code existant et de vos arbitrages.</p>
+    <div class="meta">
+      <span>Version 1.0</span>
+      <span>16 septembre 2026</span>
+      <span>Parti pris : Sel et rouille</span>
+      <span>Portée : interface MJ</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<h2><span class="num">01</span>Le constat</h2>
+<p class="sub">Ce que l'audit du code a mesuré, sans interprétation.</p>
+
+<p>L'interface actuelle n'a pas de direction artistique. Elle a une palette générique de bibliothèque de composants, appliquée sans rapport avec l'univers du jeu. Voici les chiffres.</p>
+
+<table>
+  <thead><tr><th>Mesure</th><th style="width:110px">Valeur</th><th style="width:290px">Ce que ça signifie</th></tr></thead>
+  <tbody>
+    <tr><td>Variables CSS définies</td><td class="num-cell">22</td><td>Aucun jeton d'espacement, de rayon, d'ombre, de durée ni de plan.</td></tr>
+    <tr><td>Variables utilisées mais <strong>jamais définies</strong></td><td class="num-cell">6</td><td>Dont <code>--color-primary-light</code>, utilisé <strong>40 fois</strong> dans 16 fichiers. Elle retombe sur un repli, ou sur rien.</td></tr>
+    <tr><td>Couleurs écrites en dur</td><td class="num-cell">1 558</td><td>Réparties sur 59 des 76 fichiers du client.</td></tr>
+    <tr><td>Tailles de police distinctes</td><td class="num-cell">41</td><td>34 en <code>rem</code>, 7 en pixels. Aucune échelle.</td></tr>
+    <tr><td>Valeurs de <code>border-radius</code></td><td class="num-cell">~22</td><td>De 3 px à 50 %, plus des valeurs composites.</td></tr>
+    <tr><td>Valeurs de <code>padding</code></td><td class="num-cell">121</td><td>Aucun rythme vertical commun.</td></tr>
+    <tr><td>Valeurs de <code>z-index</code></td><td class="num-cell">16</td><td>De 4 à 10 000. Les empilements sont gérés au cas par cas.</td></tr>
+    <tr><td>Couleurs de l'univers présentes dans le code</td><td class="num-cell">0</td><td>Ni le sel, ni la rouille, ni le vert de réacteur, ni l'ocre.</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="t">Le chiffre qui résume tout</div>
+  <p>Les trois couleurs sémantiques — <code>#ef4444</code>, <code>#f59e0b</code>, <code>#10b981</code> — totalisent à elles seules <strong>382 occurrences écrites en dur</strong>, alors que des variables existent pour elles depuis le début. Le problème n'est pas l'absence de jetons, c'est qu'ils ne sont pas utilisés.</p>
+</div>
+
+<h3>Deux défauts invisibles mais coûteux</h3>
+<ul>
+  <li><strong>La graisse 600 n'est jamais chargée.</strong> La police Inter est importée en 400, 500, 600 et 700. Or le code demande <code>font-weight: 800</code> et <code>900</code> : le navigateur fabrique un gras synthétique, plus épais et moins lisible que le vrai.</li>
+  <li><strong>La police de repli n'existe pas.</strong> <code>--font-family</code> déclare <code>'Roboto'</code> en second, mais Roboto n'est jamais importé. Le repli réel est celui du système, qui change d'une machine à l'autre.</li>
+</ul>
+
+<h2><span class="num">02</span>Le parti pris</h2>
+<p class="sub">Sel et rouille. Une seule identité, deux surfaces.</p>
+
+<p>Le lore vous donne quatre familles de couleurs réelles, citées dans vos documents : le <strong>sel blanc</strong> « radiologiquement actif, distinct du sel commun par sa pureté », la <strong>rouille</strong> des « carcasses de navires formant un mur impénétrable », le <strong>vert de réacteur</strong> qui « pulse comme un battement de cœur, visible à des kilomètres, la nuit », et l'<strong>orange braise</strong> qui teinte l'horizon.</p>
+
+<p>Aucune de ces couleurs n'existe dans le code. C'est le point de départ.</p>
+
+<h3>La métaphore directrice : le carnet de terrain</h3>
+
+<p>L'interface du MJ n'est pas un tableau de bord de science-fiction. C'est <strong>un carnet de terrain qu'on tient à la main</strong> — papier jauni par le sel, annotations à l'encre de rouille, relevés techniques griffonnés en marge. C'est exactement ce que fait le MJ : il consigne, il annote, il recoupe. Cette métaphore justifie chaque décision qui suit.</p>
+
+<h3>Pourquoi une base claire</h3>
+
+<p>C'est la décision qui va à l'encontre de l'intuition — et c'est pour ça que je la documente.</p>
+
+<p>Vous avez répondu « une seule ambiance », et j'aurais pu en déduire : on garde le sombre partout. Je pense que ce serait une erreur, pour une raison qui n'a rien à voir avec le goût :</p>
+
+<div class="callout">
+  <div class="t">L'argument</div>
+  <p>Vous passez des heures dans cette interface à <strong>lire et écrire du texte</strong> — descriptions de scènes, secrets de nœuds, notes de campagne, fiches de personnage. Le texte sombre sur fond clair est mesurablement plus confortable pour la lecture longue, et vous préparez vos parties en journée, pas dans le noir.</p>
+  <p style="margin-top:12px">Le fond sombre n'a qu'un seul avantage décisif : préserver la vision nocturne dans une pièce éteinte. C'est exactement la contrainte de <strong>l'écran de table</strong>, pas la vôtre.</p>
+</div>
+
+<p>« Une seule ambiance » ne veut donc pas dire une seule luminance. Cela veut dire <strong>une seule identité chromatique</strong> : les mêmes teintes, les mêmes accents, les mêmes rapports. L'interface du MJ en est la version papier, éclairée. L'écran de table en est la version nocturne, projetée dans une pièce sombre.</p>
+
+<p>C'est déjà ce que fait l'écran de table, et il fonctionne : même sable, même ambre. Il ne s'agit pas d'ajouter une ambiance, mais de <strong>reconnaître que les deux surfaces ont la même</strong>, rendue différemment selon leur support. À confirmer.</p>
+
+<h3>Pourquoi « sobre » ne veut pas dire « fade »</h3>
+
+<p>Vous avez choisi l'option sans effets. Je la comprends : vous allez passer des soirées entières dans cette interface, et une animation qui amuse la première heure exaspère la dixième. La sobriété n'est donc pas une contrainte subie, c'est un choix de confort — et il est bon.</p>
+
+<p>Mais la personnalité ne vient pas des effets. Elle vient de <strong>quatre choses qui ne coûtent aucune animation</strong> : la matière du fond, la couleur de l'encre, la hiérarchie typographique, et les micro-détails de signalisation — un code de nœud en monospace, une règle de séparation, une étiquette de section. Une interface sobre et habitée est parfaitement atteignable.</p>
+
+<div class="risk">
+  <div class="t">Point à trancher</div>
+  <p>L'écran de table porte aujourd'hui un grain animé et un balayage vertical. Vous avez demandé « sobre » pour l'interface MJ. Ces effets ont été conçus pour la télévision, où personne ne lit de texte long et où l'animation donne vie à une image fixe. Faut-il les retirer aussi ? Ma recommandation : les garder sur l'écran de table, qui est regardé passivement, et n'en mettre aucun dans l'interface MJ.</p>
+</div>
+
+<h2><span class="num">03</span>La palette</h2>
+<p class="sub">Chaque couleur vient du lore. Aucune n'est arbitraire.</p>
+
+<p class="group-title">Matière — les fonds</p>
+<div class="swatches">
+  <div class="swatch"><div class="chip" style="background:#F4F1EA"></div><div class="info"><div class="name">Papier</div><div class="hex">#F4F1EA</div><div class="use">Fond général. Papier jauni par le sel.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#FBFAF6;border-bottom:1px solid #E4DED2"></div><div class="info"><div class="name">Papier élevé</div><div class="hex">#FBFAF6</div><div class="use">Cartes, panneaux, surfaces posées.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#EAE5DA"></div><div class="info"><div class="name">Papier creux</div><div class="hex">#EAE5DA</div><div class="use">Champs de saisie, fonds de liste, zones en retrait.</div></div></div>
+</div>
+
+<p class="group-title">Encres — les textes</p>
+<div class="swatches">
+  <div class="swatch"><div class="chip" style="background:#1F1C18"></div><div class="info"><div class="name">Encre</div><div class="hex">#1F1C18</div><div class="use">Texte principal. Noir chaud, jamais pur.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#6B6459"></div><div class="info"><div class="name">Encre atténuée</div><div class="hex">#6B6459</div><div class="use">Texte secondaire, libellés de champs.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#9A9184"></div><div class="info"><div class="name">Encre effacée</div><div class="hex">#9A9184</div><div class="use">Indications, textes de substitution, métadonnées.</div></div></div>
+</div>
+
+<p class="group-title">Traits — les bordures</p>
+<div class="swatches">
+  <div class="swatch"><div class="chip" style="background:#D8D2C4"></div><div class="info"><div class="name">Trait</div><div class="hex">#D8D2C4</div><div class="use">Bordure par défaut.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#B8B0A0"></div><div class="info"><div class="name">Trait marqué</div><div class="hex">#B8B0A0</div><div class="use">Bordures actives, séparateurs appuyés.</div></div></div>
+</div>
+
+<p class="group-title">Accents — la couleur du monde</p>
+<div class="swatches">
+  <div class="swatch"><div class="chip" style="background:#A8501E"></div><div class="info"><div class="name">Rouille</div><div class="hex">#A8501E</div><div class="use"><strong>Accent principal.</strong> Actions, liens, éléments actifs, titres de section.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#C97A3E"></div><div class="info"><div class="name">Rouille claire</div><div class="hex">#C97A3E</div><div class="use">Survols, états intermédiaires, accents secondaires.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#C4801A"></div><div class="info"><div class="name">Braise</div><div class="hex">#C4801A</div><div class="use">Avertissements, tension. « L'horizon d'un orange braise. »</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#4A7C3F"></div><div class="info"><div class="name">Réacteur</div><div class="hex">#4A7C3F</div><div class="use">Réussites, validations, états sains. Le vert du cristal.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#B3392E"></div><div class="info"><div class="name">Braise rouge</div><div class="hex">#B3392E</div><div class="use">Danger, échecs, critiques, suppressions.</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#3A5F8A"></div><div class="info"><div class="name">Bleu artificiel</div><div class="hex">#3A5F8A</div><div class="use">Information neutre, données. « La lumière d'un bleu artificiel » de Bunker Oméga.</div></div></div>
+</div>
+
+<div class="callout">
+  <div class="t">Pourquoi ces valeurs exactes</div>
+  <p>La rouille et l'ambre sont désaturés et assombris par rapport à des teintes d'interface habituelles. Deux raisons : ils doivent rester lisibles <strong>sur fond clair</strong> avec un contraste suffisant, et ils doivent évoquer l'oxydation, pas le feu de camp. Un orange vif aurait donné une interface de signalisation routière, pas un monde rouillé.</p>
+</div>
+
+<h2><span class="num">04</span>La typographie</h2>
+<p class="sub">Trois familles, trois rôles, aucune overlap.</p>
+
+<div class="specimen">
+  <div class="label">Famille 1 — Interface · Inter</div>
+  <div class="sample" style="font-family:'Inter',sans-serif">Résoudre la scène</div>
+  <p class="desc">Déjà chargée dans le projet. Tout le texte d'interface : libellés, boutons, paragraphes, listes, formulaires. Graisses 400, 500 et 600 <strong>uniquement</strong> — 700 est chargée mais jamais utile, 800 et 900 produisent un gras synthétique qu'il faut éliminer.</p>
+</div>
+
+<div class="specimen">
+  <div class="label">Famille 2 — Données techniques · IBM Plex Mono</div>
+  <div class="sample" style="font-family:'IBM Plex Mono',monospace;font-size:26px">06h12 · 46.2044° N · DD 15 · 2d6+3 · NODE 0.a</div>
+  <p class="desc">Tout ce qui est mesuré, codé ou relevé : codes de nœuds, coordonnées GPS, difficultés, expressions de dés, horloges, seuils, identifiants. C'est la famille qui porte le motif de l'<strong>heure sacrée « 06h12 »</strong> — gravée, tatouée ou peinte un peu partout dans votre univers. Elle donne aussi à l'interface son caractère d'instrument de mesure.</p>
+</div>
+
+<div class="specimen">
+  <div class="label">Famille 3 — Titres narratifs · Zilla Slab</div>
+  <div class="sample" style="font-family:'Zilla Slab',serif">Le réveil en mouvement</div>
+  <p class="desc">Réservée aux titres qui portent du récit : noms de quêtes, titres de scènes, titres de cartes, en-têtes de campagne. Un empattement rectangulaire, avec une légère rugosité, qui évoque la <strong>signalétique pochoir</strong> des caisses, des miradors et des graffitis décrits dans le lore. Jamais en dessous de 18 px, jamais pour du texte courant.</p>
+</div>
+
+<h3>L'échelle typographique</h3>
+<p>Sept tailles, pas une de plus. Toute valeur hors de cette liste est un défaut à corriger.</p>
+
+<div style="border:1px solid #D8D2C4;border-radius:8px;padding:12px 20px;background:#FBFAF6;margin:18px 0">
+  <div class="scale-row"><span class="tok">--text-2xs</span><span class="px">11 px</span><span class="demo" style="font-size:11px">Étiquettes de section, lettres espacées</span></div>
+  <div class="scale-row"><span class="tok">--text-xs</span><span class="px">12 px</span><span class="demo" style="font-size:12px">Métadonnées, horodatages, légendes</span></div>
+  <div class="scale-row"><span class="tok">--text-sm</span><span class="px">13 px</span><span class="desc" style="flex:1;font-size:13px">Libellés de champs, texte dense, tableaux</span></div>
+  <div class="scale-row"><span class="tok">--text-base</span><span class="px">15 px</span><span class="demo" style="font-size:15px">Texte courant, paragraphes, formulaires</span></div>
+  <div class="scale-row"><span class="tok">--text-lg</span><span class="px">17 px</span><span class="demo" style="font-size:17px">Sous-titres, texte mis en avant</span></div>
+  <div class="scale-row"><span class="tok">--text-xl</span><span class="px">22 px</span><span class="demo" style="font-family:'Zilla Slab',serif;font-size:22px">Titres de panneau</span></div>
+  <div class="scale-row"><span class="tok">--text-2xl</span><span class="px">30 px</span><span class="demo" style="font-family:'Zilla Slab',serif;font-size:30px">Titres d'écran</span></div>
+</div>
+
+<h2><span class="num">05</span>Le rythme et la matière</h2>
+<p class="sub">Les couches de jetons qui n'existent pas aujourd'hui.</p>
+
+<div class="two">
+  <div>
+    <h3 style="margin-top:0">Espacement — échelle de 4 px</h3>
+    <div style="border:1px solid #D8D2C4;border-radius:8px;padding:10px 18px;background:#FBFAF6">
+      <div class="scale-row"><span class="tok">--space-1</span><span class="px">4 px</span></div>
+      <div class="scale-row"><span class="tok">--space-2</span><span class="px">8 px</span></div>
+      <div class="scale-row"><span class="tok">--space-3</span><span class="px">12 px</span></div>
+      <div class="scale-row"><span class="tok">--space-4</span><span class="px">16 px</span></div>
+      <div class="scale-row"><span class="tok">--space-5</span><span class="px">24 px</span></div>
+      <div class="scale-row"><span class="tok">--space-6</span><span class="px">32 px</span></div>
+      <div class="scale-row"><span class="tok">--space-7</span><span class="px">48 px</span></div>
+    </div>
+    <p style="font-size:13px;color:#6B6459;margin-top:12px">121 valeurs de <code>padding</code> aujourd'hui. Sept suffisent.</p>
+  </div>
+
+  <div>
+    <h3 style="margin-top:0">Rayons et plans</h3>
+    <div style="border:1px solid #D8D2C4;border-radius:8px;padding:10px 18px;background:#FBFAF6">
+      <div class="scale-row"><span class="tok">--radius-sm</span><span class="px">3 px</span></div>
+      <div class="scale-row"><span class="tok">--radius-md</span><span class="px">6 px</span></div>
+      <div class="scale-row"><span class="tok">--radius-lg</span><span class="px">10 px</span></div>
+      <div class="scale-row"><span class="tok">--radius-full</span><span class="px">999 px</span></div>
+    </div>
+    <p style="font-size:13px;color:#6B6459;margin:12px 0 18px">Des angles peu arrondis : le papier, la tôle et le métal ne sont pas des pastilles.</p>
+    <div style="border:1px solid #D8D2C4;border-radius:8px;padding:10px 18px;background:#FBFAF6">
+      <div class="scale-row"><span class="tok">--layer-base</span><span class="px">0</span></div>
+      <div class="scale-row"><span class="tok">--layer-sticky</span><span class="px">100</span></div>
+      <div class="scale-row"><span class="tok">--layer-overlay</span><span class="px">200</span></div>
+      <div class="scale-row"><span class="tok">--layer-modal</span><span class="px">300</span></div>
+      <div class="scale-row"><span class="tok">--layer-toast</span><span class="px">400</span></div>
+    </div>
+    <p style="font-size:13px;color:#6B6459;margin-top:12px">16 valeurs de <code>z-index</code> aujourd'hui, jusqu'à 10 000.</p>
+  </div>
+</div>
+
+<h3>Ombres et mouvement</h3>
+<p>Sur fond clair, une ombre doit être <strong>une teinte, pas une opacité noire</strong>. Une ombre noire sur du papier jauni donne un gris sale. Deux niveaux seulement :</p>
+
+<pre><span class="c">/* Deux élévations, pas plus. La troisième doit être un changement de fond. */</span>
+<span class="k">--shadow-raised</span>: 0 1px 2px rgba(80, 62, 40, 0.08);
+<span class="k">--shadow-float</span>:  0 4px 12px rgba(80, 62, 40, 0.12);
+
+<span class="c">/* Deux durées. Aucune animation, seulement des transitions d'état. */</span>
+<span class="k">--motion-fast</span>: 120ms ease-out;   <span class="c">/* survols, focus, pressions */</span>
+<span class="k">--motion-base</span>: 200ms ease-out;   <span class="c">/* ouvertures, apparitions de panneau */</span></pre>
+
+<h2><span class="num">06</span>L'architecture des jetons</h2>
+<p class="sub">La pièce maîtresse : 1 300 usages basculent sans toucher un seul composant.</p>
+
+<p>C'est ici que se joue l'économie du chantier. L'application utilise déjà massivement six variables :</p>
+
+<table>
+  <thead><tr><th>Variable existante</th><th style="width:110px">Usages</th><th>Nouvelle valeur</th></tr></thead>
+  <tbody>
+    <tr><td><code>--color-text-muted</code></td><td class="num-cell">350</td><td><code>var(--ink-muted)</code></td></tr>
+    <tr><td><code>--color-border</code></td><td class="num-cell">304</td><td><code>var(--rule)</code></td></tr>
+    <tr><td><code>--color-text</code></td><td class="num-cell">268</td><td><code>var(--ink)</code></td></tr>
+    <tr><td><code>--color-surface</code></td><td class="num-cell">132</td><td><code>var(--paper-raised)</code></td></tr>
+    <tr><td><code>--color-primary</code></td><td class="num-cell">132</td><td><code>var(--rust)</code></td></tr>
+    <tr><td><code>--color-background</code></td><td class="num-cell">114</td><td><code>var(--paper)</code></td></tr>
+  </tbody>
+</table>
+
+<p><strong>1 300 usages</strong> — soit près de la moitié de l'interface — changent d'apparence en réécrivant <em>un seul fichier</em>. C'est la première étape, et elle donne un résultat visible immédiatement.</p>
+
+<pre><span class="c">/* index.css — couche 1 : les jetons bruts, la seule source de vérité */</span>
+:root {
+  <span class="c">/* Matière */</span>
+  --paper: #F4F1EA;  --paper-raised: #FBFAF6;  --paper-sunken: #EAE5DA;
+  <span class="c">/* Encres */</span>
+  --ink: #1F1C18;  --ink-muted: #6B6459;  --ink-faint: #9A9184;
+  <span class="c">/* Traits */</span>
+  --rule: #D8D2C4;  --rule-strong: #B8B0A0;
+  <span class="c">/* Accents */</span>
+  --rust: #A8501E;  --rust-soft: #C97A3E;  --ember: #C4801A;
+  --reactor: #4A7C3F;  --ember-red: #B3392E;  --artificial: #3A5F8A;
+  <span class="c">/* Typographie */</span>
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-data: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-title: 'Zilla Slab', Georgia, serif;
+  <span class="c">/* Espacement, rayons, ombres, mouvement, plans */</span>
+  --space-1: 4px;  <span class="c">/* … jusqu'à --space-7: 48px */</span>
+  --radius-sm: 3px;  --radius-md: 6px;  --radius-lg: 10px;
+  --motion-fast: 120ms ease-out;  --motion-base: 200ms ease-out;
+}
+
+<span class="c">/* index.css — couche 2 : les alias hérités.
+   Les 1 300 usages existants basculent ici, sans toucher aux composants.
+   Cette couche disparaît quand la migration est terminée. */</span>
+:root {
+  --color-background: var(--paper);
+  --color-surface: var(--paper-raised);
+  --color-text: var(--ink);
+  --color-text-muted: var(--ink-muted);
+  --color-border: var(--rule);
+  --color-primary: var(--rust);
+
+  <span class="c">/* Les six variables fantômes, enfin définies */</span>
+  --color-primary-light: var(--rust-soft);
+  --color-primary-rgb: 168, 80, 30;
+  --color-surface-rgb: 251, 250, 246;
+  --color-bg: var(--paper);
+  --color-primary-dark: #8A3D14;
+  --error: var(--ember-red);
+}</pre>
+
+<h2><span class="num">07</span>La méthode de conversion</h2>
+<p class="sub">1 558 couleurs à traiter, dont une catégorie piège.</p>
+
+<p>Les couleurs écrites en dur se rangent en trois familles, par ordre de difficulté croissante.</p>
+
+<h3>1. Les sémantiques déjà tokenisées — 382 occurrences, mécanique</h3>
+<p>Un simple remplacement suffit, sans jugement à porter.</p>
+
+<table>
+  <thead><tr><th>Valeur trouvée</th><th style="width:100px">Occurrences</th><th>Remplacement</th></tr></thead>
+  <tbody>
+    <tr><td><code>#ef4444</code></td><td class="num-cell">175</td><td><code>var(--danger)</code></td></tr>
+    <tr><td><code>#f59e0b</code></td><td class="num-cell">108</td><td><code>var(--warning)</code></td></tr>
+    <tr><td><code>#10b981</code></td><td class="num-cell">99</td><td><code>var(--success)</code></td></tr>
+  </tbody>
+</table>
+
+<h3>2. Les neutres — environ 400 occurrences, mécanique avec un arbitrage</h3>
+<p><code>#fff</code> (84), <code>#f8fafc</code> (15), <code>#94a3b8</code> (31), <code>#9ca3af</code> (21), <code>#60a5fa</code> (32), <code>#6366f1</code> (30). Chacun doit être rangé dans la palette selon son rôle réel : un texte blanc sur fond sombre devient de l'encre, une bordure devient un trait.</p>
+
+<div class="risk">
+  <div class="t">Le piège principal</div>
+  <p>Les calques translucides <code>rgba(255,255,255,…)</code> — <strong>120 occurrences</strong> — servaient à <em>éclaircir</em> une surface sombre. Sur fond clair, ils deviennent invisibles ou blanchâtres. Ils ne peuvent pas être remplacés mécaniquement : chacun demande de comprendre son intention. C'est le poste de travail le plus long de la conversion, et il est concentré sur les mêmes quinze fichiers que le reste.</p>
+  <p style="margin-top:12px">Deux jetons dédiés les remplacent : <code>--overlay-light</code> et <code>--overlay-dark</code>, dont la valeur diffère selon le thème du composant.</p>
+</div>
+
+<h3>3. Les couleurs décoratives — le reste, au cas par cas</h3>
+<p>Les teintes de rareté d'objet, les couleurs de faction, les couleurs de convoi, les couleurs de type de nœud. Elles doivent devenir des jeux de jetons nommés, pas des valeurs dispersées. C'est aussi l'occasion de les aligner sur la palette du monde plutôt que sur les couleurs par défaut d'une bibliothèque.</p>
+
+<h2><span class="num">08</span>Les écrans prioritaires</h2>
+<p class="sub">Par usage réel, pas par nombre de lignes.</p>
+
+<table>
+  <thead><tr><th style="width:40px">#</th><th style="width:230px">Cible</th><th>Couleurs en dur</th><th style="width:150px">Effort</th><th>Pourquoi en premier</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>index.css</code> + coquille <code>GmApp.jsx</code></td><td class="num-cell">—</td><td><span class="mono">court</span></td><td>1 300 usages basculent d'un coup. Le meilleur rapport de tout le chantier.</td></tr>
+    <tr><td>2</td><td>Tiroir de decks et ses 4 onglets</td><td class="num-cell">~90</td><td><span class="mono">court</span></td><td>Ouvert en permanence pendant les séances, touche M. C'est votre outil principal.</td></tr>
+    <tr><td>3</td><td><code>QuestNodeCard.jsx</code></td><td class="num-cell">184</td><td><span class="mono">long</span></td><td>Le plus gros poste de couleur du projet, et la carte de scène que vous lisez en menant.</td></tr>
+    <tr><td>4</td><td><code>CombatTracker.jsx</code></td><td class="num-cell">48</td><td><span class="mono">moyen</span></td><td>Écran de combat : lu vite, dans la tension, souvent mal éclairé.</td></tr>
+    <tr><td>5</td><td><code>MapManager.jsx</code></td><td class="num-cell">90</td><td><span class="mono">moyen</span></td><td>Consulté à chaque déplacement de convoi.</td></tr>
+    <tr><td>6</td><td><code>ConvoyManager.jsx</code></td><td class="num-cell">150</td><td><span class="mono">moyen</span></td><td>Deuxième plus gros poste de couleur.</td></tr>
+    <tr><td>7</td><td>Le reste, au fil de l'eau</td><td class="num-cell">~900</td><td><span class="mono">étalé</span></td><td>Traiter un écran quand on y touche pour une autre raison.</td></tr>
+  </tbody>
+</table>
+
+<h2><span class="num">09</span>Ce qui est hors périmètre</h2>
+
+<ul>
+  <li><strong>L'écran de table.</strong> Déjà traité. Il conserve son rendu nocturne et ses effets, qui servent la projection.</li>
+  <li><strong>L'interface joueur.</strong> Elle n'est qu'un secours pour les rares joueurs avec un téléphone. On ne l'habille pas avant d'avoir une séance réelle.</li>
+  <li><strong>Les cartes imprimées.</strong> Le PDF a son propre support — le papier — et sa propre contrainte de lisibilité. Il est déjà sobre et lisible.</li>
+  <li><strong>Le contenu du lore.</strong> Les 24 arbres de compétences, le bestiaire, les descriptions de cités. On ne touche pas aux données, seulement à leur présentation.</li>
+  <li><strong>Les effets animés dans l'interface MJ.</strong> Écartés par votre réponse.</li>
+</ul>
+
+<h2><span class="num">10</span>Critères d'acceptation</h2>
+<p class="sub">Comment on saura que c'est fini, et bien fait.</p>
+
+<table>
+  <thead><tr><th style="width:40px">#</th><th>Critère</th><th style="width:180px">Vérification</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Aucune variable utilisée sans être définie</td><td>Recherche automatique sur <code>client/src</code></td></tr>
+    <tr><td>2</td><td>Aucune couleur en dur dans les écrans migrés</td><td>Recherche de <code>#</code> et <code>rgba(</code> hors de <code>index.css</code></td></tr>
+    <tr><td>3</td><td>Aucune taille de police hors de l'échelle de sept</td><td>Recherche de <code>font-size</code></td></tr>
+    <tr><td>4</td><td>Contraste ≥ 4,5:1 pour tout texte courant</td><td>Vérification des couples encre/fond</td></tr>
+    <tr><td>5</td><td>Aucune graisse 800 ou 900</td><td>Inter n'est chargée qu'en 400, 500, 600</td></tr>
+    <tr><td>6</td><td>La police de repli est réellement chargée</td><td>Retirer Roboto ou l'importer</td></tr>
+    <tr><td>7</td><td>L'écran de table est inchangé</td><td>Comparaison visuelle avant/après</td></tr>
+    <tr><td>8</td><td>Le build passe et aucun écran ne régresse</td><td>Parcours manuel des sept écrans prioritaires</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="t">Une réserve, pour finir</div>
+  <p>Ce document fixe une direction, il ne remplace pas une décision prise devant l'écran. Vous n'avez pas encore mené de séance avec cette application, et une direction artistique se juge à l'usage : une couleur qu'on croyait juste devient fatigante à la troisième heure, une hiérarchie qu'on croyait claire se révèle illisible dans la pénombre.</p>
+  <p style="margin-top:12px">Ma recommandation : appliquer les étapes 1 et 2 — les jetons et la coquille — puis <strong>mener une séance</strong> avant d'engager la conversion des gros écrans. Ce sont les deux étapes les moins chères et les plus visibles, et elles suffiront à vous dire si le parti pris tient.</p>
+</div>
+
+<footer>
+  <p>Cahier des charges rédigé à partir de l'audit du dépôt <code>GM_Helper</code> au 16 septembre 2026 et des arbitrages du même jour. Tous les chiffres cités sont vérifiables dans l'état actuel du code.</p>
+</footer>
+
+</div>
+</body>
+</html>
