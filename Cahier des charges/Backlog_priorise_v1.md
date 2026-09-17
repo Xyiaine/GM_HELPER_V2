@@ -9,17 +9,17 @@ Légende effort : `S` = moins d'une demi-journée · `M` = 1 à 3 jours · `L` =
 
 ---
 
-## État d'avancement — 16 septembre 2026
+## État d'avancement — 17 septembre 2026
 
-> **Vague 1 : terminée.** Neuf commits. Le temps réel fonctionne, les accès sont
-> contrôlés, la progression est recalculée. Non testé à une vraie table.
+> **Vagues 1 et 2 : terminées.** Tout est poussé sur `origin/main`.
+> L'application n'a **pas encore été testée à une vraie table** — c'est la
+> prochaine étape de valeur, avant d'ouvrir la Vague 3.
 >
 > **Périmètre retenu : option A — « la table d'abord »** (voir `Cadrage_valide_v1.md`,
 > arbitrage 1). L'écran de table, la persistance de séance et la chaîne d'impression
 > passent avant le système de jeu du MJ.
->
-> **Bloqué :** le `git push` échoue faute d'authentification GitHub sur le poste.
-> Les commits sont en local.
+
+### Vague 1 — Réparer la table
 
 | Ticket | État | Commit |
 |---|---|---|
@@ -30,8 +30,31 @@ Légende effort : `S` = moins d'une demi-journée · `M` = 1 à 3 jours · `L` =
 | V1-05 · Notes privées joueurs | ✅ | `8deda74` |
 | V1-06 · Lanceur de dés joueur | ✅ | `08d0a81` |
 | V1-07 · Contrôle d'accès déblocage | ✅ | `e7f236b` |
-| V1-08 · Transactions sur les copies de quête | ⬜ à faire | — |
+| V1-08 · Transactions sur les copies de quête | ✅ | `0fbec82` |
 | V1-09 · Nettoyages rapides | ✅ | `48a08b0`, `9d6e6ce` |
+
+### Vague 2 — Fermer la boucle
+
+| Ticket | État | Commit |
+|---|---|---|
+| V2-01 · Persister l'état de séance | ✅ | `a625bb9` |
+| V2-02 · Distribuer les récompenses | ✅ | `3af045c` |
+| V2-03 · Recalculer la progression | ✅ | `e7f236b` |
+| V2-04 · Synchroniser les PV de combat | ✅ | `935b6bb` |
+| V2-05 · « Précédemment » automatique | ✅ | `c1b0567` |
+| V2-06 · Notifications et annulation | ✅ | `fbe943e` |
+| V2-07 · Spotlight depuis la bibliothèque | ✅ | `9bf85c1` |
+
+**Hors backlog, dans la même période :** direction artistique « Sel et rouille »
+(jetons, coquille, corrections visuelles — `e7dee83`, `8d8b0b0`, `d58f880`),
+écran de table reconstruit (`35b7f14` → `08bdc40`), chaîne d'impression PDF
+(`5860cdc`, `72e47e9`), jets cachés (`ab0a271`, `1815a68`).
+
+### Vague 3 — Le jeu
+
+Non commencée. C'est le système d'Éclat, les succès, les défis, le cockpit plein
+écran et la palette de commandes. Dépend de la persistance (faite) et suppose
+une première séance jouée pour calibrer.
 
 **Découvertes supplémentaires corrigées, hors backlog initial :**
 
