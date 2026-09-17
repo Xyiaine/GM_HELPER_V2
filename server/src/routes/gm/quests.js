@@ -833,92 +833,88 @@ router.post('/:id/duplicate', async (req, res) => {
       return res.status(404).json({ error: 'Quest not found' });
     }
 
-    // 1. Create duplicate quest
-    const newQuest = await prisma.quest.create({
-      data: {
-        campaignId: originalQuest.campaignId,
-        name: originalQuest.name + ' (Copie)',
-        description: originalQuest.description,
-        type: originalQuest.type,
-        difficulty: originalQuest.difficulty,
-        level: originalQuest.level,
-        duration: originalQuest.duration,
-        visibility: originalQuest.visibility,
-        playerSummary: originalQuest.playerSummary,
-        gmNotes: originalQuest.gmNotes,
-        questGiverNpcId: originalQuest.questGiverNpcId,
-        xpReward: originalQuest.xpReward,
-        goldReward: originalQuest.goldReward,
-        itemRewards: originalQuest.itemRewards,
-        status: 'not_started',
-      }
-    });
-
-    // Same reasoning as /instantiate: the graph is copied create by create, so a
-    // failure partway through is compensated by deleting the parent quest, which
-    // cascades to every child.
-    try {
-
-    // 2. Duplicate nodes
-    const nodeMapping = {}; // oldId -> newId
-    for (const node of originalQuest.nodes) {
-      const createdNode = await prisma.questNode.create({
+    // Le graphe était copié création par création : une interruption laissait
+    // une quête à moitié dupliquée. La transaction garantit que soit tout est
+    // copié, soit rien ne l'est.
+    const newQuest = await prisma.$transaction(async (tx) => {
+      // 1. Create duplicate quest
+      const created = await tx.quest.create({
         data: {
-          questId: newQuest.id,
-          title: node.title,
-          mjDescription: node.mjDescription,
-          sensoryText: node.sensoryText,
-          nodeType: node.nodeType,
-          endOutcome: node.endOutcome,
-          isTimed: node.isTimed,
-          timerDurationSeconds: node.timerDurationSeconds,
-          timerVisibleToPlayers: node.timerVisibleToPlayers,
-          linkedNpcId: node.linkedNpcId,
-          linkedLocationId: node.linkedLocationId,
-          linkedEncounterId: node.linkedEncounterId,
-          positionX: node.positionX + 20,
-          positionY: node.positionY + 20,
-          status: 'not_reached',
+          campaignId: originalQuest.campaignId,
+          name: originalQuest.name + ' (Copie)',
+          description: originalQuest.description,
+          type: originalQuest.type,
+          difficulty: originalQuest.difficulty,
+          level: originalQuest.level,
+          duration: originalQuest.duration,
+          visibility: originalQuest.visibility,
+          playerSummary: originalQuest.playerSummary,
+          gmNotes: originalQuest.gmNotes,
+          questGiverNpcId: originalQuest.questGiverNpcId,
+          xpReward: originalQuest.xpReward,
+          goldReward: originalQuest.goldReward,
+          itemRewards: originalQuest.itemRewards,
+          status: 'not_started',
         }
       });
-      nodeMapping[node.id] = createdNode.id;
-    }
 
-    // 3. Update timeoutNodeId
-    for (const node of originalQuest.nodes) {
-      if (node.timeoutNodeId && nodeMapping[node.timeoutNodeId]) {
-        await prisma.questNode.update({
-          where: { id: nodeMapping[node.id] },
-          data: { timeoutNodeId: nodeMapping[node.timeoutNodeId] }
-        });
-      }
-    }
-
-    // 4. Duplicate connections
-    const originalConnections = await prisma.questNodeConnection.findMany({
-      where: { fromNode: { questId: req.params.id } }
-    });
-
-    for (const conn of originalConnections) {
-      if (nodeMapping[conn.fromNodeId] && nodeMapping[conn.toNodeId]) {
-        await prisma.questNodeConnection.create({
+      // 2. Duplicate nodes
+      const nodeMapping = {}; // oldId -> newId
+      for (const node of originalQuest.nodes) {
+        const createdNode = await tx.questNode.create({
           data: {
-            fromNodeId: nodeMapping[conn.fromNodeId],
-            toNodeId: nodeMapping[conn.toNodeId],
-            label: conn.label,
-            isTimeoutConnection: conn.isTimeoutConnection
+            questId: created.id,
+            title: node.title,
+            mjDescription: node.mjDescription,
+            sensoryText: node.sensoryText,
+            nodeType: node.nodeType,
+            endOutcome: node.endOutcome,
+            isTimed: node.isTimed,
+            timerDurationSeconds: node.timerDurationSeconds,
+            timerVisibleToPlayers: node.timerVisibleToPlayers,
+            linkedNpcId: node.linkedNpcId,
+            linkedLocationId: node.linkedLocationId,
+            linkedEncounterId: node.linkedEncounterId,
+            positionX: node.positionX + 20,
+            positionY: node.positionY + 20,
+            status: 'not_reached',
           }
         });
+        nodeMapping[node.id] = createdNode.id;
       }
-    }
+
+      // 3. Update timeoutNodeId
+      for (const node of originalQuest.nodes) {
+        if (node.timeoutNodeId && nodeMapping[node.timeoutNodeId]) {
+          await tx.questNode.update({
+            where: { id: nodeMapping[node.id] },
+            data: { timeoutNodeId: nodeMapping[node.timeoutNodeId] }
+          });
+        }
+      }
+
+      // 4. Duplicate connections
+      const originalConnections = await tx.questNodeConnection.findMany({
+        where: { fromNode: { questId: req.params.id } }
+      });
+
+      for (const conn of originalConnections) {
+        if (nodeMapping[conn.fromNodeId] && nodeMapping[conn.toNodeId]) {
+          await tx.questNodeConnection.create({
+            data: {
+              fromNodeId: nodeMapping[conn.fromNodeId],
+              toNodeId: nodeMapping[conn.toNodeId],
+              label: conn.label,
+              isTimeoutConnection: conn.isTimeoutConnection
+            }
+          });
+        }
+      }
+
+      return created;
+    }, { timeout: 30000 });
 
     res.json({ quest: newQuest });
-    } catch (copyErr) {
-      await prisma.quest.delete({ where: { id: newQuest.id } }).catch((cleanupErr) => {
-        console.error('Duplicate cleanup failed, a partial quest may remain:', newQuest.id, cleanupErr);
-      });
-      throw copyErr;
-    }
   } catch (err) {
     console.error('Duplicate quest error:', err);
     res.status(500).json({ error: 'Failed to duplicate quest' });
@@ -1307,9 +1303,12 @@ router.post('/:id/instantiate', async (req, res) => {
   try {
     const prisma = req.app.get('prisma');
 
-    // Fetch full source template quest
+    // Fetch full source template quest.
+    // Le filtre sur campaignId manquait : un MJ d'une campagne pouvait instancier
+    // le modele d'une autre campagne et en obtenir une copie complete. La route
+    // soeur /duplicate verifiait pourtant la propriete.
     const templateQuest = await prisma.quest.findFirst({
-      where: { id: req.params.id },
+      where: { id: req.params.id, campaignId: req.campaignId },
       include: {
         objectives: true,
         cityImpacts: true,
@@ -1328,223 +1327,216 @@ router.post('/:id/instantiate', async (req, res) => {
       return res.status(404).json({ error: 'Source quest template not found' });
     }
 
-    // Create instantiated quest copy
-    const newQuest = await prisma.quest.create({
-      data: {
-        campaignId: req.campaignId,
-        name: `${templateQuest.name} (Instance Table)`,
-        description: templateQuest.description,
-        type: templateQuest.type,
-        difficulty: templateQuest.difficulty,
-        level: templateQuest.level,
-        duration: templateQuest.duration,
-        imageUrl: templateQuest.imageUrl,
-        visibility: templateQuest.visibility,
-        playerSummary: templateQuest.playerSummary,
-        gmNotes: templateQuest.gmNotes,
-        gmSecrets: templateQuest.gmSecrets,
-        gmChangelog: templateQuest.gmChangelog,
-        questGiverNpcId: templateQuest.questGiverNpcId,
-        xpReward: templateQuest.xpReward,
-        goldReward: templateQuest.goldReward,
-        itemRewards: templateQuest.itemRewards,
-        status: 'not_started',
-        progress: 0,
-        isTemplate: false,
-        templateQuestId: templateQuest.id,
-      }
-    });
-
-    // Everything below copies the graph child by child. Prisma runs each create
-    // as its own statement, so an interruption partway through used to leave a
-    // quest with a half-copied graph behind. On any failure the parent quest is
-    // removed, which cascades to every child (see onDelete: Cascade in
-    // schema.prisma) and leaves the database as it was.
-    try {
-
-    // Map old node IDs to newly created node IDs
-    const nodeIdMap = new Map();
-
-    for (const n of templateQuest.nodes) {
-      const createdNode = await prisma.questNode.create({
+    // Le graphe est copie enfant par enfant : une interruption laissait une
+    // quete a moitie instanciee derriere elle. La transaction garantit que
+    // soit tout est copie, soit rien ne l'est.
+    const newQuest = await prisma.$transaction(async (tx) => {
+      const created = await tx.quest.create({
         data: {
-          questId: newQuest.id,
-          title: n.title,
-          mjDescription: n.mjDescription,
-          sensoryText: n.sensoryText,
-          sensoryVisual: n.sensoryVisual,
-          sensorySound: n.sensorySound,
-          sensorySmell: n.sensorySmell,
-          nodeType: n.nodeType,
-          endOutcome: n.endOutcome,
-          isTimed: n.isTimed,
-          timerDurationSeconds: n.timerDurationSeconds,
-          timerVisibleToPlayers: n.timerVisibleToPlayers,
-          linkedNpcId: n.linkedNpcId,
-          linkedLocationId: n.linkedLocationId,
-          linkedEncounterId: n.linkedEncounterId,
-          positionX: n.positionX,
-          positionY: n.positionY,
-          status: 'not_reached', // Reset runtime state
-          reachedAt: null,
-          detectionMechanic: n.detectionMechanic,
-          pathGroup: n.pathGroup,
-          displayCode: n.displayCode,
-          isOptional: n.isOptional,
-          pacingTag: n.pacingTag,
-          requiredSkillCategory: n.requiredSkillCategory,
-          isStrategicChoice: n.isStrategicChoice,
-          routeChoiceOptions: n.routeChoiceOptions,
-          poolNotes: n.poolNotes,
-          generativeFailure: n.generativeFailure,
-          captainSelection: n.captainSelection,
-          resolutionBranches: n.resolutionBranches,
+          campaignId: req.campaignId,
+          name: `${templateQuest.name} (Instance Table)`,
+          description: templateQuest.description,
+          type: templateQuest.type,
+          difficulty: templateQuest.difficulty,
+          level: templateQuest.level,
+          duration: templateQuest.duration,
+          imageUrl: templateQuest.imageUrl,
+          visibility: templateQuest.visibility,
+          playerSummary: templateQuest.playerSummary,
+          gmNotes: templateQuest.gmNotes,
+          gmSecrets: templateQuest.gmSecrets,
+          gmChangelog: templateQuest.gmChangelog,
+          questGiverNpcId: templateQuest.questGiverNpcId,
+          xpReward: templateQuest.xpReward,
+          goldReward: templateQuest.goldReward,
+          itemRewards: templateQuest.itemRewards,
+          status: 'not_started',
+          progress: 0,
+          isTemplate: false,
+          templateQuestId: templateQuest.id,
         }
       });
-      nodeIdMap.set(n.id, createdNode.id);
-    }
 
-    // Re-create node connections with mapped IDs
-    for (const n of templateQuest.nodes) {
-      const newFromId = nodeIdMap.get(n.id);
-      for (const conn of n.connectionsFrom) {
-        const newToId = nodeIdMap.get(conn.toNodeId);
-        if (newFromId && newToId) {
-          await prisma.questNodeConnection.create({
+      // Map old node IDs to newly created node IDs
+      const nodeIdMap = new Map();
+
+      for (const n of templateQuest.nodes) {
+        const createdNode = await tx.questNode.create({
+          data: {
+            questId: created.id,
+            title: n.title,
+            mjDescription: n.mjDescription,
+            sensoryText: n.sensoryText,
+            sensoryVisual: n.sensoryVisual,
+            sensorySound: n.sensorySound,
+            sensorySmell: n.sensorySmell,
+            nodeType: n.nodeType,
+            endOutcome: n.endOutcome,
+            isTimed: n.isTimed,
+            timerDurationSeconds: n.timerDurationSeconds,
+            timerVisibleToPlayers: n.timerVisibleToPlayers,
+            linkedNpcId: n.linkedNpcId,
+            linkedLocationId: n.linkedLocationId,
+            linkedEncounterId: n.linkedEncounterId,
+            positionX: n.positionX,
+            positionY: n.positionY,
+            status: 'not_reached', // Reset runtime state
+            reachedAt: null,
+            detectionMechanic: n.detectionMechanic,
+            pathGroup: n.pathGroup,
+            displayCode: n.displayCode,
+            isOptional: n.isOptional,
+            pacingTag: n.pacingTag,
+            requiredSkillCategory: n.requiredSkillCategory,
+            isStrategicChoice: n.isStrategicChoice,
+            routeChoiceOptions: n.routeChoiceOptions,
+            poolNotes: n.poolNotes,
+            generativeFailure: n.generativeFailure,
+            captainSelection: n.captainSelection,
+            resolutionBranches: n.resolutionBranches,
+          }
+        });
+        nodeIdMap.set(n.id, createdNode.id);
+      }
+
+      // Re-create node connections with mapped IDs
+      for (const n of templateQuest.nodes) {
+        const newFromId = nodeIdMap.get(n.id);
+        for (const conn of n.connectionsFrom) {
+          const newToId = nodeIdMap.get(conn.toNodeId);
+          if (newFromId && newToId) {
+            await tx.questNodeConnection.create({
+              data: {
+                fromNodeId: newFromId,
+                toNodeId: newToId,
+                label: conn.label,
+                isTimeoutConnection: conn.isTimeoutConnection,
+                condition: conn.condition,
+              }
+            });
+          }
+        }
+
+        // Re-create rewards
+        for (const rew of n.rewards) {
+          await tx.questNodeReward.create({
             data: {
-              fromNodeId: newFromId,
-              toNodeId: newToId,
-              label: conn.label,
-              isTimeoutConnection: conn.isTimeoutConnection,
-              condition: conn.condition,
+              nodeId: newFromId,
+              rewardType: rew.rewardType,
+              rewardValue: rew.rewardValue,
+              conditional: rew.conditional,
+              payoffNodeId: rew.payoffNodeId ? nodeIdMap.get(rew.payoffNodeId) || rew.payoffNodeId : null
             }
           });
         }
       }
 
-      // Re-create rewards
-      for (const rew of n.rewards) {
-        await prisma.questNodeReward.create({
+      // Duplicate Threat Trackers
+      const threatIdMap = new Map();
+      for (const threat of templateQuest.threats) {
+        const createdThreat = await tx.questThreatTracker.create({
           data: {
-            nodeId: newFromId,
-            rewardType: rew.rewardType,
-            rewardValue: rew.rewardValue,
-            conditional: rew.conditional,
-            payoffNodeId: rew.payoffNodeId ? nodeIdMap.get(rew.payoffNodeId) || rew.payoffNodeId : null
+            questId: created.id,
+            name: threat.name,
+            currentLevel: 0, // Reset clock level
+            maxLevel: threat.maxLevel,
+            stateLabel: threat.stateLabel,
+            description: threat.description,
+            thresholds: threat.thresholds,
+            directApparitionBudget: threat.directApparitionBudget,
+          }
+        });
+        threatIdMap.set(threat.id, createdThreat.id);
+      }
+
+      // Duplicate Threat Effects
+      for (const n of templateQuest.nodes) {
+        const newFromId = nodeIdMap.get(n.id);
+        for (const eff of n.threatEffects) {
+          const newThreatId = threatIdMap.get(eff.threatId);
+          if (newFromId && newThreatId) {
+            await tx.questNodeThreatEffect.create({
+              data: {
+                nodeId: newFromId,
+                threatId: newThreatId,
+                effect: eff.effect,
+                effectValue: eff.effectValue,
+                condition: eff.condition,
+                notes: eff.notes,
+              }
+            });
+          }
+        }
+      }
+
+      // Duplicate Objectives (reset status to pending)
+      for (const obj of templateQuest.objectives) {
+        await tx.questObjective.create({
+          data: {
+            questId: created.id,
+            description: obj.description,
+            orderIndex: obj.orderIndex,
+            isHidden: obj.isHidden,
+            isOptional: obj.isOptional,
+            status: 'pending',
+            notes: obj.notes,
+            investigationLeads: obj.investigationLeads,
+            unlockedByNodeId: obj.unlockedByNodeId ? nodeIdMap.get(obj.unlockedByNodeId) || obj.unlockedByNodeId : null,
           }
         });
       }
-    }
 
-    // Duplicate Threat Trackers
-    const threatIdMap = new Map();
-    for (const threat of templateQuest.threats) {
-      const createdThreat = await prisma.questThreatTracker.create({
-        data: {
-          questId: newQuest.id,
-          name: threat.name,
-          currentLevel: 0, // Reset clock level
-          maxLevel: threat.maxLevel,
-          stateLabel: threat.stateLabel,
-          description: threat.description,
-          thresholds: threat.thresholds,
-          directApparitionBudget: threat.directApparitionBudget,
-        }
-      });
-      threatIdMap.set(threat.id, createdThreat.id);
-    }
-
-    // Duplicate Threat Effects
-    for (const n of templateQuest.nodes) {
-      const newFromId = nodeIdMap.get(n.id);
-      for (const eff of n.threatEffects) {
-        const newThreatId = threatIdMap.get(eff.threatId);
-        if (newFromId && newThreatId) {
-          await prisma.questNodeThreatEffect.create({
-            data: {
-              nodeId: newFromId,
-              threatId: newThreatId,
-              effect: eff.effect,
-              effectValue: eff.effectValue,
-              condition: eff.condition,
-              notes: eff.notes,
-            }
-          });
-        }
+      // Duplicate Faction Progress (reset to neutral/0)
+      for (const f of templateQuest.factionProgress) {
+        await tx.questFactionProgress.create({
+          data: {
+            questId: created.id,
+            factionName: f.factionName,
+            progressValue: 0,
+            relationshipState: 'neutre',
+            notes: f.notes,
+          }
+        });
       }
-    }
 
-    // Duplicate Objectives (reset status to pending)
-    for (const obj of templateQuest.objectives) {
-      await prisma.questObjective.create({
-        data: {
-          questId: newQuest.id,
-          description: obj.description,
-          orderIndex: obj.orderIndex,
-          isHidden: obj.isHidden,
-          isOptional: obj.isOptional,
-          status: 'pending',
-          notes: obj.notes,
-          investigationLeads: obj.investigationLeads,
-          unlockedByNodeId: obj.unlockedByNodeId ? nodeIdMap.get(obj.unlockedByNodeId) || obj.unlockedByNodeId : null,
-        }
-      });
-    }
+      // Duplicate NPC Profiles
+      for (const prof of templateQuest.npcProfiles) {
+        await tx.questNPCProfile.create({
+          data: {
+            questId: created.id,
+            npcId: prof.npcId,
+            name: prof.name,
+            speechPattern: prof.speechPattern,
+            physicalTic: prof.physicalTic,
+            signatureBehavior: prof.signatureBehavior,
+          }
+        });
+      }
 
-    // Duplicate Faction Progress (reset to neutral/0)
-    for (const f of templateQuest.factionProgress) {
-      await prisma.questFactionProgress.create({
-        data: {
-          questId: newQuest.id,
-          factionName: f.factionName,
-          progressValue: 0,
-          relationshipState: 'neutre',
-          notes: f.notes,
-        }
-      });
-    }
+      // Duplicate Mechanic Notes
+      if (templateQuest.mechanicNotes) {
+        const mn = templateQuest.mechanicNotes;
+        await tx.questMechanicNotes.create({
+          data: {
+            questId: created.id,
+            scenePoolFramework: mn.scenePoolFramework,
+            rivalConvoyEncounterFramework: mn.rivalConvoyEncounterFramework,
+            generativeFailures: mn.generativeFailures,
+            stakesBeforeRoll: mn.stakesBeforeRoll,
+            sensoryPresentationVariety: mn.sensoryPresentationVariety,
+            tableCalibration: mn.tableCalibration,
+            ruleSystemConversion: mn.ruleSystemConversion,
+            floatingEventDrawTable: mn.floatingEventDrawTable,
+            postSessionDebrief: mn.postSessionDebrief,
+            tableMusic: mn.tableMusic,
+          }
+        });
+      }
 
-    // Duplicate NPC Profiles
-    for (const prof of templateQuest.npcProfiles) {
-      await prisma.questNPCProfile.create({
-        data: {
-          questId: newQuest.id,
-          npcId: prof.npcId,
-          name: prof.name,
-          speechPattern: prof.speechPattern,
-          physicalTic: prof.physicalTic,
-          signatureBehavior: prof.signatureBehavior,
-        }
-      });
-    }
-
-    // Duplicate Mechanic Notes
-    if (templateQuest.mechanicNotes) {
-      const mn = templateQuest.mechanicNotes;
-      await prisma.questMechanicNotes.create({
-        data: {
-          questId: newQuest.id,
-          scenePoolFramework: mn.scenePoolFramework,
-          rivalConvoyEncounterFramework: mn.rivalConvoyEncounterFramework,
-          generativeFailures: mn.generativeFailures,
-          stakesBeforeRoll: mn.stakesBeforeRoll,
-          sensoryPresentationVariety: mn.sensoryPresentationVariety,
-          tableCalibration: mn.tableCalibration,
-          ruleSystemConversion: mn.ruleSystemConversion,
-          floatingEventDrawTable: mn.floatingEventDrawTable,
-          postSessionDebrief: mn.postSessionDebrief,
-          tableMusic: mn.tableMusic,
-        }
-      });
-    }
+      return created;
+    }, { timeout: 30000 });
 
     res.status(201).json({ quest: newQuest });
-    } catch (copyErr) {
-      await prisma.quest.delete({ where: { id: newQuest.id } }).catch((cleanupErr) => {
-        console.error('Instantiate cleanup failed, a partial quest may remain:', newQuest.id, cleanupErr);
-      });
-      throw copyErr;
-    }
   } catch (err) {
     console.error('Instantiate quest error:', err);
     res.status(500).json({ error: 'Failed to instantiate quest' });
