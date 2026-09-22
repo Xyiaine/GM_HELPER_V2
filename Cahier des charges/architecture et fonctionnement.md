@@ -77,7 +77,7 @@
 L'application permet d'administrer en temps réel :
 1. **La Narration Non-Linéaire** via des arbres de quêtes orientés (graphes de nœuds), avec embranchements conditionnels, minuteurs automatiques, réserve de scènes et vérification d'intégrité.
 2. **La Géopolitique et l'Économie des Cités-États** via un suivi dynamique des 7 paramètres (Santé, Richesse, Technologie, Nourriture, Bonheur, Armement, Carburant).
-3. **La Géographie Réelle Post-Apocalyptique** via une carte interactive Canvas HTML5 positionnant les 10 Cités-États méditerranéennes selon leurs coordonnées GPS exactes du lore (Genève, Turin, Rome, Marseille, Camargue, Alger, Gibraltar, Athènes, Alexandrie, Atlantique Ouest).
+3. **La Géographie Réelle Post-Apocalyptique** via une carte interactive Canvas HTML5 positionnant les 10 Cités-États méditerranéennes selon leurs coordonnées GPS exactes du lore (Genève, Turin, Rome, Marseille, Camargue, Alger, Gibraltar, Malte, Alexandrie, Atlantique Ouest). *(Corrigé le 21 septembre 2026 : le texte citait « Athènes » ; la Cité des Métaux & Recyclage est à Malte, voir le tableau du § 7.)*
 4. **La Vie du Monde (PNJ & Factions)** via une base de données filtrable par ville et par faction, avec profils vocaux, tics physiques et cartes d'inspection.
 5. **Les Voyages et Traversées de Désert** via un générateur procédural de convois simulant des trajets sur 100+ biomes, avec gestion de véhicules modulaires et fatigue d'équipage.
 6. **Les Combats et Épreuves** via un tracker d'initiative temps réel synchronisé et un lanceur de dés validé côté serveur.
@@ -573,8 +573,52 @@ Les 10 Cités-États de *La Course du Sel* sont positionnées sur la Carte du Mo
 | **CITÉ DU CARBURANT** | Les Raffineurs | Alger (Algérie) | `36.7538° N, 3.0588° E` | `(622, 750)` |
 | **CITÉ DE L'ARMEMENT & DÉFENSE** | Les Arsenaux | Gibraltar | `36.1408° N, 5.3536° O` | `(221, 791)` |
 | **L'ILE DES ANCIENS** | Le Paradis Perdu | Atlantique (Ouest Gibraltar) | `36.0000° N, 8.5000° O` | `(71, 800)` |
-| **CITÉ DES MÉTAUX & RECYCLAGE** | Les Fossoyeurs | Athènes (Grèce) | `37.9838° N, 23.7275° E` | `(1606, 668)` |
+| **CITÉ DES MÉTAUX & RECYCLAGE** | Les Fossoyeurs | ~~Athènes (Grèce)~~ **Malte** | ~~`37.9838° N, 23.7275° E`~~ `35.8989° N, 14.5146° E` | ~~`(1606, 668)`~~ **`(1167, 807)`** |
 | **CITÉ MÉDICALE** | Les Blouses Blanches | Alexandrie (Égypte) | `31.2001° N, 29.9187° E` | `(1901, 1120)` |
+
+> **⚠️ Erreur corrigée le 21 septembre 2026 — Cité des Métaux : Malte, pas Athènes.**
+>
+> Ce tableau attribuait à la Cité des Métaux & Recyclage les coordonnées
+> d'**Athènes** (`37.9838 N / 23.7275 E` → `(1606, 668)`). Le calcul confirme
+> que cette valeur est Athènes **au pixel près** (distance 0 px).
+>
+> Or le lore de cette cité (`client/src/utils/loreData.js`) écrit : « *Au centre
+> exact du bassin méditerranéen desséché, **sur l'ancienne île de Malte** — le
+> point de passage obligé de quiconque traverse le désert de sel d'une rive à
+> l'autre.* » Le lore nomme Malte ; ce tableau nommait Athènes. **Le tableau se
+> contredisait lui-même, et c'est lui qui a contaminé la base** (la ligne
+> `CITÉ DES MÉTAUX & RECYCLAGE` portait bien `(1606, 668)`).
+>
+> Contrôle géométrique : Malte est à **1 259 px** de distance moyenne des neuf
+> autres cités, Athènes à **1 684 px**. Malte est bien le point le plus central
+> du bassin, conformément à la description du lore.
+>
+> **Correction retenue : `(1167, 807)` en base 1200.** Le tableau § 7 est mis à
+> jour en conséquence. Détail complet dans
+> `Cahier des charges/Corrections_positions_v2.md`.
+
+> **⚠️ Second point, corrigé le 21 septembre 2026 — la planche du monde n'est pas carrée.**
+>
+> Ce tableau donne les dix couples en base **1200 × 1200**. Ce référentiel est
+> bon : la projection est une application linéaire, elle se calcule en base 1200
+> et la conversion vers la taille de la planche doit vivre à un seul endroit du
+> code.
+>
+> **Mais la planche de rendu ne peut pas être carrée.** L'emprise réelle des dix
+> cités va de la longitude −8,5° (L'Île des Anciens) à +29,9° (Cité Médicale),
+> et de la latitude 31,2° à 46,2° — soit **38,4° × 15,0°**. La projection
+> étirant les latitudes de 40 % (rapport 1,400), cela fait
+> `47,63 × 38,4 = 1 830 px` de large pour `66,68 × 15,0 = 1 000 px` de haut :
+> **un rapport de 1,83**. Un carré de 2048 est trop étroit — la Cité Médicale
+> tombe à 158 % de la largeur.
+>
+> **Format de rendu retenu : `1 743 × 1 024`** (double résolution
+> `3 486 × 2 048`). Cadrage sur l'emprise ci-dessus, origin au coin nord-ouest
+> `(latitude 46,2044 / longitude −8,5000)`, marge de 90 px en base 1200.
+>
+> Les valeurs `mapX` / `mapY` écrites en base restent celles du tableau
+> ci-dessus, **en base 1200** : elles ne dépendent pas du format de la planche.
+> La conversion appartient au composant qui dessine.
 
 ---
 

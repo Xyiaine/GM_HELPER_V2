@@ -73,7 +73,30 @@ router.get('/', async (req, res) => {
         location: { id: l.id, name: l.name, type: l.type },
       }));
 
-    res.json({ worldMap, cities });
+    // Enrichissement canon : le lieu réel et les coordonnées GPS de chaque cité
+    // viennent d'ici, jamais d'une table recopiée dans le composant. C'est ce
+    // qui a permis à MapManager d'afficher « Athènes » pendant que la base
+    // disait « Malte » — deux copies d'un même fait finissent par diverger.
+    const { CITES_CANON } = require('../../utils/canonGeographique');
+    const citiesAvecCanon = cities.map((c) => {
+      const nom = c.location?.name;
+      const fiche = nom
+        ? Object.entries(CITES_CANON).find(
+            ([cle]) =>
+              cle.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') ===
+              String(nom).toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          )?.[1]
+        : null;
+
+      return {
+        ...c,
+        canon: fiche
+          ? { lieuReel: fiche.lieuReel, gps: fiche.gps, longitude: fiche.lon, latitude: fiche.lat }
+          : null,
+      };
+    });
+
+    res.json({ worldMap, cities: citiesAvecCanon });
   } catch (err) {
     console.error('Get world map error:', err);
     res.status(500).json({ error: 'Failed to fetch world map' });
@@ -117,6 +140,76 @@ router.post('/base-image', upload.single('image'), async (req, res) => {
   } catch (err) {
     console.error('Upload base map error:', err);
     res.status(500).json({ error: 'Failed to upload base map' });
+  }
+});
+
+// ─── GET /canon — Canon géographique des cités ────────────────────────────
+// Expose le lieu réel et les coordonnées GPS de chaque cité, ainsi que la
+// projection en base 1200. Le client ne doit JAMAIS recalculer une position :
+// il affiche `mapX`/`mapY` lus en base, et trouve ici de quoi étiqueter.
+//
+// Deux raisons de servir la projection plutôt que de la laisser au client :
+//   1. une seule formule pour tout le monde, donc pas de dérive ;
+//   2. le jour où l'on ajoute une cité à la volée, on peut la placer sans
+//      connaître les coefficients par cœur.
+router.get('/canon', async (req, res) => {
+  try {
+    const { CITES_CANON, projeter } = require('../../utils/canonGeographique');
+
+    const cites = Object.entries(CITES_CANON).map(([nom, fiche]) => {
+      const { x, y } = projeter(fiche.lon, fiche.lat);
+      return {
+        nom,
+        lieuReel: fiche.lieuReel,
+        gps: fiche.gps,
+        longitude: fiche.lon,
+        latitude: fiche.lat,
+        mapX: Math.round(x),
+        mapY: Math.round(y),
+      };
+    });
+
+    res.json({
+      // Le référentiel est explicitement nommé : la conversion vers la taille
+      // de planche se fait à un seul endroit, côté client, et doit savoir
+      // dans quelle unité le canon est exprimé.
+      referentiel: { nom: 'base1200', largeur: 1200, hauteur: 1200 },
+      projection: {
+        formule: 'X = 47.63 * lon + 476.04 ; Y = -66.68 * lat + 3200.45',
+        note:
+          "L'origine du X est ancrée à -10,0° de longitude, pas au bord ouest " +
+          'du Bassin. Toute conversion vers une planche doit tenir compte du ' +
+          "cadrage, jamais supposer que la planche commence à X = 0.",
+      },
+      cites,
+    });
+  } catch (err) {
+    console.error('Get canon error:', err);
+    res.status(500).json({ error: 'Failed to load geographic canon' });
+  }
+});
+
+// ─── POST /canon/aligner — Aligne la base sur le canon ────────────────────
+// Utile après une modification du canon : réécrit les mapX/mapY de toutes les
+// cités à partir de leur lieu réel. Idempotent — les cités déjà conformes ne
+// sont pas touchées, et une cité inventée par le MJ est laissée intacte.
+router.post('/canon/aligner', async (req, res) => {
+  try {
+    const { alignerPositionsCites } = require('../../utils/canonGeographique');
+
+    // `simulation: true` permet de voir ce qui changerait sans rien écrire.
+    const simulation = req.body?.simulation === true;
+    const rapport = await alignerPositionsCites({ ecrire: !simulation });
+
+    res.json({
+      simulation,
+      modifiees: rapport.alignees,
+      dejaConformes: rapport.dejaBonnes,
+      horsCanon: rapport.inconnues,
+    });
+  } catch (err) {
+    console.error('Align canon error:', err);
+    res.status(500).json({ error: 'Failed to align city positions' });
   }
 });
 

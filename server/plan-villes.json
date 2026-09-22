@@ -1,0 +1,922 @@
+{
+  "BUNKER OMÉGA": [
+    {
+      "id": "cmrakefm30005ut18gsgbtai8",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakefmo000dut18x1i12rro",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakefn4000lut18yze7pu2t",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakefni000tut184huucxds",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakefnx0011ut1854q6vhkp",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakefoc0019ut18tj7qi4kk",
+      "index": 5,
+      "court": "Noyau de l'Intelligence Artificielle",
+      "couronne": "coeur",
+      "motif": "desc:coeur|cœur|noyau|sanctuaire",
+      "pivot": false,
+      "wx": 500,
+      "wy": 500
+    },
+    {
+      "id": "cmrakefor001hut18q1y8i7m6",
+      "index": 6,
+      "court": "Ateliers de Drones Autonomes",
+      "couronne": "production",
+      "motif": "desc:fonderie|usine|assemblage|atelier|forge|raffinerie|recyclage|carri[èe]re",
+      "pivot": false,
+      "wx": 523,
+      "wy": 678
+    },
+    {
+      "id": "cmrakefp7001put18dctlrw6y",
+      "index": 7,
+      "court": "Laboratoire de Biologie Avancée",
+      "couronne": "loin",
+      "motif": "desc:caveau|sous-sol|enfoui|enterr|profond[ée]ment|for[êe]t de tours|champ de ruines|d[ée]sert|isol[ée]|pilleurs",
+      "pivot": false,
+      "wx": 694,
+      "wy": 732
+    },
+    {
+      "id": "cmrakefpn001xut18yr6vzv6p",
+      "index": 8,
+      "court": "Centre de Télécommunications Globales",
+      "couronne": "memoire",
+      "motif": "nom:archive|donn[ée]es|compagnonnage|instruction|t[ée]l[ée]communication",
+      "pivot": false,
+      "wx": 539,
+      "wy": 324
+    }
+  ],
+  "CITÉ DE L'ARMEMENT & DÉFENSE": [
+    {
+      "id": "cmrakefy8006hut18xm902068",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakefym006put1894849bd4",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakefz0006xut18iutw25kl",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakefzf0075ut18697py89l",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakejv3007dut1878q9lu8x",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakejvi007lut181ndkfsb7",
+      "index": 5,
+      "court": "Usine de Fabrication d'Armes",
+      "couronne": "production",
+      "motif": "desc:fonderie|usine|assemblage|atelier|forge|raffinerie|recyclage|carri[èe]re",
+      "pivot": false,
+      "wx": 523,
+      "wy": 678
+    },
+    {
+      "id": "cmrakejvx007tut18pzigwody",
+      "index": 6,
+      "court": "Laboratoire des Explosifs",
+      "couronne": "loin",
+      "motif": "desc:caveau|sous-sol|enfoui|enterr|profond[ée]ment|for[êe]t de tours|champ de ruines|d[ée]sert|isol[ée]|pilleurs",
+      "pivot": false,
+      "wx": 694,
+      "wy": 732
+    },
+    {
+      "id": "cmrakejwb0081ut18dk386w45",
+      "index": 7,
+      "court": "Caserne d'Entraînement des Milices",
+      "couronne": "defense",
+      "motif": "desc:enceinte|rempart|muraille|digue|d[ée]fend|prot[èe]g(e|ent)|caserne|garde d'[ée]lite|milice",
+      "pivot": false,
+      "wx": 327,
+      "wy": 550
+    },
+    {
+      "id": "cmrakejwp0089ut18wlbixxin",
+      "index": 8,
+      "court": "Dépôt d'Armes Lourdes",
+      "couronne": "defense",
+      "motif": "nom:sniper|haute(m ent)? s[ée]curis|sous haute garde|armes? lourdes",
+      "pivot": false,
+      "wx": 286,
+      "wy": 417
+    }
+  ],
+  "CITÉ DE L'EAU & ALIMENTATION": [
+    {
+      "id": "cmrakejxa008lut184oorhgpq",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakejxo008tut18kj8u05c6",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakejy20091ut18i9xi365a",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakejyh0099ut18jiaiiika",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakejyv009hut18xdtsmyny",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakejz9009put18ud2e68u4",
+      "index": 5,
+      "court": "Serres Hydroponiques Blindées",
+      "couronne": "eau",
+      "motif": "desc:serre|hydroponique|culture|champ|élev[ée]|b[ée]tail|enclos|r[ée]serve de semences",
+      "pivot": false,
+      "wx": 614,
+      "wy": 360
+    },
+    {
+      "id": "cmrakejzn009xut18fgwhp2uh",
+      "index": 6,
+      "court": "Station de Filtration",
+      "couronne": "eau",
+      "motif": "desc:bassin|saum[âa]tre|filtration|purifi|dessalinisation",
+      "pivot": false,
+      "wx": 712,
+      "wy": 412
+    },
+    {
+      "id": "cmrakek0200a5ut18gqm6w19x",
+      "index": 7,
+      "court": "Élevage de Bétail Mutant",
+      "couronne": "eau",
+      "motif": "desc:serre|hydroponique|culture|champ|élev[ée]|b[ée]tail|enclos|r[ée]serve de semences",
+      "pivot": false,
+      "wx": 769,
+      "wy": 527
+    },
+    {
+      "id": "cmrakek0h00adut18egvnfhdr",
+      "index": 8,
+      "court": "Réserve de Semences Pré-Apocalypse",
+      "couronne": "loin",
+      "motif": "desc:caveau|sous-sol|enfoui|enterr|profond[ée]ment|for[êe]t de tours|champ de ruines|d[ée]sert|isol[ée]|pilleurs",
+      "pivot": false,
+      "wx": 694,
+      "wy": 732
+    }
+  ],
+  "CITÉ DES MÉTAUX & RECYCLAGE": [
+    {
+      "id": "cmrakek1200aput18cfon809g",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakek1g00axut18b36rshgx",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakek1v00b5ut18bjvbn4d2",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakek2900bdut18d08i2pqp",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakek2n00blut18mhg34c5m",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakek3200btut18piwwvejl",
+      "index": 5,
+      "court": "Mine Profonde",
+      "couronne": "production",
+      "motif": "desc:fonderie|usine|assemblage|atelier|forge|raffinerie|recyclage|carri[èe]re",
+      "pivot": false,
+      "wx": 587,
+      "wy": 658
+    },
+    {
+      "id": "cmrakek3h00c1ut181myrjpxj",
+      "index": 6,
+      "court": "Usine de Recyclage",
+      "couronne": "production",
+      "motif": "nom:fonderie|usine|assemblage|atelier|forge|raffinerie|recyclage|carri[èe]re",
+      "pivot": false,
+      "wx": 445,
+      "wy": 723
+    },
+    {
+      "id": "cmrakek3v00c9ut1852sb0zd9",
+      "index": 7,
+      "court": "Cimetière des Gratte-Ciels",
+      "couronne": "loin",
+      "motif": "desc:caveau|sous-sol|enfoui|enterr|profond[ée]ment|for[êe]t de tours|champ de ruines|d[ée]sert|isol[ée]|pilleurs",
+      "pivot": false,
+      "wx": 694,
+      "wy": 732
+    },
+    {
+      "id": "cmrakek4900chut18t909lbrm",
+      "index": 8,
+      "court": "Marché aux Alliages Rares",
+      "couronne": "memoire",
+      "motif": "(aucun, defaut)",
+      "pivot": false,
+      "wx": 539,
+      "wy": 324
+    }
+  ],
+  "CITÉ DU CARBURANT": [
+    {
+      "id": "cmrakek4v00ctut18n4qom90u",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakek5a00d1ut18i7erdp4p",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakek5p00d9ut18tz6t2fyd",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakek6400dhut187xf31951",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakek6i00dput185i703dsq",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakek6x00dxut183lnezj3n",
+      "index": 5,
+      "court": "Grande Raffinerie",
+      "couronne": "coeur",
+      "motif": "desc:coeur|cœur|noyau|sanctuaire",
+      "pivot": false,
+      "wx": 500,
+      "wy": 500
+    },
+    {
+      "id": "cmrakek7d00e5ut18xj91z9si",
+      "index": 6,
+      "court": "Dépôt de Carburant Haute Sécurité",
+      "couronne": "defense",
+      "motif": "desc:sniper|haute(m ent)? s[ée]curis|sous haute garde|armes? lourdes",
+      "pivot": false,
+      "wx": 320,
+      "wy": 492
+    },
+    {
+      "id": "cmrakek7t00edut18mevzzao9",
+      "index": 7,
+      "court": "Puits d'Extraction Principal",
+      "couronne": "production",
+      "motif": "desc:derrick|pomp(e|ent)|mine profonde|extraction",
+      "pivot": false,
+      "wx": 587,
+      "wy": 658
+    },
+    {
+      "id": "cmrakek8900elut183av4wnkm",
+      "index": 8,
+      "court": "Garage des Convois Lourds",
+      "couronne": "production",
+      "motif": "desc:camions?-citernes?|convois?|hangar|garage",
+      "pivot": false,
+      "wx": 445,
+      "wy": 723
+    }
+  ],
+  "CITÉ DU DIVERTISSEMENT": [
+    {
+      "id": "cmrakek8x00exut18643sh57o",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakek9d00f5ut18bjmpasl8",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakeom000fdut18kemz56ou",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakeomf00flut18f015o0a9",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakeomt00ftut186f4z74hk",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakeon700g1ut18bwhrfily",
+      "index": 5,
+      "court": "Grande Arène de Combat",
+      "couronne": "bien-commun",
+      "motif": "bien-commun:(aucun, defaut)",
+      "pivot": false,
+      "wx": 673,
+      "wy": 379
+    },
+    {
+      "id": "cmrakeonl00g9ut183dd74p2t",
+      "index": 6,
+      "court": "Studios de Radiodiffusion",
+      "couronne": "bien-commun",
+      "motif": "bien-commun:(aucun, defaut)",
+      "pivot": false,
+      "wx": 621,
+      "wy": 673
+    },
+    {
+      "id": "cmrakeoo000ghut18g3l1w8ni",
+      "index": 7,
+      "court": "Casino de la Ruine",
+      "couronne": "bien-commun",
+      "motif": "bien-commun:(aucun, defaut)",
+      "pivot": false,
+      "wx": 327,
+      "wy": 621
+    },
+    {
+      "id": "cmrakeoof00gput18hkf17slx",
+      "index": 8,
+      "court": "Théâtre des Illusions",
+      "couronne": "bien-commun",
+      "motif": "bien-commun:(aucun, defaut)",
+      "pivot": false,
+      "wx": 379,
+      "wy": 327
+    }
+  ],
+  "CITÉ INDUSTRIELLE": [
+    {
+      "id": "cmrakefqa0029ut18a2lvq5xc",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakefqp002hut18cs1u300n",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakefr3002put18q344g310",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakefri002xut18ok34o35k",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakefrw0035ut18k802j6yt",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakefsa003dut18cj2lyfax",
+      "index": 5,
+      "court": "Fonderie Colossale",
+      "couronne": "production",
+      "motif": "nom:fonderie|usine|assemblage|atelier|forge|raffinerie|recyclage|carri[èe]re",
+      "pivot": false,
+      "wx": 605,
+      "wy": 646
+    },
+    {
+      "id": "cmrakefsp003lut18109zzhvs",
+      "index": 6,
+      "court": "Ligne d'Assemblage de Véhicules",
+      "couronne": "production",
+      "motif": "desc:fonderie|usine|assemblage|atelier|forge|raffinerie|recyclage|carri[èe]re",
+      "pivot": false,
+      "wx": 530,
+      "wy": 728
+    },
+    {
+      "id": "cmrakeft4003tut18fk6woax0",
+      "index": 7,
+      "court": "Atelier des Pièces Détachées",
+      "couronne": "production",
+      "motif": "desc:camions?-citernes?|convois?|hangar|garage",
+      "pivot": false,
+      "wx": 404,
+      "wy": 752
+    },
+    {
+      "id": "cmrakeftj0041ut18zk4wkpgd",
+      "index": 8,
+      "court": "Dépôt de Ferraille",
+      "couronne": "defense",
+      "motif": "nom:d[ée]p[ôo]t|stock|entrep[ôo]t|citernes? souterraines?|ferraille|toxique|caustique",
+      "pivot": false,
+      "wx": 320,
+      "wy": 492
+    }
+  ],
+  "CITÉ MÉDICALE": [
+    {
+      "id": "cmrakefu6004dut18efjjfy19",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakefuo004lut18y490f00p",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakefv4004tut18z80eobvr",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakefvk0051ut189c6lvrhc",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakefvz0059ut18eoky7owd",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakefwf005hut18pogcsbqi",
+      "index": 5,
+      "court": "Laboratoire de Virologie",
+      "couronne": "memoire",
+      "motif": "nom:laboratoire|clinique|h[ôo]pital|soin|virologie|m[ée]dicament|quarantaine",
+      "pivot": false,
+      "wx": 451,
+      "wy": 327
+    },
+    {
+      "id": "cmrakefwu005put18acxlf4uj",
+      "index": 6,
+      "court": "Clinique d'Amélioration Cybernétique",
+      "couronne": "memoire",
+      "motif": "nom:laboratoire|clinique|h[ôo]pital|soin|virologie|m[ée]dicament|quarantaine",
+      "pivot": false,
+      "wx": 550,
+      "wy": 275
+    },
+    {
+      "id": "cmrakefx8005xut18o6jixx1m",
+      "index": 7,
+      "court": "Usine de Synthèse de Médicaments",
+      "couronne": "production",
+      "motif": "nom:fonderie|usine|assemblage|atelier|forge|raffinerie|recyclage|carri[èe]re",
+      "pivot": false,
+      "wx": 523,
+      "wy": 678
+    },
+    {
+      "id": "cmrakefxn0065ut18xknzjd64",
+      "index": 8,
+      "court": "Unité de Quarantaine Sévère",
+      "couronne": "memoire",
+      "motif": "nom:laboratoire|clinique|h[ôo]pital|soin|virologie|m[ée]dicament|quarantaine",
+      "pivot": false,
+      "wx": 677,
+      "wy": 296
+    }
+  ],
+  "L'ILE DES ANCIENS": [
+    {
+      "id": "cmrakeop100h1ut182mqkd8ao",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakeopg00h9ut1837qvswxo",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakeopu00hhut18b2i8werp",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakeoq900hput184t22xkkg",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakeoqn00hxut18nk2ubl05",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakeor400i5ut18prt0xgw3",
+      "index": 5,
+      "court": "Centre de Données Pré-Guerre",
+      "couronne": "defense",
+      "motif": "desc:d[ée]p[ôo]t|stock|entrep[ôo]t|citernes? souterraines?|ferraille|toxique|caustique",
+      "pivot": false,
+      "wx": 320,
+      "wy": 492
+    },
+    {
+      "id": "cmrakeorj00idut18mh6h8awh",
+      "index": 6,
+      "court": "Complexe Agricole Automatisé",
+      "couronne": "eau",
+      "motif": "desc:serre|hydroponique|culture|champ|élev[ée]|b[ée]tail|enclos|r[ée]serve de semences",
+      "pivot": false,
+      "wx": 666,
+      "wy": 431
+    },
+    {
+      "id": "cmrakeorz00ilut18dsdk6rpy",
+      "index": 7,
+      "court": "Hôpital Miraculeux",
+      "couronne": "memoire",
+      "motif": "nom:laboratoire|clinique|h[ôo]pital|soin|virologie|m[ée]dicament|quarantaine",
+      "pivot": false,
+      "wx": 473,
+      "wy": 322
+    },
+    {
+      "id": "cmrakeose00itut188h1cl60v",
+      "index": 8,
+      "court": "Centre de Commandement Tactique",
+      "couronne": "memoire",
+      "motif": "(aucun, defaut)",
+      "pivot": false,
+      "wx": 628,
+      "wy": 309
+    }
+  ],
+  "NUKE CITY": [
+    {
+      "id": "cmrakeot000j5ut18ja84fbek",
+      "index": 0,
+      "court": "Le Marché d'Échanges",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 511,
+      "wy": 391
+    },
+    {
+      "id": "cmrakeotf00jdut18qby08cyt",
+      "index": 1,
+      "court": "La Citerne Centrale",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 608,
+      "wy": 477
+    },
+    {
+      "id": "cmrakeott00jlut18e53bqw75",
+      "index": 2,
+      "court": "Le Générateur Principal",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 555,
+      "wy": 595
+    },
+    {
+      "id": "cmrakeou900jtut18j95d3hvh",
+      "index": 3,
+      "court": "Le Mur d'Enceinte & Les Portes",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 426,
+      "wy": 582
+    },
+    {
+      "id": "cmrakeoun00k1ut186x15pbgk",
+      "index": 4,
+      "court": "Le Quartier Résidentiel / Les Taudis",
+      "couronne": "commun",
+      "motif": "(tronc commun)",
+      "pivot": true,
+      "wx": 400,
+      "wy": 455
+    },
+    {
+      "id": "cmrakeov100k9ut182l1lnle1",
+      "index": 5,
+      "court": "Cœur du Réacteur Nucléaire",
+      "couronne": "production",
+      "motif": "desc:g[ée]n[ée]rateur|centrale|r[ée]acteur|piscine|refroidissement|recherche sur l'[ée]nergie",
+      "pivot": false,
+      "wx": 605,
+      "wy": 646
+    },
+    {
+      "id": "cmrakeovf00khut18ym5ujy91",
+      "index": 6,
+      "court": "Zone de Refroidissement Irradiée",
+      "couronne": "production",
+      "motif": "desc:g[ée]n[ée]rateur|centrale|r[ée]acteur|piscine|refroidissement|recherche sur l'[ée]nergie",
+      "pivot": false,
+      "wx": 530,
+      "wy": 728
+    },
+    {
+      "id": "cmrakeovt00kput181byqbfn5",
+      "index": 7,
+      "court": "Centre de Recherche sur l'Énergie",
+      "couronne": "production",
+      "motif": "nom:g[ée]n[ée]rateur|centrale|r[ée]acteur|piscine|refroidissement|recherche sur l'[ée]nergie",
+      "pivot": false,
+      "wx": 404,
+      "wy": 752
+    },
+    {
+      "id": "cmrakeow700kxut18htrnfcg0",
+      "index": 8,
+      "court": "Dépôt de Déchets Toxiques",
+      "couronne": "defense",
+      "motif": "desc:d[ée]p[ôo]t|stock|entrep[ôo]t|citernes? souterraines?|ferraille|toxique|caustique",
+      "pivot": false,
+      "wx": 320,
+      "wy": 492
+    }
+  ]
+}
