@@ -73,6 +73,29 @@ export default function LocalMapManager() {
   const [hoveredEntity, setHoveredEntity] = useState(null);
   const [newMarkerDescription, setNewMarkerDescription] = useState('');
 
+  // Déclaré AVANT fetchMap : fetchMap enregistre les positions qu'il vient de
+  // calculer, et doit donc pouvoir le référencer explicitement.
+  const saveLocalMap = useCallback(
+    (newMarkers) => {
+      if (!campaignId || !locationId) return;
+      clearTimeout(saveTimerRef.current);
+      saveTimerRef.current = setTimeout(async () => {
+        setIsSaving(true);
+        try {
+          const payload = {
+            notableFeatures: JSON.stringify({ markers: newMarkers }),
+          };
+          await api.put(`/api/v1/gm/campaigns/${campaignId}/locations/${locationId}`, payload);
+        } catch (err) {
+          console.error('Save failed:', err);
+        } finally {
+          setIsSaving(false);
+        }
+      }, SAVE_DEBOUNCE_MS);
+    },
+    [campaignId, locationId]
+  );
+
   const fetchMap = useCallback(async () => {
     if (!campaignId || !locationId) return;
     setIsLoading(true);
@@ -94,14 +117,20 @@ export default function LocalMapManager() {
       const childLocs = data.location.childLocations || [];
       const newMarkers = [...parsedMarkers];
       let changed = false;
-      
+
       childLocs.forEach(child => {
         const existing = newMarkers.find(m => m.id === child.id);
         if (!existing) {
+          // Un lieu enfant sans marqueur n'a jamais été placé : on le pose au
+          // centre du plan plutôt qu'au hasard. Une position tirée au sort
+          // changeait à chaque chargement et le MJ ne pouvait pas s'y repérer.
+          // La disposition canon est écrite en base par
+          // server/ecrire-positions-lieux.js ; ceci n'est qu'un filet de
+          // sécurité pour un lieu créé après coup.
           newMarkers.push({
             id: child.id,
-            wx: 300 + Math.random() * 400,
-            wy: 300 + Math.random() * 400,
+            wx: 500,
+            wy: 500,
             label: child.name,
             color: '#10b981',
             description: child.description
@@ -116,33 +145,17 @@ export default function LocalMapManager() {
         }
       });
       setCustomMarkers(newMarkers);
+
+      // Les positions viennent d'être calculées : sans cet appel, elles
+      // n'étaient jamais enregistrées et la disposition se rejouait à chaque
+      // visite. C'était le bug principal de cet écran.
+      if (changed) saveLocalMap(newMarkers);
     } catch (err) {
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
-  }, [campaignId, locationId]);
-
-  const saveLocalMap = useCallback(
-    (newMarkers) => {
-      if (!campaignId || !locationId) return;
-      clearTimeout(saveTimerRef.current);
-      saveTimerRef.current = setTimeout(async () => {
-        setIsSaving(true);
-        try {
-          const payload = {
-            notableFeatures: JSON.stringify({ markers: newMarkers }),
-          };
-          await api.put(`/api/v1/gm/campaigns/${campaignId}/locations/${locationId}`, payload);
-        } catch (err) {
-          console.error('Save failed:', err);
-        } finally {
-          setIsSaving(false);
-        }
-      }, SAVE_DEBOUNCE_MS);
-    },
-    [campaignId, locationId]
-  );
+  }, [campaignId, locationId, saveLocalMap]);
 
   const fitMapToCanvasRef = useRef(null);
 

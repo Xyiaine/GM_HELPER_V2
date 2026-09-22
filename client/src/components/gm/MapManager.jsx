@@ -42,19 +42,75 @@ function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v));
 }
 
-// Convert canvas coords → world coords
-function canvasToWorld(cx, cy, pan, zoom) {
+// Convert world coords → canvas coords
+//
+// ── Le référentiel, à un seul endroit ───────────────────────────────────────
+// Les `mapX`/`mapY` stockés en base sont exprimés en BASE 1200 : un carré de
+// 1200 × 1200 unités. C'est un référentiel MATHÉMATIQUE, indépendant de la
+// taille du fichier image.
+//
+// La planche canonique fait 2010 × 1180 (échelle 1,0) : l'emprise des dix
+// cités — 1830 × 1000 unités — plus 90 unités de marge de chaque côté.
+// `1 743 × 1 024` en est la réduction exacte à 86,7 %, `3 486 × 2 048` la
+// double résolution de cette réduction. Le rapport du cadre est 1,702.
+//
+// MAIS cette échelle n'est PAS une constante à écrire en dur. La planche
+// actuellement en place (`map-lore-base.png`, référencée par
+// `WorldMap.baseMapImageUrl`) est un carré de 1024 × 1024 — elle ne correspond
+// pas au cadrage canonique. L'échelle est donc DÉRIVÉE de la largeur réelle de
+// l'image chargée.
+//
+// ⚠️ ATTENTION — la dérivation ci-dessous (`naturalWidth / REFERENTIEL_BASE`)
+// est douteuse et mérite un arbitrage. Elle suppose que la planche couvre le
+// carré de 1200 unités. Or les coordonnées stockées ne tiennent PAS dans 1200 :
+// elles vont de 71 à 1901 en abscisse, soit 1830 unités. Conséquence mesurée,
+// avec la planche de 1024 actuelle : E = 1024/1200 = 0,853 et la Cité Médicale
+// (wx = 1901) tombe à 1622 px, donc HORS du cadre de 1024, tandis que les neuf
+// autres s'entassent dans les 65 % gauches de l'image.
+//
+// L'hypothèse qui fait tenir les dix cités est que la planche couvre l'emprise
+// canonique (2010 unités) : E = 1024/2010 = 0,5095, et l'on passe alors par
+// `cx = (wx − minX + marge) × E`. Les dix cités tombent dans le cadre, et le
+// jour où la planche canonique arrive, le même code donne E = 1,0 exactement.
+//
+// Arbitrage non tranché : la planche en place est PEINTE, et la projection est
+// une régression à dix points qui ne suit aucune côte. Changer l'échelle
+// déplace les cités sur des reliefs qui ne leur correspondent peut-être pas.
+// À décider avec la production de la planche canonique, pas avant.
+const REFERENTIEL_BASE = 1200;
+
+// Échelle planche ↔ référentiel, calculée à partir de l'image effectivement
+// chargée. Tant qu'aucune image n'est chargée, on retombe sur le référentiel
+// (échelle 1) : les cités se placent alors correctement sur un fond vide, ce
+// qui reste plus utile qu'un décalage silencieux.
+let ECHELLE_PLANCHE = 1;
+
+/** Recalcule l'échelle à partir des dimensions réelles de l'image de fond. */
+function majEchellePlanche(image) {
+  if (!image || !image.naturalWidth) {
+    ECHELLE_PLANCHE = 1;
+    return;
+  }
+  ECHELLE_PLANCHE = image.naturalWidth / REFERENTIEL_BASE;
+}
+
+// Convertit une position du référentiel base 1200 en coordonnées écran, via
+// l'échelle de la planche réellement chargée.
+function worldToCanvas(wx, wy, pan, zoom) {
   return {
-    wx: (cx - pan.x) / zoom,
-    wy: (cy - pan.y) / zoom,
+    cx: wx * ECHELLE_PLANCHE * zoom + pan.x,
+    cy: wy * ECHELLE_PLANCHE * zoom + pan.y,
   };
 }
 
-// Convert world coords → canvas coords
-function worldToCanvas(wx, wy, pan, zoom) {
+// Conversion inverse, utilisée quand le MJ déplace une cité à la souris : on
+// repasse par la planche pour retomber dans le référentiel avant d'écrire en
+// base. Sans ce chemin retour, un aller-retour déplacerait la cité d'un facteur
+// égal à l'échelle de la planche.
+function canvasToWorld(cx, cy, pan, zoom) {
   return {
-    cx: wx * zoom + pan.x,
-    cy: wy * zoom + pan.y,
+    wx: (cx - pan.x) / (zoom * ECHELLE_PLANCHE),
+    wy: (cy - pan.y) / (zoom * ECHELLE_PLANCHE),
   };
 }
 
@@ -174,6 +230,10 @@ export default function MapManager() {
     const img = new Image();
     img.onload = () => {
       bgImageRef.current = img;
+      // L'échelle du référentiel est dérivée des dimensions réellement
+      // chargées. Voir l'avertissement en tête de fichier : la formule actuelle
+      // ne fait pas tenir les dix cités dans le cadre, à arbitrer.
+      majEchellePlanche(img);
       setBgLoaded(true);
       if (autoFit && fitMapToCanvasRef.current) {
         // Wait for layout to settle before fitting
@@ -184,6 +244,7 @@ export default function MapManager() {
     };
     img.onerror = () => {
       bgImageRef.current = null;
+      majEchellePlanche(null);
       setBgLoaded(false);
     };
     img.src = url;
@@ -292,6 +353,20 @@ export default function MapManager() {
     }
 
     // City markers
+    //
+    // Les cités proches geographiquement (Marseille et la Camargue sont a 37 px
+    // l'une de l'autre en base 1200) ont des etiquettes qui se recouvrent : les
+    // deux sont centrees sous leur marqueur et se chevauchent de 81 px. On les
+    // decale donc en alternance haut/bas — la premiere sur sa ligne par defaut,
+    // la seconde au-dessus du marqueur. Le sens du decalage est fixe par l'ordre
+    // des cites (stable en base), pas par un tirage : un plan de carte doit etre
+    // reproductible d'une session a l'autre.
+    const lignesEtiquette = [];
+    const etiquetteRecouvre = (cx, cyLabel, demiLargeur) =>
+      lignesEtiquette.some(
+        (l) => Math.abs(l.cy - cyLabel) < 14 && Math.abs(l.cx - cx) < l.demiLargeur + demiLargeur
+      );
+
     cities.forEach((city) => {
       if (city.mapX == null || city.mapY == null) return;
       const { cx, cy } = worldToCanvas(city.mapX, city.mapY, p, z);
@@ -326,14 +401,31 @@ export default function MapManager() {
 
       // Label
       if (showLabels) {
-        ctx.font = `bold ${Math.max(9, 11 * Math.min(z, 2))}px Inter, sans-serif`;
+        const taillePolice = Math.max(9, 11 * Math.min(z, 2));
+        ctx.font = `bold ${taillePolice}px Inter, sans-serif`;
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'rgba(0,0,0,0.8)';
         ctx.lineWidth = 3;
         ctx.textAlign = 'center';
         const label = city.location?.name || 'City';
-        ctx.strokeText(label, cx, cy + CITY_MARKER_RADIUS + 14);
-        ctx.fillText(label, cx, cy + CITY_MARKER_RADIUS + 14);
+
+        // Demi-largeur mesurée sur la fonte réelle plutôt qu'estimée : la valeur
+        // approchée par nombre de caractères se trompe de 20 % selon les lettres,
+        // et c'est justement aux marges serrées que ça compte.
+        const demiLargeur = ctx.measureText(label).width / 2;
+
+        // Par défaut l'étiquette est sous le marqueur ; si la place est prise, on
+        // la remonte au-dessus. Aucune troisième position n'est nécessaire : au
+        // plus deux cités sont assez proches pour se gêner.
+        const sousMarqueur = cy + CITY_MARKER_RADIUS + 14;
+        const auDessus = cy - CITY_MARKER_RADIUS - 6;
+        const cyLabel = etiquetteRecouvre(cx, sousMarqueur, demiLargeur)
+          ? auDessus
+          : sousMarqueur;
+        lignesEtiquette.push({ cx, cy: cyLabel, demiLargeur });
+
+        ctx.strokeText(label, cx, cyLabel);
+        ctx.fillText(label, cx, cyLabel);
       }
     });
 
@@ -390,19 +482,47 @@ export default function MapManager() {
   }, [draw]);
 
   // ── Resize canvas to match container ─────────────────────────
+  // Le canvas doit être dimensionné à la taille de son conteneur, mais le
+  // ResizeObserver seul ne suffit pas : il se pose avant que le conteneur
+  // n'ait une taille (premier rendu, panneaux latéraux encore en cours de
+  // mise en page), et il ne se déclenche alors JAMAIS. Le canvas reste à la
+  // taille par défaut du navigateur (300 × 150) et la carte ne s'affiche pas.
+  //
+  // Le second piège est le rendu anticipé : tant que `isLoading` est vrai, le
+  // composant retourne un indicateur de chargement et le canvas n'existe pas
+  // dans le DOM. Un effet à dépendances vides s'exécuterait donc une seule
+  // fois, contre une référence nulle, et ne serait jamais rejoué quand le
+  // canvas apparaît. `isLoading` doit figurer dans les dépendances — c'est ce
+  // qui déclenche le dimensionnement au moment où le canvas est enfin monté.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const container = canvas.parentElement;
-    const observer = new ResizeObserver(() => {
+
+    const dimensionner = () => {
+      if (!container || container.clientWidth === 0) return false;
       canvas.width = container.clientWidth;
       canvas.height = container.clientHeight;
+      return true;
+    };
+
+    // Dimensionnement dans une animation frame : au prochain cycle de rendu,
+    // la mise en page est stabilisée et le conteneur a une taille mesurable.
+    // Le second passage absorbe les cas où la taille n'est pas encore arrêtée
+    // (polices, image de fond, panneaux repliés).
+    let rafId = requestAnimationFrame(() => {
+      dimensionner();
+      rafId = requestAnimationFrame(dimensionner);
     });
+
+    const observer = new ResizeObserver(dimensionner);
     observer.observe(container);
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
-    return () => observer.disconnect();
-  }, []);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      observer.disconnect();
+    };
+  }, [isLoading]);
 
   // ── Mouse interaction ─────────────────────────────────────────
   const handleMouseDown = useCallback(
@@ -1049,25 +1169,12 @@ export default function MapManager() {
               {/* Map coordinates & GPS */}
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', marginBottom: 12, backgroundColor: 'var(--overlay-subtle)', padding: '8px 10px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div style={{ color: '#38bdf8', fontWeight: 'bold', marginBottom: '2px' }}>
-                  📍 Position GPS : {(() => {
-                    const name = selectedCity.name || selectedCity.location?.name || '';
-                    const match = Object.entries({
-                      "BUNKER OMÉGA": "46.2044° N, 6.1432° E (Genève)",
-                      "CITÉ INDUSTRIELLE": "45.0703° N, 7.6869° E (Turin)",
-                      "CITÉ MÉDICALE": "31.2001° N, 29.9187° E (Alexandrie)",
-                      "CITÉ DE L'ARMEMENT & DÉFENSE": "36.1408° N, 5.3536° O (Gibraltar)",
-                      "CITÉ DE L'EAU & ALIMENTATION": "43.5000° N, 4.6000° E (Camargue/Rhône)",
-                      "CITÉ DES MÉTAUX & RECYCLAGE": "37.9838° N, 23.7275° E (Athènes)",
-                      "CITÉ DU CARBURANT": "36.7538° N, 3.0588° E (Alger)",
-                      "CITÉ DU DIVERTISSEMENT": "41.9028° N, 12.4964° E (Rome)",
-                      "L'ILE DES ANCIENS": "36.0000° N, 8.5000° O (Atlantique Ouest)",
-                      "NUKE CITY": "43.2965° N, 5.3698° E (Marseille)"
-                    }).find(([k]) => name.toUpperCase().includes(k));
-                    return match ? match[1] : 'GPS non renseigné';
-                  })()}
+                  📍 Position GPS : {selectedCity.canon?.gps
+                    ? `${selectedCity.canon.gps} (${selectedCity.canon.lieuReel})`
+                    : 'GPS non renseigné'}
                 </div>
                 <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 10 }}>
-                  Canvas Coords: ({Math.round(selectedCity.mapX)}, {Math.round(selectedCity.mapY)})
+                  Base 1200 : ({Math.round(selectedCity.mapX)}, {Math.round(selectedCity.mapY)})
                 </div>
               </div>
 
