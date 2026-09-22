@@ -8,7 +8,7 @@ export default function TagManager() {
   const { campaignId } = useParams();
   const { tags, fetchTags, createTag, deleteTag } = useGmStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: '', color: '#3b82f6' });
+  const [formData, setFormData] = useState({ name: '', color: 'var(--info-text)' });
 
   useEffect(() => {
     if (campaignId) {
@@ -20,7 +20,7 @@ export default function TagManager() {
     e.preventDefault();
     try {
       await createTag(campaignId, formData);
-      setFormData({ name: '', color: '#3b82f6' });
+      setFormData({ name: '', color: 'var(--info-text)' });
       setIsModalOpen(false);
     } catch (err) {
       alert('Failed to create tag');

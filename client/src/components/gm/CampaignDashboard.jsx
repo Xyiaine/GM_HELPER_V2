@@ -188,7 +188,7 @@ export default function CampaignDashboard() {
                   Mot de passe d'accès (Éditable)
                 </span>
                 {passSavedMessage && (
-                  <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 600 }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--success-text)', fontWeight: 600 }}>
                     ✓ Enregistré !
                   </span>
                 )}

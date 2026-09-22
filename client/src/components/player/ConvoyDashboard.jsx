@@ -204,18 +204,18 @@ export default function ConvoyDashboard({ campaignId }) {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {[
-              { key: 'fuel', label: 'Carburant', icon: Fuel, color: '#f59e0b' },
-              { key: 'water', label: 'Eau', icon: Droplets, color: '#3b82f6' },
-              { key: 'food', label: 'Nourriture', icon: Apple, color: '#22c55e' },
+              { key: 'fuel', label: 'Carburant', icon: Fuel, color: 'var(--ember-text)' },
+              { key: 'water', label: 'Eau', icon: Droplets, color: 'var(--info-text)' },
+              { key: 'food', label: 'Nourriture', icon: Apple, color: 'var(--success-text)' },
               { key: 'medicine', label: 'Médicaments', icon: Pill, color: '#ec4899' },
-              { key: 'ammo', label: 'Munitions', icon: Crosshair, color: '#ef4444' },
+              { key: 'ammo', label: 'Munitions', icon: Crosshair, color: 'var(--danger-text)' },
             ].map(({ key, label, icon: Icon, color }) => (
               <div key={key}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
                     <Icon size={16} style={{ color }} /> {label}
                   </span>
-                  <span style={{ fontWeight: 'bold', color: convoy[key] < 20 ? '#ef4444' : 'white' }}>
+                  <span style={{ fontWeight: 'bold', color: convoy[key] < 20 ? 'var(--danger-text)' : 'white' }}>
                     {convoy[key]}
                   </span>
                 </div>
@@ -254,7 +254,7 @@ export default function ConvoyDashboard({ campaignId }) {
                       <VIcon size={18} /> {v.name}
                     </div>
                     {v.isDestroyed ? (
-                      <span style={{ color: '#ef4444', fontSize: '0.8rem', fontWeight: 'bold' }}>DÉTRUIT</span>
+                      <span style={{ color: 'var(--danger-text)', fontSize: '0.8rem', fontWeight: 'bold' }}>DÉTRUIT</span>
                     ) : (
                       <span style={{ fontSize: '0.85rem' }}>{v.hpCurrent} / {v.hpMax} PV</span>
                     )}

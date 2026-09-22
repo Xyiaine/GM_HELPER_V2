@@ -23,7 +23,7 @@ export default function NpcVoiceProfileCard({ profile }) {
         <div style={{ fontSize: '0.8rem', color: 'var(--color-text)', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
           <MessageSquare size={14} color="#60a5fa" style={{ flexShrink: 0, marginTop: '2px' }} />
           <div>
-            <strong style={{ color: '#60a5fa' }}>Façon de parler :</strong> {profile.speechPattern}
+            <strong style={{ color: 'var(--info-text)' }}>Façon de parler :</strong> {profile.speechPattern}
           </div>
         </div>
       )}
@@ -32,7 +32,7 @@ export default function NpcVoiceProfileCard({ profile }) {
         <div style={{ fontSize: '0.8rem', color: 'var(--color-text)', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
           <Activity size={14} color="#f59e0b" style={{ flexShrink: 0, marginTop: '2px' }} />
           <div>
-            <strong style={{ color: '#f59e0b' }}>Tic physique :</strong> {profile.physicalTic}
+            <strong style={{ color: 'var(--ember-text)' }}>Tic physique :</strong> {profile.physicalTic}
           </div>
         </div>
       )}
@@ -41,7 +41,7 @@ export default function NpcVoiceProfileCard({ profile }) {
         <div style={{ fontSize: '0.8rem', color: 'var(--color-text)', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
           <ShieldAlert size={14} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
           <div>
-            <strong style={{ color: '#ef4444' }}>Comportement signature :</strong> {profile.signatureBehavior}
+            <strong style={{ color: 'var(--danger-text)' }}>Comportement signature :</strong> {profile.signatureBehavior}
           </div>
         </div>
       )}

@@ -92,11 +92,14 @@ export default function CharactersList() {
                 >
                   <FileText size={14} /> Fiche PJ
                 </button>
-                <button 
+                <button
                   onClick={() => setEditingTreeFor(char)}
-                  style={{ 
-                    flex: 1, padding: '8px', borderRadius: '4px', border: 'none',
-                    background: 'var(--warning)', color: '#fff', fontWeight: 'bold', cursor: 'pointer',
+                  style={{
+                    flex: 1, padding: '8px', borderRadius: 'var(--radius-sm)', border: 'none',
+                    // Le blanc sur la braise ne donne que 3,26:1. Sur un aplat
+                    // clair, l'encre sombre est la bonne reponse — meme choix
+                    // que le bouton « Marquer comme Atteint ».
+                    background: 'var(--warning)', color: 'var(--ink)', fontWeight: 'bold', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
                   }}
                 >

@@ -220,7 +220,7 @@ export default function IntrigueCardsTab() {
                     borderRadius: '4px',
                     border: isDone ? '1px solid #10b981' : '1px solid var(--color-border)',
                     backgroundColor: isDone ? 'rgba(16, 185, 129, 0.15)' : 'transparent',
-                    color: isDone ? '#10b981' : 'var(--color-text-muted)',
+                    color: isDone ? 'var(--success-text)' : 'var(--color-text-muted)',
                     fontSize: '0.72rem',
                     cursor: 'pointer',
                     display: 'flex',
@@ -242,7 +242,7 @@ export default function IntrigueCardsTab() {
                 borderRadius: '6px',
                 lineHeight: 1.35
               }}>
-                <strong style={{ color: '#f59e0b' }}>Accroche : </strong>
+                <strong style={{ color: 'var(--ember-text)' }}>Accroche : </strong>
                 {item.hook}
               </div>
 
@@ -261,7 +261,7 @@ export default function IntrigueCardsTab() {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     cursor: 'pointer',
-                    color: '#ef4444',
+                    color: 'var(--danger-text)',
                     fontWeight: 600
                   }}
                 >
@@ -282,7 +282,7 @@ export default function IntrigueCardsTab() {
                   alignItems: 'center',
                   gap: '6px',
                   fontSize: '0.78rem',
-                  color: '#10b981'
+                  color: 'var(--success-text)'
                 }}>
                   <Gift size={13} style={{ flexShrink: 0 }} />
                   <span><strong>Enjeu / Butin :</strong> {item.reward}</span>

@@ -50,7 +50,7 @@ export default function FactionTracker({ factions = [], campaignId, questId }) {
                 textTransform: 'uppercase',
                 fontWeight: 'bold',
                 backgroundColor: state === 'hostile' ? 'rgba(239, 68, 68, 0.2)' : state === 'allie' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.1)',
-                color: state === 'hostile' ? '#ef4444' : state === 'allie' ? '#10b981' : '#ccc'
+                color: state === 'hostile' ? 'var(--danger-text)' : state === 'allie' ? 'var(--success-text)' : '#ccc'
               }}>
                 {state}
               </span>

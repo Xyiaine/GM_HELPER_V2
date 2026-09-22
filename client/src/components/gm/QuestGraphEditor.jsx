@@ -134,7 +134,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 {n.title}
               </div>
               {timers.find(t => t.nodeId === n.id) && (
-                <div style={{ color: '#ef4444', fontWeight: 'bold', fontSize: '0.9rem', marginTop: '4px', animation: timers.find(t => t.nodeId === n.id).remaining < 30 ? 'pulse 1s infinite' : 'none' }}>
+                <div style={{ color: 'var(--danger-text)', fontWeight: 'bold', fontSize: '0.9rem', marginTop: '4px', animation: timers.find(t => t.nodeId === n.id).remaining < 30 ? 'pulse 1s infinite' : 'none' }}>
                   ⏳ {Math.floor(timers.find(t => t.nodeId === n.id).remaining / 60)}:{(timers.find(t => t.nodeId === n.id).remaining % 60).toString().padStart(2, '0')}
                 </div>
               )}
@@ -164,7 +164,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
             animated: c.isTimeoutConnection,
             data: { connection: c },
             style: { stroke: c.isTimeoutConnection ? '#ef4444' : '#fff' },
-            markerEnd: { type: MarkerType.ArrowClosed, color: c.isTimeoutConnection ? '#ef4444' : '#fff' },
+            markerEnd: { type: MarkerType.ArrowClosed, color: c.isTimeoutConnection ? 'var(--danger-text)' : '#fff' },
           });
         });
       });
@@ -197,15 +197,15 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {n.data.node?.isTimed && <Clock size={14} color="#ef4444" />}
                 {n.data.node?.displayCode && <span style={{ padding: '2px 4px', background: 'var(--overlay-soft)', borderRadius: '3px', fontSize: '0.7rem' }}>{n.data.node.displayCode}</span>}
-                {n.data.node?.isOptional && <span style={{ padding: '2px 4px', background: 'var(--warning-tint-strong)', color: '#f59e0b', borderRadius: '3px', fontSize: '0.7rem' }}>Optionnel</span>}
+                {n.data.node?.isOptional && <span style={{ padding: '2px 4px', background: 'var(--warning-tint-strong)', color: 'var(--ember-text)', borderRadius: '3px', fontSize: '0.7rem' }}>Optionnel</span>}
                 {n.data.node?.title || n.data.label}
               </div>
               {n.data.node?.pathGroup && (
-                <div style={{ fontSize: '0.7rem', color: '#a78bfa', marginTop: '2px' }}>
+                <div style={{ fontSize: '0.7rem', color: 'var(--arcane-text)', marginTop: '2px' }}>
                   {n.data.node.pathGroup}
                 </div>
               )}
-              <div style={{ color: '#ef4444', fontWeight: 'bold', fontSize: '0.9rem', marginTop: '4px', animation: timer.remaining < 30 ? 'pulse 1s infinite' : 'none' }}>
+              <div style={{ color: 'var(--danger-text)', fontWeight: 'bold', fontSize: '0.9rem', marginTop: '4px', animation: timer.remaining < 30 ? 'pulse 1s infinite' : 'none' }}>
                 ⏳ {Math.floor(timer.remaining / 60)}:{(timer.remaining % 60).toString().padStart(2, '0')}
               </div>
             </div>
@@ -359,7 +359,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
           <header style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
               <h3 style={{ marginTop: 0, marginBottom: '8px', color: 'var(--color-text)' }}>Étape : {selectedNode.title}</h3>
-              <span style={{ fontSize: '0.85rem', color: selectedNode.status === 'reached' ? '#10b981' : 'var(--color-text-muted)' }}>
+              <span style={{ fontSize: '0.85rem', color: selectedNode.status === 'reached' ? 'var(--success-text)' : 'var(--color-text-muted)' }}>
                 Statut : {selectedNode.status === 'reached' ? 'Atteint' : 'Non atteint'}
               </span>
             </div>
@@ -440,13 +440,13 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
                 />
               </label>
             ) : (
-              <div style={{ padding: '10px', backgroundColor: 'var(--warning-tint)', border: '1px solid var(--warning)', borderRadius: '4px', fontSize: '0.85rem', color: '#fcd34d' }}>
+              <div style={{ padding: '10px', backgroundColor: 'var(--warning-tint)', border: '1px solid var(--warning)', borderRadius: '4px', fontSize: '0.85rem', color: 'var(--ember-text)' }}>
                 🔒 <strong>Notes MJ :</strong> Masquées en mode écran joueurs
               </div>
             )}
 
             <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <span style={{ fontWeight: 'bold', color: '#10b981' }}>Description Sensorielle (Ce que voient les joueurs)</span>
+              <span style={{ fontWeight: 'bold', color: 'var(--success-text)' }}>Description Sensorielle (Ce que voient les joueurs)</span>
               <textarea 
                 defaultValue={selectedNode.sensoryText || ''} 
                 onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { sensoryText: e.target.value })}
@@ -458,7 +458,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
 
               <button 
                 className="btn-secondary"
-                style={{ marginTop: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderColor: '#10b981', color: '#10b981' }}
+                style={{ marginTop: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderColor: 'var(--success-text)', color: 'var(--success-text)' }}
                 onClick={async () => {
                   try {
                     await api.post(`/api/v1/gm/campaigns/${campaignId}/spotlight`, {
@@ -477,7 +477,7 @@ export default function QuestGraphEditor({ quest, campaignId, viewMode = 'gm' })
             {/* Detection Mechanic — GM Mode Only (FE-1) */}
             {viewMode === 'gm' && (
               <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <span style={{ fontWeight: 'bold', color: '#8b5cf6' }}>Mécanique d'Indice (Detection Mechanic - JSON)</span>
+                <span style={{ fontWeight: 'bold', color: 'var(--arcane-text)' }}>Mécanique d'Indice (Detection Mechanic - JSON)</span>
                 <textarea 
                   defaultValue={selectedNode.detectionMechanic || ''} 
                   onBlur={e => updateQuestNode(campaignId, quest.id, selectedNode.id, { detectionMechanic: e.target.value })}

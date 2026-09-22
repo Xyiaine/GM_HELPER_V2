@@ -158,7 +158,9 @@ export default function GmApp() {
             <div style={{
               marginTop: '2px',
               fontSize: 'var(--text-xs)',
-              color: 'var(--ink-faint)',
+              // --ink-faint tombe a 2,98:1 sur le papier : le nom de la campagne
+              // est une information, pas une indication decorative.
+              color: 'var(--ink-muted)',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -231,7 +233,7 @@ export default function GmApp() {
           }}>
             <span style={{
               fontSize: 'var(--text-xs)',
-              color: 'var(--ink-faint)',
+              color: 'var(--ink-muted)',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -304,12 +306,15 @@ export default function GmApp() {
                     {activeComplications.length} en cours
                   </span>
                 )}
+                {/* Raccourci clavier du cockpit. Le fond translucide du chip
+                    assombrissait le bouton au point de faire tomber le « M » a
+                    2,3:1 ; sans lui, l'encre de danger tient sur la teinte. */}
                 <span className="data" style={{
                   fontSize: 'var(--text-2xs)',
                   padding: '1px 5px',
                   borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'var(--overlay-soft)',
-                  color: 'var(--ink-faint)',
+                  border: '1px solid var(--danger-border)',
+                  color: 'var(--danger-text)',
                 }}>
                   M
                 </span>

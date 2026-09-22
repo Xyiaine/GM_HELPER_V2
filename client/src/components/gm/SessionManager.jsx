@@ -248,7 +248,7 @@ export default function SessionManager() {
               <div key={quest.id} style={{ background: 'var(--color-background)', padding: '8px', borderRadius: '4px', border: '1px solid var(--color-border)', fontSize: '0.85rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <strong style={{ color: 'var(--color-text)' }}>{quest.name}</strong>
-                  <span style={{ fontSize: '0.75rem', color: quest.status === 'active' ? '#10b981' : '#f59e0b' }}>
+                  <span style={{ fontSize: '0.75rem', color: quest.status === 'active' ? 'var(--success-text)' : 'var(--ember-text)' }}>
                     {quest.status === 'active' ? 'Active' : 'En pause'}
                   </span>
                 </div>

@@ -135,7 +135,7 @@ export default function HiddenRollsTab() {
                       style={{
                         padding: '8px 4px', textAlign: 'center', fontWeight: 600,
                         fontVariantNumeric: 'tabular-nums',
-                        color: key === 'perception' && isBest ? '#38bdf8' : 'var(--color-text)',
+                        color: key === 'perception' && isBest ? 'var(--info-text)' : 'var(--color-text)',
                       }}
                     >
                       {c.passive[key]}
@@ -149,7 +149,7 @@ export default function HiddenRollsTab() {
 
         {best && (
           <p style={{ margin: '8px 0 0', fontSize: '0.76rem', color: 'var(--color-text-muted)' }}>
-            Œil du groupe : <strong style={{ color: '#38bdf8' }}>{best.name}</strong>, Perception passive {best.value}.
+            Œil du groupe : <strong style={{ color: 'var(--info-text)' }}>{best.name}</strong>, Perception passive {best.value}.
           </p>
         )}
       </section>
@@ -244,7 +244,7 @@ export default function HiddenRollsTab() {
             className="btn-primary"
             onClick={roll}
             disabled={rolling || !characterId}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '7px', padding: '9px', opacity: rolling || !characterId ? 0.55 : 1 }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '7px', padding: '9px' }}
           >
             {rolling ? <Loader size={15} /> : <Dices size={15} />}
             {rolling ? 'Lancer…' : 'Lancer en secret'}

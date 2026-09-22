@@ -414,7 +414,7 @@ export default function CombatTracker() {
           gap: '12px'
         }}>
           <div>
-            <span style={{ fontSize: '0.85rem', color: '#60a5fa', fontWeight: 'bold', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--info-text)', fontWeight: 'bold', textTransform: 'uppercase' }}>
               📜 Quête liée : {activeEncounter.questNode.quest?.name || 'Quête active'}
             </span>
             <div style={{ fontSize: '1rem', fontWeight: '500', marginTop: '2px', color: 'var(--color-text)' }}>
@@ -450,7 +450,7 @@ export default function CombatTracker() {
                 borderRadius: '6px',
                 backgroundColor: 'var(--danger-tint)',
                 border: '1px solid #ef4444',
-                color: '#ef4444',
+                color: 'var(--danger-text)',
                 fontSize: '0.85rem',
                 cursor: 'pointer',
                 display: 'flex',
@@ -556,8 +556,11 @@ export default function CombatTracker() {
                     textAlign: 'center',
                     fontSize: '0.85rem',
                     fontWeight: isActive ? 'bold' : 'normal',
-                    backgroundColor: isActive ? 'rgba(var(--color-primary-rgb, 120, 80, 255), 0.25)' : 'transparent',
-                    color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
+                    // --color-primary-rgb etait une variable fantome : la teinte
+                    // d'activite etait fabriquee a la main. La rouille posée sur
+                    // cette teinte ne donnait que 3,68:1.
+                    backgroundColor: isActive ? 'var(--primary-tint-strong)' : 'transparent',
+                    color: isActive ? 'var(--rust-text)' : 'var(--ink-muted)',
                     borderRight: idx < 4 ? '1px solid var(--color-border)' : 'none',
                   }}
                 >
@@ -740,7 +743,7 @@ export default function CombatTracker() {
                             style={{
                               background: 'none',
                               border: 'none',
-                              color: c.isVisibleToPlayers ? '#10b981' : 'var(--color-text-muted)',
+                              color: c.isVisibleToPlayers ? 'var(--success-text)' : 'var(--color-text-muted)',
                               cursor: 'pointer',
                               display: 'flex',
                               alignItems: 'center',
@@ -754,7 +757,7 @@ export default function CombatTracker() {
 
                           <button
                             onClick={() => handleRemoveCombatant(c.id)}
-                            style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}
+                            style={{ background: 'none', border: 'none', color: 'var(--danger-text)', cursor: 'pointer' }}
                           >
                             <Trash2 size={16} />
                           </button>
@@ -774,7 +777,7 @@ export default function CombatTracker() {
                     borderRadius: '6px',
                     border: '1px solid #ef4444',
                     backgroundColor: 'var(--danger-tint)',
-                    color: '#ef4444',
+                    color: 'var(--danger-text)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -838,7 +841,7 @@ export default function CombatTracker() {
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {isChecked && <span style={{ color: '#ef4444', fontSize: '0.85rem', fontWeight: 'bold' }}>SURPRIS</span>}
+                        {isChecked && <span style={{ color: 'var(--danger-text)', fontSize: '0.85rem', fontWeight: 'bold' }}>SURPRIS</span>}
                         <input
                           type="checkbox"
                           checked={isChecked}
@@ -890,7 +893,7 @@ export default function CombatTracker() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         {renderTypeIcon(c.type, c.sourceType)}
                         <span style={{ fontWeight: 'bold' }}>{c.name}</span>
-                        {c.isSurprised && <span style={{ color: '#ef4444', fontSize: '0.75rem', fontWeight: 'bold' }}>(Surpris)</span>}
+                        {c.isSurprised && <span style={{ color: 'var(--danger-text)', fontSize: '0.75rem', fontWeight: 'bold' }}>(Surpris)</span>}
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -961,7 +964,7 @@ export default function CombatTracker() {
                       borderRadius: '6px',
                       border: '1px solid #ef4444',
                       backgroundColor: 'var(--danger-tint)',
-                      color: '#ef4444',
+                      color: 'var(--danger-text)',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -1031,11 +1034,11 @@ export default function CombatTracker() {
                           </span>
                           {renderTypeIcon(c.type, c.sourceType)}
                           <div>
-                            <span style={{ fontSize: '1.1rem', fontWeight: 'bold', color: isDowned ? '#ef4444' : 'var(--color-text)' }}>
+                            <span style={{ fontSize: '1.1rem', fontWeight: 'bold', color: isDowned ? 'var(--danger-text)' : 'var(--color-text)' }}>
                               {c.name}
                             </span>
                             {c.isSurprised && activeEncounter.currentRound === 1 && (
-                              <span style={{ marginLeft: '8px', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'var(--danger-tint-strong)', color: '#ef4444', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                              <span style={{ marginLeft: '8px', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'var(--danger-tint-strong)', color: 'var(--danger-text)', fontSize: '0.75rem', fontWeight: 'bold' }}>
                                 SURPRIS (Tour passé)
                               </span>
                             )}
@@ -1064,7 +1067,7 @@ export default function CombatTracker() {
                               padding: '6px 12px',
                               borderRadius: '6px',
                               backgroundColor: 'var(--info-tint)',
-                              color: '#60a5fa',
+                              color: 'var(--info-text)',
                               fontWeight: 'bold',
                             }}
                           >
@@ -1102,7 +1105,7 @@ export default function CombatTracker() {
                                 fontSize: '0.75rem',
                                 border: hasCond ? '1px solid #f59e0b' : '1px solid var(--color-border)',
                                 backgroundColor: hasCond ? 'rgba(245, 158, 11, 0.2)' : 'transparent',
-                                color: hasCond ? '#f59e0b' : 'var(--color-text-muted)',
+                                color: hasCond ? 'var(--ember-text)' : 'var(--color-text-muted)',
                                 cursor: 'pointer',
                               }}
                             >
@@ -1121,7 +1124,7 @@ export default function CombatTracker() {
                               borderRadius: '6px',
                               border: '1px solid var(--color-border)',
                               backgroundColor: expandedStatBlocks.has(c.id) ? 'rgba(59, 130, 246, 0.2)' : 'transparent',
-                              color: expandedStatBlocks.has(c.id) ? '#60a5fa' : 'var(--color-text-muted)',
+                              color: expandedStatBlocks.has(c.id) ? 'var(--info-text)' : 'var(--color-text-muted)',
                               cursor: 'pointer',
                               display: 'flex',
                               alignItems: 'center',
@@ -1218,7 +1221,7 @@ export default function CombatTracker() {
                             {/* Attacks */}
                             {attacks && (Array.isArray(attacks) ? attacks.length > 0 : true) && (
                               <div>
-                                <span style={{ fontWeight: 'bold', color: '#ef4444' }}>Attaques / Actions :</span>
+                                <span style={{ fontWeight: 'bold', color: 'var(--danger-text)' }}>Attaques / Actions :</span>
                                 {Array.isArray(attacks) ? (
                                   <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
                                     {attacks.map((att, idx) => (
@@ -1265,7 +1268,7 @@ export default function CombatTracker() {
                 {(activeEncounter.combatants || []).map((c) => (
                   <div key={c.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', borderRadius: '4px', backgroundColor: 'var(--color-background)' }}>
                     <span>{c.name}</span>
-                    <span style={{ color: c.hpCurrent <= 0 ? '#ef4444' : '#10b981', fontWeight: 'bold' }}>
+                    <span style={{ color: c.hpCurrent <= 0 ? 'var(--danger-text)' : 'var(--success-text)', fontWeight: 'bold' }}>
                       {c.hpCurrent <= 0 ? 'K.O. / Tombé (0 PV)' : `${c.hpCurrent}/${c.hpMax} PV`}
                     </span>
                   </div>
@@ -1280,7 +1283,7 @@ export default function CombatTracker() {
                     borderRadius: '6px',
                     border: '1px solid #ef4444',
                     backgroundColor: 'var(--danger-tint)',
-                    color: '#ef4444',
+                    color: 'var(--danger-text)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',

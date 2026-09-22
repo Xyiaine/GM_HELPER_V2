@@ -310,7 +310,7 @@ export default function NpcsList() {
               borderRadius: '6px',
               border: '1px solid var(--color-border)',
               backgroundColor: onlyFavorites ? 'rgba(245, 158, 11, 0.2)' : 'var(--color-background)',
-              color: onlyFavorites ? '#f59e0b' : 'var(--color-text-muted)',
+              color: onlyFavorites ? 'var(--ember-text)' : 'var(--color-text-muted)',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -342,8 +342,8 @@ export default function NpcsList() {
         <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', borderTop: '1px solid var(--color-border)', paddingTop: '8px', display: 'flex', justifyContent: 'space-between' }}>
           <span>
             Affichage de <strong>{filteredNpcs.length}</strong> / <strong>{npcs.length}</strong> PNJ
-            {selectedCity && <span> • Ville: <strong style={{ color: '#38bdf8' }}>{selectedCity}</strong></span>}
-            {selectedFaction && <span> • Faction: <strong style={{ color: '#a78bfa' }}>{selectedFaction}</strong></span>}
+            {selectedCity && <span> • Ville: <strong style={{ color: 'var(--info-text)' }}>{selectedCity}</strong></span>}
+            {selectedFaction && <span> • Faction: <strong style={{ color: 'var(--arcane-text)' }}>{selectedFaction}</strong></span>}
           </span>
         </div>
       </div>
@@ -392,7 +392,7 @@ export default function NpcsList() {
                     padding: '2px 6px',
                     borderRadius: '4px',
                     backgroundColor: 'var(--info-tint)',
-                    color: '#38bdf8',
+                    color: 'var(--info-text)',
                     border: '1px solid rgba(56, 189, 248, 0.3)',
                     display: 'flex',
                     alignItems: 'center',
@@ -406,7 +406,7 @@ export default function NpcsList() {
                     padding: '2px 6px',
                     borderRadius: '4px',
                     backgroundColor: 'var(--arcane-tint)',
-                    color: '#a78bfa',
+                    color: 'var(--arcane-text)',
                     border: '1px solid rgba(167, 139, 250, 0.3)',
                     display: 'flex',
                     alignItems: 'center',

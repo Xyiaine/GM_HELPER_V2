@@ -7,11 +7,11 @@ import {
 } from 'lucide-react';
 
 const ATTITUDE_LEVELS = [
-  { val: -2, label: 'Hostile', color: '#ef4444', bg: 'rgba(239, 68, 68, 0.15)' },
+  { val: -2, label: 'Hostile', color: 'var(--danger-text)', bg: 'rgba(239, 68, 68, 0.15)' },
   { val: -1, label: 'Méfiant', color: '#f97316', bg: 'rgba(249, 115, 22, 0.15)' },
-  { val: 0, label: 'Neutre', color: '#6b7280', bg: 'rgba(107, 114, 128, 0.15)' },
-  { val: 1, label: 'Favorable', color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)' },
-  { val: 2, label: 'Allié', color: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.15)' }
+  { val: 0, label: 'Neutre', color: 'var(--ink-muted)', bg: 'rgba(107, 114, 128, 0.15)' },
+  { val: 1, label: 'Favorable', color: 'var(--success-text)', bg: 'rgba(16, 185, 129, 0.15)' },
+  { val: 2, label: 'Allié', color: 'var(--arcane-text)', bg: 'rgba(139, 92, 246, 0.15)' }
 ];
 
 export default function NpcCardsTab() {
@@ -200,14 +200,14 @@ export default function NpcCardsTab() {
                 <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-start' }}>
                   <MessageSquare size={14} color="#60a5fa" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <strong style={{ color: '#60a5fa' }}>Voix / Ton :</strong> {npc.speechPattern}
+                    <strong style={{ color: 'var(--info-text)' }}>Voix / Ton :</strong> {npc.speechPattern}
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-start' }}>
                   <Activity size={14} color="#f59e0b" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <strong style={{ color: '#f59e0b' }}>Tic physique :</strong> {npc.physicalTic}
+                    <strong style={{ color: 'var(--ember-text)' }}>Tic physique :</strong> {npc.physicalTic}
                   </div>
                 </div>
               </div>
@@ -227,7 +227,7 @@ export default function NpcCardsTab() {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     cursor: 'pointer',
-                    color: '#ef4444',
+                    color: 'var(--danger-text)',
                     fontWeight: 600
                   }}
                 >
@@ -291,7 +291,7 @@ export default function NpcCardsTab() {
                   borderRadius: '6px',
                   border: npc.isSaved ? '1px solid #10b981' : '1px solid var(--color-border)',
                   backgroundColor: npc.isSaved ? 'rgba(16, 185, 129, 0.12)' : 'var(--color-surface)',
-                  color: npc.isSaved ? '#10b981' : 'var(--color-text-muted)',
+                  color: npc.isSaved ? 'var(--success-text)' : 'var(--color-text-muted)',
                   fontSize: '0.78rem',
                   cursor: npc.isSaved ? 'default' : 'pointer',
                   display: 'flex',

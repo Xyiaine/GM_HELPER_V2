@@ -26,7 +26,7 @@ export default function ActiveComplicationsBanner() {
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
-          color: '#ef4444',
+          color: 'var(--danger-text)',
           fontWeight: 700,
           fontSize: '0.82rem',
           textTransform: 'uppercase',
@@ -53,7 +53,7 @@ export default function ActiveComplicationsBanner() {
             title={comp.effect}
           >
             <Zap size={12} color="#ef4444" />
-            <strong style={{ color: '#ef4444' }}>{comp.title}</strong>
+            <strong style={{ color: 'var(--danger-text)' }}>{comp.title}</strong>
             <span style={{ color: 'var(--color-text-muted)', fontSize: '0.72rem', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               - {comp.effect}
             </span>

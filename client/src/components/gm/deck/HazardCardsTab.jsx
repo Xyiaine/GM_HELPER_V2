@@ -15,10 +15,10 @@ const CATEGORIES = [
 ];
 
 const SEVERITY_BADGES = {
-  low: { bg: 'rgba(34, 197, 94, 0.15)', text: '#22c55e', border: 'rgba(34, 197, 94, 0.3)', label: 'Mineur' },
-  medium: { bg: 'rgba(245, 158, 11, 0.15)', text: '#f59e0b', border: 'rgba(245, 158, 11, 0.3)', label: 'Modéré' },
+  low: { bg: 'rgba(34, 197, 94, 0.15)', text: 'var(--success-text)', border: 'rgba(34, 197, 94, 0.3)', label: 'Mineur' },
+  medium: { bg: 'rgba(245, 158, 11, 0.15)', text: 'var(--ember-text)', border: 'rgba(245, 158, 11, 0.3)', label: 'Modéré' },
   high: { bg: 'rgba(249, 115, 22, 0.15)', text: '#f97316', border: 'rgba(249, 115, 22, 0.3)', label: 'Sévère' },
-  critical: { bg: 'rgba(239, 68, 68, 0.18)', text: '#ef4444', border: 'rgba(239, 68, 68, 0.4)', label: 'Critique' }
+  critical: { bg: 'rgba(239, 68, 68, 0.18)', text: 'var(--danger-text)', border: 'rgba(239, 68, 68, 0.4)', label: 'Critique' }
 };
 
 export default function HazardCardsTab() {
@@ -285,7 +285,7 @@ export default function HazardCardsTab() {
                     borderRadius: '12px',
                     backgroundColor: canAfford ? 'rgba(239, 68, 68, 0.15)' : 'rgba(255, 255, 255, 0.06)',
                     border: canAfford ? '1px solid rgba(239, 68, 68, 0.35)' : '1px solid var(--color-border)',
-                    color: canAfford ? '#ef4444' : 'var(--color-text-muted)',
+                    color: canAfford ? 'var(--danger-text)' : 'var(--color-text-muted)',
                     fontSize: '0.78rem',
                     fontWeight: 700,
                     flexShrink: 0

@@ -347,7 +347,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
               borderRadius: '20px',
               border: '1px solid ' + (character.heroicInspiration ? 'var(--warning, #f59e0b)' : 'rgba(255,255,255,0.2)'),
               background: character.heroicInspiration ? 'rgba(245, 158, 11, 0.2)' : 'rgba(255,255,255,0.05)',
-              color: character.heroicInspiration ? '#f59e0b' : 'var(--color-text-muted)',
+              color: character.heroicInspiration ? 'var(--ember-text)' : 'var(--color-text-muted)',
               cursor: (canEdit || isGm) ? 'pointer' : 'default',
               fontWeight: 600,
               fontSize: '0.85rem',
@@ -442,7 +442,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
                 <div>
-                  <div style={{ fontSize: '2rem', fontWeight: 900, color: (character.hpCurrent || 0) === 0 ? '#ef4444' : 'var(--color-text)' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 900, color: (character.hpCurrent || 0) === 0 ? 'var(--danger-text)' : 'var(--color-text)' }}>
                     {character.hpCurrent ?? 0} <span style={{ fontSize: '1rem', color: 'var(--color-text-muted)', fontWeight: 'normal' }}>/ {calculatedHpMax}</span>
                   </div>
                   <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>PV Actuels</div>
@@ -1018,7 +1018,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label style={{ fontSize: '0.85rem', color: '#34d399', fontWeight: 'bold' }}>Idéaux</label>
+              <label style={{ fontSize: '0.85rem', color: 'var(--success-text)', fontWeight: 'bold' }}>Idéaux</label>
               {canEdit ? (
                 <textarea rows={3} value={roleplayTraits.ideals || ''} onChange={e => handleRoleplayTraitChange('ideals', e.target.value)} className="editable-textarea" style={{ minHeight: '80px' }} placeholder="Ce en quoi croit le personnage..." />
               ) : (
@@ -1027,7 +1027,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label style={{ fontSize: '0.85rem', color: '#60a5fa', fontWeight: 'bold' }}>Liens</label>
+              <label style={{ fontSize: '0.85rem', color: 'var(--info-text)', fontWeight: 'bold' }}>Liens</label>
               {canEdit ? (
                 <textarea rows={3} value={roleplayTraits.bonds || ''} onChange={e => handleRoleplayTraitChange('bonds', e.target.value)} className="editable-textarea" style={{ minHeight: '80px' }} placeholder="Personnes, lieux ou objets chers..." />
               ) : (
@@ -1036,7 +1036,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label style={{ fontSize: '0.85rem', color: '#f87171', fontWeight: 'bold' }}>Défauts & Faiblesses</label>
+              <label style={{ fontSize: '0.85rem', color: 'var(--danger-text)', fontWeight: 'bold' }}>Défauts & Faiblesses</label>
               {canEdit ? (
                 <textarea rows={3} value={roleplayTraits.flaws || ''} onChange={e => handleRoleplayTraitChange('flaws', e.target.value)} className="editable-textarea" style={{ minHeight: '80px' }} placeholder="Vices, impulsions destructrices..." />
               ) : (
@@ -1148,7 +1148,7 @@ export default function CharacterSheet({ campaignId, characterData, isGm, onUpda
       {activeTab === 'gmNotes' && isGm && (
         <section className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ margin: 0, color: '#ef4444', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ margin: 0, color: 'var(--danger-text)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Lock size={20} color="#ef4444" /> Notes Secrètes du MJ
             </h3>
             <span className="gm-secret-badge">

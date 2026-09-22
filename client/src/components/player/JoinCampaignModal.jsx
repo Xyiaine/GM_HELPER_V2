@@ -50,7 +50,7 @@ export default function JoinCampaignModal({ isOpen, onClose, onSuccess }) {
             backgroundColor: 'var(--danger-tint)',
             border: '1px solid rgba(239, 68, 68, 0.3)',
             borderRadius: '6px',
-            color: '#f87171',
+            color: 'var(--danger-text)',
             fontSize: '0.875rem'
           }}>
             {error}

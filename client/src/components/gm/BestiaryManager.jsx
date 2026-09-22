@@ -322,7 +322,7 @@ export default function BestiaryManager() {
                     style={{
                       background: 'none',
                       border: 'none',
-                      color: entry.isFavorite ? '#f59e0b' : 'var(--color-text-muted)',
+                      color: entry.isFavorite ? 'var(--ember-text)' : 'var(--color-text-muted)',
                       cursor: 'pointer',
                     }}
                   >
@@ -340,7 +340,7 @@ export default function BestiaryManager() {
                       padding: '4px 8px',
                       borderRadius: '4px',
                       backgroundColor: 'var(--info-tint)',
-                      color: '#60a5fa',
+                      color: 'var(--info-text)',
                       fontSize: '0.85rem',
                     }}
                   >
@@ -355,7 +355,7 @@ export default function BestiaryManager() {
                       padding: '4px 8px',
                       borderRadius: '4px',
                       backgroundColor: 'var(--danger-tint)',
-                      color: '#f87171',
+                      color: 'var(--danger-text)',
                       fontSize: '0.85rem',
                     }}
                   >
@@ -371,7 +371,7 @@ export default function BestiaryManager() {
                         padding: '4px 8px',
                         borderRadius: '4px',
                         backgroundColor: 'var(--success-tint)',
-                        color: '#34d399',
+                        color: 'var(--success-text)',
                         fontSize: '0.85rem',
                       }}
                     >
@@ -454,7 +454,7 @@ export default function BestiaryManager() {
                       background: 'none',
                       border: '1px solid #ef4444',
                       borderRadius: '4px',
-                      color: '#ef4444',
+                      color: 'var(--danger-text)',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -507,7 +507,7 @@ export default function BestiaryManager() {
             </div>
 
             {errorMessage && (
-              <div style={{ backgroundColor: 'var(--danger-tint-strong)', border: '1px solid #ef4444', color: '#f87171', padding: '10px', borderRadius: '6px', marginBottom: '16px' }}>
+              <div style={{ backgroundColor: 'var(--danger-tint-strong)', border: '1px solid #ef4444', color: 'var(--danger-text)', padding: '10px', borderRadius: '6px', marginBottom: '16px' }}>
                 {errorMessage}
               </div>
             )}

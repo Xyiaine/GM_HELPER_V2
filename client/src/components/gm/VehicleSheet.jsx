@@ -137,7 +137,7 @@ export default function VehicleSheet() {
                             <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>État : {slot.condition}</div>
                           </div>
                           {slot.part && slot.part.modifiers && (
-                            <div style={{ fontSize: '0.8rem', color: '#34d399' }}>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--success-text)' }}>
                               {slot.part.modifiers}
                             </div>
                           )}

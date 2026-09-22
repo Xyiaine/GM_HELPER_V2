@@ -63,7 +63,7 @@ export default function ThreatClockWidget({ threat, campaignId, questId }) {
           <AlertTriangle size={16} color="#ef4444" />
           {threat.name}
         </h4>
-        <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: currentLevel >= (threat.maxLevel || 6) ? '#ef4444' : '#f59e0b' }}>
+        <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: currentLevel >= (threat.maxLevel || 6) ? 'var(--danger-text)' : 'var(--ember-text)' }}>
           {currentLevel} / {threat.maxLevel || 6} ({threat.stateLabel || 'actif'})
         </span>
       </div>
@@ -124,7 +124,7 @@ export default function ThreatClockWidget({ threat, campaignId, questId }) {
           borderRadius: '4px',
           padding: '8px 12px',
           fontSize: '0.8rem',
-          color: '#fca5a5',
+          color: 'var(--danger-text)',
           marginTop: '4px'
         }}>
           <strong>🚨 SEUIL ATTEINT ({currentLevel}/{threat.maxLevel}) :</strong> {activeAlert}

@@ -412,7 +412,7 @@ export default function ConvoyManager() {
                 <span style={{
                   fontSize: '0.7rem', padding: '2px 6px', borderRadius: 4,
                   background: c.status === 'in_progress' ? 'rgba(34,197,94,0.2)' : c.status === 'completed' ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.1)',
-                  color: c.status === 'in_progress' ? '#22c55e' : c.status === 'completed' ? '#a5b4fc' : 'var(--color-text-muted)',
+                  color: c.status === 'in_progress' ? 'var(--success-text)' : c.status === 'completed' ? '#a5b4fc' : 'var(--color-text-muted)',
                 }}>
                   {c.status === 'planning' ? 'Planifié' : c.status === 'in_progress' ? 'En cours' : c.status === 'completed' ? 'Terminé' : c.status === 'failed' ? 'Échoué' : 'Abandonné'}
                 </span>
@@ -477,11 +477,11 @@ export default function ConvoyManager() {
               {/* ─── Resources Bar ─── */}
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 {[
-                  { key: 'fuel', label: 'Carburant', icon: Fuel, color: '#f59e0b' },
-                  { key: 'water', label: 'Eau', icon: Droplets, color: '#3b82f6' },
-                  { key: 'food', label: 'Nourriture', icon: Apple, color: '#22c55e' },
+                  { key: 'fuel', label: 'Carburant', icon: Fuel, color: 'var(--ember-text)' },
+                  { key: 'water', label: 'Eau', icon: Droplets, color: 'var(--info-text)' },
+                  { key: 'food', label: 'Nourriture', icon: Apple, color: 'var(--success-text)' },
                   { key: 'medicine', label: 'Médicaments', icon: Pill, color: '#ec4899' },
-                  { key: 'ammo', label: 'Munitions', icon: Crosshair, color: '#ef4444' },
+                  { key: 'ammo', label: 'Munitions', icon: Crosshair, color: 'var(--danger-text)' },
                 ].map(({ key, label, icon: Icon, color }) => (
                   <div key={key} style={{
                     flex: 1, minWidth: 140, background: 'var(--color-surface)', borderRadius: 8,
@@ -491,7 +491,7 @@ export default function ConvoyManager() {
                       <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
                         <Icon size={14} style={{ color }} /> {label}
                       </span>
-                      <span style={{ fontWeight: 700, color: selectedConvoy[key] < 20 ? '#ef4444' : 'white' }}>
+                      <span style={{ fontWeight: 700, color: selectedConvoy[key] < 20 ? 'var(--danger-text)' : 'white' }}>
                         {selectedConvoy[key]}
                       </span>
                     </div>
@@ -561,7 +561,7 @@ export default function ConvoyManager() {
                             <VIcon size={16} /> {v.name}
                           </span>
                           <div style={{ display: 'flex', gap: 4 }} onClick={e => e.stopPropagation()}>
-                            <button onClick={() => handleDeleteVehicle(v.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}>
+                            <button onClick={() => handleDeleteVehicle(v.id)} style={{ background: 'none', border: 'none', color: 'var(--danger-text)', cursor: 'pointer' }}>
                               <Trash2 size={14} />
                             </button>
                           </div>
@@ -586,7 +586,7 @@ export default function ConvoyManager() {
                             </div>
                           </>
                         )}
-                        <div style={{ fontSize: '0.75rem', color: '#a78bfa', display: 'flex', alignItems: 'center', gap: 4, fontStyle: 'italic' }}>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--arcane-text)', display: 'flex', alignItems: 'center', gap: 4, fontStyle: 'italic' }}>
                           📜 Voir Fiche Stat-Block D&D 5e
                         </div>
                       </div>
@@ -681,13 +681,13 @@ export default function ConvoyManager() {
                                       <div style={{ marginTop: 12, padding: 12, background: 'var(--paper-sunken)', borderRadius: 8, border: '1px solid var(--color-border)' }}>
                                         <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 8, textTransform: 'uppercase' }}>
                                           {actionTxt} : 
-                                          {resKey && <span style={{ marginLeft: 6, fontWeight: 'bold', color: eff.type === 'damage' ? '#f87171' : '#4ade80' }}>{sign}{resVal} {resKey}</span>}
-                                          {eff.baseVehicleHp > 0 && <span style={{ marginLeft: 6, fontWeight: 'bold', color: eff.type === 'damage' ? '#f87171' : '#4ade80' }}>{sign}{eff.baseVehicleHp} PV (flotte)</span>}
+                                          {resKey && <span style={{ marginLeft: 6, fontWeight: 'bold', color: eff.type === 'damage' ? 'var(--danger-text)' : 'var(--success-text)' }}>{sign}{resVal} {resKey}</span>}
+                                          {eff.baseVehicleHp > 0 && <span style={{ marginLeft: 6, fontWeight: 'bold', color: eff.type === 'damage' ? 'var(--danger-text)' : 'var(--success-text)' }}>{sign}{eff.baseVehicleHp} PV (flotte)</span>}
                                         </div>
                                         <div style={{ display: 'flex', gap: 8 }}>
-                                          <button onClick={(e) => { e.stopPropagation(); handleResolveEvent(event.id, 'failure'); }} style={{ ...btnStyle('rgba(239,68,68,0.2)'), color: '#f87171', border: '1px solid #ef4444', flex: 1, justifyContent: 'center' }}>Échec</button>
-                                          <button onClick={(e) => { e.stopPropagation(); handleResolveEvent(event.id, 'partial'); }} style={{ ...btnStyle('rgba(245,158,11,0.2)'), color: '#fbbf24', border: '1px solid #f59e0b', flex: 1, justifyContent: 'center' }}>Partielle</button>
-                                          <button onClick={(e) => { e.stopPropagation(); handleResolveEvent(event.id, 'success'); }} style={{ ...btnStyle('rgba(34,197,94,0.2)'), color: '#4ade80', border: '1px solid #22c55e', flex: 1, justifyContent: 'center' }}>Totale</button>
+                                          <button onClick={(e) => { e.stopPropagation(); handleResolveEvent(event.id, 'failure'); }} style={{ ...btnStyle('rgba(239,68,68,0.2)'), color: 'var(--danger-text)', border: '1px solid #ef4444', flex: 1, justifyContent: 'center' }}>Échec</button>
+                                          <button onClick={(e) => { e.stopPropagation(); handleResolveEvent(event.id, 'partial'); }} style={{ ...btnStyle('rgba(245,158,11,0.2)'), color: 'var(--ember-text)', border: '1px solid #f59e0b', flex: 1, justifyContent: 'center' }}>Partielle</button>
+                                          <button onClick={(e) => { e.stopPropagation(); handleResolveEvent(event.id, 'success'); }} style={{ ...btnStyle('rgba(34,197,94,0.2)'), color: 'var(--success-text)', border: '1px solid #22c55e', flex: 1, justifyContent: 'center' }}>Totale</button>
                                         </div>
                                       </div>
                                     );
@@ -695,15 +695,15 @@ export default function ConvoyManager() {
                                 )}
                                 {isActive && event.severity === 'low' && (
                                   <div style={{ marginTop: 16, padding: 12, background: 'var(--success-tint)', borderRadius: 8, border: '1px solid rgba(52, 211, 153, 0.4)' }}>
-                                    <h4 style={{ margin: '0 0 12px 0', fontSize: '0.9rem', color: '#34d399' }}>⛺ Actions de Campement (PJ)</h4>
+                                    <h4 style={{ margin: '0 0 12px 0', fontSize: '0.9rem', color: 'var(--success-text)' }}>⛺ Actions de Campement (PJ)</h4>
                                     
                                     {/* Ravitaillement */}
                                     <div style={{ marginBottom: 12 }}>
                                       <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 6 }}>Fouille & Ravitaillement (Eau, Nourriture, Carburant)</div>
                                       <div style={{ display: 'flex', gap: 6 }}>
-                                        <button onClick={(e) => { e.stopPropagation(); }} style={{ ...btnStyle('rgba(239,68,68,0.2)'), color: '#f87171', border: '1px solid #ef4444', flex: 1, justifyContent: 'center' }}>Échec (+0)</button>
-                                        <button onClick={(e) => { e.stopPropagation(); handleResourceChange('water', 5); handleResourceChange('food', 5); handleResourceChange('fuel', 5); }} style={{ ...btnStyle('rgba(245,158,11,0.2)'), color: '#fbbf24', border: '1px solid #f59e0b', flex: 1, justifyContent: 'center' }}>Partielle (+5)</button>
-                                        <button onClick={(e) => { e.stopPropagation(); handleResourceChange('water', 15); handleResourceChange('food', 15); handleResourceChange('fuel', 15); }} style={{ ...btnStyle('rgba(34,197,94,0.2)'), color: '#4ade80', border: '1px solid #22c55e', flex: 1, justifyContent: 'center' }}>Totale (+15)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); }} style={{ ...btnStyle('rgba(239,68,68,0.2)'), color: 'var(--danger-text)', border: '1px solid #ef4444', flex: 1, justifyContent: 'center' }}>Échec (+0)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); handleResourceChange('water', 5); handleResourceChange('food', 5); handleResourceChange('fuel', 5); }} style={{ ...btnStyle('rgba(245,158,11,0.2)'), color: 'var(--ember-text)', border: '1px solid #f59e0b', flex: 1, justifyContent: 'center' }}>Partielle (+5)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); handleResourceChange('water', 15); handleResourceChange('food', 15); handleResourceChange('fuel', 15); }} style={{ ...btnStyle('rgba(34,197,94,0.2)'), color: 'var(--success-text)', border: '1px solid #22c55e', flex: 1, justifyContent: 'center' }}>Totale (+15)</button>
                                       </div>
                                     </div>
 
@@ -711,9 +711,9 @@ export default function ConvoyManager() {
                                     <div style={{ marginBottom: 12 }}>
                                       <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 6 }}>Soins Médicaux (Médicaments)</div>
                                       <div style={{ display: 'flex', gap: 6 }}>
-                                        <button onClick={(e) => { e.stopPropagation(); }} style={{ ...btnStyle('rgba(239,68,68,0.2)'), color: '#f87171', border: '1px solid #ef4444', flex: 1, justifyContent: 'center' }}>Échec (+0)</button>
-                                        <button onClick={(e) => { e.stopPropagation(); handleResourceChange('meds', 10); }} style={{ ...btnStyle('rgba(245,158,11,0.2)'), color: '#fbbf24', border: '1px solid #f59e0b', flex: 1, justifyContent: 'center' }}>Partielle (+10)</button>
-                                        <button onClick={(e) => { e.stopPropagation(); handleResourceChange('meds', 20); }} style={{ ...btnStyle('rgba(34,197,94,0.2)'), color: '#4ade80', border: '1px solid #22c55e', flex: 1, justifyContent: 'center' }}>Totale (+20)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); }} style={{ ...btnStyle('rgba(239,68,68,0.2)'), color: 'var(--danger-text)', border: '1px solid #ef4444', flex: 1, justifyContent: 'center' }}>Échec (+0)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); handleResourceChange('meds', 10); }} style={{ ...btnStyle('rgba(245,158,11,0.2)'), color: 'var(--ember-text)', border: '1px solid #f59e0b', flex: 1, justifyContent: 'center' }}>Partielle (+10)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); handleResourceChange('meds', 20); }} style={{ ...btnStyle('rgba(34,197,94,0.2)'), color: 'var(--success-text)', border: '1px solid #22c55e', flex: 1, justifyContent: 'center' }}>Totale (+20)</button>
                                       </div>
                                     </div>
 
@@ -732,9 +732,9 @@ export default function ConvoyManager() {
                                         </select>
                                       </div>
                                       <div style={{ display: 'flex', gap: 6 }}>
-                                        <button onClick={(e) => { e.stopPropagation(); }} disabled={!campActionVehicleId} style={{ ...btnStyle('rgba(239,68,68,0.2)'), color: '#f87171', border: '1px solid #ef4444', flex: 1, opacity: campActionVehicleId ? 1 : 0.5, justifyContent: 'center' }}>Échec (+0)</button>
-                                        <button onClick={(e) => { e.stopPropagation(); handleVehicleHpChange(campActionVehicleId, 25); }} disabled={!campActionVehicleId} style={{ ...btnStyle('rgba(245,158,11,0.2)'), color: '#fbbf24', border: '1px solid #f59e0b', flex: 1, opacity: campActionVehicleId ? 1 : 0.5, justifyContent: 'center' }}>Partielle (+25)</button>
-                                        <button onClick={(e) => { e.stopPropagation(); handleVehicleHpChange(campActionVehicleId, 50); }} disabled={!campActionVehicleId} style={{ ...btnStyle('rgba(34,197,94,0.2)'), color: '#4ade80', border: '1px solid #22c55e', flex: 1, opacity: campActionVehicleId ? 1 : 0.5, justifyContent: 'center' }}>Totale (+50)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); }} disabled={!campActionVehicleId} style={{ ...btnStyle('rgba(239,68,68,0.2)'), color: 'var(--danger-text)', border: '1px solid #ef4444', flex: 1, opacity: campActionVehicleId ? 1 : 0.5, justifyContent: 'center' }}>Échec (+0)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); handleVehicleHpChange(campActionVehicleId, 25); }} disabled={!campActionVehicleId} style={{ ...btnStyle('rgba(245,158,11,0.2)'), color: 'var(--ember-text)', border: '1px solid #f59e0b', flex: 1, opacity: campActionVehicleId ? 1 : 0.5, justifyContent: 'center' }}>Partielle (+25)</button>
+                                        <button onClick={(e) => { e.stopPropagation(); handleVehicleHpChange(campActionVehicleId, 50); }} disabled={!campActionVehicleId} style={{ ...btnStyle('rgba(34,197,94,0.2)'), color: 'var(--success-text)', border: '1px solid #22c55e', flex: 1, opacity: campActionVehicleId ? 1 : 0.5, justifyContent: 'center' }}>Totale (+50)</button>
                                       </div>
                                     </div>
                                   </div>
@@ -750,7 +750,7 @@ export default function ConvoyManager() {
                                 <Edit3 size={14} />
                               </button>
                               <button onClick={() => handleDeleteEvent(event.id)}
-                                style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}>
+                                style={{ background: 'none', border: 'none', color: 'var(--danger-text)', cursor: 'pointer' }}>
                                 <Trash2 size={14} />
                               </button>
                             </div>
@@ -774,7 +774,7 @@ export default function ConvoyManager() {
                   overflowY: 'auto', border: '1px solid var(--color-border)',
                 }} onClick={e => e.stopPropagation()}>
                   <h3 style={{ margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Gift size={20} style={{ color: '#f59e0b' }} /> Récompenses Proposées
+                    <Gift size={20} style={{ color: 'var(--ember-text)' }} /> Récompenses Proposées
                   </h3>
                   <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: 16 }}>
                     Sélectionnez les récompenses à accorder aux joueurs :
@@ -793,7 +793,7 @@ export default function ConvoyManager() {
                     }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <strong>{r.label}</strong>
-                        <span style={{ fontSize: '0.8rem', color: '#f59e0b' }}>{r.type}</span>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--ember-text)' }}>{r.type}</span>
                       </div>
                       <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{r.description}</p>
                     </div>
@@ -852,12 +852,12 @@ export default function ConvoyManager() {
                     {/* Header */}
                     <div style={{ borderBottom: '2px solid #b91c1c', paddingBottom: 12, marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                       <div>
-                        <h2 style={{ margin: 0, color: '#fca5a5', fontSize: '1.4rem' }}>{convoyVeh.name}</h2>
-                        <div style={{ fontSize: '0.85rem', color: '#9ca3af', fontStyle: 'italic' }}>
+                        <h2 style={{ margin: 0, color: 'var(--danger-text)', fontSize: '1.4rem' }}>{convoyVeh.name}</h2>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--ink-muted)', fontStyle: 'italic' }}>
                           {regVeh?.modelType || VEHICLE_LABELS[convoyVeh.type]} • {selectedConvoy?.name}
                         </div>
                       </div>
-                      <button onClick={() => setInspectVehicle(null)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer' }}>
+                      <button onClick={() => setInspectVehicle(null)} style={{ background: 'transparent', border: 'none', color: 'var(--ink-muted)', cursor: 'pointer' }}>
                         <X size={22} />
                       </button>
                     </div>
@@ -865,33 +865,33 @@ export default function ConvoyManager() {
                     {/* D&D 5e Stat Grid */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 10, marginBottom: 16, backgroundColor: 'var(--paper-sunken)', padding: 12, borderRadius: 8, textAlign: 'center' }}>
                       <div>
-                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>CA (Armure)</div>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#f59e0b' }}>🛡️ {ac}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--ink-muted)', textTransform: 'uppercase' }}>CA (Armure)</div>
+                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--ember-text)' }}>🛡️ {ac}</div>
                       </div>
                       <div>
-                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>PV</div>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: hpCurrent < hpMax * 0.3 ? '#ef4444' : '#10b981' }}>❤️ {hpCurrent}/{hpMax}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--ink-muted)', textTransform: 'uppercase' }}>PV</div>
+                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: hpCurrent < hpMax * 0.3 ? 'var(--danger-text)' : 'var(--success-text)' }}>❤️ {hpCurrent}/{hpMax}</div>
                       </div>
                       <div>
-                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>Vitesse</div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#60a5fa' }}>🏎️ {speedText}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--ink-muted)', textTransform: 'uppercase' }}>Vitesse</div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--info-text)' }}>🏎️ {speedText}</div>
                       </div>
                       <div>
-                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', textTransform: 'uppercase' }}>Initiative</div>
-                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#a78bfa' }}>⚡ {init}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--ink-muted)', textTransform: 'uppercase' }}>Initiative</div>
+                        <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--arcane-text)' }}>⚡ {init}</div>
                       </div>
                     </div>
 
                     {/* Pilote & Résistances */}
                     <div style={{ fontSize: '0.85rem', marginBottom: 14, lineHeight: 1.5, borderBottom: '1px solid #3f3f46', paddingBottom: 12 }}>
                       <div><strong>👨‍✈️ Pilote & Équipage :</strong> {pilote}</div>
-                      {notes.resistances && <div style={{ color: '#fbbf24', marginTop: 4 }}><strong>🛡️ Résistances :</strong> {notes.resistances}</div>}
+                      {notes.resistances && <div style={{ color: 'var(--ember-text)', marginTop: 4 }}><strong>🛡️ Résistances :</strong> {notes.resistances}</div>}
                     </div>
 
                     {/* Capacités Spéciales */}
                     {notes.specialAbilities && notes.specialAbilities.length > 0 && (
                       <div style={{ marginBottom: 16, borderBottom: '1px solid #3f3f46', paddingBottom: 12 }}>
-                        <h4 style={{ margin: '0 0 8px 0', color: '#fcd34d', fontSize: '0.95rem' }}>✨ Capacités Spéciales</h4>
+                        <h4 style={{ margin: '0 0 8px 0', color: 'var(--ember-text)', fontSize: '0.95rem' }}>✨ Capacités Spéciales</h4>
                         {notes.specialAbilities.map((ab, idx) => (
                           <div key={idx} style={{ fontSize: '0.85rem', marginBottom: 6, lineHeight: 1.4 }}>
                             <strong style={{ color: '#fef08a' }}>• {ab.name} :</strong> {ab.description}
@@ -903,14 +903,14 @@ export default function ConvoyManager() {
                     {/* Actions & Armement */}
                     {notes.actions && notes.actions.length > 0 && (
                       <div style={{ marginBottom: 16 }}>
-                        <h4 style={{ margin: '0 0 8px 0', color: '#ef4444', fontSize: '0.95rem' }}>⚔️ Armement & Actions D&D 5e</h4>
+                        <h4 style={{ margin: '0 0 8px 0', color: 'var(--danger-text)', fontSize: '0.95rem' }}>⚔️ Armement & Actions D&D 5e</h4>
                         {notes.actions.map((act, idx) => (
                           <div key={idx} style={{ backgroundColor: 'var(--danger-tint)', borderLeft: '3px solid #ef4444', padding: '8px 12px', borderRadius: 4, marginBottom: 8, fontSize: '0.85rem' }}>
-                            <div style={{ fontWeight: 'bold', color: '#fca5a5', display: 'flex', justifyContent: 'space-between' }}>
+                            <div style={{ fontWeight: 'bold', color: 'var(--danger-text)', display: 'flex', justifyContent: 'space-between' }}>
                               <span>{act.name}</span>
-                              <span style={{ fontSize: '0.75rem', color: '#f87171' }}>{act.type} • Portée : {act.range}</span>
+                              <span style={{ fontSize: '0.75rem', color: 'var(--danger-text)' }}>{act.type} • Portée : {act.range}</span>
                             </div>
-                            <div style={{ color: '#fecaca', marginTop: 2 }}>
+                            <div style={{ color: 'var(--danger-text)', marginTop: 2 }}>
                               <strong>Toucher :</strong> {act.attackBonus} | <strong>Dégâts :</strong> {act.damage}
                             </div>
                           </div>
@@ -920,7 +920,7 @@ export default function ConvoyManager() {
 
                     {/* HP Adjustment Controls */}
                     <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid #3f3f46', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '0.85rem', color: '#9ca3af' }}>Ajuster PV en direct :</span>
+                      <span style={{ fontSize: '0.85rem', color: 'var(--ink-muted)' }}>Ajuster PV en direct :</span>
                       <div style={{ display: 'flex', gap: 6 }}>
                         <button onClick={() => handleVehicleHpChange(convoyVeh.id, -20)} style={{ ...smallBtn, background: 'var(--danger)' }}>-20 PV</button>
                         <button onClick={() => handleVehicleHpChange(convoyVeh.id, -10)} style={{ ...smallBtn, background: 'var(--danger)' }}>-10 PV</button>

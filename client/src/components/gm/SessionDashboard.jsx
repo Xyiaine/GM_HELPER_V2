@@ -267,7 +267,7 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
               <button
                 className="btn-primary"
                 onClick={handleRollD8}
-                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', background: '#8b5cf6', color: '#fff', border: 'none', padding: '8px' }}
+                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', background: 'var(--arcane-text)', color: '#fff', border: 'none', padding: '8px' }}
               >
                 <Dices size={18} /> Lancer le d8
               </button>
@@ -290,14 +290,14 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
               </div>
               {auditReport && (
                 <div style={{ marginTop: '8px', padding: '8px', borderRadius: '4px', backgroundColor: auditReport.isValid ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)' }}>
-                  <span style={{ color: auditReport.isValid ? '#10b981' : '#ef4444', fontWeight: 'bold' }}>
+                  <span style={{ color: auditReport.isValid ? 'var(--success-text)' : 'var(--danger-text)', fontWeight: 'bold' }}>
                     {auditReport.isValid ? '✅ Graphe 100% Valide' : '⚠️ Anomalies détectées'}
                   </span>
                   {auditReport.errors?.map((err, idx) => (
-                    <div key={idx} style={{ color: '#ef4444', marginTop: '4px', fontSize: '0.75rem' }}>❌ {err}</div>
+                    <div key={idx} style={{ color: 'var(--danger-text)', marginTop: '4px', fontSize: '0.75rem' }}>❌ {err}</div>
                   ))}
                   {auditReport.warnings?.map((warn, idx) => (
-                    <div key={idx} style={{ color: '#f59e0b', marginTop: '4px', fontSize: '0.75rem' }}>⚠️ {warn}</div>
+                    <div key={idx} style={{ color: 'var(--ember-text)', marginTop: '4px', fontSize: '0.75rem' }}>⚠️ {warn}</div>
                   ))}
                 </div>
               )}
@@ -350,7 +350,7 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.85rem', color: '#38bdf8' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.85rem', color: 'var(--info-text)' }}>
                       <input
                         type="checkbox"
                         checked={!!checkedLeads[idx]}
@@ -399,10 +399,10 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
             {scenePoolState && (
               <div style={{ backgroundColor: 'var(--success-tint)', border: '1px solid #10b981', borderRadius: '6px', padding: '12px', fontSize: '0.85rem' }}>
                 {scenePoolState.completed ? (
-                  <strong style={{ color: '#10b981' }}>🏁 Pool complet ! Allez au nœud de clôture.</strong>
+                  <strong style={{ color: 'var(--success-text)' }}>🏁 Pool complet ! Allez au nœud de clôture.</strong>
                 ) : (
                   <>
-                    <strong style={{ color: '#10b981' }}>Scène Tirée : {scenePoolState.selectedNode?.title}</strong>
+                    <strong style={{ color: 'var(--success-text)' }}>Scène Tirée : {scenePoolState.selectedNode?.title}</strong>
                     <div style={{ fontSize: '0.75rem', color: '#ccc', marginTop: '4px' }}>
                       Progression Pool : {scenePoolState.drawnCount} / {scenePoolState.requiredCount} scènes
                     </div>
@@ -423,7 +423,7 @@ export default function SessionDashboard({ quest, campaignId, onClose }) {
               5 à 10 minutes hors fiction pour recueillir le ressenti des joueurs et alimenter leurs futures missions secrètes :
             </p>
             {debriefQuestions.map((q, idx) => (
-              <div key={idx} style={{ backgroundColor: 'var(--color-background)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '10px', fontSize: '0.85rem', color: '#fef3c7' }}>
+              <div key={idx} style={{ backgroundColor: 'var(--color-background)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '10px', fontSize: '0.85rem', color: 'var(--ember-text)' }}>
                 <strong>{idx + 1}.</strong> {q}
               </div>
             ))}

@@ -191,7 +191,9 @@ export default function QuestManager() {
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Link to={`/gm/campaigns/${activeCampaignId}/quests/${quest.id}`} style={{ textDecoration: 'none' }}>
-                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: 0, color: 'var(--color-primary-light)', cursor: 'pointer' }}>
+                    {/* Titre de quête : --color-primary-light pointait vers
+                        --rust-soft, qui ne donne que 3,17:1 sur le papier. */}
+                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: 0, color: 'var(--rust-text)', cursor: 'pointer' }}>
                       <Target color="var(--warning, #f59e0b)" size={20} />
                       {quest.name}
                     </h3>
@@ -247,7 +249,7 @@ export default function QuestManager() {
                             fetchQuests(activeCampaignId);
                           }
                         }} 
-                        style={{ display: 'flex', gap: '4px', alignItems: 'center', backgroundColor: 'var(--success-tint)', color: '#10b981', border: '1px solid #10b981' }}
+                        style={{ display: 'flex', gap: '4px', alignItems: 'center', backgroundColor: 'var(--success-tint)', color: 'var(--success-text)', border: '1px solid #10b981' }}
                         title="BE-1: Crée une instance vierge de jeu à partir de ce modèle"
                       >
                         🚀 Instancier (Nouvelle Table)
@@ -276,7 +278,7 @@ export default function QuestManager() {
                       <button 
                         className="btn-secondary" 
                         onClick={() => handleDeleteQuest(quest)} 
-                        style={{ display: 'flex', gap: '4px', alignItems: 'center', color: '#ef4444', borderColor: '#ef4444', backgroundColor: 'var(--danger-tint)' }}
+                        style={{ display: 'flex', gap: '4px', alignItems: 'center', color: 'var(--danger-text)', borderColor: 'var(--danger-text)', backgroundColor: 'var(--danger-tint)' }}
                         title={`Supprimer définitivement la quête de la DB (${nodeCount} nœud(s))`}
                       >
                         <Trash2 size={16} /> Supprimer

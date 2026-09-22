@@ -9,12 +9,15 @@ import { Printer, Package, Users, Download, Loader, Check, AlertTriangle } from 
 // sort d'ici. Format imposé au cadrage : tarot agrandi ×1,5, soit 105 × 180 mm.
 const CARD_FORMAT = { width: 105, height: 180 };
 
+// Couleurs de rareté. Elles servent de TEXTE sur le papier : les teintes
+// d'origine, choisies pour un fond sombre, tombaient entre 2,15:1 et 3,44:1.
+// Ces valeurs sont les mêmes teintes assombries jusqu'à 5:1.
 const RARITY = {
-  common: { label: 'Courant', color: '#8a8175' },
-  uncommon: { label: 'Peu courant', color: '#5b8f2a' },
-  rare: { label: 'Rare', color: '#3b82f6' },
-  very_rare: { label: 'Très rare', color: '#a855f7' },
-  legendary: { label: 'Légendaire', color: '#d99a3f' },
+  common: { label: 'Courant', color: '#665F56' },
+  uncommon: { label: 'Peu courant', color: '#446A1F' },
+  rare: { label: 'Rare', color: 'var(--info-text)' },
+  very_rare: { label: 'Très rare', color: 'var(--arcane-text)' },
+  legendary: { label: 'Légendaire', color: '#7D5924' },
 };
 
 const TYPE_LABEL = {
@@ -166,10 +169,12 @@ export default function PrintStudio() {
             onClick={() => { setTab(key); setDone(null); }}
             style={{
               display: 'flex', alignItems: 'center', gap: '7px',
-              padding: '9px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem',
-              border: `1px solid ${tab === key ? 'var(--color-primary)' : 'var(--color-border)'}`,
-              backgroundColor: tab === key ? 'rgba(99, 102, 241, 0.15)' : 'var(--color-surface)',
-              color: tab === key ? 'var(--color-primary)' : 'var(--color-text-muted)',
+              padding: '9px 16px', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontSize: '0.9rem',
+              border: `1px solid ${tab === key ? 'var(--primary-border)' : 'var(--rule)'}`,
+              // L'indigo codé en dur datait du thème sombre : sur le papier, la
+              // rouille posée dessus ne donnait que 4,06:1.
+              backgroundColor: tab === key ? 'var(--primary-tint-strong)' : 'var(--paper-raised)',
+              color: tab === key ? 'var(--rust-text)' : 'var(--ink-muted)',
               fontWeight: tab === key ? 600 : 400,
             }}
           >
@@ -192,7 +197,7 @@ export default function PrintStudio() {
               style={{
                 flex: '1 1 260px', textAlign: 'left', padding: '12px 14px', borderRadius: '8px', cursor: 'pointer',
                 border: `1px solid ${layout === key ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                backgroundColor: layout === key ? 'rgba(99, 102, 241, 0.12)' : 'transparent',
+                backgroundColor: layout === key ? 'var(--primary-tint)' : 'transparent',
                 color: 'var(--color-text)',
               }}
             >
@@ -239,7 +244,7 @@ export default function PrintStudio() {
                     display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer',
                     padding: '10px 12px', borderRadius: '8px',
                     border: `1px solid ${checked ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                    backgroundColor: checked ? 'rgba(99, 102, 241, 0.1)' : 'var(--color-background)',
+                    backgroundColor: checked ? 'var(--primary-tint)' : 'var(--color-background)',
                   }}
                 >
                   <input type="checkbox" checked={checked} onChange={() => toggle(item.id)} />
@@ -267,7 +272,7 @@ export default function PrintStudio() {
                     display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer',
                     padding: '10px 12px', borderRadius: '8px',
                     border: `1px solid ${checked ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                    backgroundColor: checked ? 'rgba(99, 102, 241, 0.1)' : 'var(--color-background)',
+                    backgroundColor: checked ? 'var(--primary-tint)' : 'var(--color-background)',
                   }}
                 >
                   <input type="checkbox" checked={checked} onChange={() => toggle(character.id)} />
@@ -293,8 +298,9 @@ export default function PrintStudio() {
         style={{
           display: 'flex', alignItems: 'center', gap: '9px',
           padding: '12px 22px', fontSize: '0.95rem',
-          opacity: busy || totalSelected === 0 ? 0.55 : 1,
-          cursor: busy || totalSelected === 0 ? 'not-allowed' : 'pointer',
+          // L'opacite en ligne ecrasait le style :disabled de la feuille de
+          // style et faisait tomber le libelle a 2,16:1. L'etat desactive est
+          // desormais rendu par .btn-primary:disabled, lisible.
         }}
       >
         {busy ? <Loader size={17} className="spin" /> : <Download size={17} />}
