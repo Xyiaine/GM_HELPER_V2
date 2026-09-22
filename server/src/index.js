@@ -44,6 +44,7 @@ const playerDiceRoutes = require('./routes/player/dice');
 const playerSessionRoutes = require('./routes/player/session');
 const playerConvoyRoutes = require('./routes/player/convoy');
 const playerPrivateNotesRoutes = require('./routes/player/privateNotes');
+const playerMapRoutes = require('./routes/player/map');
 const tableScreenRoutes = require('./routes/tableScreen');
 
 const prisma = new PrismaClient();
@@ -152,6 +153,7 @@ app.use('/api/v1/player/campaigns/:campaignId/dice', playerDiceRoutes);
 app.use('/api/v1/player/campaigns/:campaignId/session', playerSessionRoutes);
 app.use('/api/v1/player/campaigns/:campaignId/convoys', playerConvoyRoutes);
 app.use('/api/v1/player/campaigns/:campaignId/private-notes', playerPrivateNotesRoutes);
+app.use('/api/v1/player/campaigns/:campaignId/map', playerMapRoutes);
 
 // Public table screen endpoint (token-auth)
 app.use('/api/v1/table-screen', tableScreenRoutes);
@@ -196,6 +198,18 @@ app.use((err, req, res, next) => {
 
 setupSocketHandlers(io, prisma);
 restoreTimersFromDB(prisma, io);
+
+// Aligne les positions des cités sur le canon géographique au démarrage.
+// Idempotent : les cités déjà conformes ne sont pas réécrites, et une cité
+// créée par le MJ sans correspondance dans le canon est laissée intacte.
+// C'est ce qui remplace l'ancienne table GPS codée en dur du client — la
+// géographie a désormais une seule source, et elle vit ici.
+const { alignerPositionsCites } = require('./utils/canonGeographique');
+alignerPositionsCites({ ecrire: true, journal: true }).catch((err) => {
+  // Un échec ici ne doit jamais empêcher le serveur de démarrer : la carte
+  // s'affichera avec les coordonnées déjà en base, simplement non réalignées.
+  console.error('[canon] alignement des positions impossible :', err.message);
+});
 
 // ============================================================
 // START SERVER

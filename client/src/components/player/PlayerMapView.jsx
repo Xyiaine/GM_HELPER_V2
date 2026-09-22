@@ -20,7 +20,10 @@ export default function PlayerMapView({ campaignId }) {
 
   const loadRevealedZones = async () => {
     try {
-      const data = await api.get(`/api/v1/gm/campaigns/${campaignId}/maps/world/revealed-zones`);
+      // Route joueur, en lecture seule. L'ancien chemin visait le routeur MJ
+      // (`/gm/.../maps/world/...`), qui n'existe pas sous cette forme et que le
+      // rôle joueur ne peut pas atteindre : la requête échouait à chaque fois.
+      const data = await api.get(`/api/v1/player/campaigns/${campaignId}/map`);
       setRevealedZones(data.zones || []);
     } catch (err) {
       console.error(err);
